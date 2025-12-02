@@ -1,3 +1,5 @@
+from typing import TYPE_CHECKING
+from django.db.models import QuerySet
 from rest_framework.exceptions import ValidationError
 from django.http import FileResponse
 from rest_framework.permissions import BasePermission, IsAuthenticated
@@ -11,6 +13,8 @@ from rest_framework.response import Response
 from .permissions import IsTeacherProfile
 from mainapp.models import TeacherProfile
 
+if TYPE_CHECKING:
+    from mainapp.models import User
 
 class TeacherViewset(SelectRelatedViewSet, BaseViewSetWithOrdByOrg):
     select_related_fields = []
@@ -78,6 +82,17 @@ class TeacherNoteViewSet(SelectRelatedViewSet, BaseViewSetWithOrdByOrg):
     queryset = TeacherNote.objects.all()
     read_serializer_class = TeacherNoteReadSerializer
     write_serializer_class = TeacherNoteWriteSerializer
+
+    def get_techer_profile(self):
+        user: User = self.request.user
+        user_profile, role = user.get_user_profile()
+        
+
+
+    def get_queryset(self) -> QuerySet:
+        qs = super().get_queryset()
+
+
 
     def get_permissions(self) -> list[BasePermission]:
         return [IsAuthenticated(), IsTeacherProfile()]

@@ -68,7 +68,7 @@ class Classroom(BaseModelOrg):
     def __str__(self):
         return f"Аудитория {self.title}"
 
-class AbstrctLesson(BaseModelOrg):
+class AbstractLesson(BaseModelOrg):
     title = models.CharField(max_length=200)
     start_time = models.TimeField(
         null=True,
@@ -111,7 +111,7 @@ class AbstrctLesson(BaseModelOrg):
         abstract = True
 
 
-class PeriodLesson(AbstrctLesson):
+class PeriodLesson(AbstractLesson):
     """Специльный класс для периодических занятий"""
     period = models.PositiveSmallIntegerField(blank=True, null=True)
     repeat_lessons_until_date = models.DateField(blank=True, null=True)
@@ -123,7 +123,7 @@ class PeriodLesson(AbstrctLesson):
         verbose_name_plural = "Периодические занятия"
 
 
-class Lesson(AbstrctLesson):
+class Lesson(AbstractLesson):
     """Класс для всех занятий в том числе и периодических"""
     date = models.DateField(default=timezone.now, blank=False)
     week_day = models.PositiveSmallIntegerField(blank=False)
@@ -166,7 +166,7 @@ class Lesson(AbstrctLesson):
         teacher_qs = Lesson.objects\
         .filter(teacher=self.teacher, **filters)\
         .exclude(**exclude)
-        
+
         group_qs = Lesson.objects\
         .filter(group=self.group, **filters)\
         .exclude(**exclude)

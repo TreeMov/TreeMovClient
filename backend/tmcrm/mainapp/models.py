@@ -115,17 +115,21 @@ class User(AbstractUser, BaseModelOrg):
     def __str__(self):
         return f"{self.username} ({self.role})"
 
-    # def get_user_profile(self):
-    #     if profile := self.get_student_profile():
-    #         return profile
-    #     elif profile := self.get_manager_profile():
-    #         return profile
-    #     elif profile := self.get_teacher_profile():
-    #         return profile
-    #     return None
 
     def get_user_profile(self):
-        return getattr(self, "profile", None), self.role
+        """Возвращает кортеж (profile, role)"""
+        student_profile, student_role = self.get_student_profile()
+        if student_profile is not None:
+            return student_profile, student_role
+
+        teacher_profile, teacher_role = self.get_teacher_profile()
+        if teacher_profile is not None:
+            return teacher_profile, teacher_role
+
+        manager_profile, manager_role = self.get_manager_profile()
+        if manager_profile is not None:
+            return manager_profile, manager_role
+        return None, None
 
     def get_student_profile(self):
         return getattr(self, "student_profile", None), UserRole.STUDENT

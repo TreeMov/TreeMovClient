@@ -13,7 +13,15 @@ from mainapp.views import BaseViewSetWithOrdByOrg, SelectRelatedViewSet
 from mainapp.decorators import base_search
 from mainapp.filters import DateRangeMixin
 from .utils import _grouped_response
-from .models import Attendance, Lesson, Subject, PeriodLesson, Grade, Classroom, AbstrctLesson
+from .models import (
+    Attendance,
+    Lesson,
+    Subject,
+    PeriodLesson,
+    Grade,
+    Classroom,
+    AbstractLesson,
+)
 from .mixins import SerializerUpdateMixin, LessonValidationMixin
 from .serializers.other import GroupScheduleSerializer, TeacherScheduleSerializer, ClassroomScheduleSerializer
 from mainapp.constants import UserRole 
@@ -62,12 +70,12 @@ class AbstractScheduleViewSet(
         return queryset
 
     def get_queryset(self) -> QuerySet:
-        qs: AbstrctLesson = super().get_queryset()
+        qs: AbstractLesson = super().get_queryset()
         user: User = self.request.user
         user_profile, role = user.get_user_profile()
         if role == UserRole.TEACHER:
             qs = qs.filter(teacher=user_profile.teacher)
-        if role == UserRole.STUDENT:
+        elif role == UserRole.STUDENT:
             qs = qs.filter(student=user_profile.student)
         return qs
 
