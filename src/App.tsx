@@ -1,45 +1,32 @@
-import Login from './pages/login'
-import {
-    Route,
-    BrowserRouter as Router,
-    Routes,
-    Navigate,
-} from 'react-router-dom'
-import Lesson from './pages/Lesson'
-import Base from './components/page-defaults/Base'
-import Employees from './pages/Employees'
-import EmployeesMain from './pages/Employees/subpages/EmployeesMain'
-import { StudentsPage } from './pages/Students'
-import { StudentsMain } from './pages/Students/subpages/StudentsMain'
-import { StudentProfile } from './pages/Students/subpages/StudentProfile'
-import { StudentProfileEdit } from './pages/Students/subpages/StudentProfileEdit'
-import { StudentsGrades } from './pages/Students/subpages/StudentsGrades'
-import { StudentsPayments } from './pages/Students/subpages/StudentsPayments'
-import SсheduleByMonth from './pages/Lesson/subpages/ScheduleByMonth'
-import SсheduleByWeek from './pages/Lesson/subpages/ScheduleByWeek'
-import ScheduleByDay from './pages/Lesson/subpages/ScheduleByDay'
-import SсheduleList from './pages/Lesson/subpages/SсheduleList'
-import React, { useState } from 'react'
-import { ProtectedRoute } from './components/Routes/ProtectedRoute'
-import AnalyticsDashboard from './pages/Analisys/AnalyticsDashboard'
-
+import Login from "./pages/login";
+import { Route, BrowserRouter as Router, Routes, Navigate } from "react-router";
+import Base from "./components/page-defaults/Base";
+import Employees from "./pages/Employees";
+import EmployeesMain from "./pages/Employees/subpages/EmployeesMain";
+import { StudentsPage } from "./pages/Students";
+import { StudentsMain } from "./pages/Students/subpages/StudentsMain";
+import { StudentProfile } from "./pages/Students/subpages/StudentProfile";
+import { StudentProfileEdit } from "./pages/Students/subpages/StudentProfileEdit";
+import { StudentsGrades } from "./pages/Students/subpages/StudentsGrades";
+import { StudentsPayments } from "./pages/Students/subpages/StudentsPayments";
+import { useState } from "react";
+import { ProtectedRoute } from "./components/Routes/ProtectedRoute";
 
 function App() {
-    const [user, setUser] = useState(null)
-    
-    return (
-        <Router>
-            <Routes>
-                <Route path="/login" element={<Login setUser={setUser} />} />
-                <Route
-                    path="*"
-                    element={
-                        <ProtectedRoute>
-                            <Base />
-                        </ProtectedRoute>
-                    }
-                >
-                    <Route path="schedule" element={<Lesson />}>
+  const [user, setUser] = useState(null);
+
+  return (
+    <Router>
+      <Routes>
+        <Route path="/login" element={<Login setUser={setUser} />} />
+        <Route
+          element={
+            <ProtectedRoute>
+              <Base />
+            </ProtectedRoute>
+          }
+        >
+          {/*<Route path="schedule" element={<Lesson />}>
                         <Route path="guidelines" element={'asd'} />
 
                         <Route path="by-month" element={<SсheduleByMonth />} />
@@ -56,29 +43,26 @@ function App() {
                             path="*"
                             element={<Navigate to="../by-month" />}
                         />
-                    </Route>
-                    <Route path="employees" element={<Employees />}>
-                        <Route path="main" element={<EmployeesMain />} />
-                        <Route path="*" element={<Navigate to="../main" />} />
-                    </Route>
-                    <Route path="students" element={<StudentsPage />}>
-                        <Route path="main" element={<StudentsMain />} />
-                        <Route path="grades" element={<StudentsGrades />} />
-                        <Route path="payments" element={<StudentsPayments />} />
-                        <Route path="profile/:studentId">
-                            <Route
-                                path="edit"
-                                element={<StudentProfileEdit />}
-                            />
-                            <Route path="*" element={<StudentProfile />} />
-                        </Route>
-                        <Route path="*" element={<Navigate to="../main" />} />
-                    </Route>
-                    <Route path="*" element={<Navigate to="/schedule" />} />
-                </Route>
-            </Routes>
-        </Router>
-    )
+                    </Route>*/}
+          <Route path="employees" element={<Employees />}>
+            <Route path="main" element={<EmployeesMain />} />
+            <Route path="*" element={<Navigate to="../main" />} />
+          </Route>
+          <Route path="students" element={<StudentsPage />}>
+            <Route path="main" element={<StudentsMain />} />
+            <Route path="grades" element={<StudentsGrades />} />
+            <Route path="payments" element={<StudentsPayments />} />
+            <Route path="profile/:studentId">
+              <Route path="edit" element={<StudentProfileEdit />} />
+              <Route path="*" element={<StudentProfile />} />
+            </Route>
+            <Route path="*" element={<Navigate to="../main" />} />
+          </Route>
+          <Route path="*" element={<Navigate to="/schedule" />} />
+        </Route>
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;

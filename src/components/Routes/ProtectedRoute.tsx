@@ -1,19 +1,16 @@
-import { JSX, ReactElement } from 'react'
-import { Navigate } from 'react-router-dom'
+import { type ReactElement } from "react";
+import { Navigate } from "react-router";
 
-interface ProtectedRouteProps {
-  children: ReactElement
-}
+type ProtectedRouteProps = {
+  children: ReactElement;
+};
 
-export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
-  const token = localStorage.getItem('accessToken')
+export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
+  const token = localStorage.getItem("accessToken");
+
   if (!token) {
-    return <Navigate to="/login" replace />
+    return <Navigate to="/login" replace />;
   } else {
-      return children
+    return children;
   }
-}
-
-
-
-
+};

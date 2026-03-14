@@ -1,4 +1,4 @@
-import { useNavigate, useOutletContext } from 'react-router-dom'
+import { useNavigate, useOutletContext } from 'react-router'
 import LessonCard from '../../../components/LessonCard'
 import { formatDate } from '../../../lib/formatDate'
 import { useEffect, useState } from 'react'

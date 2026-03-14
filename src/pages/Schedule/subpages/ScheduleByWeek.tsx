@@ -1,5 +1,5 @@
 import LessonCard from '../../../components/LessonCard'
-import { useNavigate, useOutletContext } from 'react-router-dom'
+import { useNavigate, useOutletContext } from 'react-router'
 import { formatDate } from '../../../lib/formatDate'
 import { getLessonStyle } from '../../../lib/getLessonStyle'
 import { weekDaysShort } from '../../../lib/calendarConstants'

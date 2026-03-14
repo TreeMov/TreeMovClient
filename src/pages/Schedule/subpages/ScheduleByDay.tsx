@@ -1,4 +1,4 @@
-import { useOutletContext } from 'react-router-dom'
+import { useOutletContext } from 'react-router'
 import LessonCard from '../../../components/LessonCard'
 import { getLessonStyle } from '../../../lib/getLessonStyle'
 import { useEffect, useState } from 'react'

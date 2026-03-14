@@ -1,4 +1,4 @@
-import { useMatch, useOutletContext } from 'react-router-dom'
+import { useMatch, useOutletContext } from 'react-router'
 import { Table } from '../../../components/Table'
 import { useEffect, useState } from 'react'
 import { filterLessons } from '../../../lib/filterLessons'
