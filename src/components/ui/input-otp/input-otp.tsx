@@ -1,0 +1,85 @@
+'use client'
+
+import type {
+  InputOTPGroupProps,
+  InputOTPProps,
+  InputOTPSeparatorProps,
+  InputOTPSlotProps,
+} from './types'
+
+import { OTPInput, OTPInputContext } from 'input-otp'
+import { MinusIcon } from 'lucide-react'
+import * as React from 'react'
+
+import { cn } from '@/utils/helpers//shadcn'
+
+const InputOTP: React.FC<InputOTPProps> = ({
+  className,
+  containerClassName,
+  ...props
+}) => {
+  return (
+    <OTPInput
+      data-slot="input-otp"
+      containerClassName={cn(
+        'flex items-center gap-2 has-disabled:opacity-50',
+        containerClassName
+      )}
+      className={cn('disabled:cursor-not-allowed', className)}
+      {...props}
+    />
+  )
+}
+
+const InputOTPGroup: React.FC<InputOTPGroupProps> = ({
+  className,
+  ...props
+}) => {
+  return (
+    <div
+      data-slot="input-otp-group"
+      className={cn('flex items-center', className)}
+      {...props}
+    />
+  )
+}
+
+const InputOTPSlot: React.FC<InputOTPSlotProps> = ({
+  index,
+  className,
+  ...props
+}) => {
+  const inputOTPContext = React.useContext(OTPInputContext)
+  const { char, hasFakeCaret, isActive } =
+    inputOTPContext?.slots[index] ?? {}
+  return (
+    <div
+      data-slot="input-otp-slot"
+      data-active={isActive}
+      className={cn(
+        'aria-invalid:border-destructive data-[active=true]:border-ring data-[active=true]:ring-ring/50 data-[active=true]:aria-invalid:border-destructive data-[active=true]:aria-invalid:ring-destructive/20 relative flex h-9 w-9 items-center justify-center border-b text-2xl transition-all outline-none data-[active=true]:z-10',
+        className
+      )}
+      {...props}
+    >
+      {char}
+      {hasFakeCaret && (
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+          <div className="animate-caret-blink bg-foreground h-4 w-px duration-1000" />
+        </div>
+      )}
+    </div>
+  )
+}
+
+const InputOTPSeparator: React.FC<InputOTPSeparatorProps> = ({
+  ...props
+}) => {
+  return (
+    <div data-slot="input-otp-separator" role="separator" {...props}>
+      <MinusIcon />
+    </div>
+  )
+}
+
+export { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator }

@@ -1,0 +1,15 @@
+{
+  "properties": {
+    "student_id": { "type": "integer", "title": "Student Id" },
+    "lesson_id": { "type": "integer", "title": "Lesson Id" },
+    "was_present": { "type": "boolean", "title": "Was Present" },
+    "comment": {
+      "anyOf": [{ "type": "string" }, { "type": "null" }],
+      "title": "Comment"
+    }
+  },
+  "type": "object",
+  "required": ["student_id", "lesson_id", "was_present"],
+  "title": "AttendanceModelCreate",
+  "x-readme-ref-name": "AttendanceModelCreate"
+}

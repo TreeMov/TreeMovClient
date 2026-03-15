@@ -1,0 +1,23 @@
+{
+  "properties": {
+    "student_id": {
+      "anyOf": [{ "type": "integer" }, { "type": "null" }],
+      "title": "Student Id"
+    },
+    "lesson_id": {
+      "anyOf": [{ "type": "integer" }, { "type": "null" }],
+      "title": "Lesson Id"
+    },
+    "was_present": {
+      "anyOf": [{ "type": "boolean" }, { "type": "null" }],
+      "title": "Was Present"
+    },
+    "comment": {
+      "anyOf": [{ "type": "string" }, { "type": "null" }],
+      "title": "Comment"
+    }
+  },
+  "type": "object",
+  "title": "AttendanceModelUpdate",
+  "x-readme-ref-name": "AttendanceModelUpdate"
+}

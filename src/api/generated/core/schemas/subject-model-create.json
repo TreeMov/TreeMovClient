@@ -1,0 +1,15 @@
+{
+  "properties": {
+    "title": { "type": "string", "title": "Title" },
+    "color": {
+      "type": "string",
+      "maxLength": 7,
+      "minLength": 7,
+      "title": "Color"
+    }
+  },
+  "type": "object",
+  "required": ["title", "color"],
+  "title": "SubjectModelCreate",
+  "x-readme-ref-name": "SubjectModelCreate"
+}

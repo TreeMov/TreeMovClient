@@ -1,0 +1,15 @@
+{
+  "properties": {
+    "title": {
+      "anyOf": [{ "type": "string" }, { "type": "null" }],
+      "title": "Title"
+    },
+    "color": {
+      "anyOf": [{ "type": "string" }, { "type": "null" }],
+      "title": "Color"
+    }
+  },
+  "type": "object",
+  "title": "SubjectModelUpdate",
+  "x-readme-ref-name": "SubjectModelUpdate"
+}

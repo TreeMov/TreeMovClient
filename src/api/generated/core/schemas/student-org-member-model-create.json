@@ -1,0 +1,10 @@
+{
+  "properties": {
+    "org_member_id": { "type": "integer", "title": "Org Member Id" },
+    "student_id": { "type": "integer", "title": "Student Id" }
+  },
+  "type": "object",
+  "required": ["org_member_id", "student_id"],
+  "title": "StudentOrgMemberModelCreate",
+  "x-readme-ref-name": "StudentOrgMemberModelCreate"
+}

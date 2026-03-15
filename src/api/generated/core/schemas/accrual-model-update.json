@@ -1,0 +1,15 @@
+{
+  "properties": {
+    "amount": {
+      "anyOf": [{ "type": "integer" }, { "type": "null" }],
+      "title": "Amount"
+    },
+    "comment": {
+      "anyOf": [{ "type": "string" }, { "type": "null" }],
+      "title": "Comment"
+    }
+  },
+  "type": "object",
+  "title": "AccrualModelUpdate",
+  "x-readme-ref-name": "AccrualModelUpdate"
+}

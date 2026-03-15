@@ -1,0 +1,12 @@
+{
+  "type": "string",
+  "enum": [
+    "attendance",
+    "participation",
+    "behavior",
+    "achievements",
+    "homework"
+  ],
+  "title": "AccuralCategory",
+  "x-readme-ref-name": "AccuralCategory"
+}

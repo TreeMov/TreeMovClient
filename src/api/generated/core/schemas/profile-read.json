@@ -1,0 +1,32 @@
+{
+  "properties": {
+    "id": { "type": "integer", "title": "Id" },
+    "user_id": {
+      "anyOf": [{ "type": "integer" }, { "type": "null" }],
+      "title": "User Id"
+    },
+    "email": {
+      "anyOf": [
+        { "type": "string", "format": "email" },
+        { "type": "null" }
+      ],
+      "title": "Email"
+    },
+    "name": {
+      "anyOf": [{ "type": "string" }, { "type": "null" }],
+      "title": "Name"
+    },
+    "surname": {
+      "anyOf": [{ "type": "string" }, { "type": "null" }],
+      "title": "Surname"
+    },
+    "pathronamic": {
+      "anyOf": [{ "type": "string" }, { "type": "null" }],
+      "title": "Pathronamic"
+    }
+  },
+  "type": "object",
+  "required": ["id"],
+  "title": "ProfileRead",
+  "x-readme-ref-name": "ProfileRead"
+}

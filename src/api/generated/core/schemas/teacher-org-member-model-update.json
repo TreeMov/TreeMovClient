@@ -1,0 +1,10 @@
+{
+  "properties": {
+    "teacher_id": { "type": "integer", "title": "Teacher Id" },
+    "org_member_id": { "type": "integer", "title": "Org Member Id" }
+  },
+  "type": "object",
+  "required": ["teacher_id", "org_member_id"],
+  "title": "TeacherOrgMemberModelUpdate",
+  "x-readme-ref-name": "TeacherOrgMemberModelUpdate"
+}

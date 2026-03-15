@@ -1,0 +1,10 @@
+{
+  "properties": {
+    "role_id": { "type": "integer", "title": "Role Id" },
+    "email": { "type": "string", "format": "email", "title": "Email" }
+  },
+  "type": "object",
+  "required": ["role_id", "email"],
+  "title": "InviteModelCreate",
+  "x-readme-ref-name": "InviteModelCreate"
+}

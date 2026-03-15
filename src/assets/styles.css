@@ -1,0 +1,80 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--grey-300);
+  --color-foreground: var(--black);
+
+  --color-blue-100: var(--blue-100);
+  --color-blue-200: var(--blue-200);
+  --color-blue-300: var(--blue-300);
+  --color-blue-400: var(--blue-400);
+  --color-blue-500: var(--blue-500);
+  --color-blue-600: var(--blue-600);
+  --color-blue-700: var(--blue-700);
+  --color-blue-800: var(--blue-800);
+  --color-blue-900: var(--blue-900);
+
+  --color-purple-500: var(--purple-500);
+
+  --color-violet-50: var(--violet-50);
+  --color-violet-400: var(--violet-400);
+  --color-violet-600: var(--violet-600);
+  --color-violet-700: var(--violet-700);
+  --color-violet-800: var(--violet-800);
+
+  --color-grey-100: var(--grey-100);
+  --color-grey-200: var(--grey-200);
+  --color-grey-300: var(--grey-300);
+  --color-grey-400: var(--grey-400);
+  --color-grey-500: var(--grey-500);
+
+  --color-destructive: var(--destructive);
+
+  --color-white: var(--white);
+  --color-black: var(--black);
+}
+
+:root {
+  --blue-100: rgb(245, 250, 253);
+  --blue-200: rgb(230, 243, 250);
+  --blue-300: rgb(204, 231, 245);
+  --blue-400: rgb(166, 213, 238);
+  --blue-500: rgb(89, 177, 223);
+  --blue-600: rgb(26, 147, 210);
+  --blue-700: rgb(0, 135, 205);
+  --blue-800: rgb(0, 123, 186);
+  --blue-900: rgb(0, 101, 153);
+
+  --purple-500: rgb(168, 22, 219);
+
+  --violet-50: rgb(240, 229, 251);
+  --violet-400: rgb(122, 117, 255);
+  --violet-600: rgb(120, 22, 219);
+  --violet-700: rgb(75, 0, 150);
+  --violet-800: rgb(47, 33, 62);
+
+  --grey-100: rgb(248, 250, 252);
+  --grey-200: rgb(217, 217, 217);
+  --grey-300: rgb(245, 245, 245);
+  --grey-400: rgb(179, 179, 179);
+  --grey-500: rgb(97, 97, 97);
+
+  --destructive: rgb(255, 24, 20);
+
+  --white: rgb(255, 255, 255);
+  --black: rgb(0, 0, 0);
+}
+
+.dark {
+  --white: rgb(0, 0, 0);
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground;
+  }
+}

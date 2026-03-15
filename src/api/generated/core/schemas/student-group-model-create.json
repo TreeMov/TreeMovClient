@@ -1,0 +1,7 @@
+{
+  "properties": { "title": { "type": "string", "title": "Title" } },
+  "type": "object",
+  "required": ["title"],
+  "title": "StudentGroupModelCreate",
+  "x-readme-ref-name": "StudentGroupModelCreate"
+}

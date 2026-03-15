@@ -1,0 +1,19 @@
+{
+  "properties": {
+    "name": {
+      "anyOf": [{ "type": "string" }, { "type": "null" }],
+      "title": "Name"
+    },
+    "surname": {
+      "anyOf": [{ "type": "string" }, { "type": "null" }],
+      "title": "Surname"
+    },
+    "patronymic": {
+      "anyOf": [{ "type": "string" }, { "type": "null" }],
+      "title": "Patronymic"
+    }
+  },
+  "type": "object",
+  "title": "EmployeeModelUpdate",
+  "x-readme-ref-name": "EmployeeModelUpdate"
+}

@@ -1,0 +1,19 @@
+{
+  "properties": {
+    "title": {
+      "anyOf": [{ "type": "string" }, { "type": "null" }],
+      "title": "Title"
+    },
+    "floor": {
+      "anyOf": [{ "type": "integer" }, { "type": "null" }],
+      "title": "Floor"
+    },
+    "building": {
+      "anyOf": [{ "type": "string" }, { "type": "null" }],
+      "title": "Building"
+    }
+  },
+  "type": "object",
+  "title": "ClassroomModelUpdate",
+  "x-readme-ref-name": "ClassroomModelUpdate"
+}

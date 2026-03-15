@@ -1,0 +1,16 @@
+{
+  "properties": {
+    "id": { "type": "integer", "title": "Id" },
+    "title": { "type": "string", "title": "Title" },
+    "color": {
+      "type": "string",
+      "maxLength": 7,
+      "minLength": 7,
+      "title": "Color"
+    }
+  },
+  "type": "object",
+  "required": ["id", "title", "color"],
+  "title": "SubjectModelRead",
+  "x-readme-ref-name": "SubjectModelRead"
+}

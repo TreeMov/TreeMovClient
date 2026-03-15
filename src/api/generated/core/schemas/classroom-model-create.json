@@ -1,0 +1,11 @@
+{
+  "properties": {
+    "title": { "type": "string", "title": "Title" },
+    "floor": { "type": "integer", "title": "Floor" },
+    "building": { "type": "string", "title": "Building" }
+  },
+  "type": "object",
+  "required": ["title", "floor", "building"],
+  "title": "ClassroomModelCreate",
+  "x-readme-ref-name": "ClassroomModelCreate"
+}

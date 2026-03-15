@@ -1,0 +1,24 @@
+{
+  "properties": {
+    "email": {
+      "type": "string",
+      "format": "email",
+      "title": "Email"
+    },
+    "purpose": {
+      "type": "string",
+      "enum": [
+        "verify_email",
+        "login",
+        "reset_password",
+        "invite_org"
+      ],
+      "title": "EmailCodePurpose",
+      "x-readme-ref-name": "EmailCodePurpose"
+    }
+  },
+  "type": "object",
+  "required": ["email", "purpose"],
+  "title": "SendCodeSchema",
+  "x-readme-ref-name": "SendCodeSchema"
+}

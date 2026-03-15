@@ -1,0 +1,15 @@
+{
+  "properties": {
+    "title": {
+      "anyOf": [{ "type": "string" }, { "type": "null" }],
+      "title": "Title"
+    },
+    "text": {
+      "anyOf": [{ "type": "string" }, { "type": "null" }],
+      "title": "Text"
+    }
+  },
+  "type": "object",
+  "title": "TeacherNotesModelUpdate",
+  "x-readme-ref-name": "TeacherNotesModelUpdate"
+}

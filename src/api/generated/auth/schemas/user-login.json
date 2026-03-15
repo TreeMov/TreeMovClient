@@ -1,0 +1,20 @@
+{
+  "properties": {
+    "email": {
+      "anyOf": [
+        { "type": "string", "format": "email" },
+        { "type": "null" }
+      ],
+      "title": "Email"
+    },
+    "password": {
+      "type": "string",
+      "minLength": 6,
+      "title": "Password"
+    }
+  },
+  "type": "object",
+  "required": ["email", "password"],
+  "title": "UserLogin",
+  "x-readme-ref-name": "UserLogin"
+}

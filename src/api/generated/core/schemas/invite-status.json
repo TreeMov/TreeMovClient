@@ -1,0 +1,6 @@
+{
+  "type": "string",
+  "enum": ["confirm", "cancel", "sending", "failed", "accepted"],
+  "title": "InviteStatus",
+  "x-readme-ref-name": "InviteStatus"
+}

@@ -1,0 +1,13 @@
+{
+  "properties": {
+    "student_id": { "type": "integer", "title": "Student Id" },
+    "student_group_id": {
+      "type": "integer",
+      "title": "Student Group Id"
+    }
+  },
+  "type": "object",
+  "required": ["student_id", "student_group_id"],
+  "title": "StudentGroupMemberModelCreate",
+  "x-readme-ref-name": "StudentGroupMemberModelCreate"
+}
