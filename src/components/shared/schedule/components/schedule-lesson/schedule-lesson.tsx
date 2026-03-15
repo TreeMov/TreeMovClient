@@ -1,8 +1,9 @@
-import type { LessonModelRead } from '@/api/generated/core'
+import type { ScheduleLesson as ScheduleLessonType } from '../../types'
 
 import { differenceInMinutes, format } from 'date-fns'
 import React from 'react'
 
+import { timeFormat } from '../../constants'
 import { combineDateAndTime } from '../../helpers'
 import {
   useContentOverlay,
@@ -12,7 +13,7 @@ import {
 import { ScheduleLessonResizer } from '../schedule-lesson-resizer'
 
 export const ScheduleLesson: React.FC<{
-  lesson: LessonModelRead
+  lesson: ScheduleLessonType
 }> = ({ lesson }) => {
   const {
     contentRef,
@@ -28,11 +29,11 @@ export const ScheduleLesson: React.FC<{
       style={getLessonStyle(start_time, end_time)}
     >
       <div>{id}</div>
-      <div>{subject.title}</div>
-      <div>{teacher.employee.name}</div>
+      <div>{subject?.label}</div>
+      <div>{teacher?.label}</div>
       <div>
-        {format(combineDateAndTime(date, start_time), 'HH:mm')}-
-        {format(combineDateAndTime(date, end_time), 'HH:mm')}
+        {format(combineDateAndTime(date, start_time), timeFormat)}-
+        {format(combineDateAndTime(date, end_time), timeFormat)}
       </div>
       <div
         className="absolute top-0 left-0 size-full"

@@ -6,10 +6,10 @@ import {
   startOfWeek,
 } from 'date-fns'
 
-export const getWeekDays = () =>
+export const getWeekDays = (date: Date) =>
   eachDayOfInterval({
-    start: startOfWeek(new Date()),
-    end: addDays(startOfWeek(new Date()), 6),
+    start: startOfWeek(date),
+    end: addDays(startOfWeek(date), 6),
   })
 
 export const getDayHours = (start?: Date, end?: Date) =>

@@ -8,6 +8,10 @@ export type NonUndefinedFields<T> = {
   [P in keyof T]: NonUndefined<T[P]>
 }
 
+export type UndefinedFields<T> = {
+  [P in keyof T]: T[P] | undefined
+}
+
 export type Nullable<T> = {
   [K in keyof T]: T[K] | null
 }

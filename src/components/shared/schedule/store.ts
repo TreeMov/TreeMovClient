@@ -1,33 +1,45 @@
 import type { LessonModelRead } from '@/api/generated/core'
+import type {
+  ScheduleLesson,
+  ScheduleLessonCreate,
+  ScheduleLessonType,
+} from './types'
 
+import { subWeeks } from 'date-fns'
 import { makeAutoObservable } from 'mobx'
 
 import { getWeekDays } from '@/utils/helpers/dates'
 
-import { getScheduleHours } from './helpers'
+import { getScheduleHours, serializeLesson } from './helpers'
 
 export class Store {
-  lessons: LessonModelRead[] = []
-  days = getWeekDays()
+  lessons: ScheduleLesson[] = []
+  days = getWeekDays(subWeeks(new Date(), 1))
   hours = getScheduleHours()
 
   constructor() {
     makeAutoObservable(this)
   }
 
-  syncLessons(lessons: LessonModelRead[]) {
-    this.lessons = lessons
+  setLessonType(id: number, type: ScheduleLessonType) {
+    this.updateLesson(id, { type })
   }
 
-  createLesson(lesson: LessonModelRead) {
+  syncLessons(lessons: LessonModelRead[]) {
+    const filteredLessons = this.lessons.filter(
+      ({ type }) => type !== 'read'
+    )
+    this.lessons = [
+      ...filteredLessons,
+      ...lessons.map(serializeLesson),
+    ]
+  }
+
+  createLesson(lesson: ScheduleLessonCreate) {
     this.lessons.push(lesson)
   }
 
-  updateLessons(lessons: LessonModelRead[]) {
-    this.lessons = lessons
-  }
-
-  updateLesson(id: number, payload: Partial<LessonModelRead>) {
+  updateLesson(id: number, payload: Partial<ScheduleLesson>) {
     const idx = this.lessons.findIndex((lesson) => lesson.id === id)
 
     if (idx >= 0) {

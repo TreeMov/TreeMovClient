@@ -1,6 +1,7 @@
 import { format } from 'date-fns'
 import React from 'react'
 
+import { timeFormat } from '../../constants'
 import { useSchedule } from '../../hooks'
 import { Cell } from '../ui'
 
@@ -16,7 +17,7 @@ export const ScheduleHoursCol: React.FC<
           key={hour.getTime()}
           className="not-last:border-grey-200 h-24 not-last:border-b"
         >
-          {format(hour, 'HH:mm')}
+          {format(hour, timeFormat)}
         </Cell>
       ))}
     </div>
