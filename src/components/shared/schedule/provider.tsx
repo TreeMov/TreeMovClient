@@ -32,7 +32,7 @@ export const ScheduleProvider: React.FC<
         store.deleteLesson(id)
         store.syncLessons(nextLessons)
       } catch {
-        store.updateLesson(id, { ...prevData, type: 'read' })
+        store.updateLesson(id, prevData)
       }
     },
     [store, onChange]
