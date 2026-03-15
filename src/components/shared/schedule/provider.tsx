@@ -1,5 +1,8 @@
-import type { LessonModelRead } from '@/api/generated/core'
-import type { ScheduleContextType, ScheduleProps } from './types'
+import type {
+  ScheduleContextType,
+  ScheduleLesson,
+  ScheduleProps,
+} from './types'
 
 import React, { useCallback, useMemo, useRef, useState } from 'react'
 
@@ -13,16 +16,12 @@ export const ScheduleProvider: React.FC<
 
   const contentRef = useRef<HTMLDivElement>(null)
 
-  const onChangeHandler = useCallback(
+  const handleChangeReadLesson = useCallback(
     async (
       id: number,
-      data: LessonModelRead,
-      prevData: LessonModelRead
+      data: ScheduleLesson,
+      prevData: ScheduleLesson
     ) => {
-      if (!onChange) {
-        return
-      }
-
       try {
         const nextLessons = await onChange(data)
 
@@ -30,15 +29,30 @@ export const ScheduleProvider: React.FC<
           throw new Error()
         }
 
-        if (nextLessons) {
-          store.deleteLesson(id)
-          store.updateLessons(nextLessons)
-        }
+        store.deleteLesson(id)
+        store.syncLessons(nextLessons)
       } catch {
-        store.updateLesson(id, prevData)
+        store.updateLesson(id, { ...prevData, type: 'read' })
       }
     },
     [store, onChange]
+  )
+
+  const onChangeHandler = useCallback(
+    async (
+      id: number,
+      data: ScheduleLesson,
+      prevData: ScheduleLesson
+    ) => {
+      switch (data.type) {
+        case 'resize':
+        case 'drag':
+        case 'create': {
+          handleChangeReadLesson(id, data, prevData)
+        }
+      }
+    },
+    [handleChangeReadLesson]
   )
 
   const value = useMemo<ScheduleContextType>(

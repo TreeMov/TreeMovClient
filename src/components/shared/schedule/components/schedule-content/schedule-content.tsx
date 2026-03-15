@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 
 import { ScrollArea } from '@/components/ui/scroll-area'
 
-import { serializeLesson } from '../../helpers'
 import { useSchedule } from '../../hooks'
 import { ScheduleCol } from '../schedule-col'
 import { ScheduleColLessons } from '../schedule-col-lessons'
@@ -13,7 +12,7 @@ export const ScheduleContent: React.FC = () => {
   const { store, lessons, contentRef } = useSchedule()
 
   useEffect(() => {
-    store.syncLessons(lessons.map(serializeLesson))
+    store.syncLessons(lessons)
   }, [lessons, store])
 
   return (

@@ -1,4 +1,4 @@
-import type { LessonModelRead } from '@/api/generated/core'
+import type { ScheduleLesson } from '../types'
 
 import {
   addHours,
@@ -16,7 +16,7 @@ import { useSchedule } from './use-schedule'
 
 export const useLessonPosition = (
   day: Date,
-  { date }: LessonModelRead
+  { date }: ScheduleLesson
 ) => {
   const { store } = useSchedule()
 

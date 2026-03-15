@@ -1,107 +1,74 @@
-import type { LessonModelRead } from '@/api/generated/core'
-import type { Direction } from '../../types'
+import type { ScheduleLesson } from '../../types'
 
-import { format, isAfter, isBefore, isEqual } from 'date-fns'
-import { isNil } from 'lodash-es'
 import { isEqual as isEqualObjects } from 'lodash-es'
 import React, { useRef, useState } from 'react'
 
 import { useEventListener } from '@/hooks/use-event-listener'
 
-import { fullDateFormat } from '../../constants'
-import { combineDateAndTime } from '../../helpers'
-import { useContentOverlay, useSchedule } from '../../hooks'
+import { useMouseEvents, useSchedule } from '../../hooks'
 
-export const ScheduleLessonResizer: React.FC<LessonModelRead> = (
+export const ScheduleLessonResizer: React.FC<ScheduleLesson> = (
   lesson
 ) => {
-  const { id, start_time, end_time, date } = lesson
+  const { id, date } = lesson
 
   const ref = useRef<HTMLDivElement>(null)
   const { store, contentRef, onChangeHandler } = useSchedule()
-  const [direction, setDirection] = useState<Direction | null>(null)
-  const [isTransition, setIsTransition] = useState(false)
-  const [isPointerDown, setIsPointerDown] = useState(false)
+  const [isResizeMoveEnabled, setIsResizeMoveEnabled] =
+    useState(false)
   const [initialLesson, setInitialLesson] = useState(lesson)
 
-  const { getMouseDate, getSegmentData } = useContentOverlay()
+  const { onMouseDown, onMouseUp, onResizeMove } = useMouseEvents(
+    ref,
+    date,
+    lesson
+  )
 
-  useEventListener(ref, 'pointerdown', (e) => {
-    setInitialLesson(lesson)
+  const onMouseDownHandler = () => {
+    onMouseDown(() => {
+      store.setLessonType(id, 'resize')
+      setInitialLesson(lesson)
+      setIsResizeMoveEnabled(true)
+    })
+  }
 
-    if (!ref.current) {
-      return
-    }
-
-    const event = e as unknown as React.PointerEvent<HTMLDivElement>
-    ref.current.setPointerCapture(event.pointerId)
-    setIsPointerDown(true)
-    setDirection('down')
-    setIsTransition(false)
-  })
-
-  useEventListener(ref, 'pointerup', () => {
-    if (!isEqualObjects(initialLesson, lesson)) {
-      onChangeHandler(lesson.id, lesson, initialLesson)
-    }
-
-    setIsPointerDown(false)
-  })
-
-  const onPoinerMove = (e: Event) => {
-    if (!contentRef.current) {
-      return
-    }
-
-    const event = e as unknown as React.PointerEvent<HTMLDivElement>
-
-    const { segmentHeight } = getSegmentData(contentRef.current)
-    const offset = segmentHeight / 2
-    const nextDate = getMouseDate(
-      new Date(date),
-      event.clientY + offset
-    )
-
-    if (nextDate) {
-      const nextDateFormatted = format(nextDate, fullDateFormat)
-      const nextTimeFormatted = nextDateFormatted.split(' ')[1]
-
-      const startTime = combineDateAndTime(date, start_time)
-      const endtime = combineDateAndTime(date, end_time)
-
-      const isTransitionState =
-        (direction === 'down' && isEqual(nextDate, startTime)) ||
-        (direction === 'up' && isEqual(nextDate, endtime))
-
-      if (isTransitionState) {
-        setDirection(null)
-        setIsTransition(true)
-        return
+  const onMouseUpHandler = () => {
+    onMouseUp(() => {
+      if (!isEqualObjects(initialLesson, lesson)) {
+        onChangeHandler(lesson.id, lesson, initialLesson)
       }
 
-      const isTransitionDirection = isTransition && isNil(direction)
+      store.setLessonType(id, initialLesson.type)
+      setIsResizeMoveEnabled(false)
+    })
+  }
 
-      if (isTransitionDirection && isBefore(startTime, nextDate)) {
-        setDirection('down')
-      }
-
-      if (isTransitionDirection && isAfter(startTime, nextDate)) {
-        setDirection('up')
-      }
-
+  const onResizeMoveHandler = () =>
+    onResizeMove(({ direction, nextTime }) => {
       if (direction === 'down') {
         store.updateLesson(id, {
-          end_time: nextTimeFormatted,
+          end_time: nextTime,
         })
       } else if (direction === 'up') {
         store.updateLesson(id, {
-          start_time: nextTimeFormatted,
+          start_time: nextTime,
         })
       }
-    }
-  }
+    })
 
-  useEventListener(ref, 'pointermove', onPoinerMove, !isPointerDown)
+  useEventListener(ref, 'mousedown', onMouseDownHandler)
+  useEventListener(
+    document.body,
+    'mouseup',
+    onMouseUpHandler,
+    !isResizeMoveEnabled
+  )
+  useEventListener(
+    contentRef,
+    'mousemove',
+    onResizeMoveHandler(),
+    !isResizeMoveEnabled
+  )
 
   return (
     <div

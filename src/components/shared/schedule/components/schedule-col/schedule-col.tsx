@@ -1,14 +1,13 @@
-import type { LessonModelRead } from '@/api/generated/core'
+import type { ScheduleLessonCreate } from '../../types'
 
-import { addMinutes, format } from 'date-fns'
+import { addMinutes, endOfHour, format, startOfHour } from 'date-fns'
 
-import { dateFormat } from '../../constants'
+import { dateFormat, timeFormat } from '../../constants'
 import { useContentOverlay, useSchedule } from '../../hooks'
 import { Cell } from '../ui'
 
 export const ScheduleCol: React.FC<{ date: Date }> = ({ date }) => {
-  const { store, config } = useSchedule()
-  const { segmentSize } = config
+  const { store } = useSchedule()
 
   const { getMouseDate } = useContentOverlay()
 
@@ -21,28 +20,23 @@ export const ScheduleCol: React.FC<{ date: Date }> = ({ date }) => {
       return
     }
 
-    const nextLesson: LessonModelRead = {
+    const nextLesson: ScheduleLessonCreate = {
       id: Math.random(),
-      classroom: {
-        id: 23,
-        building: 'ewq',
-        floor: 2,
-        title: 'ewqewq',
-      },
+      type: 'create',
       date: format(lessonDate, dateFormat),
-      duration: '2',
-      start_time: format(lessonDate, 'HH:mm'),
-      end_time: format(addMinutes(lessonDate, segmentSize), 'HH:mm'),
+      start_time: format(startOfHour(lessonDate), timeFormat),
+      end_time: format(
+        addMinutes(endOfHour(lessonDate), 1),
+        timeFormat
+      ),
+      title: '',
+      teacher: undefined,
+      classroom: undefined,
+      student_group: undefined,
+      subject: undefined,
+      comment: undefined,
       is_canceled: false,
       is_completed: false,
-      student_group: { id: 23, title: 'eqw' },
-      subject: { id: 23, color: '#fff', title: 'ewq' },
-      teacher: {
-        id: 23,
-        employee: { id: 43, email: 'ewqeq@ma.ru', name: '323' },
-      },
-      title: 'ewqeq',
-      week_day: 2,
     }
 
     store.createLesson(nextLesson)

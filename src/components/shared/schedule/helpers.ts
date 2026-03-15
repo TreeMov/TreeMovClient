@@ -1,10 +1,18 @@
-import type { LessonModelRead } from '@/api/generated/core'
+import type {
+  LessonModelCreate,
+  LessonModelRead,
+} from '@/api/generated/core'
+import type {
+  ScheduleLesson,
+  ScheduleLessonFormFields,
+  ScheduleLessonRead,
+} from './types'
 
 import { addHours, parse, set, startOfToday } from 'date-fns'
 
 import { getDayHours } from '@/utils/helpers/dates'
 
-import { dateFormat } from './constants'
+import { dateFormat, timeFormat } from './constants'
 
 export const getScheduleHours = () =>
   getDayHours(
@@ -15,19 +23,54 @@ export const getScheduleHours = () =>
 export const getSerializedTime = (time: string) =>
   time.split(':').slice(0, 2).join(':')
 
+// todo убрать плейсхолдеры
+export const serializeLessonFields = ({
+  teacher,
+  classroom,
+  student_group,
+  subject,
+  comment,
+}: Pick<
+  LessonModelRead,
+  keyof ScheduleLessonFormFields
+>): ScheduleLessonFormFields => ({
+  teacher: { id: teacher.id, label: teacher.employee.name ?? '' },
+  classroom: { id: classroom.id, label: classroom.title },
+  student_group: { id: student_group.id, label: student_group.title },
+  subject: { id: subject.id, label: subject.title },
+  comment: comment ?? '',
+})
+
 export const serializeLesson = ({
   start_time,
   end_time,
   ...lesson
-}: LessonModelRead): LessonModelRead => ({
+}: LessonModelRead): ScheduleLessonRead => ({
   ...lesson,
+  type: 'read',
   start_time: getSerializedTime(start_time),
   end_time: getSerializedTime(end_time),
+  ...serializeLessonFields(lesson),
+})
+
+// todo убрать плейсхолдеры
+export const deserealizeLesson = ({
+  teacher,
+  classroom,
+  student_group,
+  subject,
+  ...lesson
+}: ScheduleLesson): LessonModelCreate => ({
+  ...lesson,
+  teacher_id: teacher?.id ?? 0,
+  classroom_id: classroom?.id ?? 0,
+  student_group_id: student_group?.id ?? 0,
+  subject_id: subject?.id ?? 0,
 })
 
 export const timeToDate = (time: string) => {
   const timeToParse = getSerializedTime(time)
-  return parse(timeToParse, 'HH:mm', new Date())
+  return parse(timeToParse, timeFormat, new Date())
 }
 
 export const combineDateAndTime = (date: string, time: string) => {

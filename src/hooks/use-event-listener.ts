@@ -4,7 +4,7 @@ export const useEventListener = <
   T extends Element,
   K extends keyof DocumentEventMap,
 >(
-  target: React.RefObject<T | null>,
+  target: React.RefObject<T | null> | T,
   event: K,
   listener: (evt: Event) => unknown,
   disabled?: boolean
@@ -14,7 +14,7 @@ export const useEventListener = <
       return
     }
 
-    const node = target.current
+    const node = 'current' in target ? target.current : target
     node?.addEventListener(event, listener)
     return () => {
       node?.removeEventListener(event, listener)
