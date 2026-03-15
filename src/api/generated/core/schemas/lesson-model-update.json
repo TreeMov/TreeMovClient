@@ -1,0 +1,55 @@
+{
+  "properties": {
+    "title": {
+      "anyOf": [{ "type": "string" }, { "type": "null" }],
+      "title": "Title"
+    },
+    "start_time": {
+      "anyOf": [
+        { "type": "string", "format": "time" },
+        { "type": "null" }
+      ],
+      "title": "Start Time"
+    },
+    "end_time": {
+      "anyOf": [
+        { "type": "string", "format": "time" },
+        { "type": "null" }
+      ],
+      "title": "End Time"
+    },
+    "teacher_id": {
+      "anyOf": [{ "type": "integer" }, { "type": "null" }],
+      "title": "Teacher Id"
+    },
+    "classroom_id": {
+      "anyOf": [{ "type": "integer" }, { "type": "null" }],
+      "title": "Classroom Id"
+    },
+    "student_group_id": {
+      "anyOf": [{ "type": "integer" }, { "type": "null" }],
+      "title": "Student Group Id"
+    },
+    "subject_id": {
+      "anyOf": [{ "type": "integer" }, { "type": "null" }],
+      "title": "Subject Id"
+    },
+    "date": {
+      "anyOf": [
+        { "type": "string", "format": "date" },
+        { "type": "null" }
+      ],
+      "title": "Date"
+    },
+    "is_canceled": { "type": "boolean", "title": "Is Canceled" },
+    "is_completed": { "type": "boolean", "title": "Is Completed" },
+    "comment": {
+      "anyOf": [{ "type": "string" }, { "type": "null" }],
+      "title": "Comment"
+    }
+  },
+  "type": "object",
+  "required": ["date", "is_canceled", "is_completed"],
+  "title": "LessonModelUpdate",
+  "x-readme-ref-name": "LessonModelUpdate"
+}

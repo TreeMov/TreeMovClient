@@ -1,0 +1,64 @@
+{
+  "properties": {
+    "id": { "type": "integer", "title": "Id" },
+    "status": {
+      "type": "string",
+      "enum": ["confirm", "cancel", "sending", "failed", "accepted"],
+      "title": "InviteStatus",
+      "x-readme-ref-name": "InviteStatus"
+    },
+    "role": {
+      "properties": {
+        "id": { "type": "integer", "title": "Id" },
+        "title": { "type": "string", "title": "Title" },
+        "code": { "type": "string", "title": "Code" }
+      },
+      "type": "object",
+      "required": ["id", "title", "code"],
+      "title": "ProfileRoleRead",
+      "x-readme-ref-name": "ProfileRoleRead"
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "title": "Email"
+    },
+    "uuid": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Uuid",
+      "description": "Invite UUID"
+    },
+    "org": {
+      "properties": {
+        "id": { "type": "integer", "title": "Id" },
+        "title": {
+          "type": "string",
+          "title": "Title",
+          "read_only": true
+        }
+      },
+      "type": "object",
+      "required": ["id", "title"],
+      "title": "OrganizationRead",
+      "x-readme-ref-name": "OrganizationRead"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Created At"
+    }
+  },
+  "type": "object",
+  "required": [
+    "id",
+    "status",
+    "role",
+    "email",
+    "uuid",
+    "org",
+    "created_at"
+  ],
+  "title": "InviteModelRead",
+  "x-readme-ref-name": "InviteModelRead"
+}

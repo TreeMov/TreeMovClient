@@ -1,0 +1,11 @@
+{
+  "properties": {
+    "id": { "type": "integer", "title": "Id" },
+    "title": { "type": "string", "title": "Title" },
+    "code": { "type": "string", "title": "Code" }
+  },
+  "type": "object",
+  "required": ["id", "title", "code"],
+  "title": "ProfileRoleRead",
+  "x-readme-ref-name": "ProfileRoleRead"
+}

@@ -1,0 +1,26 @@
+{
+  "properties": {
+    "amount": { "type": "integer", "title": "Amount" },
+    "comment": {
+      "anyOf": [{ "type": "string" }, { "type": "null" }],
+      "title": "Comment"
+    },
+    "student_id": { "type": "integer", "title": "Student Id" },
+    "category": {
+      "type": "string",
+      "enum": [
+        "attendance",
+        "participation",
+        "behavior",
+        "achievements",
+        "homework"
+      ],
+      "title": "AccuralCategory",
+      "x-readme-ref-name": "AccuralCategory"
+    }
+  },
+  "type": "object",
+  "required": ["amount", "student_id", "category"],
+  "title": "AccrualModelCreate",
+  "x-readme-ref-name": "AccrualModelCreate"
+}

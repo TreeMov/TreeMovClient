@@ -1,0 +1,26 @@
+{
+  "properties": {
+    "username": { "type": "string", "title": "Username" },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "title": "Email"
+    },
+    "password": {
+      "type": "string",
+      "minLength": 6,
+      "title": "Password"
+    },
+    "role": {
+      "default": "admin",
+      "type": "string",
+      "enum": ["admin", "user"],
+      "title": "UserRole",
+      "x-readme-ref-name": "UserRole"
+    }
+  },
+  "type": "object",
+  "required": ["username", "email", "password"],
+  "title": "AdminCreate",
+  "x-readme-ref-name": "AdminCreate"
+}

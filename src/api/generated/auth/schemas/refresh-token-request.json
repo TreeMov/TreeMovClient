@@ -1,0 +1,9 @@
+{
+  "properties": {
+    "refresh_token": { "type": "string", "title": "Refresh Token" }
+  },
+  "type": "object",
+  "required": ["refresh_token"],
+  "title": "RefreshTokenRequest",
+  "x-readme-ref-name": "RefreshTokenRequest"
+}

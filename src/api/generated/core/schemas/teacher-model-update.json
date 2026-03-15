@@ -1,0 +1,9 @@
+{
+  "properties": {
+    "employee_id": { "type": "integer", "title": "Employee Id" }
+  },
+  "type": "object",
+  "required": ["employee_id"],
+  "title": "TeacherModelUpdate",
+  "x-readme-ref-name": "TeacherModelUpdate"
+}

@@ -1,0 +1,19 @@
+{
+  "properties": {
+    "name": {
+      "anyOf": [{ "type": "string" }, { "type": "null" }],
+      "title": "Name"
+    },
+    "surname": {
+      "anyOf": [{ "type": "string" }, { "type": "null" }],
+      "title": "Surname"
+    },
+    "pathronamic": {
+      "anyOf": [{ "type": "string" }, { "type": "null" }],
+      "title": "Pathronamic"
+    }
+  },
+  "type": "object",
+  "title": "ProfileUpdate",
+  "x-readme-ref-name": "ProfileUpdate"
+}

@@ -1,0 +1,6 @@
+{
+  "type": "string",
+  "enum": ["admin", "user"],
+  "title": "UserRole",
+  "x-readme-ref-name": "UserRole"
+}

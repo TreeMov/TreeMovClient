@@ -1,0 +1,6 @@
+{
+  "type": "string",
+  "enum": ["verify_email", "login", "reset_password", "invite_org"],
+  "title": "EmailCodePurpose",
+  "x-readme-ref-name": "EmailCodePurpose"
+}

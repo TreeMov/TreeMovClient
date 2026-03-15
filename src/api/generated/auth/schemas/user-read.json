@@ -1,0 +1,20 @@
+{
+  "properties": {
+    "id": { "type": "integer", "title": "Id" },
+    "username": { "type": "string", "title": "Username" },
+    "email": {
+      "anyOf": [{ "type": "string" }, { "type": "null" }],
+      "title": "Email"
+    },
+    "is_active": { "type": "boolean", "title": "Is Active" },
+    "role": {
+      "type": "string",
+      "enum": ["admin", "user"],
+      "title": "Role"
+    }
+  },
+  "type": "object",
+  "required": ["id", "username", "is_active", "role"],
+  "title": "UserRead",
+  "x-readme-ref-name": "UserRead"
+}

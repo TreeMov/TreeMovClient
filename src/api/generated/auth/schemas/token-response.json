@@ -1,0 +1,10 @@
+{
+  "properties": {
+    "access_token": { "type": "string", "title": "Access Token" },
+    "refresh_token": { "type": "string", "title": "Refresh Token" }
+  },
+  "type": "object",
+  "required": ["access_token", "refresh_token"],
+  "title": "TokenResponse",
+  "x-readme-ref-name": "TokenResponse"
+}

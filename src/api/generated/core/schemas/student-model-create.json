@@ -1,0 +1,38 @@
+{
+  "properties": {
+    "org_mebmer_id": {
+      "anyOf": [{ "type": "integer" }, { "type": "null" }],
+      "title": "Org Mebmer Id"
+    },
+    "name": { "type": "string", "title": "Name" },
+    "surname": { "type": "string", "title": "Surname" },
+    "progress": {
+      "anyOf": [
+        { "type": "number" },
+        {
+          "type": "string",
+          "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+        },
+        { "type": "null" }
+      ],
+      "title": "Progress",
+      "default": 0
+    },
+    "birthday": {
+      "anyOf": [
+        { "type": "string", "format": "date" },
+        { "type": "null" }
+      ],
+      "title": "Birthday"
+    },
+    "score": {
+      "anyOf": [{ "type": "integer" }, { "type": "null" }],
+      "title": "Score",
+      "default": 0
+    }
+  },
+  "type": "object",
+  "required": ["name", "surname"],
+  "title": "StudentModelCreate",
+  "x-readme-ref-name": "StudentModelCreate"
+}

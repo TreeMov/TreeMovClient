@@ -1,0 +1,40 @@
+{
+  "properties": {
+    "title": { "type": "string", "title": "Title" },
+    "start_time": {
+      "type": "string",
+      "format": "time",
+      "title": "Start Time"
+    },
+    "end_time": {
+      "type": "string",
+      "format": "time",
+      "title": "End Time"
+    },
+    "teacher_id": { "type": "integer", "title": "Teacher Id" },
+    "classroom_id": { "type": "integer", "title": "Classroom Id" },
+    "student_group_id": {
+      "type": "integer",
+      "title": "Student Group Id"
+    },
+    "subject_id": { "type": "integer", "title": "Subject Id" },
+    "date": { "type": "string", "format": "date", "title": "Date" },
+    "comment": {
+      "anyOf": [{ "type": "string" }, { "type": "null" }],
+      "title": "Comment"
+    }
+  },
+  "type": "object",
+  "required": [
+    "title",
+    "start_time",
+    "end_time",
+    "teacher_id",
+    "classroom_id",
+    "student_group_id",
+    "subject_id",
+    "date"
+  ],
+  "title": "LessonModelCreate",
+  "x-readme-ref-name": "LessonModelCreate"
+}

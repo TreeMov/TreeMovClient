@@ -1,0 +1,10 @@
+{
+  "properties": {
+    "id": { "type": "integer", "title": "Id" },
+    "title": { "type": "string", "title": "Title", "read_only": true }
+  },
+  "type": "object",
+  "required": ["id", "title"],
+  "title": "OrganizationRead",
+  "x-readme-ref-name": "OrganizationRead"
+}

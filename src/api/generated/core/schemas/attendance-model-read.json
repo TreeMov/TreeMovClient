@@ -1,0 +1,370 @@
+{
+  "properties": {
+    "id": { "type": "integer", "title": "Id" },
+    "student": {
+      "properties": {
+        "id": { "type": "integer", "title": "Id" },
+        "name": { "type": "string", "title": "Name" },
+        "surname": { "type": "string", "title": "Surname" },
+        "progress": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+            },
+            { "type": "null" }
+          ],
+          "title": "Progress"
+        },
+        "birthday": {
+          "anyOf": [
+            { "type": "string", "format": "date" },
+            { "type": "null" }
+          ],
+          "title": "Birthday"
+        },
+        "score": {
+          "anyOf": [{ "type": "integer" }, { "type": "null" }],
+          "title": "Score"
+        },
+        "org_member": {
+          "anyOf": [
+            {
+              "properties": {
+                "id": { "type": "integer", "title": "Id" },
+                "profile": {
+                  "properties": {
+                    "id": { "type": "integer", "title": "Id" },
+                    "user_id": {
+                      "anyOf": [
+                        { "type": "integer" },
+                        { "type": "null" }
+                      ],
+                      "title": "User Id"
+                    },
+                    "email": {
+                      "anyOf": [
+                        { "type": "string", "format": "email" },
+                        { "type": "null" }
+                      ],
+                      "title": "Email"
+                    },
+                    "name": {
+                      "anyOf": [
+                        { "type": "string" },
+                        { "type": "null" }
+                      ],
+                      "title": "Name"
+                    },
+                    "surname": {
+                      "anyOf": [
+                        { "type": "string" },
+                        { "type": "null" }
+                      ],
+                      "title": "Surname"
+                    },
+                    "pathronamic": {
+                      "anyOf": [
+                        { "type": "string" },
+                        { "type": "null" }
+                      ],
+                      "title": "Pathronamic"
+                    }
+                  },
+                  "type": "object",
+                  "required": ["id"],
+                  "title": "ProfileRead",
+                  "x-readme-ref-name": "ProfileRead"
+                },
+                "role": {
+                  "properties": {
+                    "id": { "type": "integer", "title": "Id" },
+                    "title": { "type": "string", "title": "Title" },
+                    "code": { "type": "string", "title": "Code" }
+                  },
+                  "type": "object",
+                  "required": ["id", "title", "code"],
+                  "title": "ProfileRoleRead",
+                  "x-readme-ref-name": "ProfileRoleRead"
+                },
+                "org": {
+                  "properties": {
+                    "id": { "type": "integer", "title": "Id" },
+                    "title": {
+                      "type": "string",
+                      "title": "Title",
+                      "read_only": true
+                    }
+                  },
+                  "type": "object",
+                  "required": ["id", "title"],
+                  "title": "OrganizationRead",
+                  "x-readme-ref-name": "OrganizationRead"
+                }
+              },
+              "type": "object",
+              "required": ["id", "profile", "role", "org"],
+              "title": "OrganizationMemberRead",
+              "x-readme-ref-name": "OrganizationMemberRead"
+            },
+            { "type": "null" }
+          ]
+        }
+      },
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "surname",
+        "progress",
+        "birthday",
+        "score"
+      ],
+      "title": "StudentModelRead",
+      "x-readme-ref-name": "StudentModelRead"
+    },
+    "lesson": {
+      "properties": {
+        "id": { "type": "integer", "title": "Id" },
+        "title": { "type": "string", "title": "Title" },
+        "start_time": {
+          "type": "string",
+          "format": "time",
+          "title": "Start Time"
+        },
+        "end_time": {
+          "type": "string",
+          "format": "time",
+          "title": "End Time"
+        },
+        "teacher": {
+          "properties": {
+            "id": { "type": "integer", "title": "Id" },
+            "employee": {
+              "properties": {
+                "id": { "type": "integer", "title": "Id" },
+                "name": {
+                  "anyOf": [{ "type": "string" }, { "type": "null" }],
+                  "title": "Name"
+                },
+                "surname": {
+                  "anyOf": [{ "type": "string" }, { "type": "null" }],
+                  "title": "Surname"
+                },
+                "patronymic": {
+                  "anyOf": [{ "type": "string" }, { "type": "null" }],
+                  "title": "Patronymic"
+                },
+                "email": {
+                  "anyOf": [
+                    { "type": "string", "format": "email" },
+                    { "type": "null" }
+                  ],
+                  "title": "Email"
+                },
+                "org_member": {
+                  "anyOf": [
+                    {
+                      "properties": {
+                        "id": { "type": "integer", "title": "Id" },
+                        "profile": {
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "title": "Id"
+                            },
+                            "user_id": {
+                              "anyOf": [
+                                { "type": "integer" },
+                                { "type": "null" }
+                              ],
+                              "title": "User Id"
+                            },
+                            "email": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "format": "email"
+                                },
+                                { "type": "null" }
+                              ],
+                              "title": "Email"
+                            },
+                            "name": {
+                              "anyOf": [
+                                { "type": "string" },
+                                { "type": "null" }
+                              ],
+                              "title": "Name"
+                            },
+                            "surname": {
+                              "anyOf": [
+                                { "type": "string" },
+                                { "type": "null" }
+                              ],
+                              "title": "Surname"
+                            },
+                            "pathronamic": {
+                              "anyOf": [
+                                { "type": "string" },
+                                { "type": "null" }
+                              ],
+                              "title": "Pathronamic"
+                            }
+                          },
+                          "type": "object",
+                          "required": ["id"],
+                          "title": "ProfileRead",
+                          "x-readme-ref-name": "ProfileRead"
+                        },
+                        "role": {
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "title": "Id"
+                            },
+                            "title": {
+                              "type": "string",
+                              "title": "Title"
+                            },
+                            "code": {
+                              "type": "string",
+                              "title": "Code"
+                            }
+                          },
+                          "type": "object",
+                          "required": ["id", "title", "code"],
+                          "title": "ProfileRoleRead",
+                          "x-readme-ref-name": "ProfileRoleRead"
+                        },
+                        "org": {
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "title": "Id"
+                            },
+                            "title": {
+                              "type": "string",
+                              "title": "Title",
+                              "read_only": true
+                            }
+                          },
+                          "type": "object",
+                          "required": ["id", "title"],
+                          "title": "OrganizationRead",
+                          "x-readme-ref-name": "OrganizationRead"
+                        }
+                      },
+                      "type": "object",
+                      "required": ["id", "profile", "role", "org"],
+                      "title": "OrganizationMemberRead",
+                      "x-readme-ref-name": "OrganizationMemberRead"
+                    },
+                    { "type": "null" }
+                  ]
+                }
+              },
+              "type": "object",
+              "required": ["id"],
+              "title": "EmployeeModelRead",
+              "x-readme-ref-name": "EmployeeModelRead"
+            }
+          },
+          "type": "object",
+          "required": ["id", "employee"],
+          "title": "TeacherModelRead",
+          "x-readme-ref-name": "TeacherModelRead"
+        },
+        "classroom": {
+          "properties": {
+            "id": { "type": "integer", "title": "Id" },
+            "title": { "type": "string", "title": "Title" },
+            "floor": { "type": "integer", "title": "Floor" },
+            "building": { "type": "string", "title": "Building" }
+          },
+          "type": "object",
+          "required": ["id", "title", "floor", "building"],
+          "title": "ClassroomModelRead",
+          "x-readme-ref-name": "ClassroomModelRead"
+        },
+        "student_group": {
+          "properties": {
+            "id": { "type": "integer", "title": "Id" },
+            "title": { "type": "string", "title": "Title" }
+          },
+          "type": "object",
+          "required": ["id", "title"],
+          "title": "StudentGroupModelRead",
+          "x-readme-ref-name": "StudentGroupModelRead"
+        },
+        "subject": {
+          "properties": {
+            "id": { "type": "integer", "title": "Id" },
+            "title": { "type": "string", "title": "Title" },
+            "color": {
+              "type": "string",
+              "maxLength": 7,
+              "minLength": 7,
+              "title": "Color"
+            }
+          },
+          "type": "object",
+          "required": ["id", "title", "color"],
+          "title": "SubjectModelRead",
+          "x-readme-ref-name": "SubjectModelRead"
+        },
+        "date": {
+          "type": "string",
+          "format": "date",
+          "title": "Date"
+        },
+        "week_day": { "type": "integer", "title": "Week Day" },
+        "is_canceled": { "type": "boolean", "title": "Is Canceled" },
+        "is_completed": {
+          "type": "boolean",
+          "title": "Is Completed"
+        },
+        "duration": {
+          "type": "string",
+          "format": "duration",
+          "title": "Duration"
+        },
+        "comment": {
+          "anyOf": [{ "type": "string" }, { "type": "null" }],
+          "title": "Comment"
+        },
+        "period_lesson_id": {
+          "anyOf": [{ "type": "integer" }, { "type": "null" }],
+          "title": "Period Lesson Id"
+        }
+      },
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "start_time",
+        "end_time",
+        "teacher",
+        "classroom",
+        "student_group",
+        "subject",
+        "date",
+        "week_day",
+        "is_canceled",
+        "is_completed",
+        "duration"
+      ],
+      "title": "LessonModelRead",
+      "x-readme-ref-name": "LessonModelRead"
+    },
+    "was_present": { "type": "boolean", "title": "Was Present" },
+    "comment": {
+      "anyOf": [{ "type": "string" }, { "type": "null" }],
+      "title": "Comment"
+    }
+  },
+  "type": "object",
+  "required": ["id", "student", "lesson", "was_present"],
+  "title": "AttendanceModelRead",
+  "x-readme-ref-name": "AttendanceModelRead"
+}

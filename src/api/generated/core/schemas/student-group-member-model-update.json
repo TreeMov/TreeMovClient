@@ -1,0 +1,15 @@
+{
+  "properties": {
+    "student_id": {
+      "anyOf": [{ "type": "integer" }, { "type": "null" }],
+      "title": "Student Id"
+    },
+    "student_group_id": {
+      "anyOf": [{ "type": "integer" }, { "type": "null" }],
+      "title": "Student Group Id"
+    }
+  },
+  "type": "object",
+  "title": "StudentGroupMemberModelUpdate",
+  "x-readme-ref-name": "StudentGroupMemberModelUpdate"
+}

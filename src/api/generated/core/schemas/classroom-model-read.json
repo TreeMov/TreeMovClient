@@ -1,0 +1,12 @@
+{
+  "properties": {
+    "id": { "type": "integer", "title": "Id" },
+    "title": { "type": "string", "title": "Title" },
+    "floor": { "type": "integer", "title": "Floor" },
+    "building": { "type": "string", "title": "Building" }
+  },
+  "type": "object",
+  "required": ["id", "title", "floor", "building"],
+  "title": "ClassroomModelRead",
+  "x-readme-ref-name": "ClassroomModelRead"
+}

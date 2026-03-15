@@ -1,0 +1,21 @@
+{
+  "properties": {
+    "name": { "type": "string", "title": "Name" },
+    "surname": { "type": "string", "title": "Surname" },
+    "patronymic": {
+      "anyOf": [{ "type": "string" }, { "type": "null" }],
+      "title": "Patronymic"
+    },
+    "email": {
+      "anyOf": [
+        { "type": "string", "format": "email" },
+        { "type": "null" }
+      ],
+      "title": "Email"
+    }
+  },
+  "type": "object",
+  "required": ["name", "surname"],
+  "title": "EmployeeModelCreate",
+  "x-readme-ref-name": "EmployeeModelCreate"
+}

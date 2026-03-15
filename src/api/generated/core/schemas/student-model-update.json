@@ -1,0 +1,37 @@
+{
+  "properties": {
+    "name": {
+      "anyOf": [{ "type": "string" }, { "type": "null" }],
+      "title": "Name"
+    },
+    "surname": {
+      "anyOf": [{ "type": "string" }, { "type": "null" }],
+      "title": "Surname"
+    },
+    "progress": {
+      "anyOf": [
+        { "type": "number" },
+        {
+          "type": "string",
+          "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+        },
+        { "type": "null" }
+      ],
+      "title": "Progress"
+    },
+    "birthday": {
+      "anyOf": [
+        { "type": "string", "format": "date" },
+        { "type": "null" }
+      ],
+      "title": "Birthday"
+    },
+    "score": {
+      "anyOf": [{ "type": "integer" }, { "type": "null" }],
+      "title": "Score"
+    }
+  },
+  "type": "object",
+  "title": "StudentModelUpdate",
+  "x-readme-ref-name": "StudentModelUpdate"
+}

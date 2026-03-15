@@ -1,0 +1,10 @@
+{
+  "properties": {
+    "title": { "type": "string", "title": "Title" },
+    "text": { "type": "string", "title": "Text" }
+  },
+  "type": "object",
+  "required": ["title", "text"],
+  "title": "TeacherNotesModelCreate",
+  "x-readme-ref-name": "TeacherNotesModelCreate"
+}

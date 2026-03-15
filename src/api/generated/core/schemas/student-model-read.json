@@ -1,0 +1,113 @@
+{
+  "properties": {
+    "id": { "type": "integer", "title": "Id" },
+    "name": { "type": "string", "title": "Name" },
+    "surname": { "type": "string", "title": "Surname" },
+    "progress": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+        },
+        { "type": "null" }
+      ],
+      "title": "Progress"
+    },
+    "birthday": {
+      "anyOf": [
+        { "type": "string", "format": "date" },
+        { "type": "null" }
+      ],
+      "title": "Birthday"
+    },
+    "score": {
+      "anyOf": [{ "type": "integer" }, { "type": "null" }],
+      "title": "Score"
+    },
+    "org_member": {
+      "anyOf": [
+        {
+          "properties": {
+            "id": { "type": "integer", "title": "Id" },
+            "profile": {
+              "properties": {
+                "id": { "type": "integer", "title": "Id" },
+                "user_id": {
+                  "anyOf": [
+                    { "type": "integer" },
+                    { "type": "null" }
+                  ],
+                  "title": "User Id"
+                },
+                "email": {
+                  "anyOf": [
+                    { "type": "string", "format": "email" },
+                    { "type": "null" }
+                  ],
+                  "title": "Email"
+                },
+                "name": {
+                  "anyOf": [{ "type": "string" }, { "type": "null" }],
+                  "title": "Name"
+                },
+                "surname": {
+                  "anyOf": [{ "type": "string" }, { "type": "null" }],
+                  "title": "Surname"
+                },
+                "pathronamic": {
+                  "anyOf": [{ "type": "string" }, { "type": "null" }],
+                  "title": "Pathronamic"
+                }
+              },
+              "type": "object",
+              "required": ["id"],
+              "title": "ProfileRead",
+              "x-readme-ref-name": "ProfileRead"
+            },
+            "role": {
+              "properties": {
+                "id": { "type": "integer", "title": "Id" },
+                "title": { "type": "string", "title": "Title" },
+                "code": { "type": "string", "title": "Code" }
+              },
+              "type": "object",
+              "required": ["id", "title", "code"],
+              "title": "ProfileRoleRead",
+              "x-readme-ref-name": "ProfileRoleRead"
+            },
+            "org": {
+              "properties": {
+                "id": { "type": "integer", "title": "Id" },
+                "title": {
+                  "type": "string",
+                  "title": "Title",
+                  "read_only": true
+                }
+              },
+              "type": "object",
+              "required": ["id", "title"],
+              "title": "OrganizationRead",
+              "x-readme-ref-name": "OrganizationRead"
+            }
+          },
+          "type": "object",
+          "required": ["id", "profile", "role", "org"],
+          "title": "OrganizationMemberRead",
+          "x-readme-ref-name": "OrganizationMemberRead"
+        },
+        { "type": "null" }
+      ]
+    }
+  },
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "surname",
+    "progress",
+    "birthday",
+    "score"
+  ],
+  "title": "StudentModelRead",
+  "x-readme-ref-name": "StudentModelRead"
+}
