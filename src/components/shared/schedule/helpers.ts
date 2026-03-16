@@ -50,6 +50,7 @@ export const serializeLesson = ({
   type: 'read',
   start_time: getSerializedTime(start_time),
   end_time: getSerializedTime(end_time),
+  color: lesson.subject.color,
   ...serializeLessonFields(lesson),
 })
 

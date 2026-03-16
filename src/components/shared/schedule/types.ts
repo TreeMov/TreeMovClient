@@ -31,6 +31,7 @@ export type ScheduleLessonFields = Prettify<
     date: string
     is_canceled: boolean
     is_completed: boolean
+    color: string
   }
 >
 
@@ -63,6 +64,8 @@ export type ScheduleLesson =
 export type ScheduleProps = {
   config: ScheduleConfig
   lessons: LessonModelRead[]
+  days: Date[]
+  hours: Date[]
   onChange: (
     data: ScheduleLesson
   ) => Promise<LessonModelRead[] | undefined>
@@ -71,11 +74,12 @@ export type ScheduleProps = {
 export type ScheduleContextType = Omit<ScheduleProps, 'onChange'> & {
   store: Store
   contentRef: React.RefObject<HTMLDivElement | null>
+
   onChangeHandler: (
     id: number,
     data: ScheduleLesson,
-    prevData: ScheduleLesson
-  ) => void
+    prevData?: ScheduleLesson
+  ) => Promise<void>
 }
 
 export type Direction = 'down' | 'up'

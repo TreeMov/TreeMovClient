@@ -11,6 +11,7 @@ import {
   useSchedule,
 } from '../../hooks'
 import { ScheduleLessonResizer } from '../schedule-lesson-resizer'
+import { SchedulePopover } from '../schedule-popover'
 
 export const ScheduleLesson: React.FC<{
   lesson: ScheduleLessonType
@@ -19,14 +20,18 @@ export const ScheduleLesson: React.FC<{
     contentRef,
     config: { segmentSize },
   } = useSchedule()
-  const { id, start_time, end_time, subject, teacher, date } = lesson
+  const { id, start_time, end_time, subject, teacher, date, color } =
+    lesson
   const { getMouseDate } = useContentOverlay()
   const { getLessonStyle } = useLessonPosition(new Date(date), lesson)
 
   return (
     <div
-      className="absolute left-0 z-10 min-w-5/6 cursor-pointer rounded-xl border border-black bg-white p-2.5"
-      style={getLessonStyle(start_time, end_time)}
+      className="absolute left-0 z-10 min-w-5/6 cursor-pointer rounded-xl border bg-white p-2.5"
+      style={{
+        ...getLessonStyle(start_time, end_time),
+        borderColor: color,
+      }}
     >
       <div>{id}</div>
       <div>{subject?.label}</div>
@@ -35,34 +40,39 @@ export const ScheduleLesson: React.FC<{
         {format(combineDateAndTime(date, start_time), timeFormat)}-
         {format(combineDateAndTime(date, end_time), timeFormat)}
       </div>
-      <div
-        className="absolute top-0 left-0 size-full"
-        onMouseDown={(e) => {
-          if (!contentRef.current) {
-            return
-          }
+      <SchedulePopover {...lesson}>
+        <div
+          className="absolute top-0 left-0 size-full"
+          onMouseDown={(e) => {
+            if (!contentRef.current) {
+              return
+            }
 
-          contentRef.current.style.cursor = 'grab'
+            contentRef.current.style.cursor = 'grab'
 
-          const clickedData = getMouseDate(new Date(date), e.clientY)
-          if (clickedData) {
-            const diff = differenceInMinutes(
-              clickedData,
-              combineDateAndTime(date, start_time)
+            const clickedData = getMouseDate(
+              new Date(date),
+              e.clientY
             )
-            const clickedSegment = Math.ceil(diff / segmentSize)
-            // eslint-disable-next-line no-console
-            console.log({ clickedSegment })
-          }
-        }}
-        onMouseUp={() => {
-          if (!contentRef.current) {
-            return
-          }
+            if (clickedData) {
+              const diff = differenceInMinutes(
+                clickedData,
+                combineDateAndTime(date, start_time)
+              )
+              const clickedSegment = Math.ceil(diff / segmentSize)
+              // eslint-disable-next-line no-console
+              console.log({ clickedSegment })
+            }
+          }}
+          onMouseUp={() => {
+            if (!contentRef.current) {
+              return
+            }
 
-          contentRef.current.style.cursor = ''
-        }}
-      />
+            contentRef.current.style.cursor = ''
+          }}
+        />
+      </SchedulePopover>
       <ScheduleLessonResizer {...lesson} />
     </div>
   )
