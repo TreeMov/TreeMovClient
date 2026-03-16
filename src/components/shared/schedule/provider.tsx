@@ -16,11 +16,11 @@ export const ScheduleProvider: React.FC<
 
   const contentRef = useRef<HTMLDivElement>(null)
 
-  const handleChangeReadLesson = useCallback(
+  const onChangeHandler = useCallback(
     async (
       id: number,
       data: ScheduleLesson,
-      prevData: ScheduleLesson
+      prevData?: ScheduleLesson
     ) => {
       try {
         const nextLessons = await onChange(data)
@@ -32,27 +32,14 @@ export const ScheduleProvider: React.FC<
         store.deleteLesson(id)
         store.syncLessons(nextLessons)
       } catch {
-        store.updateLesson(id, { ...prevData, type: 'read' })
-      }
-    },
-    [store, onChange]
-  )
-
-  const onChangeHandler = useCallback(
-    async (
-      id: number,
-      data: ScheduleLesson,
-      prevData: ScheduleLesson
-    ) => {
-      switch (data.type) {
-        case 'resize':
-        case 'drag':
-        case 'create': {
-          handleChangeReadLesson(id, data, prevData)
+        if (prevData) {
+          store.updateLesson(id, prevData)
+        } else {
+          store.deleteLesson(id)
         }
       }
     },
-    [handleChangeReadLesson]
+    [store, onChange]
   )
 
   const value = useMemo<ScheduleContextType>(

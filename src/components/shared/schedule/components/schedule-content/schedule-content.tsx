@@ -9,7 +9,7 @@ import { ScheduleHeader } from '../schedule-header'
 import { ScheduleHoursCol } from '../schedule-hours-col'
 
 export const ScheduleContent: React.FC = () => {
-  const { store, lessons, contentRef } = useSchedule()
+  const { store, lessons, contentRef, days } = useSchedule()
 
   useEffect(() => {
     store.syncLessons(lessons)
@@ -21,7 +21,7 @@ export const ScheduleContent: React.FC = () => {
       <div className="grid grid-cols-[1fr_7fr]">
         <ScheduleHoursCol className="not-last:border-grey-200 not-last:border-r" />
         <div ref={contentRef} className="grid grid-cols-7">
-          {store.days.map((day) => (
+          {days.map((day) => (
             <ScheduleColLessons
               key={day.getTime()}
               className="not-last:border-grey-200 not-last:border-r"

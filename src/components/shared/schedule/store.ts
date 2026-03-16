@@ -5,17 +5,12 @@ import type {
   ScheduleLessonType,
 } from './types'
 
-import { subWeeks } from 'date-fns'
 import { makeAutoObservable } from 'mobx'
 
-import { getWeekDays } from '@/utils/helpers/dates'
-
-import { getScheduleHours, serializeLesson } from './helpers'
+import { serializeLesson } from './helpers'
 
 export class Store {
   lessons: ScheduleLesson[] = []
-  days = getWeekDays(subWeeks(new Date(), 1))
-  hours = getScheduleHours()
 
   constructor() {
     makeAutoObservable(this)

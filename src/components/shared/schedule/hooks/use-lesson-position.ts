@@ -18,15 +18,15 @@ export const useLessonPosition = (
   day: Date,
   { date }: ScheduleLesson
 ) => {
-  const { store } = useSchedule()
+  const { hours } = useSchedule()
 
   const scheduleRange = useMemo(() => {
-    if (store.hours.length === 0) {
+    if (hours.length === 0) {
       return null
     }
 
-    const firstHour = store.hours[0].getHours()
-    const lastHour = store.hours[store.hours.length - 1].getHours()
+    const firstHour = hours[0].getHours()
+    const lastHour = hours[hours.length - 1].getHours()
     const dayStart = startOfDay(day)
     const scheduleStart = setHours(dayStart, firstHour)
     const scheduleEnd = addHours(setHours(dayStart, lastHour), 1)
@@ -40,7 +40,7 @@ export const useLessonPosition = (
     }
 
     return { scheduleStart, scheduleEnd, totalMinutes }
-  }, [day, store.hours])
+  }, [day, hours])
 
   const clampPercent = (value: number) =>
     Math.min(Math.max(value, 0), 100)

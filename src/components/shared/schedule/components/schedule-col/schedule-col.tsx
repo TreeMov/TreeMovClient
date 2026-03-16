@@ -7,7 +7,7 @@ import { useContentOverlay, useSchedule } from '../../hooks'
 import { Cell } from '../ui'
 
 export const ScheduleCol: React.FC<{ date: Date }> = ({ date }) => {
-  const { store } = useSchedule()
+  const { store, hours } = useSchedule()
 
   const { getMouseDate } = useContentOverlay()
 
@@ -37,6 +37,7 @@ export const ScheduleCol: React.FC<{ date: Date }> = ({ date }) => {
       comment: undefined,
       is_canceled: false,
       is_completed: false,
+      color: '#000000',
     }
 
     store.createLesson(nextLesson)
@@ -44,7 +45,7 @@ export const ScheduleCol: React.FC<{ date: Date }> = ({ date }) => {
 
   return (
     <div onMouseDown={onMouseDown}>
-      {store.hours.map((hour) => (
+      {hours.map((hour) => (
         <Cell
           key={hour.getTime()}
           className="not-last:border-grey-200 relative h-24 not-last:border-b"

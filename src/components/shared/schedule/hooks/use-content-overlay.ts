@@ -5,14 +5,14 @@ import { useSchedule } from './use-schedule'
 
 export const useContentOverlay = () => {
   const {
-    store,
     contentRef,
     config: { segmentSize },
+    hours,
   } = useSchedule()
 
   const getSegmentData = (content: HTMLDivElement) => {
     const contentRect = content.getBoundingClientRect()
-    const cellHeight = contentRect.height / store.hours.length
+    const cellHeight = contentRect.height / hours.length
 
     const segmentsCount = Math.ceil(minutesInHour / segmentSize)
     const segmentHeight = cellHeight / segmentsCount
@@ -36,7 +36,7 @@ export const useContentOverlay = () => {
 
     const currentSegment = Math.floor(cellPosition / segmentHeight)
 
-    const hour = store.hours[currCell]
+    const hour = hours[currCell]
 
     const lessonDate = addMinutes(
       set(day, {

@@ -43,6 +43,9 @@ const CalendarPopover: React.FC<CalendarProps> = (props) => {
     }
   }
 
+  const getSingleLabel = (date: Date | undefined) =>
+    formatDate(date ?? new Date())
+
   const getLabel = () => {
     switch (mode) {
       case 'range':
@@ -52,6 +55,8 @@ const CalendarPopover: React.FC<CalendarProps> = (props) => {
             to: defaultRange.to,
           }
         )
+      case 'single':
+        return getSingleLabel(props.selected)
     }
   }
 
@@ -280,7 +285,13 @@ const CalendarDayButton = ({
           'relative flex aspect-square min-h-(--cell-size) min-w-(--cell-size) flex-col gap-1 leading-none font-normal [&>span]:text-xs [&>span]:opacity-70',
           'dark:hover:text-accent-foreground',
           'group-data-[focused=true]/day:border-ring group-data-[focused=true]/day:ring-ring/50 group-data-[focused=true]/day:relative group-data-[focused=true]/day:z-10 group-data-[focused=true]/day:ring-[3px]',
-          'data-[selected-single=true]:bg-primary data-[range-end=true]:text-white data-[range-middle=true]:rounded-none data-[range-start=true]:text-white'
+          'data-[range-middle=true]:rounded-none',
+          {
+            'text-white':
+              dataAttributes['data-selected-single'] ||
+              dataAttributes['data-range-end'] ||
+              dataAttributes['data-range-start'],
+          }
         ),
         defaultClassNames.day,
         className
@@ -307,8 +318,12 @@ const CalendarDayButton = ({
           {...dataAttributes}
           className={cn(
             'relative z-10 flex size-6 items-center justify-center',
-            'data-[range-end=true]:rounded-full data-[range-end=true]:bg-purple-500',
-            'data-[range-start=true]:rounded-full data-[range-start=true]:bg-purple-500'
+            {
+              'rounded-full bg-purple-500':
+                dataAttributes['data-range-end'] ||
+                dataAttributes['data-range-start'] ||
+                dataAttributes['data-selected-single'],
+            }
           )}
         >
           {children}
