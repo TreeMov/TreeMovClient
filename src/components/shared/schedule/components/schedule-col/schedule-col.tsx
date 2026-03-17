@@ -1,5 +1,3 @@
-import type { ScheduleLessonCreate } from '../../types'
-
 import { addMinutes, endOfHour, format, startOfHour } from 'date-fns'
 
 import { dateFormat, timeFormat } from '../../constants'
@@ -20,37 +18,21 @@ export const ScheduleCol: React.FC<{ date: Date }> = ({ date }) => {
       return
     }
 
-    const nextLesson: ScheduleLessonCreate = {
-      id: Math.random(),
-      type: 'create',
+    store.createLesson({
       date: format(lessonDate, dateFormat),
       start_time: format(startOfHour(lessonDate), timeFormat),
       end_time: format(
         addMinutes(endOfHour(lessonDate), 1),
         timeFormat
       ),
-      title: '',
-      teacher: undefined,
-      classroom: undefined,
-      student_group: undefined,
-      subject: undefined,
-      comment: undefined,
-      is_canceled: false,
-      is_completed: false,
-      color: '#000000',
-    }
-
-    store.createLesson(nextLesson)
+    })
   }
 
-  return (
-    <div onMouseDown={onMouseDown}>
-      {hours.map((hour) => (
-        <Cell
-          key={hour.getTime()}
-          className="not-last:border-grey-200 relative h-24 not-last:border-b"
-        />
-      ))}
-    </div>
-  )
+  return hours.map((hour) => (
+    <Cell
+      key={hour.getTime()}
+      className="not-last:border-grey-200 relative h-24 not-last:border-b"
+      onMouseDown={onMouseDown}
+    />
+  ))
 }

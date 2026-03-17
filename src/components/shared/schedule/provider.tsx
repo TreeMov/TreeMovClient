@@ -43,8 +43,13 @@ export const ScheduleProvider: React.FC<
   )
 
   const value = useMemo<ScheduleContextType>(
-    () => ({ store, contentRef, onChangeHandler, ...props }),
-    [props, store, onChangeHandler]
+    () => ({
+      store,
+      contentRef,
+      onChangeHandler,
+      ...props,
+    }),
+    [store, props, onChangeHandler]
   )
 
   return (

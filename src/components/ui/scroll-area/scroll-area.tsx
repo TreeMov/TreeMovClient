@@ -8,6 +8,7 @@ import { cn } from '@/utils/helpers//shadcn'
 const ScrollArea: React.FC<ScrollAreaProps> = ({
   className,
   children,
+  disabled,
   ...props
 }) => {
   return (
@@ -18,12 +19,19 @@ const ScrollArea: React.FC<ScrollAreaProps> = ({
     >
       <ScrollAreaPrimitive.Viewport
         data-slot="scroll-area-viewport"
-        className="size-full rounded-[inherit] transition-[color,box-shadow] outline-none"
+        className={cn(
+          'size-full rounded-[inherit] transition-[color,box-shadow] outline-none',
+          { 'overflow-hidden!': disabled }
+        )}
       >
         {children}
       </ScrollAreaPrimitive.Viewport>
-      <ScrollBar className="z-100" />
-      <ScrollAreaPrimitive.Corner />
+      {!disabled && (
+        <React.Fragment>
+          <ScrollBar className="z-100" />
+          <ScrollAreaPrimitive.Corner />
+        </React.Fragment>
+      )}
     </ScrollAreaPrimitive.Root>
   )
 }
