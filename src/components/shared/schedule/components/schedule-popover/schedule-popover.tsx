@@ -2,12 +2,6 @@ import type { ScheduleLesson } from '../../types'
 
 import React from 'react'
 
-import {
-  useAllStudentGroups,
-  useClassroomClassrooms,
-  useClassroomSubjects,
-  useTeachers,
-} from '@/api/generated/core'
 import { Button } from '@/components/ui/button'
 import {
   Popover,
@@ -17,7 +11,7 @@ import {
 import { Select } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 
-import { useSchedule } from '../../hooks'
+import { useFormQuery, useSchedule } from '../../hooks'
 
 export const SchedulePopover: React.FC<
   React.PropsWithChildren<ScheduleLesson>
@@ -32,31 +26,31 @@ export const SchedulePopover: React.FC<
     comment,
   } = lesson
 
-  const { store, onChangeHandler } = useSchedule()
-
   const defaultOpen = type === 'create'
 
-  const { data: subjects } = useClassroomSubjects(
-    {},
-    { query: { refetchOnMount: false } }
-  )
-  const { data: teachers } = useTeachers(
-    {},
-    {
-      query: { refetchOnMount: false },
+  const { store, onChangeHandler } = useSchedule()
+
+  const {
+    subjects: { data: subjects },
+    teachers: { data: teachers },
+    classrooms: { data: classrooms },
+    studentGroups: { data: studentGroups },
+  } = useFormQuery()
+
+  const onOpenChange = (open: boolean) => {
+    if (open) {
+      store.setActiveLesson(id)
+    } else {
+      store.clearActiveLesson()
     }
-  )
-  const { data: classrooms } = useClassroomClassrooms(
-    {},
-    { query: { refetchOnMount: false } }
-  )
-  const { data: studentGroups } = useAllStudentGroups(
-    {},
-    { query: { refetchOnMount: false } }
-  )
+  }
 
   return (
-    <Popover defaultOpen={defaultOpen}>
+    <Popover
+      modal
+      defaultOpen={defaultOpen}
+      onOpenChange={onOpenChange}
+    >
       <PopoverTrigger asChild>{children}</PopoverTrigger>
       <PopoverContent side="right" align="start">
         <div className="flex min-w-64 flex-col gap-2">

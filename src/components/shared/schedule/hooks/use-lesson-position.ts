@@ -1,5 +1,3 @@
-import type { ScheduleLesson } from '../types'
-
 import {
   addHours,
   differenceInMinutes,
@@ -14,10 +12,7 @@ import { combineDateAndTime } from '../helpers'
 
 import { useSchedule } from './use-schedule'
 
-export const useLessonPosition = (
-  day: Date,
-  { date }: ScheduleLesson
-) => {
+export const useLessonPosition = (date: Date) => {
   const { hours } = useSchedule()
 
   const scheduleRange = useMemo(() => {
@@ -27,7 +22,7 @@ export const useLessonPosition = (
 
     const firstHour = hours[0].getHours()
     const lastHour = hours[hours.length - 1].getHours()
-    const dayStart = startOfDay(day)
+    const dayStart = startOfDay(date)
     const scheduleStart = setHours(dayStart, firstHour)
     const scheduleEnd = addHours(setHours(dayStart, lastHour), 1)
     const totalMinutes = differenceInMinutes(
@@ -40,7 +35,7 @@ export const useLessonPosition = (
     }
 
     return { scheduleStart, scheduleEnd, totalMinutes }
-  }, [day, hours])
+  }, [date, hours])
 
   const clampPercent = (value: number) =>
     Math.min(Math.max(value, 0), 100)

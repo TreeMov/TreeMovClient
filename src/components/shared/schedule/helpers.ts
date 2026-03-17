@@ -8,7 +8,7 @@ import type {
   ScheduleLessonRead,
 } from './types'
 
-import { addHours, parse, set, startOfToday } from 'date-fns'
+import { addHours, format, parse, set, startOfToday } from 'date-fns'
 
 import { getDayHours } from '@/utils/helpers/dates'
 
@@ -74,8 +74,13 @@ export const timeToDate = (time: string) => {
   return parse(timeToParse, timeFormat, new Date())
 }
 
-export const combineDateAndTime = (date: string, time: string) => {
-  const parsedDate = parse(date, dateFormat, new Date())
+export const combineDateAndTime = (
+  date: string | Date,
+  time: string
+) => {
+  const dateStr =
+    typeof date === 'string' ? date : format(date, dateFormat)
+  const parsedDate = parse(dateStr, dateFormat, new Date())
   const parsedTime = timeToDate(time)
 
   return set(parsedDate, {

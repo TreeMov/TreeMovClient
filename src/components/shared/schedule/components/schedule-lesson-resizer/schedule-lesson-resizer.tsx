@@ -1,4 +1,4 @@
-import type { ScheduleLesson } from '../../types'
+import type { ScheduleLessonResizerProps } from './types'
 
 import { isEqual as isEqualObjects } from 'lodash-es'
 import React, { useRef, useState } from 'react'
@@ -7,9 +7,9 @@ import { useEventListener } from '@/hooks/use-event-listener'
 
 import { useMouseEvents, useSchedule } from '../../hooks'
 
-export const ScheduleLessonResizer: React.FC<ScheduleLesson> = (
-  lesson
-) => {
+export const ScheduleLessonResizer: React.FC<
+  ScheduleLessonResizerProps
+> = ({ lesson, onResize }) => {
   const { id, date } = lesson
 
   const ref = useRef<HTMLDivElement>(null)
@@ -29,17 +29,23 @@ export const ScheduleLessonResizer: React.FC<ScheduleLesson> = (
       store.setLessonType(id, 'resize')
       setInitialLesson(lesson)
       setIsResizeMoveEnabled(true)
+      onResize?.(true)
     })
   }
 
   const onMouseUpHandler = () => {
     onMouseUp(() => {
+      store.setLessonType(id, initialLesson.type)
+      setIsResizeMoveEnabled(false)
+      onResize?.(false)
+
+      if (initialLesson.type === 'create') {
+        return
+      }
+
       if (!isEqualObjects(initialLesson, lesson)) {
         onChangeHandler(lesson.id, lesson, initialLesson)
       }
-
-      store.setLessonType(id, initialLesson.type)
-      setIsResizeMoveEnabled(false)
     })
   }
 

@@ -7,7 +7,7 @@ export type ScheduleConfig = {
   segmentSize: number
 }
 
-export type ScheduleLessonType = 'drag' | 'resize' | 'create' | 'read'
+export type ScheduleLessonType = 'resize' | 'create' | 'read'
 
 export type ScheduleField = {
   id: number
@@ -47,16 +47,11 @@ export type ScheduleLessonRead = ScheduleLessonBase & {
   type: 'read'
 }
 
-export type ScheduleLessonDrag = ScheduleLessonBase & {
-  type: 'drag'
-}
-
 export type ScheduleLessonResize = ScheduleLessonBase & {
   type: 'resize'
 }
 
 export type ScheduleLesson =
-  | ScheduleLessonDrag
   | ScheduleLessonCreate
   | ScheduleLessonRead
   | ScheduleLessonResize
@@ -74,7 +69,6 @@ export type ScheduleProps = {
 export type ScheduleContextType = Omit<ScheduleProps, 'onChange'> & {
   store: Store
   contentRef: React.RefObject<HTMLDivElement | null>
-
   onChangeHandler: (
     id: number,
     data: ScheduleLesson,

@@ -48,8 +48,6 @@ export const Content: React.FC<ContentProps> = ({ date }) => {
           data: deserealizeLesson(dto),
         })
         break
-      default:
-        return
     }
     const { data } = await refetch()
     return data
