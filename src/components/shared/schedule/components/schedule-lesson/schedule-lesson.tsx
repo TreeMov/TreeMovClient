@@ -1,9 +1,9 @@
 import type { ScheduleLesson as ScheduleLessonType } from '../../types'
 
 import { useDraggable } from '@dnd-kit/react'
-import React, { useState } from 'react'
+import React from 'react'
 
-import { useLessonPosition, useSchedule } from '../../hooks'
+import { useLessonPosition } from '../../hooks'
 import { ScheduleLessonResizer } from '../schedule-lesson-resizer'
 import { SchedulePopover } from '../schedule-popover'
 import { Lesson } from '../ui'
@@ -11,33 +11,29 @@ import { Lesson } from '../ui'
 export const ScheduleLesson: React.FC<{
   lesson: ScheduleLessonType
 }> = ({ lesson }) => {
-  const { store } = useSchedule()
-  const { id, start_time, end_time, date } = lesson
+  const { id, start_time, end_time, date, state } = lesson
   const { getLessonStyle } = useLessonPosition(new Date(date))
-  const [isResize, setIsResize] = useState(false)
 
   const { ref } = useDraggable({
     id,
     data: lesson,
-    disabled: isResize,
+    disabled: state === 'resize',
   })
-
-  const isActive = store.activeLessonId === id
-  const isDrag = store.dragLesson?.id === id
 
   return (
     <Lesson
-      ref={ref}
       style={getLessonStyle(start_time, end_time)}
-      isActive={isActive}
-      isDrag={isDrag}
+      isActive={state === 'active'}
+      isDrag={state === 'drag'}
       lesson={lesson}
     >
-      <SchedulePopover {...lesson}>
-        <div className="absolute top-0 left-0 size-full" />
-      </SchedulePopover>
+      <div ref={ref} className="absolute top-0 left-0 size-full">
+        <SchedulePopover {...lesson}>
+          <div className="absolute top-0 left-0 size-full" />
+        </SchedulePopover>
+      </div>
 
-      <ScheduleLessonResizer lesson={lesson} onResize={setIsResize} />
+      <ScheduleLessonResizer lesson={lesson} />
     </Lesson>
   )
 }

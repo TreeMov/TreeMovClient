@@ -1,4 +1,4 @@
-import type { ScheduleLesson } from '@/components/shared/schedule/types'
+import type { OnChangeParams } from '@/components/shared/schedule/types'
 import type { ContentProps } from './types'
 
 import { endOfWeek, format, startOfWeek } from 'date-fns'
@@ -23,17 +23,20 @@ import { scheduleConfig } from '../../constants'
 export const Content: React.FC<ContentProps> = ({ date }) => {
   const { mutateAsync: updateLesson } = useUpdateStudentsLessonsId()
   const { mutateAsync: createLesson } = useCreateLessons()
-  const { data: lessons, refetch } = useLessons({
+  const {
+    data: lessons,
+    isPending,
+    refetch,
+  } = useLessons({
     date_max: format(endOfWeek(date), dateFormat),
     date_min: format(startOfWeek(date), dateFormat),
   })
 
-  const onChange = async (
-    dto: ScheduleLesson
-  ): Promise<LessonModelRead[] | undefined> => {
-    const { type } = dto
+  const onChange = async ({
+    dto,
+    type,
+  }: OnChangeParams): Promise<LessonModelRead[] | undefined> => {
     switch (type) {
-      case 'resize':
       case 'read':
         await updateLesson({
           id: dto.id,
@@ -57,6 +60,7 @@ export const Content: React.FC<ContentProps> = ({ date }) => {
     <Schedule
       config={scheduleConfig}
       lessons={lessons ?? []}
+      isLoading={isPending}
       onChange={onChange}
       days={getWeekDays(new Date(date))}
       hours={getScheduleHours()}

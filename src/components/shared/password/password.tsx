@@ -15,7 +15,7 @@ export const Password = <
 }: PasswordFormProps<TFieldValues, TName>) => {
   return (
     <FormWrapper {...props}>
-      <UPassword {...inputProps} />
+      {({ field }) => <UPassword {...inputProps} {...field} />}
     </FormWrapper>
   )
 }

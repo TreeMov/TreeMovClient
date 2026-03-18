@@ -1,45 +1,36 @@
-import type { Combobox as ComboboxPrimitive } from '@base-ui/react'
-import type * as React from 'react'
+import type { ComboboxRoot } from '@base-ui/react'
+import type { ComboboxOption } from '@/components/primitives/combobox'
 
-export type ComboboxValueProps = ComboboxPrimitive.Value.Props
-
-export type ComboboxTriggerProps = ComboboxPrimitive.Trigger.Props
-
-export type ComboboxClearProps = ComboboxPrimitive.Clear.Props
-
-export type ComboboxInputProps = ComboboxPrimitive.Input.Props & {
-  showTrigger?: boolean
-  showClear?: boolean
+type ComboboxBaseProps<
+  Values extends string,
+  Multiple extends boolean | undefined = false,
+> = Omit<
+  ComboboxRoot.Props<Values, Multiple>,
+  'items' | 'multiple' | 'value' | 'defaultValue' | 'onValueChange'
+> & {
+  options: ComboboxOption<Values>[]
+  placeholder?: string
 }
 
-export type ComboboxContentProps = ComboboxPrimitive.Popup.Props &
-  Pick<
-    ComboboxPrimitive.Positioner.Props,
-    'side' | 'align' | 'sideOffset' | 'alignOffset' | 'anchor'
-  >
+export type ComboboxSingleProps<Values extends string> =
+  ComboboxBaseProps<Values, false> & {
+    multiple?: false
+    value?: Values
+    defaultValue?: Values
+    onValueChange?: (value: Values | null) => void
+  }
 
-export type ComboboxListProps = ComboboxPrimitive.List.Props
+export type ComboboxMultipleProps<Values extends string> =
+  ComboboxBaseProps<Values, true> & {
+    multiple: true
+    value?: Values[]
+    defaultValue?: Values[]
+    onValueChange?: (value: Values[] | null) => void
+  }
 
-export type ComboboxItemProps = ComboboxPrimitive.Item.Props
+export type ComboboxProps<Values extends string> =
+  | ComboboxSingleProps<Values>
+  | ComboboxMultipleProps<Values>
 
-export type ComboboxGroupProps = ComboboxPrimitive.Group.Props
-
-export type ComboboxLabelProps = ComboboxPrimitive.GroupLabel.Props
-
-export type ComboboxCollectionProps =
-  ComboboxPrimitive.Collection.Props
-
-export type ComboboxEmptyProps = ComboboxPrimitive.Empty.Props
-
-export type ComboboxSeparatorProps = ComboboxPrimitive.Separator.Props
-
-export type ComboboxChipsProps = React.ComponentPropsWithRef<
-  typeof ComboboxPrimitive.Chips
-> &
-  ComboboxPrimitive.Chips.Props
-
-export type ComboboxChipProps = ComboboxPrimitive.Chip.Props & {
-  showRemove?: boolean
-}
-
-export type ComboboxChipsInputProps = ComboboxPrimitive.Input.Props
+export type ComboboxRenderedContentProps<Values extends string> =
+  Pick<ComboboxBaseProps<Values>, 'placeholder'>

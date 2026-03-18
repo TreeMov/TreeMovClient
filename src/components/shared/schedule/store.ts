@@ -1,18 +1,21 @@
 import type { LessonModelRead } from '@/api/generated/core'
-import type { ScheduleLesson, ScheduleLessonType } from './types'
+import type {
+  ScheduleLesson,
+  ScheduleLessonCreate,
+  ScheduleLessonState,
+} from './types'
 
 import { makeAutoObservable } from 'mobx'
 
 import { serializeLesson } from './helpers'
 
-type CreateLessonParams = Pick<
-  ScheduleLesson,
-  'type' | 'date' | 'start_time' | 'end_time'
+type CreateLessonParams = Omit<
+  ScheduleLessonCreate,
+  'id' | 'color' | 'type'
 >
 
 export class Store {
   lessons: ScheduleLesson[] = []
-  activeLessonId: number | null = null
   dragLesson: ScheduleLesson | null = null
   dragSegment: number | null = null
 
@@ -20,18 +23,19 @@ export class Store {
     makeAutoObservable(this)
   }
 
-  private _createLesson(lesson: CreateLessonParams) {
-    const createdLesson: ScheduleLesson = {
-      ...lesson,
+  private _createLesson({
+    date,
+    end_time,
+    start_time,
+    state,
+  }: CreateLessonParams) {
+    const createdLesson: ScheduleLessonCreate = {
       id: Math.random(),
-      title: '',
-      teacher: undefined,
-      classroom: undefined,
-      student_group: undefined,
-      subject: undefined,
-      comment: undefined,
-      is_canceled: false,
-      is_completed: false,
+      type: 'create',
+      state,
+      date,
+      end_time,
+      start_time,
       color: '#000000',
     }
     this.lessons.push(createdLesson)
@@ -39,25 +43,27 @@ export class Store {
   }
 
   startDrag(lesson: ScheduleLesson, dragSegment: number) {
+    this.updateLesson(lesson.id, { state: 'drag' })
     this.dragLesson = lesson
     this.dragSegment = dragSegment
   }
 
-  endDrag() {
+  endDrag(id: number) {
+    this.updateLesson(id, { state: 'normal' })
     this.dragLesson = null
     this.dragSegment = null
   }
 
   setActiveLesson(id: number) {
-    this.activeLessonId = id
+    this.updateLesson(id, { state: 'active' })
   }
 
-  clearActiveLesson() {
-    this.activeLessonId = null
+  clearActiveLesson(id: number, prevState: ScheduleLessonState) {
+    this.updateLesson(id, { state: prevState })
   }
 
-  setLessonType(id: number, type: ScheduleLessonType) {
-    this.updateLesson(id, { type })
+  setLessonState(id: number, state: ScheduleLessonState) {
+    this.updateLesson(id, { state })
   }
 
   syncLessons(lessons: LessonModelRead[]) {
@@ -74,12 +80,13 @@ export class Store {
     date,
     start_time,
     end_time,
-  }: Omit<CreateLessonParams, 'type'>) {
+    state,
+  }: CreateLessonParams) {
     return this._createLesson({
       date,
       start_time,
       end_time,
-      type: 'create',
+      state,
     })
   }
 

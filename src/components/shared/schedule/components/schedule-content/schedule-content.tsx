@@ -8,6 +8,8 @@ import { DragDropProvider, DragOverlay } from '@dnd-kit/react'
 import { differenceInMinutes } from 'date-fns'
 import React, { useEffect } from 'react'
 
+import { Spinner } from '@/components/ui/spinner'
+
 import { combineDateAndTime } from '../../helpers'
 import {
   useContentOverlay,
@@ -26,6 +28,7 @@ export const ScheduleContent: React.FC = () => {
     lessons,
     contentRef,
     days,
+    isLoading,
     config: { segmentSize },
     onChangeHandler,
   } = useSchedule()
@@ -53,7 +56,11 @@ export const ScheduleContent: React.FC = () => {
         <DragDropProvider
           sensors={sensors}
           onDragStart={({ nativeEvent, operation: { source } }) => {
-            const lesson = source?.data as ScheduleLesson
+            if (!source) {
+              return
+            }
+
+            const lesson = source.data as ScheduleLesson
             const { date, start_time } = lesson
 
             const event =
@@ -73,12 +80,12 @@ export const ScheduleContent: React.FC = () => {
             }
           }}
           onDragEnd={({ nativeEvent, operation: { target } }) => {
-            const event =
-              nativeEvent as unknown as React.PointerEvent<HTMLDivElement>
             if (!store.dragLesson || !target) {
               return
             }
 
+            const event =
+              nativeEvent as unknown as React.PointerEvent<HTMLDivElement>
             const range = getLessonRange({
               day: new Date(target?.id),
               y: event.clientY,
@@ -90,24 +97,25 @@ export const ScheduleContent: React.FC = () => {
             }
 
             const { startTime, endTime } = range
-            const nextLesson: ScheduleLesson = {
+            const nextLesson = {
               ...store.dragLesson,
               date: target.id as string,
               start_time: startTime,
               end_time: endTime,
             }
             store.updateLesson(nextLesson.id, nextLesson)
-            if (store.dragLesson.type !== 'create') {
-              onChangeHandler(
-                store.dragLesson.id,
-                nextLesson,
-                store.dragLesson
-              )
+            if (nextLesson.type !== 'create') {
+              onChangeHandler({
+                type: 'read',
+                dto: nextLesson,
+                prevData: store.dragLesson,
+              })
             }
-            store.endDrag()
+
+            store.endDrag(nextLesson.id)
           }}
         >
-          <div ref={contentRef} className="grid grid-cols-7">
+          <div ref={contentRef} className="relative grid grid-cols-7">
             {days.map((day) => (
               <ScheduleColLessons
                 key={day.getTime()}
@@ -121,6 +129,11 @@ export const ScheduleContent: React.FC = () => {
           <DragOverlay dropAnimation={null}>{null}</DragOverlay>
         </DragDropProvider>
       </div>
+      {isLoading && (
+        <div className="bg-grey-500/20 absolute top-0 left-0 z-20 flex size-full items-center justify-center">
+          <Spinner className="size-16 text-violet-400" />
+        </div>
+      )}
     </ScheduleContentWrapper>
   )
 }
