@@ -1,13 +1,13 @@
 import { addMinutes, endOfHour, format, startOfHour } from 'date-fns'
 
 import { dateFormat, timeFormat } from '../../constants'
-import { useContentOverlay, useSchedule } from '../../hooks'
+import { useMouseEvents, useSchedule } from '../../hooks'
 import { Cell } from '../ui'
 
 export const ScheduleCol: React.FC<{ date: Date }> = ({ date }) => {
   const { store, hours } = useSchedule()
 
-  const { getMouseDate } = useContentOverlay()
+  const { getMouseDate } = useMouseEvents()
 
   const onMouseDown = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>

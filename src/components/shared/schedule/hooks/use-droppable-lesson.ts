@@ -9,7 +9,7 @@ import {
 import { timeFormat } from '../constants'
 import { combineDateAndTime } from '../helpers'
 
-import { useContentOverlay } from './use-content-overlay'
+import { useMouseEvents } from './use-mouse-events'
 import { useSchedule } from './use-schedule'
 
 type GetLessonRangeParams = {
@@ -24,7 +24,7 @@ export const useDroppableLesson = () => {
     store,
     config: { segmentSize },
   } = useSchedule()
-  const { getMouseDate } = useContentOverlay()
+  const { getMouseDate } = useMouseEvents()
 
   const getLessonRange = ({
     day,

@@ -11,7 +11,7 @@ export const ScheduleLessonDroppable: React.FC<
 > = ({ day, lesson }) => {
   const [{ y }] = useMouse()
 
-  const { getLessonStyle } = useLessonPosition(day)
+  const { getLessonPosition } = useLessonPosition(day)
   const { getLessonRange } = useDroppableLesson()
   const range = getLessonRange({
     day,
@@ -30,7 +30,7 @@ export const ScheduleLessonDroppable: React.FC<
       className="z-15"
       lesson={{ ...lesson, start_time: startTime, end_time: endTime }}
       isDrop
-      style={getLessonStyle(range.startTime, range.endTime)}
+      style={getLessonPosition(range.startTime, range.endTime)}
     />
   )
 }

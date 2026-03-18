@@ -12,7 +12,7 @@ export const ScheduleLesson: React.FC<{
   lesson: ScheduleLessonType
 }> = ({ lesson }) => {
   const { id, start_time, end_time, date, state } = lesson
-  const { getLessonStyle } = useLessonPosition(new Date(date))
+  const { getLessonPosition } = useLessonPosition(new Date(date))
 
   const { ref } = useDraggable({
     id,
@@ -22,7 +22,7 @@ export const ScheduleLesson: React.FC<{
 
   return (
     <Lesson
-      style={getLessonStyle(start_time, end_time)}
+      style={getLessonPosition(start_time, end_time)}
       isActive={state === 'active'}
       isDrag={state === 'drag'}
       lesson={lesson}

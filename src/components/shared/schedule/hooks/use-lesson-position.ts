@@ -42,7 +42,7 @@ export const useLessonPosition = (date: Date) => {
   const toPercent = (minutes: number) =>
     scheduleRange ? (minutes / scheduleRange.totalMinutes) * 100 : 0
 
-  const getLessonStyle = (
+  const getLessonPosition = (
     start_time: string,
     end_time: string
   ): Pick<React.CSSProperties, 'top' | 'height'> => {
@@ -76,5 +76,5 @@ export const useLessonPosition = (date: Date) => {
     }
   }
 
-  return { getLessonStyle }
+  return { getLessonPosition }
 }

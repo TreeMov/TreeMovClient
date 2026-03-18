@@ -10,7 +10,7 @@ import { useMouseEvents, useSchedule } from '../../hooks'
 export const ScheduleLessonResizer: React.FC<
   ScheduleLessonResizerProps
 > = ({ lesson }) => {
-  const { id, date } = lesson
+  const { id, start_time, end_time, date } = lesson
 
   const ref = useRef<HTMLDivElement>(null)
   const { store, contentRef, onChangeHandler } = useSchedule()
@@ -20,11 +20,7 @@ export const ScheduleLessonResizer: React.FC<
     cloneDeep(lesson)
   )
 
-  const { onMouseDown, onMouseUp, onResizeMove } = useMouseEvents(
-    ref,
-    date,
-    lesson
-  )
+  const { onMouseDown, onMouseUp, onResizeMove } = useMouseEvents()
 
   const onMouseDownHandler = () => {
     onMouseDown(() => {
@@ -54,17 +50,22 @@ export const ScheduleLessonResizer: React.FC<
   }
 
   const onResizeMoveHandler = () =>
-    onResizeMove(({ direction, nextTime }) => {
-      if (direction === 'down') {
-        store.updateLesson(id, {
-          end_time: nextTime,
-        })
-      } else if (direction === 'up') {
-        store.updateLesson(id, {
-          start_time: nextTime,
-        })
+    onResizeMove(
+      date,
+      start_time,
+      end_time,
+      ({ direction, nextTime }) => {
+        if (direction === 'down') {
+          store.updateLesson(id, {
+            end_time: nextTime,
+          })
+        } else if (direction === 'up') {
+          store.updateLesson(id, {
+            start_time: nextTime,
+          })
+        }
       }
-    })
+    )
 
   useEventListener(ref, 'mousedown', onMouseDownHandler)
   useEventListener(

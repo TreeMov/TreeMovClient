@@ -1,33 +1,75 @@
-import type { Direction, ScheduleLesson } from '../types'
+import type { Direction } from '../types'
 
-import { format, isAfter, isBefore, isEqual } from 'date-fns'
+import {
+  addMinutes,
+  format,
+  getHours,
+  getMinutes,
+  isAfter,
+  isBefore,
+  isEqual,
+  set,
+} from 'date-fns'
+import { minutesInHour } from 'date-fns/constants'
 import { isNil } from 'lodash-es'
 import { useState } from 'react'
 
 import { fullDateFormat } from '../constants'
 import { combineDateAndTime } from '../helpers'
 
-import { useContentOverlay } from './use-content-overlay'
 import { useSchedule } from './use-schedule'
 
-export const useMouseEvents = (
-  ref: React.RefObject<HTMLDivElement | null>,
-  date: string,
-  lesson: ScheduleLesson
-) => {
-  const { start_time, end_time } = lesson
-
-  const { contentRef } = useSchedule()
+export const useMouseEvents = () => {
+  const {
+    contentRef,
+    config: { segmentSize },
+    hours,
+  } = useSchedule()
   const [direction, setDirection] = useState<Direction | null>(null)
   const [isTransition, setIsTransition] = useState(false)
 
-  const { getMouseDate, getSegmentData } = useContentOverlay()
+  const getSegmentData = (content: HTMLDivElement) => {
+    const contentRect = content.getBoundingClientRect()
+    const cellHeight = contentRect.height / hours.length
 
-  const onMouseDown = (cb?: () => void) => {
-    if (!ref.current) {
+    const segmentsCount = Math.ceil(minutesInHour / segmentSize)
+    const segmentHeight = cellHeight / segmentsCount
+
+    return { segmentsCount, segmentHeight, cellHeight }
+  }
+
+  const getMouseDate = (day: Date, yPosition: number) => {
+    const contentNode = contentRef.current
+    if (!contentNode) {
       return
     }
 
+    const { cellHeight, segmentHeight } = getSegmentData(contentNode)
+    const contentRect = contentNode.getBoundingClientRect()
+    const contentTop = contentRect.top
+
+    const relYPosition = yPosition - contentTop
+    const currCell = Math.floor(relYPosition / cellHeight)
+    const cellPosition = relYPosition - currCell * cellHeight
+
+    const currentSegment = Math.floor(cellPosition / segmentHeight)
+
+    const hour = hours[currCell]
+
+    const lessonDate = addMinutes(
+      set(day, {
+        hours: getHours(hour),
+        minutes: getMinutes(hour),
+        seconds: 0,
+        milliseconds: 0,
+      }),
+      currentSegment * segmentSize
+    )
+
+    return lessonDate
+  }
+
+  const onMouseDown = (cb?: () => void) => {
     document.body.style.cursor = 'n-resize'
 
     setDirection('down')
@@ -42,6 +84,9 @@ export const useMouseEvents = (
 
   const onResizeMove =
     (
+      date: string,
+      start_time: string,
+      end_time: string,
       cb?: (params: {
         direction: Direction | null
         nextTime: string
@@ -100,5 +145,11 @@ export const useMouseEvents = (
       }
     }
 
-  return { onMouseDown, onMouseUp, onResizeMove }
+  return {
+    onMouseDown,
+    onMouseUp,
+    onResizeMove,
+    getMouseDate,
+    getSegmentData,
+  }
 }
