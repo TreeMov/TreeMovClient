@@ -1,4 +1,4 @@
-import type { ScheduleConfig } from '@/components/shared/schedule/types'
+import type { ScheduleConfig } from '@/features/schedule'
 
 export const scheduleConfig: ScheduleConfig = {
   dayFormat: 'cccc d',

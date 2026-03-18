@@ -1,4 +1,3 @@
-import type { OnChangeParams } from '@/components/shared/schedule/types'
 import type { ContentProps } from './types'
 
 import { endOfWeek, format, startOfWeek } from 'date-fns'
@@ -10,12 +9,13 @@ import {
   useLessons,
   useUpdateStudentsLessonsId,
 } from '@/api/generated/core'
-import { Schedule } from '@/components/shared/schedule'
-import { dateFormat } from '@/components/shared/schedule/constants'
 import {
+  dateFormat,
   deserealizeLesson,
   getScheduleHours,
-} from '@/components/shared/schedule/helpers'
+  type OnChangeParams,
+  Schedule,
+} from '@/features/schedule'
 import { getWeekDays } from '@/utils/helpers/dates'
 
 import { scheduleConfig } from '../../constants'
