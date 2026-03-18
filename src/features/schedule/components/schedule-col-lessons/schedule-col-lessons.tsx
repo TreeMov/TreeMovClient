@@ -6,6 +6,7 @@ import { cn } from '@/utils/helpers/shadcn'
 
 import { dateFormat } from '../../constants'
 import { useSchedule } from '../../hooks'
+import { ScheduleGroupObserver } from '../schedule-group-observer'
 import { ScheduleLesson } from '../schedule-lesson'
 import { ScheduleLessonDroppable } from '../schedule-lesson-droppable'
 
@@ -32,7 +33,15 @@ export const ScheduleColLessons: React.FC<
         />
       )}
       {lessons.map((lesson) => (
-        <ScheduleLesson key={lesson.id} lesson={lesson} />
+        <ScheduleGroupObserver
+          key={lesson.id}
+          lessons={lessons}
+          lesson={lesson}
+        >
+          {(group) => (
+            <ScheduleLesson lesson={lesson} group={group} />
+          )}
+        </ScheduleGroupObserver>
       ))}
     </div>
   )

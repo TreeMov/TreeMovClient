@@ -12,7 +12,6 @@ export type ScheduleLessonState =
   | 'normal'
   | 'resize'
   | 'drag'
-  | 'drag-overlay'
   | 'active'
 
 export type ScheduleLessonBaseFields = {

@@ -1,4 +1,4 @@
-import type { ScheduleLesson as ScheduleLessonType } from '../../types'
+import type { ScheduleLessonProps } from './types'
 
 import { useDraggable } from '@dnd-kit/react'
 import React from 'react'
@@ -8,9 +8,10 @@ import { ScheduleLessonResizer } from '../schedule-lesson-resizer'
 import { SchedulePopover } from '../schedule-popover'
 import { Lesson } from '../ui'
 
-export const ScheduleLesson: React.FC<{
-  lesson: ScheduleLessonType
-}> = ({ lesson }) => {
+export const ScheduleLesson: React.FC<ScheduleLessonProps> = ({
+  group,
+  lesson,
+}) => {
   const { id, start_time, end_time, date, state } = lesson
   const { getLessonPosition } = useLessonPosition(new Date(date))
 
@@ -26,6 +27,7 @@ export const ScheduleLesson: React.FC<{
       isActive={state === 'active'}
       isDrag={state === 'drag'}
       lesson={lesson}
+      group={group}
     >
       <div ref={ref} className="absolute top-0 left-0 size-full">
         <SchedulePopover {...lesson}>
