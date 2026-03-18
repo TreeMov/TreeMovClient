@@ -3,8 +3,8 @@ import type { OnSelectHandler } from 'react-day-picker'
 import { format } from 'date-fns'
 import React from 'react'
 
-import { dateFormat } from '@/components/shared/schedule/constants'
 import { CalendarPopover } from '@/components/ui/calendar'
+import { dateFormat } from '@/features/schedule'
 
 import { useFilters } from '../../hooks'
 

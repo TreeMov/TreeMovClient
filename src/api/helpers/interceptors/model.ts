@@ -10,7 +10,7 @@ import {
 
 import { createAxiosInstance } from '@/api/helpers/create-instance'
 import { session, sessionKeys } from '@/api/session'
-import { paths } from '@/router'
+import { ROUTES } from '@/utils/constants/routes-map'
 
 export class Interceptors {
   private refreshPromis: Promise<void> | null = null
@@ -65,7 +65,7 @@ export class Interceptors {
     instance: AxiosInstance
   ) => {
     if (error.response?.status === 401 && session.hasSession()) {
-      window.location.href = paths['sign-in']
+      window.location.href = ROUTES.signIn
       try {
         const { refresh_token } = session.getSessionTokens()
         if (!refresh_token) {
