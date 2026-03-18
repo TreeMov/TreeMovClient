@@ -17,7 +17,11 @@ export const InputOtp = <
 >) => {
   return (
     <FormWrapper {...props}>
-      <InputOTP {...inputProps}>{children}</InputOTP>
+      {({ field }) => (
+        <InputOTP {...inputProps} {...field}>
+          {children}
+        </InputOTP>
+      )}
     </FormWrapper>
   )
 }

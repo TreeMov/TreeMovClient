@@ -1,9 +1,6 @@
 import type { FieldPath, FieldValues } from 'react-hook-form'
 import type { FormWrapperProps } from './types'
 
-import { Slot } from 'radix-ui'
-import React from 'react'
-
 import {
   FormControl,
   FormDescription,
@@ -24,24 +21,20 @@ export const FormWrapper = <
   isRequired,
   description,
   name,
-}: React.PropsWithChildren<
-  FormWrapperProps<TFieldValues, TName>
->) => {
+}: FormWrapperProps<TFieldValues, TName>) => {
   return (
     <FormField
       name={name}
       control={control}
       {...controllerProps}
-      render={({ field }) => (
+      render={(props) => (
         <FormItem>
           <FormLabel
             isRequired={isRequired}
             aria-required={isRequired}
             label={label}
           />
-          <FormControl>
-            <Slot.Root {...field}>{children}</Slot.Root>
-          </FormControl>
+          <FormControl>{children(props)}</FormControl>
           {description && (
             <FormDescription>{description}</FormDescription>
           )}

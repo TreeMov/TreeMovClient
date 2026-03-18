@@ -25,6 +25,7 @@ export const ScheduleCol: React.FC<{ date: Date }> = ({ date }) => {
         addMinutes(endOfHour(lessonDate), 1),
         timeFormat
       ),
+      state: 'normal',
     })
   }
 

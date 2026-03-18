@@ -1,6 +1,6 @@
 import type {
+  OnChangeHandlerParams,
   ScheduleContextType,
-  ScheduleLesson,
   ScheduleProps,
 } from './types'
 
@@ -17,13 +17,13 @@ export const ScheduleProvider: React.FC<
   const contentRef = useRef<HTMLDivElement>(null)
 
   const onChangeHandler = useCallback(
-    async (
-      id: number,
-      data: ScheduleLesson,
-      prevData?: ScheduleLesson
-    ) => {
+    async (params: OnChangeHandlerParams) => {
+      const {
+        dto: { id },
+        prevData,
+      } = params
       try {
-        const nextLessons = await onChange(data)
+        const nextLessons = await onChange(params)
 
         if (!nextLessons) {
           throw new Error()

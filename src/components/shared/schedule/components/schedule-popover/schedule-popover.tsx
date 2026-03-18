@@ -1,48 +1,69 @@
-import type { ScheduleLesson } from '../../types'
+import type { ScheduleLesson, ScheduleLessonRead } from '../../types'
+import type { Schema } from './types'
 
-import React from 'react'
+import { zodResolver } from '@hookform/resolvers/zod'
+import React, { useState } from 'react'
+import { type SubmitHandler } from 'react-hook-form'
 
+import { Combobox } from '@/components/shared/combobox'
+import { Form } from '@/components/shared/form'
+import { Textarea } from '@/components/shared/textarea'
 import { Button } from '@/components/ui/button'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
-import { Select } from '@/components/ui/select'
-import { Textarea } from '@/components/ui/textarea'
+import { createConnectForm } from '@/hocs/create-connect-form'
 
 import { useFormQuery, useSchedule } from '../../hooks'
+
+import { getDefaultValues, mapFormDataFields } from './helpers'
+import { schema } from './schema'
+
+const ConnectForm = createConnectForm<Schema>()
 
 export const SchedulePopover: React.FC<
   React.PropsWithChildren<ScheduleLesson>
 > = ({ children, ...lesson }) => {
-  const {
-    id,
-    type,
-    subject,
-    teacher,
-    classroom,
-    student_group,
-    comment,
-  } = lesson
+  const { id, type } = lesson
+  const [initialState] = useState(lesson.state)
 
   const defaultOpen = type === 'create'
 
   const { store, onChangeHandler } = useSchedule()
 
+  const queryData = useFormQuery()
   const {
     subjects: { data: subjects },
     teachers: { data: teachers },
     classrooms: { data: classrooms },
     studentGroups: { data: studentGroups },
-  } = useFormQuery()
+  } = queryData
 
   const onOpenChange = (open: boolean) => {
     if (open) {
       store.setActiveLesson(id)
     } else {
-      store.clearActiveLesson()
+      store.clearActiveLesson(id, initialState)
     }
+  }
+
+  const onSubmit: SubmitHandler<Schema> = (data) => {
+    const nextLesson: ScheduleLessonRead = {
+      ...lesson,
+      type: 'read',
+      ...mapFormDataFields({ data, queryData }),
+      is_canceled: false,
+      is_completed: false,
+      title: '',
+    }
+    onChangeHandler({
+      type: 'create',
+      dto: nextLesson,
+      prevData: lesson,
+    })
+    store.updateLesson(lesson.id, nextLesson)
   }
 
   return (
@@ -53,77 +74,94 @@ export const SchedulePopover: React.FC<
     >
       <PopoverTrigger asChild>{children}</PopoverTrigger>
       <PopoverContent side="right" align="start">
-        <div className="flex min-w-64 flex-col gap-2">
-          <Select
-            placeholder="Предмет"
-            options={
-              subjects?.map(({ title, id }) => ({
-                value: id,
-                label: title,
-              })) ?? []
-            }
-            defaultValue={`${subject?.id}`}
-            onValueChange={(subject) =>
-              store.updateLesson(id, {
-                subject: { id: +subject, label: 'lalala' },
-              })
-            }
-          />
-          <Select
-            placeholder="Преподаватель"
-            options={
-              teachers?.map(({ employee: { name }, id }) => ({
-                value: id,
-                label: name ?? '',
-              })) ?? []
-            }
-            defaultValue={`${teacher?.id}`}
-            onValueChange={(teacher) =>
-              store.updateLesson(id, {
-                teacher: { id: +teacher, label: 'teacher 111' },
-              })
-            }
-          />
-          <Select
-            placeholder="Аудитория"
-            options={
-              classrooms?.map(({ title, id }) => ({
-                value: id,
-                label: title,
-              })) ?? []
-            }
-            defaultValue={`${classroom?.id}`}
-            onValueChange={(classroom) =>
-              store.updateLesson(id, {
-                classroom: { id: +classroom, label: 'classroom 111' },
-              })
-            }
-          />
-          <Select
-            placeholder="Группы"
-            options={
-              studentGroups?.map(({ title, id }) => ({
-                value: id,
-                label: title,
-              })) ?? []
-            }
-            defaultValue={`${student_group?.id}`}
-            onValueChange={(student_group) =>
-              store.updateLesson(id, {
-                student_group: {
-                  id: +student_group,
-                  label: 'student_group 111',
-                },
-              })
-            }
-          />
-          <Textarea placeholder="Описание" defaultValue={comment} />
-          <div className="flex items-center justify-center">
-            <Button onClick={() => onChangeHandler(id, lesson)}>
-              Сохранить
-            </Button>
+        <Form
+          useFormProps={{
+            resolver: zodResolver(schema),
+            defaultValues: getDefaultValues(lesson),
+          }}
+          onSubmit={onSubmit}
+        >
+          <div className="flex min-w-64 flex-col gap-2">
+            <ConnectForm>
+              {({ control }) => (
+                <Combobox
+                  control={control}
+                  name="subject"
+                  inputProps={{
+                    placeholder: 'Предмет',
+                    options:
+                      subjects?.map(({ title, id }) => ({
+                        value: `${id}`,
+                        label: title,
+                      })) ?? [],
+                  }}
+                />
+              )}
+            </ConnectForm>
+            <ConnectForm>
+              {({ control }) => (
+                <Combobox
+                  control={control}
+                  name="teacher"
+                  inputProps={{
+                    placeholder: 'Преподаватель',
+                    options:
+                      teachers?.map(({ employee: { name }, id }) => ({
+                        value: `${id}`,
+                        label: name ?? '',
+                      })) ?? [],
+                  }}
+                />
+              )}
+            </ConnectForm>
+            <ConnectForm>
+              {({ control }) => (
+                <Combobox
+                  control={control}
+                  name="classroom"
+                  inputProps={{
+                    placeholder: 'Аудитория',
+                    options:
+                      classrooms?.map(({ title, id }) => ({
+                        value: `${id}`,
+                        label: title,
+                      })) ?? [],
+                  }}
+                />
+              )}
+            </ConnectForm>
+            <ConnectForm>
+              {({ control }) => (
+                <Combobox
+                  control={control}
+                  name="student_group"
+                  inputProps={{
+                    placeholder: 'Группы',
+                    options:
+                      studentGroups?.map(({ title, id }) => ({
+                        value: `${id}`,
+                        label: title,
+                      })) ?? [],
+                  }}
+                />
+              )}
+            </ConnectForm>
+
+            <ConnectForm>
+              {({ control }) => (
+                <Textarea
+                  control={control}
+                  name="comment"
+                  inputProps={{ placeholder: 'Описание' }}
+                />
+              )}
+            </ConnectForm>
+
+            <div className="flex items-center justify-center">
+              <Button>Сохранить</Button>
+            </div>
           </div>
-        </div>
+        </Form>
       </PopoverContent>
     </Popover>
   )

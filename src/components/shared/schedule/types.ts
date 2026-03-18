@@ -1,5 +1,5 @@
 import type { LessonModelRead } from '@/api/generated/core'
-import type { Prettify, UndefinedFields } from '@/types/utility'
+import type { Prettify } from '@/types/utility'
 import type { Store } from './store'
 
 export type ScheduleConfig = {
@@ -7,7 +7,22 @@ export type ScheduleConfig = {
   segmentSize: number
 }
 
-export type ScheduleLessonType = 'resize' | 'create' | 'read'
+export type ScheduleLessonType = 'create' | 'read'
+export type ScheduleLessonState =
+  | 'normal'
+  | 'resize'
+  | 'drag'
+  | 'drag-overlay'
+  | 'active'
+
+export type ScheduleLessonBaseFields = {
+  id: number
+  start_time: string
+  end_time: string
+  date: string
+  color: string
+  state: ScheduleLessonState
+}
 
 export type ScheduleField = {
   id: number
@@ -15,31 +30,27 @@ export type ScheduleField = {
 }
 
 export type ScheduleLessonFormFields = {
-  comment: string
+  subject: ScheduleField
   teacher: ScheduleField
   classroom: ScheduleField
   student_group: ScheduleField
-  subject: ScheduleField
+  comment: string
 }
 
 export type ScheduleLessonFields = Prettify<
-  UndefinedFields<ScheduleLessonFormFields> & {
-    id: number
-    title: string
-    start_time: string
-    end_time: string
-    date: string
-    is_canceled: boolean
-    is_completed: boolean
-    color: string
-  }
+  ScheduleLessonFormFields &
+    ScheduleLessonBaseFields & {
+      title: string
+      is_completed: boolean
+      is_canceled: boolean
+    }
 >
 
 export type ScheduleLessonBase = ScheduleLessonFields & {
   type: ScheduleLessonType
 }
 
-export type ScheduleLessonCreate = ScheduleLessonBase & {
+export type ScheduleLessonCreate = ScheduleLessonBaseFields & {
   type: 'create'
 }
 
@@ -47,33 +58,32 @@ export type ScheduleLessonRead = ScheduleLessonBase & {
   type: 'read'
 }
 
-export type ScheduleLessonResize = ScheduleLessonBase & {
-  type: 'resize'
-}
+export type ScheduleLesson = ScheduleLessonCreate | ScheduleLessonRead
 
-export type ScheduleLesson =
-  | ScheduleLessonCreate
-  | ScheduleLessonRead
-  | ScheduleLessonResize
+export type OnChangeParams = {
+  type: ScheduleLessonType
+  dto: ScheduleLessonRead
+}
 
 export type ScheduleProps = {
   config: ScheduleConfig
   lessons: LessonModelRead[]
   days: Date[]
   hours: Date[]
+  isLoading?: boolean
   onChange: (
-    data: ScheduleLesson
+    params: OnChangeParams
   ) => Promise<LessonModelRead[] | undefined>
+}
+
+export type OnChangeHandlerParams = OnChangeParams & {
+  prevData: ScheduleLesson
 }
 
 export type ScheduleContextType = Omit<ScheduleProps, 'onChange'> & {
   store: Store
   contentRef: React.RefObject<HTMLDivElement | null>
-  onChangeHandler: (
-    id: number,
-    data: ScheduleLesson,
-    prevData?: ScheduleLesson
-  ) => Promise<void>
+  onChangeHandler: (params: OnChangeHandlerParams) => Promise<void>
 }
 
 export type Direction = 'down' | 'up'
