@@ -27,7 +27,7 @@ export function mountSvgSprite(
   parent?: HTMLElement | null
 ) {
   if (typeof window === 'undefined') return
-
+  // eslint-disable-next-line no-param-reassign
   parent ??= window.document.body
 
   if (parent.ownerDocument.readyState === 'loading') {
