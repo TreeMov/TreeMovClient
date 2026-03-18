@@ -1,9 +1,9 @@
-import type { useFormQuery } from '../../hooks'
+import type { useFormQuery } from '../../../hooks'
 import type {
   ScheduleField,
   ScheduleLesson,
   ScheduleLessonFormFields,
-} from '../../types'
+} from '../../../types'
 import type { Schema } from './types'
 
 const mapField = (field: ScheduleField | null): string =>
