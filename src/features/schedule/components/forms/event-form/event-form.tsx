@@ -1,5 +1,5 @@
 import type { SubmitHandler } from 'react-hook-form'
-import type { ScheduleLesson } from '../../../types'
+import type { ScheduleEvent } from '../../../types'
 import type { Schema } from './types'
 
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -14,7 +14,7 @@ import { schema } from './schema'
 
 const ConnectForm = createConnectForm<Schema>()
 
-export const EventForm: React.FC<ScheduleLesson> = (lesson) => {
+export const EventForm: React.FC<ScheduleEvent> = (event) => {
   const onSubmit: SubmitHandler<Schema> = (data) => {
     // todo сделать создание мероприятия
     // eslint-disable-next-line no-console
@@ -26,7 +26,7 @@ export const EventForm: React.FC<ScheduleLesson> = (lesson) => {
       useFormProps={{
         resolver: zodResolver(schema),
         defaultValues: {
-          title: lesson.type === 'read' ? lesson.title : '',
+          title: event.type === 'read' ? event.title : '',
         },
       }}
       onSubmit={onSubmit}

@@ -1,4 +1,4 @@
-import type { ScheduleLesson } from '../../types'
+import type { ScheduleEvent } from '../../types'
 import type { ScheduleGroupObserverProps } from './types'
 
 import { isAfter, isBefore } from 'date-fns'
@@ -8,21 +8,21 @@ import { combineDateAndTime } from '../../helpers'
 
 export const ScheduleGroupObserver: React.FC<
   ScheduleGroupObserverProps
-> = ({ lessons, lesson, children }) => {
-  const group = useMemo<ScheduleLesson[]>(
+> = ({ events, event, children }) => {
+  const group = useMemo<ScheduleEvent[]>(
     () =>
-      lessons.filter(
+      events.filter(
         ({ date, start_time, end_time }) =>
           isBefore(
             combineDateAndTime(date, start_time),
-            combineDateAndTime(lesson.date, lesson.start_time)
+            combineDateAndTime(event.date, event.start_time)
           ) &&
           isAfter(
             combineDateAndTime(date, end_time),
-            combineDateAndTime(lesson.date, lesson.start_time)
+            combineDateAndTime(event.date, event.start_time)
           )
       ),
-    [lesson.date, lesson.start_time, lessons]
+    [event.date, event.start_time, events]
   )
 
   return children(group.length)

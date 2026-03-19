@@ -1,3 +1,4 @@
+import type { RefObject } from 'react'
 import type { LessonModelRead } from '@/api/generated/core'
 import type { Prettify } from '@/types/utility'
 import type { Store } from './store'
@@ -8,20 +9,20 @@ export type ScheduleConfig = {
 }
 
 export type ScheduleChangeType = 'create' | 'update'
-export type ScheduleLessonType = 'create' | 'read'
-export type ScheduleLessonState =
+export type ScheduleEventType = 'create' | 'read'
+export type ScheduleEventState =
   | 'normal'
   | 'resize'
   | 'drag'
   | 'active'
 
-export type ScheduleLessonBaseFields = {
+export type ScheduleEventBaseFields = {
   id: number
   start_time: string
   end_time: string
   date: string
   color: string
-  state: ScheduleLessonState
+  state: ScheduleEventState
 }
 
 export type ScheduleField = {
@@ -37,32 +38,32 @@ export type ScheduleLessonFormFields = {
   comment: string
 }
 
-export type ScheduleLessonFields = Prettify<
+export type ScheduleEventFields = Prettify<
   ScheduleLessonFormFields &
-    ScheduleLessonBaseFields & {
+    ScheduleEventBaseFields & {
       title: string
       is_completed: boolean
       is_canceled: boolean
     }
 >
 
-export type ScheduleLessonBase = ScheduleLessonFields & {
-  type: ScheduleLessonType
+export type ScheduleEventBase = ScheduleEventFields & {
+  type: ScheduleEventType
 }
 
-export type ScheduleLessonCreate = ScheduleLessonBaseFields & {
+export type ScheduleEventCreate = ScheduleEventBaseFields & {
   type: 'create'
 }
 
-export type ScheduleLessonRead = ScheduleLessonBase & {
+export type ScheduleEventRead = ScheduleEventBase & {
   type: 'read'
 }
 
-export type ScheduleLesson = ScheduleLessonCreate | ScheduleLessonRead
+export type ScheduleEvent = ScheduleEventCreate | ScheduleEventRead
 
 export type OnChangeParams = {
   type: ScheduleChangeType
-  dto: ScheduleLessonRead
+  dto: ScheduleEventRead
 }
 
 export type OnDeleteParams = {
@@ -72,7 +73,7 @@ export type OnDeleteParams = {
 
 export type ScheduleProps = {
   config: ScheduleConfig
-  lessons: LessonModelRead[]
+  events: LessonModelRead[]
   days: Date[]
   hours: Date[]
   isLoading?: boolean
@@ -85,7 +86,7 @@ export type ScheduleProps = {
 }
 
 export type OnChangeHandlerParams = OnChangeParams & {
-  prevData: ScheduleLesson
+  prevData: ScheduleEvent
 }
 
 export type ScheduleContextType = Omit<
@@ -93,7 +94,7 @@ export type ScheduleContextType = Omit<
   'onChange' | 'onDelete'
 > & {
   store: Store
-  contentRef: React.RefObject<HTMLDivElement | null>
+  contentRef: RefObject<HTMLDivElement | null>
   onChangeHandler: (params: OnChangeHandlerParams) => Promise<void>
   onDeleteHandler: (params: OnDeleteParams) => Promise<void>
 }

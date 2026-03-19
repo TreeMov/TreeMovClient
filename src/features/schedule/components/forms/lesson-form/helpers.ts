@@ -1,7 +1,7 @@
 import type { useFormQuery } from '../../../hooks'
 import type {
+  ScheduleEvent,
   ScheduleField,
-  ScheduleLesson,
   ScheduleLessonFormFields,
 } from '../../../types'
 import type { Schema } from './types'
@@ -9,8 +9,8 @@ import type { Schema } from './types'
 const mapField = (field: ScheduleField | null): string =>
   field?.id ? `${field.id}` : ''
 
-export const getDefaultValues = (lesson: ScheduleLesson): Schema => {
-  if (lesson.type === 'create') {
+export const getDefaultValues = (event: ScheduleEvent): Schema => {
+  if (event.type === 'create') {
     return {
       subject: '',
       teacher: '',
@@ -21,7 +21,7 @@ export const getDefaultValues = (lesson: ScheduleLesson): Schema => {
   }
 
   const { subject, teacher, classroom, student_group, comment } =
-    lesson
+    event
   return {
     subject: mapField(subject),
     teacher: mapField(teacher),

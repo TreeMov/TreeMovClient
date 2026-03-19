@@ -1,4 +1,4 @@
-import type { ScheduleLesson } from '../../types'
+import type { ScheduleEvent } from '../../types'
 
 import {
   PointerActivationConstraints,
@@ -10,7 +10,7 @@ import React from 'react'
 
 import { combineDateAndTime } from '../../helpers'
 import {
-  useDroppableLesson,
+  useDroppableEvent,
   useMouseEvents,
   useSchedule,
 } from '../../hooks'
@@ -32,7 +32,7 @@ export const ScheduleDndProvider: React.FC<
     onChangeHandler,
   } = useSchedule()
   const { getMouseDate } = useMouseEvents()
-  const { getLessonRange } = useDroppableLesson()
+  const { getEventRange } = useDroppableEvent()
 
   const sensors = [
     PointerSensor.configure({
@@ -50,20 +50,20 @@ export const ScheduleDndProvider: React.FC<
       return
     }
 
-    const lesson = source.data as ScheduleLesson
-    const { date, start_time } = lesson
+    const event = source.data as ScheduleEvent
+    const { date, start_time } = event
 
-    const event =
+    const ev =
       nativeEvent as unknown as React.PointerEvent<HTMLDivElement>
 
-    const clickedData = getMouseDate(new Date(date), event.clientY)
+    const clickedData = getMouseDate(new Date(date), ev.clientY)
     if (clickedData) {
       const diff = differenceInMinutes(
         clickedData,
         combineDateAndTime(date, start_time)
       )
       const clickedSegment = Math.ceil(diff / segmentSize)
-      store.startDrag(lesson, clickedSegment)
+      store.startDrag(event, clickedSegment)
     }
   }
 
@@ -71,39 +71,39 @@ export const ScheduleDndProvider: React.FC<
     nativeEvent,
     operation: { target },
   }: OnDragEndProps) => {
-    if (!store.dragLesson || !target) {
+    if (!store.dragEvent || !target) {
       return
     }
 
     const event =
       nativeEvent as unknown as React.PointerEvent<HTMLDivElement>
-    const range = getLessonRange({
+    const range = getEventRange({
       day: new Date(target?.id),
       y: event.clientY,
-      start_time: store.dragLesson?.start_time,
-      end_time: store.dragLesson?.end_time,
+      start_time: store.dragEvent?.start_time,
+      end_time: store.dragEvent?.end_time,
     })
     if (!range) {
       return
     }
 
     const { startTime, endTime } = range
-    const nextLesson = {
-      ...store.dragLesson,
+    const nextEvent = {
+      ...store.dragEvent,
       date: target.id as string,
       start_time: startTime,
       end_time: endTime,
     }
-    store.updateLesson(nextLesson.id, nextLesson)
-    if (nextLesson.type !== 'create') {
+    store.updateEvent(nextEvent.id, nextEvent)
+    if (nextEvent.type !== 'create') {
       onChangeHandler({
         type: 'update',
-        dto: nextLesson,
-        prevData: store.dragLesson,
+        dto: nextEvent,
+        prevData: store.dragEvent,
       })
     }
 
-    store.endDrag(nextLesson.id)
+    store.endDrag(nextEvent.id)
   }
 
   return (

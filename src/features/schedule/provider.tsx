@@ -24,19 +24,19 @@ export const ScheduleProvider: React.FC<
         prevData,
       } = params
       try {
-        const nextLessons = await onChange(params)
+        const nextEvents = await onChange(params)
 
-        if (!nextLessons) {
+        if (!nextEvents) {
           throw new Error()
         }
 
-        store.deleteLesson(id)
-        store.syncLessons(nextLessons)
+        store.deleteEvent(id)
+        store.syncEvents(nextEvents)
       } catch {
         if (prevData) {
-          store.updateLesson(id, prevData)
+          store.updateEvent(id, prevData)
         } else {
-          store.deleteLesson(id)
+          store.deleteEvent(id)
         }
       }
     },
@@ -46,13 +46,13 @@ export const ScheduleProvider: React.FC<
   const onDeleteHandler = useCallback(
     async (params: OnDeleteParams) => {
       try {
-        const nextLessons = await onDelete(params)
+        const nextEvents = await onDelete(params)
 
         const { id, type } = params
-        if (nextLessons) {
-          store.syncLessons(nextLessons)
+        if (nextEvents) {
+          store.syncEvents(nextEvents)
         } else if (type === 'create') {
-          store.deleteLesson(id)
+          store.deleteEvent(id)
         }
       } catch (error) {
         // eslint-disable-next-line no-console

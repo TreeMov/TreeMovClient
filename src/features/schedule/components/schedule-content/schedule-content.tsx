@@ -5,19 +5,18 @@ import { Spinner } from '@/components/ui/spinner'
 
 import { useSchedule } from '../../hooks'
 import { ScheduleCol } from '../schedule-col'
-import { ScheduleColLessons } from '../schedule-col-lessons'
+import { ScheduleColEvents } from '../schedule-col-events'
 import { ScheduleContentWrapper } from '../schedule-content-wrapper'
 import { ScheduleDndProvider } from '../schedule-dnd-provider'
 import { ScheduleHeader } from '../schedule-header'
 import { ScheduleHoursCol } from '../schedule-hours-col'
 
 export const ScheduleContent: React.FC = () => {
-  const { store, lessons, contentRef, days, isLoading } =
-    useSchedule()
+  const { store, events, contentRef, days, isLoading } = useSchedule()
 
   useEffect(() => {
-    store.syncLessons(lessons)
-  }, [lessons, store])
+    store.syncEvents(events)
+  }, [events, store])
 
   return (
     <ScheduleContentWrapper>
@@ -27,13 +26,13 @@ export const ScheduleContent: React.FC = () => {
         <ScheduleDndProvider>
           <div ref={contentRef} className="relative grid grid-cols-7">
             {days.map((day) => (
-              <ScheduleColLessons
+              <ScheduleColEvents
                 key={day.getTime()}
                 className="not-last:border-grey-200 not-last:border-r"
                 day={day}
               >
                 <ScheduleCol date={day} />
-              </ScheduleColLessons>
+              </ScheduleColEvents>
             ))}
           </div>
           <DragOverlay dropAnimation={null}>{null}</DragOverlay>

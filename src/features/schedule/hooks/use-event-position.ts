@@ -12,7 +12,7 @@ import { combineDateAndTime } from '../helpers'
 
 import { useSchedule } from './use-schedule'
 
-export const useLessonPosition = (date: Date) => {
+export const useEventPosition = (date: Date) => {
   const { hours } = useSchedule()
 
   const scheduleRange = useMemo(() => {
@@ -42,7 +42,7 @@ export const useLessonPosition = (date: Date) => {
   const toPercent = (minutes: number) =>
     scheduleRange ? (minutes / scheduleRange.totalMinutes) * 100 : 0
 
-  const getLessonPosition = (
+  const getEventPosition = (
     start_time: string,
     end_time: string
   ): Pick<React.CSSProperties, 'top' | 'height'> => {
@@ -50,22 +50,22 @@ export const useLessonPosition = (date: Date) => {
       return { top: '0%', height: '0%' }
     }
 
-    const lessonStart = combineDateAndTime(date, start_time)
-    const lessonEnd = combineDateAndTime(date, end_time)
+    const eventStart = combineDateAndTime(date, start_time)
+    const eventEnd = combineDateAndTime(date, end_time)
     const visibleStart = max([
-      lessonStart,
+      eventStart,
       scheduleRange.scheduleStart,
     ])
-    const visibleEnd = min([lessonEnd, scheduleRange.scheduleEnd])
-    const lessonOffsetMinutes = differenceInMinutes(
-      lessonStart,
+    const visibleEnd = min([eventEnd, scheduleRange.scheduleEnd])
+    const eventOffsetMinutes = differenceInMinutes(
+      eventStart,
       scheduleRange.scheduleStart
     )
     const visibleDurationMinutes = Math.max(
       differenceInMinutes(visibleEnd, visibleStart),
       0
     )
-    const topPercent = clampPercent(toPercent(lessonOffsetMinutes))
+    const topPercent = clampPercent(toPercent(eventOffsetMinutes))
     const heightPercent = clampPercent(
       toPercent(visibleDurationMinutes)
     )
@@ -76,5 +76,5 @@ export const useLessonPosition = (date: Date) => {
     }
   }
 
-  return { getLessonPosition }
+  return { getEventPosition }
 }

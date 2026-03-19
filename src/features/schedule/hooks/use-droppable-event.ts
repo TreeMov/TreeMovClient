@@ -12,26 +12,26 @@ import { combineDateAndTime } from '../helpers'
 import { useMouseEvents } from './use-mouse-events'
 import { useSchedule } from './use-schedule'
 
-type GetLessonRangeParams = {
+type GetEventRangeParams = {
   day: Date
   y: number
   start_time: string
   end_time: string
 }
 
-export const useDroppableLesson = () => {
+export const useDroppableEvent = () => {
   const {
     store,
     config: { segmentSize },
   } = useSchedule()
   const { getMouseDate } = useMouseEvents()
 
-  const getLessonRange = ({
+  const getEventRange = ({
     day,
     y,
     start_time,
     end_time,
-  }: GetLessonRangeParams) => {
+  }: GetEventRangeParams) => {
     const date = getMouseDate(day, y)
     if (!isValid(date)) {
       return null
@@ -56,5 +56,5 @@ export const useDroppableLesson = () => {
     return { startTime, endTime }
   }
 
-  return { getLessonRange }
+  return { getEventRange }
 }

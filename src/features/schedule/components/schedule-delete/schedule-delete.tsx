@@ -1,4 +1,4 @@
-import type { ScheduleLessonType } from '../../types'
+import type { ScheduleEventType } from '../../types'
 
 import { Trash } from 'lucide-react'
 import React, { useState } from 'react'
@@ -8,7 +8,7 @@ import { useSchedule } from '../../hooks'
 
 export const ScheduleDelete: React.FC<{
   id: number
-  type: ScheduleLessonType
+  type: ScheduleEventType
 }> = ({ id, type }) => {
   const { onDeleteHandler } = useSchedule()
 

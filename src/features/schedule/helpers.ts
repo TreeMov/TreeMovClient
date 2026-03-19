@@ -3,8 +3,8 @@ import type {
   LessonModelRead,
 } from '@/api/generated/core'
 import type {
+  ScheduleEventRead,
   ScheduleLessonFormFields,
-  ScheduleLessonRead,
 } from './types'
 
 import { addHours, format, parse, set, startOfToday } from 'date-fns'
@@ -23,7 +23,7 @@ export const getSerializedTime = (time: string) =>
   time.split(':').slice(0, 2).join(':')
 
 // todo убрать плейсхолдеры
-export const serializeLessonFields = ({
+export const serializeEventsFields = ({
   teacher,
   classroom,
   student_group,
@@ -40,29 +40,29 @@ export const serializeLessonFields = ({
   comment: comment ?? '',
 })
 
-export const serializeLesson = ({
+export const serializeEvent = ({
   start_time,
   end_time,
-  ...lesson
-}: LessonModelRead): ScheduleLessonRead => ({
-  ...lesson,
+  ...event
+}: LessonModelRead): ScheduleEventRead => ({
+  ...event,
   type: 'read',
   state: 'normal',
   start_time: getSerializedTime(start_time),
   end_time: getSerializedTime(end_time),
-  color: lesson.subject.color,
-  ...serializeLessonFields(lesson),
+  color: event.subject.color,
+  ...serializeEventsFields(event),
 })
 
 // todo убрать плейсхолдеры
-export const deserealizeLesson = ({
+export const deserealizeEvent = ({
   teacher,
   classroom,
   student_group,
   subject,
-  ...lesson
-}: ScheduleLessonRead): LessonModelCreate => ({
-  ...lesson,
+  ...event
+}: ScheduleEventRead): LessonModelCreate => ({
+  ...event,
   teacher_id: teacher.id,
   classroom_id: classroom.id,
   student_group_id: student_group.id,

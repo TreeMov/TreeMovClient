@@ -1,4 +1,4 @@
-import type { ScheduleLessonResizerProps } from './types'
+import type { ScheduleEventResizerProps } from './types'
 
 import { cloneDeep, isEqual as isEqualObjects } from 'lodash-es'
 import React, { useRef, useState } from 'react'
@@ -7,43 +7,41 @@ import { useEventListener } from '@/hooks/use-event-listener'
 
 import { useMouseEvents, useSchedule } from '../../hooks'
 
-export const ScheduleLessonResizer: React.FC<
-  ScheduleLessonResizerProps
-> = ({ lesson }) => {
-  const { id, start_time, end_time, date } = lesson
+export const ScheduleEventResizer: React.FC<
+  ScheduleEventResizerProps
+> = ({ event }) => {
+  const { id, start_time, end_time, date } = event
 
   const ref = useRef<HTMLDivElement>(null)
   const { store, contentRef, onChangeHandler } = useSchedule()
   const [isResizeMoveEnabled, setIsResizeMoveEnabled] =
     useState(false)
-  const [initialLesson, setInitialLesson] = useState(
-    cloneDeep(lesson)
-  )
+  const [initialEvent, setInitialEvent] = useState(cloneDeep(event))
 
   const { onMouseDown, onMouseUp, onResizeMove } = useMouseEvents()
 
   const onMouseDownHandler = () => {
     onMouseDown(() => {
-      setInitialLesson(cloneDeep(lesson))
+      setInitialEvent(cloneDeep(event))
       setIsResizeMoveEnabled(true)
-      store.setLessonState(id, 'resize')
+      store.setEventState(id, 'resize')
     })
   }
 
   const onMouseUpHandler = () => {
     onMouseUp(() => {
       setIsResizeMoveEnabled(false)
-      store.setLessonState(id, initialLesson.state)
+      store.setEventState(id, initialEvent.state)
 
-      if (lesson.type === 'create') {
+      if (event.type === 'create') {
         return
       }
 
-      if (!isEqualObjects(initialLesson, lesson)) {
+      if (!isEqualObjects(initialEvent, event)) {
         onChangeHandler({
           type: 'update',
-          dto: lesson,
-          prevData: initialLesson,
+          dto: event,
+          prevData: initialEvent,
         })
       }
     })
@@ -56,11 +54,11 @@ export const ScheduleLessonResizer: React.FC<
       end_time,
       ({ direction, nextTime }) => {
         if (direction === 'down') {
-          store.updateLesson(id, {
+          store.updateEvent(id, {
             end_time: nextTime,
           })
         } else if (direction === 'up') {
-          store.updateLesson(id, {
+          store.updateEvent(id, {
             start_time: nextTime,
           })
         }

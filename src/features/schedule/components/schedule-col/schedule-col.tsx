@@ -12,17 +12,17 @@ export const ScheduleCol: React.FC<{ date: Date }> = ({ date }) => {
   const onMouseDown = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
-    const lessonDate = getMouseDate(date, e.clientY)
+    const eventDate = getMouseDate(date, e.clientY)
 
-    if (!lessonDate) {
+    if (!eventDate) {
       return
     }
 
-    store.createLesson({
-      date: format(lessonDate, dateFormat),
-      start_time: format(startOfHour(lessonDate), timeFormat),
+    store.createEvent({
+      date: format(eventDate, dateFormat),
+      start_time: format(startOfHour(eventDate), timeFormat),
       end_time: format(
-        addMinutes(endOfHour(lessonDate), 1),
+        addMinutes(endOfHour(eventDate), 1),
         timeFormat
       ),
       state: 'normal',

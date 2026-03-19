@@ -1,5 +1,5 @@
 export * from './use-schedule'
-export * from './use-lesson-position'
+export * from './use-event-position'
 export * from './use-mouse-events'
 export * from './use-form-query'
-export * from './use-droppable-lesson'
+export * from './use-droppable-event'

@@ -12,7 +12,7 @@ import {
 } from '@/api/generated/core'
 import {
   dateFormat,
-  deserealizeLesson,
+  deserealizeEvent,
   getScheduleHours,
   type OnChangeParams,
   type OnDeleteParams,
@@ -23,11 +23,11 @@ import { getWeekDays } from '@/utils/helpers/dates'
 import { scheduleConfig } from '../../constants'
 
 export const Content: React.FC<ContentProps> = ({ date }) => {
-  const { mutateAsync: deleteLesson } = useLessons2()
-  const { mutateAsync: updateLesson } = useUpdateStudentsLessonsId()
-  const { mutateAsync: createLesson } = useCreateLessons()
+  const { mutateAsync: deleteEvent } = useLessons2()
+  const { mutateAsync: updateEvent } = useUpdateStudentsLessonsId()
+  const { mutateAsync: createEvent } = useCreateLessons()
   const {
-    data: lessons,
+    data: events,
     isPending,
     refetch,
   } = useLessons({
@@ -41,17 +41,17 @@ export const Content: React.FC<ContentProps> = ({ date }) => {
   }: OnChangeParams): Promise<LessonModelRead[] | undefined> => {
     switch (type) {
       case 'update':
-        await updateLesson({
+        await updateEvent({
           id: dto.id,
           data: {
             ...dto,
-            ...deserealizeLesson(dto),
+            ...deserealizeEvent(dto),
           },
         })
         break
       case 'create':
-        await createLesson({
-          data: deserealizeLesson(dto),
+        await createEvent({
+          data: deserealizeEvent(dto),
         })
         break
     }
@@ -61,7 +61,7 @@ export const Content: React.FC<ContentProps> = ({ date }) => {
 
   const onDelete = async ({ type, id }: OnDeleteParams) => {
     if (type === 'update') {
-      await deleteLesson({ params: { id } })
+      await deleteEvent({ params: { id } })
       const { data } = await refetch()
       return data
     }
@@ -70,7 +70,7 @@ export const Content: React.FC<ContentProps> = ({ date }) => {
   return (
     <Schedule
       config={scheduleConfig}
-      lessons={lessons ?? []}
+      events={events ?? []}
       isLoading={isPending}
       days={getWeekDays(new Date(date))}
       hours={getScheduleHours()}
