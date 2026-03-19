@@ -7,6 +7,7 @@ import {
   type LessonModelRead,
   useCreateLessons,
   useLessons,
+  useLessons2,
   useUpdateStudentsLessonsId,
 } from '@/api/generated/core'
 import {
@@ -14,6 +15,7 @@ import {
   deserealizeLesson,
   getScheduleHours,
   type OnChangeParams,
+  type OnDeleteParams,
   Schedule,
 } from '@/features/schedule'
 import { getWeekDays } from '@/utils/helpers/dates'
@@ -21,6 +23,7 @@ import { getWeekDays } from '@/utils/helpers/dates'
 import { scheduleConfig } from '../../constants'
 
 export const Content: React.FC<ContentProps> = ({ date }) => {
+  const { mutateAsync: deleteLesson } = useLessons2()
   const { mutateAsync: updateLesson } = useUpdateStudentsLessonsId()
   const { mutateAsync: createLesson } = useCreateLessons()
   const {
@@ -37,7 +40,7 @@ export const Content: React.FC<ContentProps> = ({ date }) => {
     type,
   }: OnChangeParams): Promise<LessonModelRead[] | undefined> => {
     switch (type) {
-      case 'read':
+      case 'update':
         await updateLesson({
           id: dto.id,
           data: {
@@ -56,14 +59,23 @@ export const Content: React.FC<ContentProps> = ({ date }) => {
     return data
   }
 
+  const onDelete = async ({ type, id }: OnDeleteParams) => {
+    if (type === 'update') {
+      await deleteLesson({ params: { id } })
+      const { data } = await refetch()
+      return data
+    }
+  }
+
   return (
     <Schedule
       config={scheduleConfig}
       lessons={lessons ?? []}
       isLoading={isPending}
-      onChange={onChange}
       days={getWeekDays(new Date(date))}
       hours={getScheduleHours()}
+      onChange={onChange}
+      onDelete={onDelete}
     />
   )
 }

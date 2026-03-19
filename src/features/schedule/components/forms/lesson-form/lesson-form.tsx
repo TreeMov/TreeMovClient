@@ -33,6 +33,7 @@ export const LessonForm: React.FC<ScheduleLesson> = (lesson) => {
   } = queryData
 
   const onSubmit: SubmitHandler<Schema> = (data) => {
+    const { type } = lesson
     const nextLesson: ScheduleLessonRead = {
       ...lesson,
       type: 'read',
@@ -41,11 +42,22 @@ export const LessonForm: React.FC<ScheduleLesson> = (lesson) => {
       is_completed: false,
       title: '',
     }
-    onChangeHandler({
-      type: 'create',
-      dto: nextLesson,
-      prevData: lesson,
-    })
+    switch (type) {
+      case 'create':
+        onChangeHandler({
+          type: 'create',
+          dto: nextLesson,
+          prevData: lesson,
+        })
+        break
+      case 'read':
+        onChangeHandler({
+          type: 'update',
+          dto: nextLesson,
+          prevData: lesson,
+        })
+        break
+    }
     store.updateLesson(lesson.id, nextLesson)
   }
 

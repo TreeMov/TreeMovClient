@@ -17,6 +17,7 @@ import {
 
 import { useSchedule } from '../../hooks'
 import { EventForm, LessonForm } from '../forms'
+import { ScheduleDelete } from '../schedule-delete'
 
 import { TabsEnum, tabsOptions } from './constants'
 
@@ -49,12 +50,15 @@ export const SchedulePopover: React.FC<
         align="start"
         className="min-w-118 shadow-2xl"
       >
-        <button
-          className="absolute top-6 right-6 flex size-6 cursor-pointer items-center justify-center"
-          onClick={() => setOpen(false)}
-        >
-          <X />
-        </button>
+        <div className="mb-4 flex items-center justify-end gap-3">
+          <ScheduleDelete id={id} type={type} />
+          <button
+            className="flex size-6 cursor-pointer items-center justify-center"
+            onClick={() => setOpen(false)}
+          >
+            <X />
+          </button>
+        </div>
         <Tabs defaultValue={TabsEnum.LESSON}>
           <TabsList className="mb-6 flex w-full items-center justify-center gap-3">
             {tabsOptions.map(({ value, label }) => (

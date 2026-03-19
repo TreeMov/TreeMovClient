@@ -41,7 +41,7 @@ export const ScheduleLessonResizer: React.FC<
 
       if (!isEqualObjects(initialLesson, lesson)) {
         onChangeHandler({
-          type: 'read',
+          type: 'update',
           dto: lesson,
           prevData: initialLesson,
         })

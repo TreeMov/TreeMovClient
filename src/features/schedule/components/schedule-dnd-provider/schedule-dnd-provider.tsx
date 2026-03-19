@@ -97,7 +97,7 @@ export const ScheduleDndProvider: React.FC<
     store.updateLesson(nextLesson.id, nextLesson)
     if (nextLesson.type !== 'create') {
       onChangeHandler({
-        type: 'read',
+        type: 'update',
         dto: nextLesson,
         prevData: store.dragLesson,
       })

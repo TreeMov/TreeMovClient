@@ -7,6 +7,7 @@ export type ScheduleConfig = {
   segmentSize: number
 }
 
+export type ScheduleChangeType = 'create' | 'update'
 export type ScheduleLessonType = 'create' | 'read'
 export type ScheduleLessonState =
   | 'normal'
@@ -60,8 +61,13 @@ export type ScheduleLessonRead = ScheduleLessonBase & {
 export type ScheduleLesson = ScheduleLessonCreate | ScheduleLessonRead
 
 export type OnChangeParams = {
-  type: ScheduleLessonType
+  type: ScheduleChangeType
   dto: ScheduleLessonRead
+}
+
+export type OnDeleteParams = {
+  type: ScheduleChangeType
+  id: number
 }
 
 export type ScheduleProps = {
@@ -73,16 +79,23 @@ export type ScheduleProps = {
   onChange: (
     params: OnChangeParams
   ) => Promise<LessonModelRead[] | undefined>
+  onDelete: (
+    params: OnDeleteParams
+  ) => Promise<LessonModelRead[] | undefined>
 }
 
 export type OnChangeHandlerParams = OnChangeParams & {
   prevData: ScheduleLesson
 }
 
-export type ScheduleContextType = Omit<ScheduleProps, 'onChange'> & {
+export type ScheduleContextType = Omit<
+  ScheduleProps,
+  'onChange' | 'onDelete'
+> & {
   store: Store
   contentRef: React.RefObject<HTMLDivElement | null>
   onChangeHandler: (params: OnChangeHandlerParams) => Promise<void>
+  onDeleteHandler: (params: OnDeleteParams) => Promise<void>
 }
 
 export type Direction = 'down' | 'up'
