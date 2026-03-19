@@ -1,8 +1,5 @@
 import type { SubmitHandler } from 'react-hook-form'
-import type {
-  ScheduleLesson,
-  ScheduleLessonRead,
-} from '../../../types'
+import type { ScheduleEvent, ScheduleEventRead } from '../../../types'
 import type { Schema } from './types'
 
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -21,7 +18,7 @@ import { schema } from './schema'
 
 const ConnectForm = createConnectForm<Schema>()
 
-export const LessonForm: React.FC<ScheduleLesson> = (lesson) => {
+export const LessonForm: React.FC<ScheduleEvent> = (event) => {
   const { store, onChangeHandler } = useSchedule()
 
   const queryData = useFormQuery()
@@ -33,27 +30,39 @@ export const LessonForm: React.FC<ScheduleLesson> = (lesson) => {
   } = queryData
 
   const onSubmit: SubmitHandler<Schema> = (data) => {
-    const nextLesson: ScheduleLessonRead = {
-      ...lesson,
+    const { type } = event
+    const nextEvent: ScheduleEventRead = {
+      ...event,
       type: 'read',
       ...mapFormDataFields({ data, queryData }),
       is_canceled: false,
       is_completed: false,
       title: '',
     }
-    onChangeHandler({
-      type: 'create',
-      dto: nextLesson,
-      prevData: lesson,
-    })
-    store.updateLesson(lesson.id, nextLesson)
+    switch (type) {
+      case 'create':
+        onChangeHandler({
+          type: 'create',
+          dto: nextEvent,
+          prevData: event,
+        })
+        break
+      case 'read':
+        onChangeHandler({
+          type: 'update',
+          dto: nextEvent,
+          prevData: event,
+        })
+        break
+    }
+    store.updateEvent(event.id, nextEvent)
   }
 
   return (
     <Form
       useFormProps={{
         resolver: zodResolver(schema),
-        defaultValues: getDefaultValues(lesson),
+        defaultValues: getDefaultValues(event),
       }}
       onSubmit={onSubmit}
     >

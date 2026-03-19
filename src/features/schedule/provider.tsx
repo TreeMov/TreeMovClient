@@ -1,5 +1,6 @@
 import type {
   OnChangeHandlerParams,
+  OnDeleteParams,
   ScheduleContextType,
   ScheduleProps,
 } from './types'
@@ -11,7 +12,7 @@ import { Store } from './store'
 
 export const ScheduleProvider: React.FC<
   React.PropsWithChildren<ScheduleProps>
-> = ({ children, onChange, ...props }) => {
+> = ({ children, onChange, onDelete, ...props }) => {
   const [store] = useState(new Store())
 
   const contentRef = useRef<HTMLDivElement>(null)
@@ -23,23 +24,42 @@ export const ScheduleProvider: React.FC<
         prevData,
       } = params
       try {
-        const nextLessons = await onChange(params)
+        const nextEvents = await onChange(params)
 
-        if (!nextLessons) {
+        if (!nextEvents) {
           throw new Error()
         }
 
-        store.deleteLesson(id)
-        store.syncLessons(nextLessons)
+        store.deleteEvent(id)
+        store.syncEvents(nextEvents)
       } catch {
         if (prevData) {
-          store.updateLesson(id, prevData)
+          store.updateEvent(id, prevData)
         } else {
-          store.deleteLesson(id)
+          store.deleteEvent(id)
         }
       }
     },
     [store, onChange]
+  )
+
+  const onDeleteHandler = useCallback(
+    async (params: OnDeleteParams) => {
+      try {
+        const nextEvents = await onDelete(params)
+
+        const { id, type } = params
+        if (nextEvents) {
+          store.syncEvents(nextEvents)
+        } else if (type === 'create') {
+          store.deleteEvent(id)
+        }
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error)
+      }
+    },
+    [store, onDelete]
   )
 
   const value = useMemo<ScheduleContextType>(
@@ -47,9 +67,10 @@ export const ScheduleProvider: React.FC<
       store,
       contentRef,
       onChangeHandler,
+      onDeleteHandler,
       ...props,
     }),
-    [store, props, onChangeHandler]
+    [store, props, onChangeHandler, onDeleteHandler]
   )
 
   return (

@@ -1,4 +1,4 @@
-import type { LessonProps } from './types'
+import type { EventProps } from './types'
 
 import { format } from 'date-fns'
 import React, { useMemo } from 'react'
@@ -10,19 +10,19 @@ import { combineDateAndTime } from '../../../helpers'
 
 import { GROUP_OFFSET } from './constants'
 
-export const Lesson: React.FC<LessonProps> = ({
+export const Event: React.FC<EventProps> = ({
   className,
   isActive,
   isDrag,
   isDrop,
   children,
-  lesson,
+  event,
   style,
   group,
   ...props
 }) => {
   const { id, date, start_time, end_time, color, state, ...rest } =
-    lesson
+    event
 
   const widthValue = useMemo(() => {
     if (isDrop) {
@@ -57,8 +57,8 @@ export const Lesson: React.FC<LessonProps> = ({
       }}
       {...props}
     >
-      <div>{lesson.state}</div>
-      <div>{lesson.type}</div>
+      <div>{event.state}</div>
+      <div>{event.type}</div>
       <div>{id}</div>
       {rest.type === 'create' ? (
         <div>Добавление</div>

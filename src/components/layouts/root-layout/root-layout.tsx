@@ -4,6 +4,7 @@ import React from 'react'
 import { Outlet, ScrollRestoration } from 'react-router'
 
 import { QueryClientProvider } from '@/components/providers/query-client-provider'
+import { Toaster } from '@/components/ui/sonner'
 
 export const RootLayout: React.FC = () => {
   return (
@@ -12,6 +13,7 @@ export const RootLayout: React.FC = () => {
         <ScrollRestoration />
         <Outlet />
         <ReactQueryDevtools initialIsOpen={false} />
+        <Toaster />
       </NuqsAdapter>
     </QueryClientProvider>
   )

@@ -6,11 +6,11 @@ import { cn } from '@/utils/helpers/shadcn'
 
 import { dateFormat } from '../../constants'
 import { useSchedule } from '../../hooks'
+import { ScheduleEvent } from '../schedule-event'
+import { ScheduleEventDroppable } from '../schedule-event-droppable'
 import { ScheduleGroupObserver } from '../schedule-group-observer'
-import { ScheduleLesson } from '../schedule-lesson'
-import { ScheduleLessonDroppable } from '../schedule-lesson-droppable'
 
-export const ScheduleColLessons: React.FC<
+export const ScheduleColEvents: React.FC<
   React.ComponentProps<'div'> & { day: Date }
 > = ({ day, className, children, ...props }) => {
   const { store } = useSchedule()
@@ -19,28 +19,23 @@ export const ScheduleColLessons: React.FC<
     id: format(day, dateFormat),
   })
 
-  const lessons = store.lessons.filter(({ date }) =>
+  const events = store.events.filter(({ date }) =>
     isSameDay(date, day)
   )
 
   return (
     <div ref={ref} className={cn('relative', className)} {...props}>
       {children}
-      {isDropTarget && store.dragLesson && (
-        <ScheduleLessonDroppable
-          day={day}
-          lesson={store.dragLesson}
-        />
+      {isDropTarget && store.dragEvent && (
+        <ScheduleEventDroppable day={day} events={store.dragEvent} />
       )}
-      {lessons.map((lesson) => (
+      {events.map((event) => (
         <ScheduleGroupObserver
-          key={lesson.id}
-          lessons={lessons}
-          lesson={lesson}
+          key={event.id}
+          events={events}
+          event={event}
         >
-          {(group) => (
-            <ScheduleLesson lesson={lesson} group={group} />
-          )}
+          {(group) => <ScheduleEvent event={event} group={group} />}
         </ScheduleGroupObserver>
       ))}
     </div>

@@ -56,7 +56,7 @@ export const useMouseEvents = () => {
 
     const hour = hours[currCell]
 
-    const lessonDate = addMinutes(
+    const eventDate = addMinutes(
       set(day, {
         hours: getHours(hour),
         minutes: getMinutes(hour),
@@ -66,7 +66,7 @@ export const useMouseEvents = () => {
       currentSegment * segmentSize
     )
 
-    return lessonDate
+    return eventDate
   }
 
   const onMouseDown = (cb?: () => void) => {

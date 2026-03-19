@@ -1,35 +1,35 @@
 import type { LessonModelRead } from '@/api/generated/core'
 import type {
-  ScheduleLesson,
-  ScheduleLessonCreate,
-  ScheduleLessonState,
+  ScheduleEvent,
+  ScheduleEventCreate,
+  ScheduleEventState,
 } from './types'
 
 import { makeAutoObservable } from 'mobx'
 
-import { serializeLesson } from './helpers'
+import { serializeEvent } from './helpers'
 
-type CreateLessonParams = Omit<
-  ScheduleLessonCreate,
+type CreateEventParams = Omit<
+  ScheduleEventCreate,
   'id' | 'color' | 'type'
 >
 
 export class Store {
-  lessons: ScheduleLesson[] = []
-  dragLesson: ScheduleLesson | null = null
+  events: ScheduleEvent[] = []
+  dragEvent: ScheduleEvent | null = null
   dragSegment: number | null = null
 
   constructor() {
     makeAutoObservable(this)
   }
 
-  private _createLesson({
+  private _createEvent({
     date,
     end_time,
     start_time,
     state,
-  }: CreateLessonParams) {
-    const createdLesson: ScheduleLessonCreate = {
+  }: CreateEventParams) {
+    const createdEvent: ScheduleEventCreate = {
       id: Math.random(),
       type: 'create',
       state,
@@ -38,51 +38,48 @@ export class Store {
       start_time,
       color: '#000000',
     }
-    this.lessons.push(createdLesson)
-    return createdLesson
+    this.events.push(createdEvent)
+    return createdEvent
   }
 
-  startDrag(lesson: ScheduleLesson, dragSegment: number) {
-    this.updateLesson(lesson.id, { state: 'drag' })
-    this.dragLesson = lesson
+  startDrag(event: ScheduleEvent, dragSegment: number) {
+    this.updateEvent(event.id, { state: 'drag' })
+    this.dragEvent = event
     this.dragSegment = dragSegment
   }
 
   endDrag(id: number) {
-    this.updateLesson(id, { state: 'normal' })
-    this.dragLesson = null
+    this.updateEvent(id, { state: 'normal' })
+    this.dragEvent = null
     this.dragSegment = null
   }
 
-  setActiveLesson(id: number) {
-    this.updateLesson(id, { state: 'active' })
+  setActiveEvent(id: number) {
+    this.updateEvent(id, { state: 'active' })
   }
 
-  clearActiveLesson(id: number, prevState: ScheduleLessonState) {
-    this.updateLesson(id, { state: prevState })
+  clearActiveEvent(id: number, prevState: ScheduleEventState) {
+    this.updateEvent(id, { state: prevState })
   }
 
-  setLessonState(id: number, state: ScheduleLessonState) {
-    this.updateLesson(id, { state })
+  setEventState(id: number, state: ScheduleEventState) {
+    this.updateEvent(id, { state })
   }
 
-  syncLessons(lessons: LessonModelRead[]) {
-    const filteredLessons = this.lessons.filter(
+  syncEvents(events: LessonModelRead[]) {
+    const filteredEvents = this.events.filter(
       ({ type }) => type !== 'read'
     )
-    this.lessons = [
-      ...filteredLessons,
-      ...lessons.map(serializeLesson),
-    ]
+    this.events = [...filteredEvents, ...events.map(serializeEvent)]
   }
 
-  createLesson({
+  createEvent({
     date,
     start_time,
     end_time,
     state,
-  }: CreateLessonParams) {
-    return this._createLesson({
+  }: CreateEventParams) {
+    return this._createEvent({
       date,
       start_time,
       end_time,
@@ -90,21 +87,21 @@ export class Store {
     })
   }
 
-  updateLesson(id: number, payload: Partial<ScheduleLesson>) {
-    const idx = this.lessons.findIndex((lesson) => lesson.id === id)
+  updateEvent(id: number, payload: Partial<ScheduleEvent>) {
+    const idx = this.events.findIndex((event) => event.id === id)
 
     if (idx >= 0) {
-      const updatedLesson = Object.assign(this.lessons[idx], payload)
-      this.lessons.splice(idx, 1, updatedLesson)
-      return updatedLesson
+      const updatedEvent = Object.assign(this.events[idx], payload)
+      this.events.splice(idx, 1, updatedEvent)
+      return updatedEvent
     }
   }
 
-  deleteLesson(id: number) {
-    const idx = this.lessons.findIndex((lesson) => lesson.id === id)
+  deleteEvent(id: number) {
+    const idx = this.events.findIndex((event) => event.id === id)
 
     if (idx >= 0) {
-      this.lessons.splice(idx, 1)
+      this.events.splice(idx, 1)
     }
   }
 }

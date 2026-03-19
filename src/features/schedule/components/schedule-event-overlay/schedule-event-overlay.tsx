@@ -1,9 +1,9 @@
-import type { ScheduleLesson } from '../../types'
+import type { ScheduleEvent } from '../../types'
 
 import { DragOverlay } from '@dnd-kit/react'
 import React from 'react'
 
-import { Lesson } from '../ui'
+import { Event } from '../ui'
 
 const OverLayInner: React.FC<{
   data: Record<string, unknown>
@@ -12,15 +12,15 @@ const OverLayInner: React.FC<{
   const rect = element?.getBoundingClientRect()
 
   return (
-    <Lesson
+    <Event
       className="opacity-0"
-      lesson={data as ScheduleLesson}
+      event={data as ScheduleEvent}
       style={{ width: rect?.width, height: rect?.height }}
     />
   )
 }
 
-export const ScheduleLessonOverlay: React.FC = () => {
+export const ScheduleEventOverlay: React.FC = () => {
   return (
     <DragOverlay dropAnimation={null}>
       {({ data, element }) => (

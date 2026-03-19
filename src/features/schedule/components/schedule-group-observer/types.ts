@@ -1,7 +1,7 @@
-import type { ScheduleLesson } from '../../types'
+import type { ScheduleEvent } from '../../types'
 
 export type ScheduleGroupObserverProps = {
-  lessons: ScheduleLesson[]
-  lesson: ScheduleLesson
+  events: ScheduleEvent[]
+  event: ScheduleEvent
   children: (group: number) => React.ReactNode
 }
