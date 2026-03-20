@@ -16,7 +16,7 @@ export type LessonModelCreate = {
   /**
    * @type string
    */
-  title: string
+  title?: string
   /**
    * @type string, time
    */
@@ -28,19 +28,19 @@ export type LessonModelCreate = {
   /**
    * @type integer
    */
-  teacher_id: number
+  teacher_id?: number
   /**
    * @type integer
    */
-  classroom_id: number
+  classroom_id?: number
   /**
    * @type integer
    */
-  student_group_id: number
+  student_group_id?: number
   /**
    * @type integer
    */
-  subject_id: number
+  subject_id?: number
   /**
    * @type string, date
    */

@@ -7,6 +7,7 @@ import { cn } from '@/utils/helpers/shadcn'
 
 import { timeFormat } from '../../../constants'
 import { combineDateAndTime } from '../../../helpers'
+import { EventContent } from '../event-content'
 
 import { GROUP_OFFSET } from './constants'
 
@@ -21,8 +22,7 @@ export const Event: React.FC<EventProps> = ({
   group,
   ...props
 }) => {
-  const { id, date, start_time, end_time, color, state, ...rest } =
-    event
+  const { id, date, start_time, end_time, color, state } = event
 
   const widthValue = useMemo(() => {
     if (isDrop) {
@@ -60,13 +60,10 @@ export const Event: React.FC<EventProps> = ({
       <div>{event.state}</div>
       <div>{event.type}</div>
       <div>{id}</div>
-      {rest.type === 'create' ? (
+      {event.type === 'create' ? (
         <div>Добавление</div>
       ) : (
-        <React.Fragment>
-          <div>{rest.subject?.label}</div>
-          <div>{rest.teacher?.label}</div>
-        </React.Fragment>
+        <EventContent {...event} />
       )}
 
       <div>

@@ -1,17 +1,24 @@
+import type { LessonModelRead } from '@/api/generated/core'
 import type {
-  LessonModelCreate,
-  LessonModelRead,
-} from '@/api/generated/core'
-import type {
+  DeserializedEvent,
+  ScheduleEventFormFields,
+  ScheduleEventFormFieldsBase,
   ScheduleEventRead,
   ScheduleLessonFormFields,
+  ScheduleLessonFormFieldsBase,
 } from './types'
 
 import { addHours, format, parse, set, startOfToday } from 'date-fns'
+import { every, has, omit } from 'lodash-es'
 
 import { getDayHours } from '@/utils/helpers/dates'
 
-import { dateFormat, timeFormat } from './constants'
+import {
+  dateFormat,
+  eventFormFields,
+  lessonFormFields,
+  timeFormat,
+} from './constants'
 
 export const getScheduleHours = () =>
   getDayHours(
@@ -22,30 +29,49 @@ export const getScheduleHours = () =>
 export const getSerializedTime = (time: string) =>
   time.split(':').slice(0, 2).join(':')
 
-// todo убрать плейсхолдеры
-export const serializeEventsFields = ({
-  teacher,
-  classroom,
-  student_group,
-  subject,
-  comment,
-}: Pick<
-  LessonModelRead,
-  keyof ScheduleLessonFormFields
->): ScheduleLessonFormFields => ({
-  teacher: { id: teacher.id, label: teacher.employee.name ?? '' },
-  classroom: { id: classroom.id, label: classroom.title },
-  student_group: { id: student_group.id, label: student_group.title },
-  subject: { id: subject.id, label: subject.title },
-  comment: comment ?? '',
-})
+export const serializeEventsFields = (
+  fields: Pick<
+    LessonModelRead,
+    keyof (ScheduleLessonFormFieldsBase & ScheduleEventFormFieldsBase)
+  >
+): ScheduleLessonFormFields | ScheduleEventFormFields => {
+  const isLessonForm = every(lessonFormFields, (key) =>
+    has(fields, key)
+  )
+
+  const {
+    subject,
+    teacher,
+    classroom,
+    student_group,
+    title,
+    comment,
+  } = fields
+
+  if (isLessonForm) {
+    return {
+      formType: 'lesson',
+      subject: { id: subject.id, label: subject.title },
+      teacher: { id: teacher.id, label: teacher.employee.name },
+      classroom: { id: classroom.id, label: classroom.title },
+      student_group: {
+        id: student_group.id,
+        label: student_group.title,
+      },
+      comment: comment ?? '',
+    }
+  } else {
+    return { formType: 'event', title }
+  }
+}
 
 export const serializeEvent = ({
   start_time,
   end_time,
   ...event
 }: LessonModelRead): ScheduleEventRead => ({
-  ...event,
+  // исключаем поля, которые не должны попасть в сериализуемый объект после спреда
+  ...omit(event, [...lessonFormFields, ...eventFormFields]),
   type: 'read',
   state: 'normal',
   start_time: getSerializedTime(start_time),
@@ -54,20 +80,22 @@ export const serializeEvent = ({
   ...serializeEventsFields(event),
 })
 
-// todo убрать плейсхолдеры
-export const deserealizeEvent = ({
-  teacher,
-  classroom,
-  student_group,
-  subject,
-  ...event
-}: ScheduleEventRead): LessonModelCreate => ({
-  ...event,
-  teacher_id: teacher.id,
-  classroom_id: classroom.id,
-  student_group_id: student_group.id,
-  subject_id: subject.id,
-})
+export const deserializeEvent = (
+  event: ScheduleEventRead
+): DeserializedEvent => {
+  switch (event.formType) {
+    case 'lesson':
+      return {
+        ...event,
+        subject_id: event.subject.id,
+        teacher_id: event.teacher.id,
+        classroom_id: event.classroom.id,
+        student_group_id: event.student_group.id,
+      }
+    case 'event':
+      return event
+  }
+}
 
 export const timeToDate = (time: string) => {
   const timeToParse = getSerializedTime(time)

@@ -18,6 +18,11 @@ export class Interceptors {
     baseURL: import.meta.env.VITE_AUTH_ENDPOINT,
   })
 
+  private handleRefreshError() {
+    session.deleteSession()
+    window.location.href = ROUTES.signIn
+  }
+
   private async refreshing({
     refresh_token,
   }: Pick<SessionTokens, 'refresh_token'>) {
@@ -64,12 +69,12 @@ export class Interceptors {
     error: AxiosError,
     instance: AxiosInstance
   ) => {
-    if (error.response?.status === 401 && session.hasSession()) {
-      window.location.href = ROUTES.signIn
+    if (error.response?.status === 401) {
       try {
         const { refresh_token } = session.getSessionTokens()
         if (!refresh_token) {
-          throw new Error()
+          this.handleRefreshError()
+          return
         }
 
         const originalConfig = error.response?.config
@@ -79,10 +84,8 @@ export class Interceptors {
           await this.refreshing({ refresh_token })
         }
         return instance.request(originalConfig!)
-      } catch (error) {
-        if (error instanceof Error) {
-          session.deleteSession()
-        }
+      } catch {
+        this.handleRefreshError()
       }
     }
 

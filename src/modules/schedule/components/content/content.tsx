@@ -12,7 +12,7 @@ import {
 } from '@/api/generated/core'
 import {
   dateFormat,
-  deserealizeEvent,
+  deserializeEvent,
   getScheduleHours,
   type OnChangeParams,
   type OnDeleteParams,
@@ -45,13 +45,13 @@ export const Content: React.FC<ContentProps> = ({ date }) => {
           id: dto.id,
           data: {
             ...dto,
-            ...deserealizeEvent(dto),
+            ...deserializeEvent(dto),
           },
         })
         break
       case 'create':
         await createEvent({
-          data: deserealizeEvent(dto),
+          data: deserializeEvent(dto),
         })
         break
     }
