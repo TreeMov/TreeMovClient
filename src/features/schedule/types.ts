@@ -1,5 +1,8 @@
 import type { RefObject } from 'react'
-import type { LessonModelRead } from '@/api/generated/core'
+import type {
+  LessonModelCreate,
+  LessonModelRead,
+} from '@/api/generated/core'
 import type { Prettify } from '@/types/utility'
 import type { Store } from './store'
 
@@ -8,6 +11,7 @@ export type ScheduleConfig = {
   segmentSize: number
 }
 
+export type ScheduleFormType = 'lesson' | 'event'
 export type ScheduleChangeType = 'create' | 'update'
 export type ScheduleEventType = 'create' | 'read'
 export type ScheduleEventState =
@@ -30,7 +34,11 @@ export type ScheduleField = {
   label: string
 }
 
-export type ScheduleLessonFormFields = {
+export type ScheduleFormBase = {
+  formType: ScheduleFormType
+}
+
+export type ScheduleLessonFormFieldsBase = {
   subject: ScheduleField
   teacher: ScheduleField
   classroom: ScheduleField
@@ -38,10 +46,21 @@ export type ScheduleLessonFormFields = {
   comment: string
 }
 
+export type ScheduleLessonFormFields = ScheduleFormBase &
+  ScheduleLessonFormFieldsBase & {
+    formType: 'lesson'
+  }
+
+export type ScheduleEventFormFieldsBase = { title: string }
+
+export type ScheduleEventFormFields = ScheduleFormBase &
+  ScheduleEventFormFieldsBase & {
+    formType: 'event'
+  }
+
 export type ScheduleEventFields = Prettify<
-  ScheduleLessonFormFields &
+  (ScheduleLessonFormFields | ScheduleEventFormFields) &
     ScheduleEventBaseFields & {
-      title: string
       is_completed: boolean
       is_canceled: boolean
     }
@@ -100,3 +119,25 @@ export type ScheduleContextType = Omit<
 }
 
 export type Direction = 'down' | 'up'
+
+export type DeserializedLessonFieldsKeys = keyof Pick<
+  LessonModelCreate,
+  'subject_id' | 'teacher_id' | 'classroom_id' | 'student_group_id'
+>
+export type DeserializedLessonFields = Prettify<
+  Omit<LessonModelCreate, DeserializedLessonFieldsKeys> &
+    Pick<Required<LessonModelCreate>, DeserializedLessonFieldsKeys>
+>
+
+export type DeserializedEventFieldsKeys = keyof Pick<
+  LessonModelCreate,
+  'title'
+>
+export type DeserializedEventFields = Prettify<
+  Omit<LessonModelCreate, DeserializedEventFieldsKeys> &
+    Pick<Required<LessonModelCreate>, DeserializedEventFieldsKeys>
+>
+
+export type DeserializedEvent =
+  | DeserializedLessonFields
+  | DeserializedEventFields

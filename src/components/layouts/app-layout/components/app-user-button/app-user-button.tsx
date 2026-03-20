@@ -1,6 +1,5 @@
 import React from 'react'
 
-import { useMyProfilesMe } from '@/api/generated/core'
 import {
   Avatar,
   AvatarFallback,
@@ -8,14 +7,10 @@ import {
 } from '@/components/ui/avatar'
 import { DropdownMenuTriggerButton } from '@/components/ui/dropdown-menu'
 
+import { useAppLayout } from '../../hooks'
+
 export const AppUserButton: React.FC = () => {
-  const { data, isPending } = useMyProfilesMe()
-
-  if (isPending || !data) {
-    return null
-  }
-
-  const currentProfile = data[0]
+  const { currentOrg } = useAppLayout()
 
   return (
     <DropdownMenuTriggerButton>
@@ -27,7 +22,7 @@ export const AppUserButton: React.FC = () => {
         />
         <AvatarFallback>CN</AvatarFallback>
       </Avatar>
-      <span>{currentProfile.email}</span>
+      <span>{currentOrg.role.title}</span>
     </DropdownMenuTriggerButton>
   )
 }

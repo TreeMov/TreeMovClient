@@ -19,7 +19,7 @@ export type EmployeeModelRead = {
    * @type integer
    */
   id: number
-  name?: (string | null) | undefined
+  name: string
   surname?: (string | null) | undefined
   patronymic?: (string | null) | undefined
   email?: (string | null) | undefined

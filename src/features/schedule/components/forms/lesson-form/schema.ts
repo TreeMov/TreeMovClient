@@ -1,11 +1,11 @@
 import { z } from 'zod'
 
-// todo пошаманить над схемой или формой: нужно, чтобы была возможность устанавливать нулевые значения для уроков с типом create
-// но сделать их обязательными для сабмита
+import { requiredComboboxValue } from '@/utils/helpers/validation'
+
 export const schema = z.object({
-  subject: z.string(),
-  teacher: z.string(),
-  classroom: z.string(),
-  student_group: z.string(),
+  subject: requiredComboboxValue,
+  teacher: requiredComboboxValue,
+  classroom: requiredComboboxValue,
+  student_group: requiredComboboxValue,
   comment: z.string().min(1),
 })

@@ -48,7 +48,7 @@ export const OrgStep: React.FC<OrgStepProps> = ({
     const { id } = await createOrganization({
       data: { title: organization },
     })
-    session.changeOrganization(id)
+    session.changeOrg(id)
     onNext?.({ organization })
   }
 

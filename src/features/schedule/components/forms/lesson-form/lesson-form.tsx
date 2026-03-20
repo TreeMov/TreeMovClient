@@ -1,6 +1,6 @@
 import type { SubmitHandler } from 'react-hook-form'
 import type { ScheduleEvent, ScheduleEventRead } from '../../../types'
-import type { Schema } from './types'
+import type { Schema, SubmitSchema } from './types'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import React from 'react'
@@ -16,7 +16,7 @@ import { useFormQuery, useSchedule } from '../../../hooks'
 import { getDefaultValues, mapFormDataFields } from './helpers'
 import { schema } from './schema'
 
-const ConnectForm = createConnectForm<Schema>()
+const ConnectForm = createConnectForm<Schema, unknown, SubmitSchema>()
 
 export const LessonForm: React.FC<ScheduleEvent> = (event) => {
   const { store, onChangeHandler } = useSchedule()
@@ -29,15 +29,15 @@ export const LessonForm: React.FC<ScheduleEvent> = (event) => {
     studentGroups: { data: studentGroups },
   } = queryData
 
-  const onSubmit: SubmitHandler<Schema> = (data) => {
+  const onSubmit: SubmitHandler<SubmitSchema> = (data) => {
     const { type } = event
     const nextEvent: ScheduleEventRead = {
       ...event,
       type: 'read',
-      ...mapFormDataFields({ data, queryData }),
+      formType: 'lesson',
       is_canceled: false,
       is_completed: false,
-      title: '',
+      ...mapFormDataFields({ data, queryData }),
     }
     switch (type) {
       case 'create':
@@ -59,7 +59,7 @@ export const LessonForm: React.FC<ScheduleEvent> = (event) => {
   }
 
   return (
-    <Form
+    <Form<Schema, unknown, SubmitSchema>
       useFormProps={{
         resolver: zodResolver(schema),
         defaultValues: getDefaultValues(event),

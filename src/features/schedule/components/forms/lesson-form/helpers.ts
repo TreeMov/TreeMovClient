@@ -4,18 +4,26 @@ import type {
   ScheduleField,
   ScheduleLessonFormFields,
 } from '../../../types'
-import type { Schema } from './types'
+import type { Schema, SubmitSchema } from './types'
 
-const mapField = (field: ScheduleField | null): string =>
-  field?.id ? `${field.id}` : ''
+type GetDefaultValuesParams = Partial<
+  Omit<ScheduleLessonFormFields, 'formType'>
+> &
+  Pick<ScheduleEvent, 'type'>
 
-export const getDefaultValues = (event: ScheduleEvent): Schema => {
+const mapField = (
+  field: ScheduleField | null | undefined
+): string | null => (field?.id ? `${field.id}` : null)
+
+export const getDefaultValues = (
+  event: GetDefaultValuesParams
+): Schema => {
   if (event.type === 'create') {
     return {
-      subject: '',
-      teacher: '',
-      classroom: '',
-      student_group: '',
+      subject: null,
+      teacher: null,
+      classroom: null,
+      student_group: null,
       comment: '',
     }
   }
@@ -32,14 +40,17 @@ export const getDefaultValues = (event: ScheduleEvent): Schema => {
 }
 
 type MapFormDataFieldsParams = {
-  data: Schema
+  data: SubmitSchema
   queryData: ReturnType<typeof useFormQuery>
 }
 
 export const mapFormDataFields = ({
   data: { comment, ...data },
   queryData,
-}: MapFormDataFieldsParams): ScheduleLessonFormFields => ({
+}: MapFormDataFieldsParams): Omit<
+  ScheduleLessonFormFields,
+  'formType'
+> => ({
   subject: {
     id: +data.subject,
     label:
