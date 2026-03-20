@@ -1,7 +1,7 @@
 import type React from 'react'
 
 import { useLogoutAuth } from '@/api/generated/auth'
-import { useMyOrgsOrganizationsMe } from '@/api/generated/core'
+import { useGetOrganizations } from '@/api/hooks/use-get-organizations'
 import { session } from '@/api/session'
 import {
   DropdownMenu,
@@ -16,11 +16,13 @@ import { Icon } from '@/components/ui/icon'
 import { useNavigate } from '@/hooks/use-navigate'
 import { paths } from '@/router'
 
+import { useAppLayout } from '../../hooks'
+
 export const AppUserOrganization: React.FC = () => {
+  const { store, currentOrg, restOrgs } = useAppLayout()
   const navigate = useNavigate()
 
-  const { data, isPending: isPendingOrganizations } =
-    useMyOrgsOrganizationsMe()
+  const { isPending } = useGetOrganizations()
 
   const { mutateAsync: logout, isPending: isPendingLogout } =
     useLogoutAuth({
@@ -31,13 +33,6 @@ export const AppUserOrganization: React.FC = () => {
         },
       },
     })
-
-  if (isPendingOrganizations || !data) {
-    return null
-  }
-
-  const currentOrg = data[0]
-  const restOrgs = data.slice(1, data.length)
 
   const handleLogout = async () => {
     const { refresh_token } = session.getSessionTokens()
@@ -52,6 +47,10 @@ export const AppUserOrganization: React.FC = () => {
         refresh_token,
       },
     })
+  }
+
+  if (isPending || !currentOrg) {
+    return null
   }
 
   return (
@@ -73,8 +72,11 @@ export const AppUserOrganization: React.FC = () => {
           <>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              {restOrgs.map(({ org: { title } }) => (
-                <DropdownMenuItem key={title}>
+              {restOrgs.map(({ org: { id, title } }) => (
+                <DropdownMenuItem
+                  key={title}
+                  onClick={() => store.changeOrg(id)}
+                >
                   {title}
                 </DropdownMenuItem>
               ))}

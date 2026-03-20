@@ -34,7 +34,7 @@ export const SignInStep: React.FC<SignInStepProps> = ({ onNext }) => {
           refresh_token,
         })
         const [{ id }] = await myOrgsOrganizationsMe()
-        session.changeOrganization(id)
+        session.changeOrg(id)
         onNext({ email, password })
       },
     },

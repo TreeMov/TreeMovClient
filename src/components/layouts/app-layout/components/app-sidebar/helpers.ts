@@ -3,34 +3,33 @@ import type { ILink } from './types'
 import Cookies from 'universal-cookie'
 
 import { SIDEBAR_COOKIE_NAME } from '@/components/ui/sidebar'
-import { paths } from '@/router'
-import { generatePath } from '@/utils/helpers/router'
+import { ROUTES } from '@/utils/constants/routes-map'
 
 export const getLinks = () =>
   [
     {
       label: 'Аналитика',
-      to: generatePath({ path: paths.analytics }),
+      to: ROUTES.analytics,
     },
     {
       label: 'Расписание',
-      to: generatePath({ path: paths.schedule }),
+      to: ROUTES.schedule,
     },
     {
       label: 'Сотрудники',
-      to: generatePath({ path: paths.employees }),
+      to: ROUTES.employees,
     },
     {
       label: 'Ученики',
-      to: generatePath({ path: paths.students }),
+      to: ROUTES.students,
     },
     {
       label: 'Группы',
-      to: generatePath({ path: paths.groups }),
+      to: ROUTES.groups,
     },
     {
       label: 'Финансовая отчетность',
-      to: generatePath({ path: paths.report }),
+      to: ROUTES.report,
     },
   ] as const satisfies ILink[]
 

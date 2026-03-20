@@ -13,7 +13,6 @@ export default defineConfig({
         plugins: [
           observerPlugin({
             exclude: [
-              'src/components/layouts/**',
               'src/components/providers/**',
               'src/components/ui/**',
             ],

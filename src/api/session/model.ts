@@ -16,6 +16,21 @@ export class Session implements Partial<SessionSchema> {
     'refresh_token',
   ]
 
+  get organizationId() {
+    if (!this.X_ORG_MEMBER_ID) {
+      return null
+    }
+    return +this.X_ORG_MEMBER_ID
+  }
+
+  get hasOrganization() {
+    return !!this.X_ORG_MEMBER_ID
+  }
+
+  changeOrg(id: number) {
+    localStorage.setItem(sessionKeys.X_ORG_MEMBER_ID, `${id}`)
+  }
+
   hasSession() {
     return this.sessionTokens.every(
       (key) => localStorage.getItem(key) !== null
@@ -30,10 +45,6 @@ export class Session implements Partial<SessionSchema> {
 
   updateSession(tokens: SessionTokens) {
     this.createSession(tokens)
-  }
-
-  changeOrganization(id: number) {
-    localStorage.setItem(sessionKeys.X_ORG_MEMBER_ID, `${id}`)
   }
 
   deleteSession() {
