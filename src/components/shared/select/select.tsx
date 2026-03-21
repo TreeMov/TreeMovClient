@@ -7,12 +7,13 @@ import { Select as USelect } from '@/components/ui/select'
 import { FormWrapper } from '../form-wrapper'
 
 export const Select = <
+  Values extends string,
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >({
   inputProps,
   ...props
-}: SelectFormProps<TFieldValues, TName>) => {
+}: SelectFormProps<Values, TFieldValues, TName>) => {
   return (
     <FormWrapper {...props}>
       {({ field }) => (

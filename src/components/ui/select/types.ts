@@ -3,11 +3,13 @@ import {
   type SelectValueProps,
 } from '@/components/primitives/select'
 
-export type ISelectOption = {
-  value: string | number
+export type ISelectOption<Values extends string> = {
+  value: Values
   label: string
 }
 
-export type SelectProps = _SelectProps & {
-  options: ISelectOption[]
-} & SelectValueProps
+export type SelectProps<Values extends string> =
+  _SelectProps<Values> & {
+    options: ISelectOption<Values>[]
+    placeholder?: string
+  } & SelectValueProps

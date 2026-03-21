@@ -11,6 +11,8 @@ export type ScheduleConfig = {
   segmentSize: number
 }
 
+export type ScheduleView = 'day' | 'week' | 'month'
+
 export type ScheduleFormType = 'lesson' | 'event'
 export type ScheduleChangeType = 'create' | 'update'
 export type ScheduleEventType = 'create' | 'read'
@@ -96,6 +98,7 @@ export type ScheduleProps = {
   days: Date[]
   hours: Date[]
   isLoading?: boolean
+  view?: ScheduleView
   onChange: (
     params: OnChangeParams
   ) => Promise<LessonModelRead[] | undefined>

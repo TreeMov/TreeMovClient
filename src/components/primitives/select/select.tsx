@@ -6,24 +6,20 @@ import type {
   SelectItemProps,
   SelectLabelProps,
   SelectProps,
-  SelectScrollDownButtonProps,
-  SelectScrollUpButtonProps,
   SelectSeparatorProps,
   SelectTriggerProps,
   SelectValueProps,
 } from './types'
 
-import {
-  CheckIcon,
-  ChevronDownIcon,
-  ChevronUpIcon,
-} from 'lucide-react'
+import { CheckIcon, ChevronDownIcon } from 'lucide-react'
 import { Select as SelectPrimitive } from 'radix-ui'
 import * as React from 'react'
 
 import { cn } from '@/utils/helpers//shadcn'
 
-const Select: React.FC<SelectProps> = ({ ...props }) => {
+const Select = <Values extends string>({
+  ...props
+}: SelectProps<Values>) => {
   return <SelectPrimitive.Root data-slot="select" {...props} />
 }
 
@@ -46,7 +42,7 @@ const SelectTrigger: React.FC<SelectTriggerProps> = ({
       data-slot="select-trigger"
       data-size={size}
       className={cn(
-        'border-grey-200 flex w-fit cursor-pointer items-center justify-between gap-2 rounded-xl border bg-white px-3 py-2',
+        'border-grey-200 flex cursor-pointer items-center justify-between gap-2 rounded-xl border bg-white px-3 py-2',
         'text-sm whitespace-nowrap',
         'shadow-xs transition-[color,box-shadow] outline-none',
         'disabled:cursor-not-allowed disabled:opacity-50',
@@ -81,7 +77,7 @@ const SelectContent: React.FC<SelectContentProps> = ({
       <SelectPrimitive.Content
         data-slot="select-content"
         className={cn(
-          'border-grey-200 relative z-50 max-h-(--radix-select-content-available-height) min-w-32 origin-(--radix-select-content-transform-origin) overflow-x-hidden overflow-y-auto rounded-xl border bg-white shadow-md',
+          'border-grey-200 relative z-100 max-h-(--radix-select-content-available-height) min-w-32 origin-(--radix-select-content-transform-origin) overflow-x-hidden overflow-y-auto rounded-xl border bg-white shadow-md',
           'data-[side=bottom]:slide-in-from-top-2',
           'data-[side=left]:slide-in-from-right-2',
           'data-[side=right]:slide-in-from-left-2',
@@ -98,7 +94,6 @@ const SelectContent: React.FC<SelectContentProps> = ({
         align={align}
         {...props}
       >
-        <SelectScrollUpButton />
         <SelectPrimitive.Viewport
           className={cn(
             'p-1',
@@ -108,7 +103,6 @@ const SelectContent: React.FC<SelectContentProps> = ({
         >
           {children}
         </SelectPrimitive.Viewport>
-        <SelectScrollDownButton />
       </SelectPrimitive.Content>
     </SelectPrimitive.Portal>
   )
@@ -178,49 +172,12 @@ const SelectSeparator: React.FC<SelectSeparatorProps> = ({
   )
 }
 
-const SelectScrollUpButton: React.FC<SelectScrollUpButtonProps> = ({
-  className,
-  ...props
-}) => {
-  return (
-    <SelectPrimitive.ScrollUpButton
-      data-slot="select-scroll-up-button"
-      className={cn(
-        'flex cursor-default items-center justify-center py-1',
-        className
-      )}
-      {...props}
-    >
-      <ChevronUpIcon className="size-4" />
-    </SelectPrimitive.ScrollUpButton>
-  )
-}
-
-const SelectScrollDownButton: React.FC<
-  SelectScrollDownButtonProps
-> = ({ className, ...props }) => {
-  return (
-    <SelectPrimitive.ScrollDownButton
-      data-slot="select-scroll-down-button"
-      className={cn(
-        'flex cursor-default items-center justify-center py-1',
-        className
-      )}
-      {...props}
-    >
-      <ChevronDownIcon className="size-4" />
-    </SelectPrimitive.ScrollDownButton>
-  )
-}
-
 export {
   Select,
   SelectContent,
   SelectGroup,
   SelectItem,
   SelectLabel,
-  SelectScrollDownButton,
-  SelectScrollUpButton,
   SelectSeparator,
   SelectTrigger,
   SelectValue,

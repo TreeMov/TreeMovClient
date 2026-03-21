@@ -12,7 +12,7 @@ import { Store } from './store'
 
 export const ScheduleProvider: React.FC<
   React.PropsWithChildren<ScheduleProps>
-> = ({ children, onChange, onDelete, ...props }) => {
+> = ({ children, view = 'week', onChange, onDelete, ...props }) => {
   const [store] = useState(new Store())
 
   const contentRef = useRef<HTMLDivElement>(null)
@@ -66,11 +66,12 @@ export const ScheduleProvider: React.FC<
     () => ({
       store,
       contentRef,
+      view,
       onChangeHandler,
       onDeleteHandler,
       ...props,
     }),
-    [store, props, onChangeHandler, onDeleteHandler]
+    [store, view, props, onChangeHandler, onDeleteHandler]
   )
 
   return (

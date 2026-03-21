@@ -1,9 +1,13 @@
 import type { Select as SelectPrimitive } from 'radix-ui'
 import type * as React from 'react'
 
-export type SelectProps = React.ComponentProps<
-  typeof SelectPrimitive.Root
->
+export type SelectProps<Values extends string> = Omit<
+  React.ComponentProps<typeof SelectPrimitive.Root>,
+  'value' | 'onValueChange'
+> & {
+  value?: Values | undefined
+  onValueChange?: (value: Values) => void
+}
 
 export type SelectGroupProps = React.ComponentProps<
   typeof SelectPrimitive.Group

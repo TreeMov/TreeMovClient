@@ -5,8 +5,8 @@ import type { Schema, SubmitSchema } from './types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import React from 'react'
 
-import { Combobox } from '@/components/shared/combobox'
 import { Form } from '@/components/shared/form'
+import { Select } from '@/components/shared/select'
 import { Textarea } from '@/components/shared/textarea'
 import { Button } from '@/components/ui/button'
 import { createConnectForm } from '@/hocs/create-connect-form'
@@ -69,7 +69,7 @@ export const LessonForm: React.FC<ScheduleEvent> = (event) => {
       <div className="flex flex-col gap-6">
         <ConnectForm>
           {({ control }) => (
-            <Combobox
+            <Select
               control={control}
               name="subject"
               inputProps={{
@@ -85,7 +85,7 @@ export const LessonForm: React.FC<ScheduleEvent> = (event) => {
         </ConnectForm>
         <ConnectForm>
           {({ control }) => (
-            <Combobox
+            <Select
               control={control}
               name="teacher"
               inputProps={{
@@ -101,7 +101,7 @@ export const LessonForm: React.FC<ScheduleEvent> = (event) => {
         </ConnectForm>
         <ConnectForm>
           {({ control }) => (
-            <Combobox
+            <Select
               control={control}
               name="classroom"
               inputProps={{
@@ -117,7 +117,7 @@ export const LessonForm: React.FC<ScheduleEvent> = (event) => {
         </ConnectForm>
         <ConnectForm>
           {({ control }) => (
-            <Combobox
+            <Select
               control={control}
               name="student_group"
               inputProps={{
