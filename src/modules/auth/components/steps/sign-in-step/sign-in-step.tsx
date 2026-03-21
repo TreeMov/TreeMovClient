@@ -73,7 +73,10 @@ export const SignInStep: React.FC<SignInStepProps> = ({ onNext }) => {
             <ConnectForm>
               {({ control }) => (
                 <Password
-                  inputProps={{ size: 'xl', placeholder: 'Пароль' }}
+                  inputProps={{
+                    size: 'xl',
+                    placeholder: 'Пароль',
+                  }}
                   control={control}
                   name="password"
                 />

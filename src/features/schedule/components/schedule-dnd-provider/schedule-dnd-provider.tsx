@@ -97,7 +97,6 @@ export const ScheduleDndProvider: React.FC<
     store.updateEvent(nextEvent.id, nextEvent)
     if (nextEvent.type !== 'create') {
       onChangeHandler({
-        type: 'update',
         dto: nextEvent,
         prevData: store.dragEvent,
       })

@@ -4,18 +4,18 @@ import { endOfWeek, format, startOfWeek } from 'date-fns'
 import React from 'react'
 
 import {
-  type LessonModelRead,
+  type LessonModelCreate,
+  type LessonModelUpdate,
+  type PeriodLessonModelCreate,
   useCreateLessons,
+  useCreatePeriodLessonLessons,
   useLessons,
   useLessons2,
   useUpdateStudentsLessonsId,
 } from '@/api/generated/core'
 import {
   dateFormat,
-  deserializeEvent,
   getScheduleHours,
-  type OnChangeParams,
-  type OnDeleteParams,
   Schedule,
 } from '@/features/schedule'
 import { getWeekDays } from '@/utils/helpers/dates'
@@ -26,6 +26,7 @@ export const Content: React.FC<ContentProps> = ({ date }) => {
   const { mutateAsync: deleteEvent } = useLessons2()
   const { mutateAsync: updateEvent } = useUpdateStudentsLessonsId()
   const { mutateAsync: createEvent } = useCreateLessons()
+  const { mutateAsync: createPeriod } = useCreatePeriodLessonLessons()
   const {
     data: events,
     isPending,
@@ -35,36 +36,27 @@ export const Content: React.FC<ContentProps> = ({ date }) => {
     date_min: format(startOfWeek(date), dateFormat),
   })
 
-  const onChange = async ({
-    dto,
-    type,
-  }: OnChangeParams): Promise<LessonModelRead[] | undefined> => {
-    switch (type) {
-      case 'update':
-        await updateEvent({
-          id: dto.id,
-          data: {
-            ...dto,
-            ...deserializeEvent(dto),
-          },
-        })
-        break
-      case 'create':
-        await createEvent({
-          data: deserializeEvent(dto),
-        })
-        break
-    }
-    const { data } = await refetch()
-    return data
+  const onChange = async (id: number, data: LessonModelUpdate) => {
+    await updateEvent({
+      id,
+      data,
+    })
+    await refetch()
   }
 
-  const onDelete = async ({ type, id }: OnDeleteParams) => {
-    if (type === 'update') {
-      await deleteEvent({ params: { id } })
-      const { data } = await refetch()
-      return data
-    }
+  const onDelete = async (id: number) => {
+    await deleteEvent({ params: { id } })
+    await refetch()
+  }
+
+  const onCreate = async (data: LessonModelCreate) => {
+    await createEvent({ data })
+    await refetch()
+  }
+
+  const onCreatePeriod = async (data: PeriodLessonModelCreate) => {
+    await createPeriod({ data })
+    await refetch()
   }
 
   return (
@@ -76,6 +68,8 @@ export const Content: React.FC<ContentProps> = ({ date }) => {
       hours={getScheduleHours()}
       onChange={onChange}
       onDelete={onDelete}
+      onCreate={onCreate}
+      onCreatePeriod={onCreatePeriod}
     />
   )
 }

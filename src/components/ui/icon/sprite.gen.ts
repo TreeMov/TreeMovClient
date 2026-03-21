@@ -27,7 +27,7 @@ export function mountSvgSprite(
   parent?: HTMLElement | null
 ) {
   if (typeof window === 'undefined') return
-   
+
   parent ??= window.document.body
 
   if (parent.ownerDocument.readyState === 'loading') {

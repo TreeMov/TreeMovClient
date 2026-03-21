@@ -1,7 +1,5 @@
 import type { SelectProps } from './types'
 
-import React from 'react'
-
 import {
   Select as USelect,
   SelectContent,
@@ -10,7 +8,7 @@ import {
   SelectValue,
 } from '@/components/primitives/select'
 
-export const Select: React.FC<SelectProps> = ({
+export const Select = <Values extends string>({
   value,
   defaultValue,
   open,
@@ -22,10 +20,11 @@ export const Select: React.FC<SelectProps> = ({
   required,
   form,
   options,
+  placeholder,
   onValueChange,
   onOpenChange,
   ...props
-}) => {
+}: SelectProps<Values>) => {
   return (
     <USelect
       value={value}
@@ -42,7 +41,7 @@ export const Select: React.FC<SelectProps> = ({
       onOpenChange={onOpenChange}
     >
       <SelectTrigger>
-        <SelectValue {...props} />
+        {value ? <SelectValue {...props} /> : placeholder}
       </SelectTrigger>
       <SelectContent position="popper">
         {options.map(({ value, label }) => (

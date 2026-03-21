@@ -4,6 +4,7 @@ import type { Button } from '@/components/ui/button'
 
 export type CalendarProps = DayPickerProps & {
   buttonVariant?: React.ComponentProps<typeof Button>['variant']
+  placeholder?: string
 }
 
 export type CalendarDayButtonProps = React.ComponentProps<
