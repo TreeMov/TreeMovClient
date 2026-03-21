@@ -4,7 +4,7 @@ import type { ComboboxOption } from '@/components/primitives/combobox'
 import { format } from 'date-fns'
 import React from 'react'
 
-import { CalendarPopover } from '@/components/ui/calendar'
+import { Calendar } from '@/components/ui/calendar'
 import { Select } from '@/components/ui/select'
 import { dateFormat, type ScheduleView } from '@/features/schedule'
 
@@ -27,7 +27,7 @@ export const Header: React.FC = () => {
 
   return (
     <div className="flex items-center gap-2.5">
-      <CalendarPopover
+      <Calendar
         required
         mode="single"
         defaultMonth={new Date(date)}

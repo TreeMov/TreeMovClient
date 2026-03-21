@@ -39,8 +39,8 @@ const Button: React.FC<ButtonProps> = ({
       data-variant={variant}
       data-size={size}
       className={cn(buttonVariants({ variant, size, className }))}
-      {...props}
       disabled={isPending}
+      {...props}
     >
       {isPending && <Spinner />}
       {prependIcon && !isPending && <Icon {...prependIcon} />}

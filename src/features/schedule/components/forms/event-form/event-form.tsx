@@ -16,9 +16,9 @@ import { schema } from './schema'
 const ConnectForm = createConnectForm<Schema>()
 
 export const EventForm: React.FC<ScheduleEvent> = (event) => {
-  const { store, onChangeHandler } = useSchedule()
+  const { onChangeHandler, onCreateHandler } = useSchedule()
 
-  const onSubmit: SubmitHandler<Schema> = ({ title }) => {
+  const onSubmit: SubmitHandler<Schema> = async ({ title }) => {
     const { type } = event
     const nextEvent: ScheduleEventRead = {
       ...event,
@@ -30,21 +30,15 @@ export const EventForm: React.FC<ScheduleEvent> = (event) => {
     }
     switch (type) {
       case 'create':
-        onChangeHandler({
-          type: 'create',
-          dto: nextEvent,
-          prevData: event,
-        })
+        await onCreateHandler(nextEvent)
         break
       case 'read':
-        onChangeHandler({
-          type: 'update',
+        await onChangeHandler({
           dto: nextEvent,
           prevData: event,
         })
         break
     }
-    store.updateEvent(event.id, nextEvent)
   }
 
   return (

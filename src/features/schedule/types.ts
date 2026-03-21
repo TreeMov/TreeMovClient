@@ -2,8 +2,10 @@ import type { RefObject } from 'react'
 import type {
   LessonModelCreate,
   LessonModelRead,
+  LessonModelUpdate,
+  PeriodLessonModelCreate,
 } from '@/api/generated/core'
-import type { Prettify } from '@/types/utility'
+import type { MaybePromise, Prettify } from '@/types/utility'
 import type { Store } from './store'
 
 export type ScheduleConfig = {
@@ -82,16 +84,6 @@ export type ScheduleEventRead = ScheduleEventBase & {
 
 export type ScheduleEvent = ScheduleEventCreate | ScheduleEventRead
 
-export type OnChangeParams = {
-  type: ScheduleChangeType
-  dto: ScheduleEventRead
-}
-
-export type OnDeleteParams = {
-  type: ScheduleChangeType
-  id: number
-}
-
 export type ScheduleProps = {
   config: ScheduleConfig
   events: LessonModelRead[]
@@ -99,26 +91,40 @@ export type ScheduleProps = {
   hours: Date[]
   isLoading?: boolean
   view?: ScheduleView
-  onChange: (
-    params: OnChangeParams
-  ) => Promise<LessonModelRead[] | undefined>
-  onDelete: (
-    params: OnDeleteParams
-  ) => Promise<LessonModelRead[] | undefined>
+  onChange: (id: number, dto: LessonModelUpdate) => MaybePromise<void>
+  onDelete: (id: number) => MaybePromise<void>
+  onCreate: (dto: LessonModelCreate) => MaybePromise<void>
+  onCreatePeriod: (dto: PeriodLessonModelCreate) => MaybePromise<void>
 }
 
-export type OnChangeHandlerParams = OnChangeParams & {
+export type PeriodRange = {
+  from: string
+  to: string
+}
+
+export type OnChangeHandlerParams = {
+  dto: ScheduleEventRead
   prevData: ScheduleEvent
 }
 
 export type ScheduleContextType = Omit<
   ScheduleProps,
-  'onChange' | 'onDelete'
+  'onChange' | 'onDelete' | 'onCreate' | 'onCreatePeriod'
 > & {
   store: Store
   contentRef: RefObject<HTMLDivElement | null>
   onChangeHandler: (params: OnChangeHandlerParams) => Promise<void>
-  onDeleteHandler: (params: OnDeleteParams) => Promise<void>
+  onDeleteHandler: (
+    id: number,
+    type: ScheduleEventType
+  ) => Promise<void>
+  onCreateHandler: (dto: ScheduleEventRead) => Promise<void>
+  onCreatePeriodHandler: (
+    id: number,
+    dto: ScheduleEventRead,
+    period: number,
+    range: PeriodRange
+  ) => MaybePromise<void>
 }
 
 export type Direction = 'down' | 'up'
@@ -141,6 +147,10 @@ export type DeserializedEventFields = Prettify<
     Pick<Required<LessonModelCreate>, DeserializedEventFieldsKeys>
 >
 
-export type DeserializedEvent =
+export type DeserializedEvent = (
   | DeserializedLessonFields
   | DeserializedEventFields
+) & {
+  is_canceled: boolean
+  is_completed: boolean
+}

@@ -39,7 +39,6 @@ export const ScheduleEventResizer: React.FC<
 
       if (!isEqualObjects(initialEvent, event)) {
         onChangeHandler({
-          type: 'update',
           dto: event,
           prevData: initialEvent,
         })

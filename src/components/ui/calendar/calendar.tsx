@@ -29,8 +29,8 @@ const defaultRange: Required<NonUndefinedFields<DateRange>> = {
 
 const formatDate = (date: Date) => format(date, formatValue)
 
-const CalendarPopover: React.FC<CalendarProps> = (props) => {
-  const { mode } = props
+const Calendar: React.FC<CalendarProps> = (props) => {
+  const { mode, placeholder } = props
 
   const getRangeLabel = (selected: DateRange) => {
     const from = formatDate(selected.from ?? defaultRange.from)
@@ -49,14 +49,13 @@ const CalendarPopover: React.FC<CalendarProps> = (props) => {
   const getLabel = () => {
     switch (mode) {
       case 'range':
-        return getRangeLabel(
-          props.selected ?? {
-            from: defaultRange.from,
-            to: defaultRange.to,
-          }
-        )
+        return props.selected
+          ? getRangeLabel(props.selected)
+          : placeholder
       case 'single':
-        return getSingleLabel(props.selected)
+        return props.selected
+          ? getSingleLabel(props.selected)
+          : placeholder
     }
   }
 
@@ -66,13 +65,13 @@ const CalendarPopover: React.FC<CalendarProps> = (props) => {
         <Button variant="outlined">{getLabel()}</Button>
       </PopoverTrigger>
       <PopoverContent align="end">
-        <Calendar {...props} />
+        <CalendarCard {...props} />
       </PopoverContent>
     </Popover>
   )
 }
 
-const Calendar: React.FC<CalendarProps> = ({
+const CalendarCard: React.FC<CalendarProps> = ({
   className,
   classNames,
   showOutsideDays = true,
@@ -333,4 +332,4 @@ const CalendarDayButton = ({
   )
 }
 
-export { Calendar, CalendarPopover, CalendarDayButton }
+export { CalendarCard, Calendar, CalendarDayButton }

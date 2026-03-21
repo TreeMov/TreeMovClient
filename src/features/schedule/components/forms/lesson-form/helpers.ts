@@ -4,7 +4,8 @@ import type {
   ScheduleField,
   ScheduleLessonFormFields,
 } from '../../../types'
-import type { Schema, SubmitSchema } from './types'
+
+import { type BaseSchema, type Schema } from './types'
 
 type GetDefaultValuesParams = Partial<
   Omit<ScheduleLessonFormFields, 'formType'>
@@ -40,7 +41,7 @@ export const getDefaultValues = (
 }
 
 type MapFormDataFieldsParams = {
-  data: SubmitSchema
+  data: BaseSchema
   queryData: ReturnType<typeof useFormQuery>
 }
 

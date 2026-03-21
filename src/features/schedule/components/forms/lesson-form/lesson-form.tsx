@@ -1,10 +1,11 @@
 import type { SubmitHandler } from 'react-hook-form'
+import type { ISelectOption } from '@/components/ui/select/types'
 import type { ScheduleEvent, ScheduleEventRead } from '../../../types'
-import type { Schema, SubmitSchema } from './types'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import React from 'react'
 
+import { Calendar } from '@/components/shared/calendar'
 import { Form } from '@/components/shared/form'
 import { Select } from '@/components/shared/select'
 import { Textarea } from '@/components/shared/textarea'
@@ -15,11 +16,13 @@ import { useFormQuery, useSchedule } from '../../../hooks'
 
 import { getDefaultValues, mapFormDataFields } from './helpers'
 import { schema } from './schema'
+import { PeriodEnum, type Schema, type SubmitSchema } from './types'
 
-const ConnectForm = createConnectForm<Schema, unknown, SubmitSchema>()
+const ConnectForm = createConnectForm<Schema>()
 
 export const LessonForm: React.FC<ScheduleEvent> = (event) => {
-  const { store, onChangeHandler } = useSchedule()
+  const { onChangeHandler, onCreateHandler, onCreatePeriodHandler } =
+    useSchedule()
 
   const queryData = useFormQuery()
   const {
@@ -29,8 +32,12 @@ export const LessonForm: React.FC<ScheduleEvent> = (event) => {
     studentGroups: { data: studentGroups },
   } = queryData
 
-  const onSubmit: SubmitHandler<SubmitSchema> = (data) => {
-    const { type } = event
+  const onSubmit: SubmitHandler<SubmitSchema> = async ({
+    period,
+    periodDateRange,
+    ...data
+  }) => {
+    const { id, type } = event
     const nextEvent: ScheduleEventRead = {
       ...event,
       type: 'read',
@@ -39,24 +46,32 @@ export const LessonForm: React.FC<ScheduleEvent> = (event) => {
       is_completed: false,
       ...mapFormDataFields({ data, queryData }),
     }
-    switch (type) {
-      case 'create':
-        onChangeHandler({
-          type: 'create',
-          dto: nextEvent,
-          prevData: event,
-        })
-        break
-      case 'read':
-        onChangeHandler({
-          type: 'update',
-          dto: nextEvent,
-          prevData: event,
-        })
-        break
+    if (period && periodDateRange) {
+      await onCreatePeriodHandler(
+        id,
+        nextEvent,
+        +period,
+        periodDateRange
+      )
+    } else {
+      switch (type) {
+        case 'create':
+          await onCreateHandler(nextEvent)
+          break
+        case 'read':
+          await onChangeHandler({
+            dto: nextEvent,
+            prevData: event,
+          })
+          break
+      }
     }
-    store.updateEvent(event.id, nextEvent)
   }
+
+  const periodOptions: ISelectOption[] = [
+    { label: 'Один раз в неделю', value: PeriodEnum._1_WEEK },
+    { label: 'Один раз в две недели', value: PeriodEnum._2_WEEK },
+  ]
 
   return (
     <Form<Schema, unknown, SubmitSchema>
@@ -67,6 +82,30 @@ export const LessonForm: React.FC<ScheduleEvent> = (event) => {
       onSubmit={onSubmit}
     >
       <div className="flex flex-col gap-6">
+        <ConnectForm>
+          {({ control }) => (
+            <Calendar
+              control={control}
+              name="periodDateRange"
+              inputProps={{
+                mode: 'range',
+                placeholder: 'Выберите дату',
+              }}
+            />
+          )}
+        </ConnectForm>
+        <ConnectForm>
+          {({ control }) => (
+            <Select
+              control={control}
+              name="period"
+              inputProps={{
+                placeholder: 'Переодичность',
+                options: periodOptions,
+              }}
+            />
+          )}
+        </ConnectForm>
         <ConnectForm>
           {({ control }) => (
             <Select
@@ -142,9 +181,15 @@ export const LessonForm: React.FC<ScheduleEvent> = (event) => {
           )}
         </ConnectForm>
 
-        <div className="flex items-center justify-center">
-          <Button className="min-w-35.5">Сохранить</Button>
-        </div>
+        <ConnectForm>
+          {({ formState: { isSubmitting } }) => (
+            <div className="flex items-center justify-center">
+              <Button isPending={isSubmitting} className="min-w-35.5">
+                Сохранить
+              </Button>
+            </div>
+          )}
+        </ConnectForm>
       </div>
     </Form>
   )
