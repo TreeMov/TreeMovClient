@@ -1,5 +1,7 @@
 import type React from 'react'
 
+import { useQueryClient } from '@tanstack/react-query'
+
 import { useLogoutAuth } from '@/api/generated/auth'
 import { useGetOrganizations } from '@/api/hooks/use-get-organizations'
 import { session } from '@/api/session'
@@ -19,6 +21,8 @@ import { paths } from '@/router'
 import { useAppLayout } from '../../hooks'
 
 export const AppUserOrganization: React.FC = () => {
+  const queryClient = useQueryClient()
+
   const { store, currentOrg, restOrgs } = useAppLayout()
   const navigate = useNavigate()
 
@@ -49,6 +53,11 @@ export const AppUserOrganization: React.FC = () => {
     })
   }
 
+  const onClick = (id: number) => {
+    store.changeOrg(id)
+    queryClient.invalidateQueries()
+  }
+
   if (isPending || !currentOrg) {
     return null
   }
@@ -75,7 +84,7 @@ export const AppUserOrganization: React.FC = () => {
               {restOrgs.map(({ org: { id, title } }) => (
                 <DropdownMenuItem
                   key={title}
-                  onClick={() => store.changeOrg(id)}
+                  onClick={() => onClick(id)}
                 >
                   {title}
                 </DropdownMenuItem>
