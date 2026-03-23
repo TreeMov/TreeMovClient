@@ -23,7 +23,7 @@ import {
 export const getScheduleHours = () =>
   getDayHours(
     addHours(startOfToday(), 8),
-    addHours(startOfToday(), 20)
+    addHours(startOfToday(), 22)
   )
 
 export const getSerializedTime = (time: string) =>
