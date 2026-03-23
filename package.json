@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "concurrently --names \"router,vite\" --prefix \"[{name}]\" --kill-others --kill-others-on-fail \"node --no-warnings --experimental-strip-types ./scripts/generate-router-contract.ts --watch\" \"vite\"",
+    "dev": "concurrently --names \"router,vite\" --prefix \"[{name}]\" --kill-others --kill-others-on-fail \"node --no-warnings --experimental-strip-types ./generator/router/generate-router-contract.ts --watch\" \"vite\"",
     "build": "npm run generate:router-contract && tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
@@ -14,8 +14,8 @@
     "generate:crm-core": "kubb generate --config ./generator/api/configs/crm-core.config.ts",
     "generate:email": "kubb generate --config ./generator/api/configs/email.config.ts",
     "generate:api": "npm run generate:auth && npm run generate:crm-core && npm run generate:email",
-    "generate:router-contract": "node --no-warnings --experimental-strip-types ./scripts/generate-router-contract.ts",
-    "watch:router-contract": "node --no-warnings --experimental-strip-types ./scripts/generate-router-contract.ts --watch",
+    "generate:router-contract": "node --no-warnings --experimental-strip-types ./generator/router/generate-router-contract.ts",
+    "watch:router-contract": "node --no-warnings --experimental-strip-types ./generator/router/generate-router-contract.ts --watch",
     "circular-imports-checker": "npx madge --circular --extensions ts,tsx --ts-config tsconfig.app.json src",
     "prepare": "husky"
   },
