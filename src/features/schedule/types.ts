@@ -6,6 +6,7 @@ import type {
   PeriodLessonModelCreate,
 } from '@/api/generated/core'
 import type { MaybePromise, Prettify } from '@/types/utility'
+import type { PeriodEnum } from './components/forms/lesson-form/types'
 import type { Store } from './store'
 
 export type ScheduleConfig = {
@@ -94,7 +95,10 @@ export type ScheduleProps = {
   onChange: (id: number, dto: LessonModelUpdate) => MaybePromise<void>
   onDelete: (id: number) => MaybePromise<void>
   onCreate: (dto: LessonModelCreate) => MaybePromise<void>
-  onCreatePeriod: (dto: PeriodLessonModelCreate) => MaybePromise<void>
+  onCreatePeriod: (
+    dto: Omit<PeriodLessonModelCreate, 'period'>,
+    period: PeriodEnum
+  ) => MaybePromise<void>
 }
 
 export type PeriodRange = {
@@ -122,7 +126,7 @@ export type ScheduleContextType = Omit<
   onCreatePeriodHandler: (
     id: number,
     dto: ScheduleEventRead,
-    period: number,
+    period: PeriodEnum,
     range: PeriodRange
   ) => MaybePromise<void>
 }

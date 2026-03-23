@@ -1,6 +1,13 @@
 import type { ContentProps } from './types'
 
-import { endOfWeek, format, startOfWeek } from 'date-fns'
+import {
+  eachDayOfInterval,
+  endOfWeek,
+  format,
+  isWeekend,
+  parseISO,
+  startOfWeek,
+} from 'date-fns'
 import React from 'react'
 
 import {
@@ -18,6 +25,7 @@ import {
   getScheduleHours,
   Schedule,
 } from '@/features/schedule'
+import { PeriodEnum } from '@/features/schedule/components/forms/lesson-form/types'
 import { getWeekDays } from '@/utils/helpers/dates'
 
 import { scheduleConfig } from '../../constants'
@@ -54,8 +62,48 @@ export const Content: React.FC<ContentProps> = ({ date }) => {
     await refetch()
   }
 
-  const onCreatePeriod = async (data: PeriodLessonModelCreate) => {
-    await createPeriod({ data })
+  const onCreatePeriod = async (
+    dto: Omit<PeriodLessonModelCreate, 'period'>,
+    period: PeriodEnum
+  ) => {
+    switch (period) {
+      case PeriodEnum.DAILY:
+        await createPeriod({ data: { ...dto, period: 1 } })
+        break
+      case PeriodEnum.WEEKLY:
+        await createPeriod({ data: { ...dto, period: 7 } })
+        break
+      case PeriodEnum.WEEKDAYS: {
+        const startDate = parseISO(dto.start_date)
+        const endDate = parseISO(dto.repeat_lessons_until_date)
+        const weekdaysByDay = new Map<number, string>()
+
+        for (const day of eachDayOfInterval({
+          start: startDate,
+          end: endDate,
+        })) {
+          if (isWeekend(day)) {
+            continue
+          }
+
+          const weekDay = day.getDay()
+          if (weekdaysByDay.has(weekDay)) {
+            continue
+          }
+
+          weekdaysByDay.set(weekDay, format(day, dateFormat))
+        }
+
+        await Promise.all(
+          [...weekdaysByDay.values()].map((startDateValue) =>
+            createPeriod({
+              data: { ...dto, start_date: startDateValue, period: 7 },
+            })
+          )
+        )
+        break
+      }
+    }
     await refetch()
   }
 

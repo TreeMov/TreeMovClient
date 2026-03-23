@@ -1,3 +1,4 @@
+import type { PeriodEnum } from './components/forms/lesson-form/types'
 import type {
   OnChangeHandlerParams,
   PeriodRange,
@@ -73,16 +74,18 @@ export const ScheduleProvider: React.FC<
     async (
       id: number,
       dto: ScheduleEventRead,
-      period: number,
+      period: PeriodEnum,
       { from, to }: PeriodRange
     ) => {
       try {
-        await onCreatePeriod({
-          ...deserializeEvent(dto),
-          start_date: from,
-          repeat_lessons_until_date: to,
-          period,
-        })
+        await onCreatePeriod(
+          {
+            ...deserializeEvent(dto),
+            start_date: from,
+            repeat_lessons_until_date: to,
+          },
+          period
+        )
         store.deleteEvent(id)
       } catch {
         toast('Не удалось создать мероприятия с периодом')

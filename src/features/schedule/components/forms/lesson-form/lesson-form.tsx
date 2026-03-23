@@ -50,7 +50,7 @@ export const LessonForm: React.FC<ScheduleEvent> = (event) => {
       await onCreatePeriodHandler(
         id,
         nextEvent,
-        +period,
+        period,
         periodDateRange
       )
     } else {
@@ -71,6 +71,7 @@ export const LessonForm: React.FC<ScheduleEvent> = (event) => {
   const periodOptions: ISelectOption[] = [
     { label: 'Ежедневно', value: PeriodEnum.DAILY },
     { label: 'Еженедельно', value: PeriodEnum.WEEKLY },
+    { label: 'По будням', value: PeriodEnum.WEEKDAYS },
   ]
 
   return (

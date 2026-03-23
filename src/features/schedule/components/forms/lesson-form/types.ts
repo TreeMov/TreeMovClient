@@ -2,8 +2,9 @@ import type z from 'zod'
 import type { baseSchema, schema } from './schema'
 
 export enum PeriodEnum {
-  DAILY = '1',
-  WEEKLY = '7',
+  DAILY = 'daily',
+  WEEKLY = 'weekly',
+  WEEKDAYS = 'weekdays',
 }
 
 export type BaseSchema = z.infer<typeof baseSchema>

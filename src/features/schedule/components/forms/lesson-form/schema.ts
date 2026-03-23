@@ -7,6 +7,8 @@ import { z } from 'zod'
 import { dateFormat } from '@/features/schedule/constants'
 import { requiredComboboxValue } from '@/utils/helpers/validation'
 
+import { PeriodEnum } from './types'
+
 export const baseSchema = z.object({
   subject: requiredComboboxValue,
   teacher: requiredComboboxValue,
@@ -18,7 +20,7 @@ export const baseSchema = z.object({
 export const schema = z
   .object({
     ...baseSchema.shape,
-    period: z.string().nullable().optional(),
+    period: z.custom<PeriodEnum>().nullable().optional(),
     periodDateRange: z
       .custom<Required<NonUndefinedFields<DateRange>>>()
       .nullable()
