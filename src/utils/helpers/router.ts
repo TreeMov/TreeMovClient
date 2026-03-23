@@ -1,24 +1,5 @@
-import { type RouteObject } from 'react-router'
-
-import {
-  type Args,
-  type ExtractConfig,
-  type PathParams,
-} from '@/types/libs/router'
+import { type Args, type PathParams } from '@/types/libs/router'
 import { type Prettify } from '@/types/utility'
-
-export const generateRouteMap = <T extends RouteObject>(
-  config: T[]
-): ExtractConfig<T> =>
-  config.reduce<ExtractConfig<T>>((acc, route) => {
-    if (route.children) {
-      return { ...acc, ...generateRouteMap(route.children) }
-    }
-    if (!route.id) {
-      return acc
-    }
-    return { ...acc, [route.id]: route.path }
-  }, {} as ExtractConfig<T>)
 
 const invariant = (value: unknown, message: string) => {
   if (!value) {
