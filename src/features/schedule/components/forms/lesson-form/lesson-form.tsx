@@ -69,8 +69,8 @@ export const LessonForm: React.FC<ScheduleEvent> = (event) => {
   }
 
   const periodOptions: ISelectOption[] = [
-    { label: 'Один раз в неделю', value: PeriodEnum._1_WEEK },
-    { label: 'Один раз в две недели', value: PeriodEnum._2_WEEK },
+    { label: 'Ежедневно', value: PeriodEnum.DAILY },
+    { label: 'Еженедельно', value: PeriodEnum.WEEKLY },
   ]
 
   return (
