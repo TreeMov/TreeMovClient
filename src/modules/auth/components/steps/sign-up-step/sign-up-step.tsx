@@ -18,7 +18,7 @@ import { Password } from '@/components/shared/password'
 import { Button } from '@/components/ui/button'
 import { Typography } from '@/components/ui/typography'
 import { createConnectForm } from '@/hocs/create-connect-form'
-import { paths } from '@/router'
+import { paths } from '@/router/contract'
 
 import { signUpSchema } from './schema'
 

@@ -4,6 +4,7 @@ import {
   differenceInMinutes,
   format,
   isValid,
+  subHours,
   subMinutes,
 } from 'date-fns'
 
@@ -28,7 +29,19 @@ export const useDroppableEvent = () => {
   } = useSchedule()
   const { getMouseDate } = useMouseEvents()
 
-  const isOutOfRange = (day: Date, timeToCompare: string) => {
+  const isOutOfRangeUpper = (day: Date, dateTimeToCompare: Date) => {
+    const boardMinHour = addMinutes(
+      subHours(
+        combineDateAndTime(day, format(hours[0], timeFormat)),
+        1
+      ),
+      59
+    )
+
+    return dateTimeToCompare < boardMinHour
+  }
+
+  const isOutOfRangeBottom = (day: Date, dateTimeToCompare: Date) => {
     const boardMaxHour = addHours(
       combineDateAndTime(
         day,
@@ -36,9 +49,33 @@ export const useDroppableEvent = () => {
       ),
       1
     )
-    const nextTime = combineDateAndTime(day, timeToCompare)
 
-    return nextTime > boardMaxHour
+    return dateTimeToCompare > boardMaxHour
+  }
+
+  const getExtremeRange = (
+    day: Date,
+    eventDurationInMinutes: number
+  ) => {
+    const rangeEndTime = addHours(
+      combineDateAndTime(
+        day,
+        format(hours[hours.length - 1], timeFormat)
+      ),
+      1
+    )
+    const rangeStartTime = subMinutes(
+      rangeEndTime,
+      eventDurationInMinutes
+    )
+
+    const formattedRangeStartTime = format(rangeStartTime, timeFormat)
+    const formattedRangeEndTime = format(rangeEndTime, timeFormat)
+
+    return {
+      startTime: formattedRangeStartTime,
+      endTime: formattedRangeEndTime,
+    }
   }
 
   const getEventRange = ({
@@ -63,40 +100,19 @@ export const useDroppableEvent = () => {
       date ?? start_time,
       (store.dragSegment ?? 0) * segmentSize
     )
-    const startTime = format(dateWithOffset, timeFormat)
-    const endTime = format(
-      addMinutes(dateWithOffset, eventDurationInMinutes),
-      timeFormat
-    )
+    const startTime = dateWithOffset
+    const endTime = addMinutes(dateWithOffset, eventDurationInMinutes)
 
-    // todo при endTime > 23:59 происходит переход в 00:00 и ломается логика
-    // нужно продумать переход времени так же на следующую дату
-    // чтобы работало корректно со всеми диапазонами часов
-    if (isOutOfRange(day, endTime)) {
-      const rangeEndTime = addHours(
-        combineDateAndTime(
-          day,
-          format(hours[hours.length - 1], timeFormat)
-        ),
-        1
-      )
-      const rangeStartTime = subMinutes(
-        rangeEndTime,
-        eventDurationInMinutes
-      )
+    if (isOutOfRangeBottom(day, endTime))
+      return getExtremeRange(day, eventDurationInMinutes)
 
-      const formattedRangeStartTime = format(
-        rangeStartTime,
-        timeFormat
-      )
-      const formattedRangeEndTime = format(rangeEndTime, timeFormat)
+    if (isOutOfRangeUpper(day, startTime))
+      return getExtremeRange(day, eventDurationInMinutes)
 
-      return {
-        startTime: formattedRangeStartTime,
-        endTime: formattedRangeEndTime,
-      }
+    return {
+      startTime: format(startTime, timeFormat),
+      endTime: format(endTime, timeFormat),
     }
-    return { startTime, endTime }
   }
 
   return { getEventRange }

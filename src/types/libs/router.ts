@@ -23,12 +23,11 @@ export type Args<T extends string> =
     ? { path: T }
     : { path: T; params: Prettify<PathParams<T>> }
 
-export type ExtractConfig<T extends RouteObject> =
-  T['id'] extends string
-    ? { [K in T['id']]: T['path'] } & Prettify<
-        ExtractChildren<T['children']>
-      >
-    : Prettify<ExtractChildren<T['children']>>
+type ExtractConfig<T extends RouteObject> = T['id'] extends string
+  ? { [K in T['id']]: T['path'] } & Prettify<
+      ExtractChildren<T['children']>
+    >
+  : Prettify<ExtractChildren<T['children']>>
 
 type ExtractChildren<T extends RouteObject[] | undefined> =
   T extends [

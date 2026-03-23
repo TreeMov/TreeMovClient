@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Icon } from '@/components/ui/icon'
 import { useNavigate } from '@/hooks/use-navigate'
-import { paths } from '@/router'
+import { paths } from '@/router/contract'
 
 import { useAppLayout } from '../../hooks'
 

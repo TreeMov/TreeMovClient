@@ -2,7 +2,7 @@ import React from 'react'
 
 import { useNavigate } from '@/hooks/use-navigate'
 import { useSteps } from '@/modules/auth/hooks'
-import { paths } from '@/router'
+import { paths } from '@/router/contract'
 
 import { SignInStep } from '../../../steps'
 import { stepSequence } from '../../constants'

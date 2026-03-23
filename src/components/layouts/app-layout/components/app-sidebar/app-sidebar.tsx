@@ -12,7 +12,7 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar'
 import { Typography } from '@/components/ui/typography'
-import { paths } from '@/router'
+import { paths } from '@/router/contract'
 import { cn } from '@/utils/helpers/shadcn'
 
 import { SidebarLink } from '../sidebar-link'

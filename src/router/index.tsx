@@ -12,7 +12,6 @@ import { scheduleRoute } from '@/pages/schedule'
 import { signInRoute } from '@/pages/sign-in'
 import { signUpRoute } from '@/pages/sign-up'
 import { studentsRoute } from '@/pages/students'
-import { generateRouteMap } from '@/utils/helpers/router'
 
 export const routerConfig = {
   element: <RootLayout />,
@@ -40,5 +39,4 @@ export const routerConfig = {
   ],
 } as const satisfies RouteObject
 
-export const paths = generateRouteMap([routerConfig])
 export const router = createBrowserRouter([routerConfig])
