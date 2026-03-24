@@ -1,4 +1,4 @@
-import type { PeriodEnum } from './components/forms/lesson-form/types'
+import type { PeriodEnum } from './components'
 import type {
   OnChangeHandlerParams,
   PeriodRange,
@@ -10,6 +10,8 @@ import type {
 
 import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { toast } from 'sonner'
+
+import { getWeekDays } from '@/utils/helpers/dates'
 
 import { ScheduleContext } from './context'
 import { deserializeEvent } from './helpers'
@@ -26,9 +28,17 @@ export const ScheduleProvider: React.FC<
   onCreatePeriod,
   ...props
 }) => {
+  const { selectedDate } = props
+
   const [store] = useState(new Store())
 
   const contentRef = useRef<HTMLDivElement>(null)
+
+  const days = useMemo(
+    () =>
+      view === 'day' ? [selectedDate] : getWeekDays(selectedDate),
+    [selectedDate, view]
+  )
 
   const onChangeHandler = useCallback(
     async (params: OnChangeHandlerParams) => {
@@ -99,6 +109,7 @@ export const ScheduleProvider: React.FC<
       store,
       contentRef,
       view,
+      days,
       onChangeHandler,
       onDeleteHandler,
       onCreateHandler,
@@ -109,6 +120,7 @@ export const ScheduleProvider: React.FC<
       props,
       store,
       view,
+      days,
       onChangeHandler,
       onCreateHandler,
       onDeleteHandler,

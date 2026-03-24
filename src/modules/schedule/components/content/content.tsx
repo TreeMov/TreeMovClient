@@ -25,12 +25,15 @@ import {
   getScheduleHours,
   Schedule,
 } from '@/features/schedule'
-import { PeriodEnum } from '@/features/schedule/components/forms/lesson-form/types'
-import { getWeekDays } from '@/utils/helpers/dates'
+import { PeriodEnum } from '@/features/schedule/components/schedule-form'
 
 import { scheduleConfig } from '../../constants'
 
-export const Content: React.FC<ContentProps> = ({ date }) => {
+export const Content: React.FC<ContentProps> = ({
+  date,
+  view,
+  setQueryFilter,
+}) => {
   const { mutateAsync: deleteEvent } = useLessons2()
   const { mutateAsync: updateEvent } = useUpdateStudentsLessonsId()
   const { mutateAsync: createEvent } = useCreateLessons()
@@ -109,15 +112,22 @@ export const Content: React.FC<ContentProps> = ({ date }) => {
 
   return (
     <Schedule
+      view={view}
       config={scheduleConfig}
       events={events ?? []}
       isLoading={isPending}
-      days={getWeekDays(new Date(date))}
-      hours={getScheduleHours()}
+      selectedDate={new Date(date)}
+      hours={getScheduleHours(8, 22)}
       onChange={onChange}
       onDelete={onDelete}
       onCreate={onCreate}
       onCreatePeriod={onCreatePeriod}
+      onClickCell={(date) =>
+        setQueryFilter({
+          date: format(date, dateFormat),
+          view: 'day',
+        })
+      }
     />
   )
 }

@@ -1,7 +1,15 @@
 import type { OnSelectHandler } from 'react-day-picker'
 import type { ComboboxOption } from '@/components/primitives/combobox'
 
-import { addWeeks, format, subWeeks } from 'date-fns'
+import {
+  addDays,
+  addMonths,
+  addWeeks,
+  format,
+  subDays,
+  subMonths,
+  subWeeks,
+} from 'date-fns'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import React from 'react'
 
@@ -21,16 +29,44 @@ export const Header: React.FC = () => {
     })
   }
 
-  const onNextWeek = () => {
-    setQueryFilter({
-      date: format(addWeeks(date, 1), dateFormat),
-    })
+  const onNext = () => {
+    switch (view) {
+      case 'day':
+        setQueryFilter({
+          date: format(addDays(date, 1), dateFormat),
+        })
+        break
+      case 'week':
+        setQueryFilter({
+          date: format(addWeeks(date, 1), dateFormat),
+        })
+        break
+      case 'month':
+        setQueryFilter({
+          date: format(addMonths(date, 1), dateFormat),
+        })
+        break
+    }
   }
 
-  const onPrevWeek = () => {
-    setQueryFilter({
-      date: format(subWeeks(date, 1), dateFormat),
-    })
+  const onPrev = () => {
+    switch (view) {
+      case 'day':
+        setQueryFilter({
+          date: format(subDays(date, 1), dateFormat),
+        })
+        break
+      case 'week':
+        setQueryFilter({
+          date: format(subWeeks(date, 1), dateFormat),
+        })
+        break
+      case 'month':
+        setQueryFilter({
+          date: format(subMonths(date, 1), dateFormat),
+        })
+        break
+    }
   }
 
   const viewOptions: ComboboxOption<ScheduleView>[] = [
@@ -41,10 +77,10 @@ export const Header: React.FC = () => {
 
   return (
     <div className="flex items-center gap-2.5">
-      <Button variant="outlined" size="icon-md" onClick={onPrevWeek}>
+      <Button variant="outlined" size="icon-md" onClick={onPrev}>
         <ChevronLeft />
       </Button>
-      <Button variant="outlined" size="icon-md" onClick={onNextWeek}>
+      <Button variant="outlined" size="icon-md" onClick={onNext}>
         <ChevronRight />
       </Button>
       <Calendar

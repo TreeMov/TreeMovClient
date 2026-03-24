@@ -11,7 +11,7 @@ export const ScheduleContentWrapper: React.FC<
 
   return (
     <ScrollArea
-      className="border-grey-200 h-full overflow-hidden rounded-xl border select-none"
+      className="border-grey-200 h-full overflow-hidden rounded-xl border"
       disabled={isLoading}
     >
       {children}

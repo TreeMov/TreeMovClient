@@ -1,6 +1,9 @@
 import type { SubmitHandler } from 'react-hook-form'
-import type { ISelectOption } from '@/components/ui/select/types'
-import type { ScheduleEvent, ScheduleEventRead } from '../../../types'
+import type {
+  ScheduleEvent,
+  ScheduleEventRead,
+} from '@/features/schedule/types'
+import type { FormActions } from '../../types'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import React from 'react'
@@ -10,22 +13,26 @@ import { Form } from '@/components/shared/form'
 import { Select } from '@/components/shared/select'
 import { Textarea } from '@/components/shared/textarea'
 import { Button } from '@/components/ui/button'
+import { useFormQuery } from '@/features/schedule/hooks'
 import { createConnectForm } from '@/hocs/create-connect-form'
 
-import { useFormQuery, useSchedule } from '../../../hooks'
+import { periodOptions } from '../../constants'
 
 import { getDefaultValues, mapFormDataFields } from './helpers'
 import { schema } from './schema'
-import { PeriodEnum, type Schema, type SubmitSchema } from './types'
+import { type Schema, type SubmitSchema } from './types'
 
 const ConnectForm = createConnectForm<Schema>()
 
-export const LessonForm: React.FC<ScheduleEvent> = (event) => {
-  const { onChangeHandler, onCreateHandler, onCreatePeriodHandler } =
-    useSchedule()
-
+export const LessonForm: React.FC<ScheduleEvent & FormActions> = ({
+  onChangeHandler,
+  onCreateHandler,
+  onCreatePeriodHandler,
+  ...event
+}) => {
   const queryData = useFormQuery()
   const {
+    isPending,
     subjects: { data: subjects },
     teachers: { data: teachers },
     classrooms: { data: classrooms },
@@ -68,17 +75,12 @@ export const LessonForm: React.FC<ScheduleEvent> = (event) => {
     }
   }
 
-  const periodOptions: ISelectOption[] = [
-    { label: 'Ежедневно', value: PeriodEnum.DAILY },
-    { label: 'Еженедельно', value: PeriodEnum.WEEKLY },
-    { label: 'По будням', value: PeriodEnum.WEEKDAYS },
-  ]
-
   return (
     <Form<Schema, unknown, SubmitSchema>
       useFormProps={{
         resolver: zodResolver(schema),
         defaultValues: getDefaultValues(event),
+        disabled: isPending,
       }}
       onSubmit={onSubmit}
     >
@@ -177,7 +179,10 @@ export const LessonForm: React.FC<ScheduleEvent> = (event) => {
             <Textarea
               control={control}
               name="comment"
-              inputProps={{ placeholder: 'Описание' }}
+              inputProps={{
+                variant: 'underline',
+                placeholder: 'Описание',
+              }}
             />
           )}
         </ConnectForm>
