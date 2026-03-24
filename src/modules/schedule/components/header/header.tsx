@@ -1,9 +1,19 @@
 import type { OnSelectHandler } from 'react-day-picker'
 import type { ComboboxOption } from '@/components/primitives/combobox'
 
-import { format } from 'date-fns'
+import {
+  addDays,
+  addMonths,
+  addWeeks,
+  format,
+  subDays,
+  subMonths,
+  subWeeks,
+} from 'date-fns'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import React from 'react'
 
+import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import { Select } from '@/components/ui/select'
 import { dateFormat, type ScheduleView } from '@/features/schedule'
@@ -19,6 +29,46 @@ export const Header: React.FC = () => {
     })
   }
 
+  const onNext = () => {
+    switch (view) {
+      case 'day':
+        setQueryFilter({
+          date: format(addDays(date, 1), dateFormat),
+        })
+        break
+      case 'week':
+        setQueryFilter({
+          date: format(addWeeks(date, 1), dateFormat),
+        })
+        break
+      case 'month':
+        setQueryFilter({
+          date: format(addMonths(date, 1), dateFormat),
+        })
+        break
+    }
+  }
+
+  const onPrev = () => {
+    switch (view) {
+      case 'day':
+        setQueryFilter({
+          date: format(subDays(date, 1), dateFormat),
+        })
+        break
+      case 'week':
+        setQueryFilter({
+          date: format(subWeeks(date, 1), dateFormat),
+        })
+        break
+      case 'month':
+        setQueryFilter({
+          date: format(subMonths(date, 1), dateFormat),
+        })
+        break
+    }
+  }
+
   const viewOptions: ComboboxOption<ScheduleView>[] = [
     { value: 'day', label: 'День' },
     { value: 'week', label: 'Неделя' },
@@ -27,6 +77,12 @@ export const Header: React.FC = () => {
 
   return (
     <div className="flex items-center gap-2.5">
+      <Button variant="outlined" size="icon-md" onClick={onPrev}>
+        <ChevronLeft />
+      </Button>
+      <Button variant="outlined" size="icon-md" onClick={onNext}>
+        <ChevronRight />
+      </Button>
       <Calendar
         required
         mode="single"

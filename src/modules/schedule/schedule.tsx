@@ -1,4 +1,3 @@
-import { omit } from 'lodash-es'
 import React from 'react'
 
 import { PageLayout } from '@/components/layouts/page-layout'
@@ -15,7 +14,7 @@ export const Schedule: React.FC = () => {
       actions={<Header />}
       scrollable={false}
     >
-      <Content {...omit(filters, ['setQueryFilter'])} />
+      <Content {...filters} />
     </PageLayout>
   )
 }

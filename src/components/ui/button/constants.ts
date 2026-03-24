@@ -1,12 +1,13 @@
 import { cva } from 'class-variance-authority'
 
 const buttonVariants = cva(
-  'inline-flex shrink-0 cursor-pointer items-center justify-center disabled:cursor-auto',
+  'inline-flex shrink-0 cursor-pointer items-center justify-center disabled:cursor-not-allowed',
   {
     variants: {
       variant: {
         primary: 'bg-violet-600 text-white disabled:bg-violet-600/60',
-        outlined: 'border-grey-400 border bg-white',
+        outlined:
+          'border-grey-200 border bg-white disabled:opacity-50',
         ghost: 'bg-transparent',
       },
       size: {

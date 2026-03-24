@@ -5,7 +5,12 @@ import type {
   LessonModelUpdate,
   PeriodLessonModelCreate,
 } from '@/api/generated/core'
-import type { MaybePromise, Prettify } from '@/types/utility'
+import type {
+  MaybePromise,
+  NonNullableFields,
+  Prettify,
+} from '@/types/utility'
+import type { PeriodEnum } from './components'
 import type { Store } from './store'
 
 export type ScheduleConfig = {
@@ -87,14 +92,18 @@ export type ScheduleEvent = ScheduleEventCreate | ScheduleEventRead
 export type ScheduleProps = {
   config: ScheduleConfig
   events: LessonModelRead[]
-  days: Date[]
+  selectedDate: Date
   hours: Date[]
   isLoading?: boolean
   view?: ScheduleView
   onChange: (id: number, dto: LessonModelUpdate) => MaybePromise<void>
   onDelete: (id: number) => MaybePromise<void>
   onCreate: (dto: LessonModelCreate) => MaybePromise<void>
-  onCreatePeriod: (dto: PeriodLessonModelCreate) => MaybePromise<void>
+  onCreatePeriod: (
+    dto: Omit<PeriodLessonModelCreate, 'period'>,
+    period: PeriodEnum
+  ) => MaybePromise<void>
+  onClickCell?: (date: Date) => void
 }
 
 export type PeriodRange = {
@@ -113,6 +122,7 @@ export type ScheduleContextType = Omit<
 > & {
   store: Store
   contentRef: RefObject<HTMLDivElement | null>
+  days: Date[]
   onChangeHandler: (params: OnChangeHandlerParams) => Promise<void>
   onDeleteHandler: (
     id: number,
@@ -122,7 +132,7 @@ export type ScheduleContextType = Omit<
   onCreatePeriodHandler: (
     id: number,
     dto: ScheduleEventRead,
-    period: number,
+    period: PeriodEnum,
     range: PeriodRange
   ) => MaybePromise<void>
 }
@@ -154,3 +164,37 @@ export type DeserializedEvent = (
   is_canceled: boolean
   is_completed: boolean
 }
+
+export type SeriazliedEventCommonFieldsKeys = keyof Pick<
+  SerializedFields,
+  'comment'
+>
+
+export type SerializedLessonFieldsKeys = keyof Pick<
+  SerializedFields,
+  'subject' | 'classroom' | 'teacher' | 'student_group'
+>
+
+export type SerializedEventFieldsKeys = keyof Pick<
+  SerializedFields,
+  'title'
+>
+
+export type SerializedFields = Pick<
+  LessonModelRead,
+  keyof (ScheduleLessonFormFieldsBase & ScheduleEventFormFieldsBase)
+>
+
+export type SerializedLessonFields = Prettify<
+  NonNullableFields<
+    Pick<SerializedFields, SerializedLessonFieldsKeys>
+  > &
+    Pick<SerializedFields, SeriazliedEventCommonFieldsKeys>
+>
+
+export type SerializedEventFields = Prettify<
+  NonNullableFields<
+    Pick<SerializedFields, SerializedEventFieldsKeys>
+  > &
+    Pick<SerializedFields, SeriazliedEventCommonFieldsKeys>
+>

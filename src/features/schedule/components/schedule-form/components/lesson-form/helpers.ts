@@ -1,9 +1,9 @@
-import type { useFormQuery } from '../../../hooks'
+import type { useFormQuery } from '@/features/schedule/hooks'
 import type {
   ScheduleEvent,
   ScheduleField,
   ScheduleLessonFormFields,
-} from '../../../types'
+} from '@/features/schedule/types'
 
 import { type BaseSchema, type Schema } from './types'
 

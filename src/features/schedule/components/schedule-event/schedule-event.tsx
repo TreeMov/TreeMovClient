@@ -2,6 +2,7 @@ import type { ScheduleEventProps } from './types'
 
 import { useDraggable } from '@dnd-kit/react'
 import React from 'react'
+import { createPortal } from 'react-dom'
 
 import { useEventPosition } from '../../hooks'
 import { ScheduleEventResizer } from '../schedule-event-resizer'
@@ -34,8 +35,16 @@ export const ScheduleEvent: React.FC<ScheduleEventProps> = ({
           <div className="absolute top-0 left-0 size-full" />
         </SchedulePopover>
       </div>
-
       <ScheduleEventResizer event={event} />
+
+      {state === 'resize' &&
+        createPortal(
+          <React.Fragment>
+            <style>{` * { cursor: n-resize !important; } `}</style>
+            <style>{` * { user-select: none !important; -webkit-user-select: none !important; } `}</style>
+          </React.Fragment>,
+          document.head
+        )}
     </Event>
   )
 }

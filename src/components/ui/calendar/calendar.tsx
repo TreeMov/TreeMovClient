@@ -30,7 +30,7 @@ const defaultRange: Required<NonUndefinedFields<DateRange>> = {
 const formatDate = (date: Date) => format(date, formatValue)
 
 const Calendar: React.FC<CalendarProps> = (props) => {
-  const { mode, placeholder } = props
+  const { mode, placeholder, disabled } = props
 
   const getRangeLabel = (selected: DateRange) => {
     const from = formatDate(selected.from ?? defaultRange.from)
@@ -61,8 +61,14 @@ const Calendar: React.FC<CalendarProps> = (props) => {
 
   return (
     <Popover>
-      <PopoverTrigger asChild>
-        <Button variant="outlined">{getLabel()}</Button>
+      <PopoverTrigger asChild disabled={!!disabled}>
+        <Button
+          className="justify-start"
+          variant="outlined"
+          disabled={!!disabled}
+        >
+          {getLabel()}
+        </Button>
       </PopoverTrigger>
       <PopoverContent align="end">
         <CalendarCard {...props} />

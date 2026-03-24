@@ -1,6 +1,5 @@
 import type { ScheduleEvent } from '../../types'
 
-import { X } from 'lucide-react'
 import React, { useState } from 'react'
 
 import {
@@ -8,18 +7,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from '@/components/ui/tabs'
 
 import { useSchedule } from '../../hooks'
-import { EventForm, LessonForm } from '../forms'
-import { ScheduleDelete } from '../schedule-delete'
-
-import { TabsEnum, tabsOptions } from './constants'
+import { ScheduleForm } from '../schedule-form'
 
 export const SchedulePopover: React.FC<
   React.PropsWithChildren<ScheduleEvent>
@@ -30,7 +20,12 @@ export const SchedulePopover: React.FC<
   const [open, setOpen] = useState(defaultOpen)
   const [initialState] = useState(event.state)
 
-  const { store } = useSchedule()
+  const {
+    store,
+    onCreateHandler,
+    onCreatePeriodHandler,
+    onChangeHandler,
+  } = useSchedule()
 
   const onOpenChange = (open: boolean) => {
     setOpen(open)
@@ -48,32 +43,15 @@ export const SchedulePopover: React.FC<
         sideOffset={16}
         side="right"
         align="start"
-        className="min-w-118 shadow-2xl"
+        className="w-118 shadow-2xl"
       >
-        <div className="mb-4 flex items-center justify-end gap-3">
-          <ScheduleDelete id={id} type={type} />
-          <button
-            className="flex size-6 cursor-pointer items-center justify-center"
-            onClick={() => setOpen(false)}
-          >
-            <X />
-          </button>
-        </div>
-        <Tabs defaultValue={TabsEnum.LESSON}>
-          <TabsList className="mb-6 flex w-full items-center justify-center gap-3">
-            {tabsOptions.map(({ value, label }) => (
-              <TabsTrigger key={value} value={value}>
-                {label}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-          <TabsContent value={TabsEnum.LESSON}>
-            <LessonForm {...event} />
-          </TabsContent>
-          <TabsContent value={TabsEnum.EVENT}>
-            <EventForm {...event} />
-          </TabsContent>
-        </Tabs>
+        <ScheduleForm
+          onCreateHandler={onCreateHandler}
+          onCreatePeriodHandler={onCreatePeriodHandler}
+          onChangeHandler={onChangeHandler}
+          onClose={() => setOpen(false)}
+          {...event}
+        />
       </PopoverContent>
     </Popover>
   )

@@ -2,6 +2,7 @@ import { DragOverlay } from '@dnd-kit/react'
 import React, { useEffect } from 'react'
 
 import { Spinner } from '@/components/ui/spinner'
+import { cn } from '@/utils/helpers/shadcn'
 
 import { useSchedule } from '../../hooks'
 import { ScheduleCol } from '../schedule-col'
@@ -12,7 +13,8 @@ import { ScheduleHeader } from '../schedule-header'
 import { ScheduleHoursCol } from '../schedule-hours-col'
 
 export const ScheduleContent: React.FC = () => {
-  const { store, events, contentRef, days, isLoading } = useSchedule()
+  const { store, events, contentRef, isLoading, view, days } =
+    useSchedule()
 
   useEffect(() => {
     store.syncEvents(events)
@@ -24,7 +26,12 @@ export const ScheduleContent: React.FC = () => {
       <div className="grid grid-cols-[1fr_7fr]">
         <ScheduleHoursCol className="not-last:border-grey-200 not-last:border-r" />
         <ScheduleDndProvider>
-          <div ref={contentRef} className="relative grid grid-cols-7">
+          <div
+            ref={contentRef}
+            className={cn({
+              'relative grid grid-cols-7': view !== 'day',
+            })}
+          >
             {days.map((day) => (
               <ScheduleColEvents
                 key={day.getTime()}

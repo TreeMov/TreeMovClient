@@ -2,14 +2,14 @@ import type { LessonModelRead } from '@/api/generated/core'
 import type {
   DeserializedEvent,
   ScheduleEventFormFields,
-  ScheduleEventFormFieldsBase,
   ScheduleEventRead,
   ScheduleLessonFormFields,
-  ScheduleLessonFormFieldsBase,
+  SerializedEventFields,
+  SerializedLessonFields,
 } from './types'
 
 import { addHours, format, parse, set, startOfToday } from 'date-fns'
-import { every, has, omit } from 'lodash-es'
+import { omit } from 'lodash-es'
 
 import { getDayHours } from '@/utils/helpers/dates'
 
@@ -19,36 +19,24 @@ import {
   lessonFormFields,
   timeFormat,
 } from './constants'
+import { isSerializedLesson } from './typeguards'
 
-export const getScheduleHours = () =>
+export const getScheduleHours = (start: number, end: number) =>
   getDayHours(
-    addHours(startOfToday(), 8),
-    addHours(startOfToday(), 22)
+    addHours(startOfToday(), start),
+    addHours(startOfToday(), end)
   )
 
 export const getSerializedTime = (time: string) =>
   time.split(':').slice(0, 2).join(':')
 
 export const serializeEventsFields = (
-  fields: Pick<
-    LessonModelRead,
-    keyof (ScheduleLessonFormFieldsBase & ScheduleEventFormFieldsBase)
-  >
+  fields: SerializedLessonFields | SerializedEventFields
 ): ScheduleLessonFormFields | ScheduleEventFormFields => {
-  const isLessonForm = every(lessonFormFields, (key) =>
-    has(fields, key)
-  )
+  if (isSerializedLesson(fields)) {
+    const { subject, teacher, classroom, student_group, comment } =
+      fields
 
-  const {
-    subject,
-    teacher,
-    classroom,
-    student_group,
-    title,
-    comment,
-  } = fields
-
-  if (isLessonForm) {
     return {
       formType: 'lesson',
       subject: { id: subject.id, label: subject.title },
@@ -61,6 +49,7 @@ export const serializeEventsFields = (
       comment: comment ?? '',
     }
   } else {
+    const { title } = fields
     return { formType: 'event', title }
   }
 }
@@ -76,7 +65,7 @@ export const serializeEvent = ({
   state: 'normal',
   start_time: getSerializedTime(start_time),
   end_time: getSerializedTime(end_time),
-  color: event.subject.color,
+  color: event.subject?.color ?? '#ffffff',
   ...serializeEventsFields(event),
 })
 

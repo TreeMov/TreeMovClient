@@ -37,19 +37,19 @@ export type LessonModelRead = {
   /**
    * @type object
    */
-  teacher: TeacherModelRead
+  teacher: TeacherModelRead | null
   /**
    * @type object
    */
-  classroom: ClassroomModelRead
+  classroom: ClassroomModelRead | null
   /**
    * @type object
    */
-  student_group: StudentGroupModelRead
+  student_group: StudentGroupModelRead | null
   /**
    * @type object
    */
-  subject: SubjectModelRead
+  subject: SubjectModelRead | null
   /**
    * @type string, date
    */
