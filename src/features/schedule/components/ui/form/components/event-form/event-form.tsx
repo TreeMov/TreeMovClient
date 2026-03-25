@@ -1,10 +1,4 @@
-import type { SubmitHandler } from 'react-hook-form'
-import type {
-  ScheduleEvent,
-  ScheduleEventRead,
-} from '@/features/schedule/types'
-import type { FormActions } from '../../types'
-import type { Schema } from './types'
+import type { EventFormProps, InputSchema } from './types'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import React from 'react'
@@ -20,60 +14,17 @@ import { periodOptions } from '../../constants'
 
 import { schema } from './schema'
 
-const ConnectForm = createConnectForm<Schema>()
+const ConnectForm = createConnectForm<InputSchema>()
 
-export const EventForm: React.FC<ScheduleEvent & FormActions> = ({
-  onChangeHandler,
-  onCreateHandler,
-  onCreatePeriodHandler,
-  ...event
+export const EventForm: React.FC<EventFormProps> = ({
+  defaultValues,
+  onSubmit,
 }) => {
-  const onSubmit: SubmitHandler<Schema> = async ({
-    title,
-    period,
-    periodDateRange,
-  }) => {
-    const { id, type } = event
-    const nextEvent: ScheduleEventRead = {
-      ...event,
-      type: 'read',
-      formType: 'event',
-      is_canceled: false,
-      is_completed: false,
-      title,
-    }
-    if (period && periodDateRange) {
-      await onCreatePeriodHandler(
-        id,
-        nextEvent,
-        period,
-        periodDateRange
-      )
-    } else {
-      switch (type) {
-        case 'create':
-          await onCreateHandler(nextEvent)
-          break
-        case 'read':
-          await onChangeHandler({
-            dto: nextEvent,
-            prevData: event,
-          })
-          break
-      }
-    }
-  }
-
   return (
     <Form
       useFormProps={{
         resolver: zodResolver(schema),
-        defaultValues: {
-          title:
-            event.type === 'read' && event.formType === 'event'
-              ? event.title
-              : '',
-        },
+        defaultValues: defaultValues,
       }}
       onSubmit={onSubmit}
     >

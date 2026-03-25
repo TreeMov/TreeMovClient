@@ -4,8 +4,10 @@ import type {
   ScheduleField,
   ScheduleLessonFormFields,
 } from '@/features/schedule/types'
-
-import { type BaseSchema, type Schema } from './types'
+import type {
+  BaseSchema,
+  InputSchema,
+} from '../ui/form/components/lesson-form/types'
 
 type GetDefaultValuesParams = Partial<
   Omit<ScheduleLessonFormFields, 'formType'>
@@ -18,7 +20,7 @@ const mapField = (
 
 export const getDefaultValues = (
   event: GetDefaultValuesParams
-): Schema => {
+): InputSchema => {
   if (event.type === 'create') {
     return {
       subject: null,

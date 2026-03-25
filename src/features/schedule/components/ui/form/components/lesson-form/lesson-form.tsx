@@ -1,10 +1,3 @@
-import type { SubmitHandler } from 'react-hook-form'
-import type {
-  ScheduleEvent,
-  ScheduleEventRead,
-} from '@/features/schedule/types'
-import type { FormActions } from '../../types'
-
 import { zodResolver } from '@hookform/resolvers/zod'
 import React from 'react'
 
@@ -18,17 +11,18 @@ import { createConnectForm } from '@/hocs/create-connect-form'
 
 import { periodOptions } from '../../constants'
 
-import { getDefaultValues, mapFormDataFields } from './helpers'
 import { schema } from './schema'
-import { type Schema, type SubmitSchema } from './types'
+import {
+  type InputSchema,
+  type LessonFormProps,
+  type OutputSchema,
+} from './types'
 
-const ConnectForm = createConnectForm<Schema>()
+const ConnectForm = createConnectForm<InputSchema>()
 
-export const LessonForm: React.FC<ScheduleEvent & FormActions> = ({
-  onChangeHandler,
-  onCreateHandler,
-  onCreatePeriodHandler,
-  ...event
+export const LessonForm: React.FC<LessonFormProps> = ({
+  defaultValues,
+  onSubmit,
 }) => {
   const queryData = useFormQuery()
   const {
@@ -39,47 +33,11 @@ export const LessonForm: React.FC<ScheduleEvent & FormActions> = ({
     studentGroups: { data: studentGroups },
   } = queryData
 
-  const onSubmit: SubmitHandler<SubmitSchema> = async ({
-    period,
-    periodDateRange,
-    ...data
-  }) => {
-    const { id, type } = event
-    const nextEvent: ScheduleEventRead = {
-      ...event,
-      type: 'read',
-      formType: 'lesson',
-      is_canceled: false,
-      is_completed: false,
-      ...mapFormDataFields({ data, queryData }),
-    }
-    if (period && periodDateRange) {
-      await onCreatePeriodHandler(
-        id,
-        nextEvent,
-        period,
-        periodDateRange
-      )
-    } else {
-      switch (type) {
-        case 'create':
-          await onCreateHandler(nextEvent)
-          break
-        case 'read':
-          await onChangeHandler({
-            dto: nextEvent,
-            prevData: event,
-          })
-          break
-      }
-    }
-  }
-
   return (
-    <Form<Schema, unknown, SubmitSchema>
+    <Form<InputSchema, unknown, OutputSchema>
       useFormProps={{
         resolver: zodResolver(schema),
-        defaultValues: getDefaultValues(event),
+        defaultValues,
         disabled: isPending,
       }}
       onSubmit={onSubmit}
