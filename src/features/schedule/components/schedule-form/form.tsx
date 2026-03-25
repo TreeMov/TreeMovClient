@@ -1,18 +1,16 @@
-import { X } from 'lucide-react'
+import type { SubmitHandler } from 'react-hook-form'
+import type { ScheduleEventRead } from '../../types'
+import type { Schema as EventSchema } from '../ui/form/components/event-form/types'
+import type { OutputSchema } from '../ui/form/components/lesson-form/types'
+
 import React from 'react'
 
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from '@/components/ui/tabs'
-
+import { useFormQuery, useSchedule } from '../../hooks'
 import { ScheduleDelete } from '../schedule-delete'
+import { ScheduleForm as UScheduleForm } from '../ui/form'
 
-import { EventForm, LessonForm } from './components'
-import { tabsOptions } from './constants'
-import { type FormProps, TabsEnum } from './types'
+import { getDefaultValues, mapFormDataFields } from './helpers'
+import { type FormProps } from './types'
 
 export const ScheduleForm: React.FC<FormProps> = ({
   onClose,
@@ -21,44 +19,106 @@ export const ScheduleForm: React.FC<FormProps> = ({
   onCreatePeriodHandler,
   ...event
 }) => {
-  const { id, type } = event
+  const { id, type, start_time, end_time } = event
+  const { startHour, endHour } = useSchedule()
+  const queryData = useFormQuery()
+
+  const onSubmitEvent: SubmitHandler<EventSchema> = async ({
+    start_time,
+    end_time,
+    title,
+    period,
+    periodDateRange,
+  }) => {
+    const nextEvent: ScheduleEventRead = {
+      ...event,
+      start_time,
+      end_time,
+      type: 'read',
+      formType: 'event',
+      is_canceled: false,
+      is_completed: false,
+      title,
+    }
+    if (period && periodDateRange) {
+      await onCreatePeriodHandler(
+        id,
+        nextEvent,
+        period,
+        periodDateRange
+      )
+    } else {
+      switch (type) {
+        case 'create':
+          await onCreateHandler(nextEvent)
+          break
+        case 'read':
+          await onChangeHandler({
+            dto: nextEvent,
+            prevData: event,
+          })
+          break
+      }
+    }
+  }
+
+  const onSubmitLesson: SubmitHandler<OutputSchema> = async ({
+    period,
+    periodDateRange,
+    start_time,
+    end_time,
+    ...data
+  }) => {
+    const { id, type } = event
+    const nextEvent: ScheduleEventRead = {
+      ...event,
+      start_time,
+      end_time,
+      type: 'read',
+      formType: 'lesson',
+      is_canceled: false,
+      is_completed: false,
+      ...mapFormDataFields({ data, queryData }),
+    }
+    if (period && periodDateRange) {
+      await onCreatePeriodHandler(
+        id,
+        nextEvent,
+        period,
+        periodDateRange
+      )
+    } else {
+      switch (type) {
+        case 'create':
+          await onCreateHandler(nextEvent)
+          break
+        case 'read':
+          await onChangeHandler({
+            dto: nextEvent,
+            prevData: event,
+          })
+          break
+      }
+    }
+  }
 
   return (
-    <div>
-      <div className="mb-4 flex items-center justify-end gap-3">
-        <ScheduleDelete id={id} type={type} />
-        <button
-          className="flex size-6 cursor-pointer items-center justify-center"
-          onClick={onClose}
-        >
-          <X />
-        </button>
-      </div>
-      <Tabs defaultValue={TabsEnum.LESSON}>
-        <TabsList className="mb-6 flex w-full items-center justify-center gap-3">
-          {tabsOptions.map(({ value, label }) => (
-            <TabsTrigger key={value} value={value}>
-              {label}
-            </TabsTrigger>
-          ))}
-        </TabsList>
-        <TabsContent value={TabsEnum.LESSON}>
-          <LessonForm
-            onChangeHandler={onChangeHandler}
-            onCreateHandler={onCreateHandler}
-            onCreatePeriodHandler={onCreatePeriodHandler}
-            {...event}
-          />
-        </TabsContent>
-        <TabsContent value={TabsEnum.EVENT}>
-          <EventForm
-            onChangeHandler={onChangeHandler}
-            onCreateHandler={onCreateHandler}
-            onCreatePeriodHandler={onCreatePeriodHandler}
-            {...event}
-          />
-        </TabsContent>
-      </Tabs>
-    </div>
+    <UScheduleForm
+      defaultEventValues={{
+        title:
+          event.type === 'read' && event.formType === 'event'
+            ? event.title
+            : '',
+        start_time,
+        end_time,
+      }}
+      defaultLessonValues={getDefaultValues(event)}
+      startHour={startHour ?? 0}
+      endHour={endHour ?? 0}
+      actions={<ScheduleDelete id={id} type={type} />}
+      onSubmitEvent={onSubmitEvent}
+      onSubmitLesson={onSubmitLesson}
+      onClose={onClose}
+    />
   )
 }

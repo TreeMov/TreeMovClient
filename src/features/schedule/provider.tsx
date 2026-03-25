@@ -1,4 +1,4 @@
-import type { PeriodEnum } from './components'
+import type { PeriodEnum } from './components/ui/form'
 import type {
   OnChangeHandlerParams,
   PeriodRange,
@@ -14,7 +14,7 @@ import { toast } from 'sonner'
 import { getWeekDays } from '@/utils/helpers/dates'
 
 import { ScheduleContext } from './context'
-import { deserializeEvent } from './helpers'
+import { deserializeEvent, getScheduleHours } from './helpers'
 import { Store } from './store'
 
 export const ScheduleProvider: React.FC<
@@ -22,6 +22,8 @@ export const ScheduleProvider: React.FC<
 > = ({
   children,
   view = 'week',
+  startHour = 8,
+  endHour = 22,
   onChange,
   onDelete,
   onCreate,
@@ -39,6 +41,7 @@ export const ScheduleProvider: React.FC<
       view === 'day' ? [selectedDate] : getWeekDays(selectedDate),
     [selectedDate, view]
   )
+  const hours = getScheduleHours(startHour, endHour)
 
   const onChangeHandler = useCallback(
     async (params: OnChangeHandlerParams) => {
@@ -110,6 +113,9 @@ export const ScheduleProvider: React.FC<
       contentRef,
       view,
       days,
+      hours,
+      startHour,
+      endHour,
       onChangeHandler,
       onDeleteHandler,
       onCreateHandler,
@@ -121,6 +127,9 @@ export const ScheduleProvider: React.FC<
       store,
       view,
       days,
+      hours,
+      startHour,
+      endHour,
       onChangeHandler,
       onCreateHandler,
       onDeleteHandler,

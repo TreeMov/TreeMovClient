@@ -9,7 +9,7 @@ import type {
 import { format } from 'date-fns'
 import { z } from 'zod'
 
-import { dateFormat } from '../../constants'
+import { dateFormat } from '@/features/schedule/constants'
 
 export const periodSchema = z.object({
   period: z.custom<PeriodEnum>().nullable().optional(),
@@ -27,6 +27,11 @@ export const periodSchema = z.object({
         to: format(val.to, dateFormat),
       }
     }),
+})
+
+export const rangeSchema = z.object({
+  start_time: z.string(),
+  end_time: z.string(),
 })
 
 export const periodRefine = (

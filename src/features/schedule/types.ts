@@ -10,7 +10,7 @@ import type {
   NonNullableFields,
   Prettify,
 } from '@/types/utility'
-import type { PeriodEnum } from './components'
+import type { PeriodEnum } from './components/ui/form'
 import type { Store } from './store'
 
 export type ScheduleConfig = {
@@ -93,9 +93,10 @@ export type ScheduleProps = {
   config: ScheduleConfig
   events: LessonModelRead[]
   selectedDate: Date
-  hours: Date[]
   isLoading?: boolean
   view?: ScheduleView
+  startHour?: number
+  endHour?: number
   onChange: (id: number, dto: LessonModelUpdate) => MaybePromise<void>
   onDelete: (id: number) => MaybePromise<void>
   onCreate: (dto: LessonModelCreate) => MaybePromise<void>
@@ -123,6 +124,7 @@ export type ScheduleContextType = Omit<
   store: Store
   contentRef: RefObject<HTMLDivElement | null>
   days: Date[]
+  hours: Date[]
   onChangeHandler: (params: OnChangeHandlerParams) => Promise<void>
   onDeleteHandler: (
     id: number,
