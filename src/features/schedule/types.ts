@@ -117,10 +117,7 @@ export type OnChangeHandlerParams = {
   prevData: ScheduleEvent
 }
 
-export type ScheduleContextType = Omit<
-  ScheduleProps,
-  'onChange' | 'onDelete' | 'onCreate' | 'onCreatePeriod'
-> & {
+export type ScheduleContextType = ScheduleProps & {
   store: Store
   contentRef: RefObject<HTMLDivElement | null>
   days: Date[]
