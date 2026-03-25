@@ -2,7 +2,11 @@ import {
   addDays,
   eachDayOfInterval,
   eachHourOfInterval,
+  eachWeekOfInterval,
+  endOfDay,
+  endOfMonth,
   startOfDay,
+  startOfMonth,
   startOfWeek,
 } from 'date-fns'
 
@@ -15,5 +19,11 @@ export const getWeekDays = (date?: Date) =>
 export const getDayHours = (start?: Date, end?: Date) =>
   eachHourOfInterval({
     start: start ?? startOfDay(new Date()),
-    end: end ?? startOfDay(new Date()),
+    end: end ?? endOfDay(new Date()),
+  })
+
+export const getWeeks = (date: Date | string) =>
+  eachWeekOfInterval({
+    start: startOfMonth(date),
+    end: endOfMonth(date),
   })

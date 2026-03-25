@@ -1,10 +1,15 @@
 import type { ContentProps } from './types'
 
-import { endOfWeek, format, startOfWeek } from 'date-fns'
+import { format } from 'date-fns'
 import React from 'react'
 
 import { useLessons } from '@/api/generated/core'
-import { dateFormat, Schedule } from '@/features/schedule'
+import {
+  dateFormat,
+  getDateMax,
+  getDateMin,
+  Schedule,
+} from '@/features/schedule'
 
 import { scheduleConfig } from '../../constants'
 import { useScheduleActions } from '../../hooks'
@@ -19,8 +24,8 @@ export const Content: React.FC<ContentProps> = ({
     isPending,
     refetch,
   } = useLessons({
-    date_max: format(endOfWeek(date), dateFormat),
-    date_min: format(startOfWeek(date), dateFormat),
+    date_max: getDateMax(date, view),
+    date_min: getDateMin(date, view),
   })
 
   const { onChange, onDelete, onCreate, onCreatePeriod } =

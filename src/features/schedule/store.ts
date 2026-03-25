@@ -5,9 +5,10 @@ import type {
   ScheduleEventState,
 } from './types'
 
+import { isBefore, isSameMinute } from 'date-fns'
 import { makeAutoObservable } from 'mobx'
 
-import { serializeEvent } from './helpers'
+import { combineDateAndTime, serializeEvent } from './helpers'
 
 type CreateEventParams = Omit<
   ScheduleEventCreate,
@@ -15,7 +16,7 @@ type CreateEventParams = Omit<
 >
 
 export class Store {
-  events: ScheduleEvent[] = []
+  _events: ScheduleEvent[] = []
   dragEvent: ScheduleEvent | null = null
   dragSegment: number | null = null
 
@@ -38,8 +39,20 @@ export class Store {
       start_time,
       color: '#000000',
     }
-    this.events.push(createdEvent)
+    this._events.push(createdEvent)
     return createdEvent
+  }
+
+  get events() {
+    return this._events.slice().sort((a, b) => {
+      const aDateTime = combineDateAndTime(a.date, a.start_time)
+      const bDateTime = combineDateAndTime(b.date, b.start_time)
+      if (isSameMinute(aDateTime, bDateTime)) {
+        return 0
+      }
+
+      return isBefore(aDateTime, bDateTime) ? -1 : 1
+    })
   }
 
   startDrag(event: ScheduleEvent, dragSegment: number) {
@@ -67,10 +80,10 @@ export class Store {
   }
 
   syncEvents(events: LessonModelRead[]) {
-    const filteredEvents = this.events.filter(
+    const filteredEvents = this._events.filter(
       ({ type }) => type !== 'read'
     )
-    this.events = [...filteredEvents, ...events.map(serializeEvent)]
+    this._events = [...filteredEvents, ...events.map(serializeEvent)]
   }
 
   createEvent({
@@ -88,20 +101,20 @@ export class Store {
   }
 
   updateEvent(id: number, payload: Partial<ScheduleEvent>) {
-    const idx = this.events.findIndex((event) => event.id === id)
+    const idx = this._events.findIndex((event) => event.id === id)
 
     if (idx >= 0) {
-      const updatedEvent = Object.assign(this.events[idx], payload)
-      this.events.splice(idx, 1, updatedEvent)
+      const updatedEvent = Object.assign(this._events[idx], payload)
+      this._events.splice(idx, 1, updatedEvent)
       return updatedEvent
     }
   }
 
   deleteEvent(id: number) {
-    const idx = this.events.findIndex((event) => event.id === id)
+    const idx = this._events.findIndex((event) => event.id === id)
 
     if (idx >= 0) {
-      this.events.splice(idx, 1)
+      this._events.splice(idx, 1)
     }
   }
 }

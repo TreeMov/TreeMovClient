@@ -14,10 +14,9 @@ import { ScheduleForm } from '../schedule-form'
 export const SchedulePopover: React.FC<
   React.PropsWithChildren<ScheduleEvent>
 > = ({ children, ...event }) => {
-  const { id, type } = event
+  const { id } = event
 
-  const defaultOpen = type === 'create'
-  const [open, setOpen] = useState(defaultOpen)
+  const [open, setOpen] = useState(false)
   const [initialState] = useState(event.state)
 
   const {

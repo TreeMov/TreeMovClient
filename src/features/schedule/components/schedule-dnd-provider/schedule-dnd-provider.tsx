@@ -28,6 +28,7 @@ export const ScheduleDndProvider: React.FC<
 > = ({ children }) => {
   const {
     store,
+    view,
     config: { segmentSize },
     onChangeHandler,
   } = useSchedule()
@@ -56,7 +57,11 @@ export const ScheduleDndProvider: React.FC<
     const ev =
       nativeEvent as unknown as React.PointerEvent<HTMLDivElement>
 
-    const clickedData = getMouseDate(new Date(date), ev.clientY)
+    const clickedData =
+      view !== 'month'
+        ? getMouseDate(new Date(date), ev.clientY)
+        : combineDateAndTime(date, start_time)
+
     if (clickedData) {
       const diff = differenceInMinutes(
         clickedData,
@@ -77,12 +82,19 @@ export const ScheduleDndProvider: React.FC<
 
     const event =
       nativeEvent as unknown as React.PointerEvent<HTMLDivElement>
-    const range = getEventRange({
-      day: new Date(target?.id),
-      y: event.clientY,
-      start_time: store.dragEvent?.start_time,
-      end_time: store.dragEvent?.end_time,
-    })
+    const range: ReturnType<typeof getEventRange> =
+      view !== 'month'
+        ? getEventRange({
+            day: new Date(target?.id),
+            y: event.clientY,
+            start_time: store.dragEvent?.start_time,
+            end_time: store.dragEvent?.end_time,
+          })
+        : {
+            startTime: store.dragEvent.start_time,
+            endTime: store.dragEvent.end_time,
+          }
+
     if (!range) {
       return
     }
@@ -95,6 +107,7 @@ export const ScheduleDndProvider: React.FC<
       end_time: endTime,
     }
     store.updateEvent(nextEvent.id, nextEvent)
+
     if (nextEvent.type !== 'create') {
       onChangeHandler({
         dto: nextEvent,

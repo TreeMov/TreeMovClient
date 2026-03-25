@@ -4,14 +4,27 @@ import type {
   ScheduleEventFormFields,
   ScheduleEventRead,
   ScheduleLessonFormFields,
+  ScheduleView,
   SerializedEventFields,
   SerializedLessonFields,
 } from './types'
 
-import { addHours, format, parse, set, startOfToday } from 'date-fns'
+import {
+  addHours,
+  addWeeks,
+  endOfDay,
+  endOfWeek,
+  format,
+  parse,
+  set,
+  startOfDay,
+  startOfToday,
+  startOfWeek,
+  subDays,
+} from 'date-fns'
 import { omit } from 'lodash-es'
 
-import { getDayHours } from '@/utils/helpers/dates'
+import { getDayHours, getWeeks } from '@/utils/helpers/dates'
 
 import {
   dateFormat,
@@ -105,4 +118,39 @@ export const combineDateAndTime = (
     minutes: parsedTime.getMinutes(),
     seconds: parsedTime.getSeconds(),
   })
+}
+
+export const getDateMax = (
+  date: Date | string,
+  view: ScheduleView
+) => {
+  switch (view) {
+    case 'day':
+      return format(endOfDay(date), dateFormat)
+    case 'week':
+      return format(endOfWeek(date), dateFormat)
+    case 'month': {
+      const weeks = getWeeks(date)
+      return format(
+        subDays(addWeeks(weeks[weeks.length - 1], 1), 1),
+        dateFormat
+      )
+    }
+  }
+}
+
+export const getDateMin = (
+  date: Date | string,
+  view: ScheduleView
+) => {
+  switch (view) {
+    case 'day':
+      return format(startOfDay(date), dateFormat)
+    case 'week':
+      return format(startOfWeek(date), dateFormat)
+    case 'month': {
+      const weeks = getWeeks(date)
+      return format(weeks[0], dateFormat)
+    }
+  }
 }
