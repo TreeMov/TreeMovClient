@@ -2,7 +2,11 @@ import { z } from 'zod'
 
 import { requiredComboboxValue } from '@/utils/helpers/validation'
 
-import { periodRefine, periodSchema } from '../../schemas'
+import {
+  periodRefine,
+  periodSchema,
+  rangeSchema,
+} from '../../schemas'
 
 export const baseSchema = z.object({
   subject: requiredComboboxValue,
@@ -16,5 +20,6 @@ export const schema = z
   .object({
     ...baseSchema.shape,
     ...periodSchema.shape,
+    ...rangeSchema.shape,
   })
   .superRefine(periodRefine)

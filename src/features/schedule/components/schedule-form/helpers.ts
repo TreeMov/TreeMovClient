@@ -12,17 +12,21 @@ import type {
 type GetDefaultValuesParams = Partial<
   Omit<ScheduleLessonFormFields, 'formType'>
 > &
-  Pick<ScheduleEvent, 'type'>
+  Pick<ScheduleEvent, 'type' | 'start_time' | 'end_time'>
 
 const mapField = (
   field: ScheduleField | null | undefined
 ): string | null => (field?.id ? `${field.id}` : null)
 
-export const getDefaultValues = (
-  event: GetDefaultValuesParams
-): InputSchema => {
+export const getDefaultValues = ({
+  start_time,
+  end_time,
+  ...event
+}: GetDefaultValuesParams): InputSchema => {
   if (event.type === 'create') {
     return {
+      start_time,
+      end_time,
       subject: null,
       teacher: null,
       classroom: null,
@@ -34,6 +38,8 @@ export const getDefaultValues = (
   const { subject, teacher, classroom, student_group, comment } =
     event
   return {
+    start_time,
+    end_time,
     subject: mapField(subject),
     teacher: mapField(teacher),
     classroom: mapField(classroom),

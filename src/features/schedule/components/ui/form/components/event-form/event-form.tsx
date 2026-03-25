@@ -10,7 +10,7 @@ import { Select } from '@/components/shared/select'
 import { Button } from '@/components/ui/button'
 import { createConnectForm } from '@/hocs/create-connect-form'
 
-import { periodOptions } from '../../constants'
+import { getTimeOptions, periodOptions } from '../../constants'
 
 import { schema } from './schema'
 
@@ -18,6 +18,8 @@ const ConnectForm = createConnectForm<InputSchema>()
 
 export const EventForm: React.FC<EventFormProps> = ({
   defaultValues,
+  startHour,
+  endHour,
   onSubmit,
 }) => {
   return (
@@ -29,6 +31,31 @@ export const EventForm: React.FC<EventFormProps> = ({
       onSubmit={onSubmit}
     >
       <div className="flex flex-col gap-6">
+        <div className="flex items-center gap-4">
+          <ConnectForm>
+            {({ control }) => (
+              <Select
+                control={control}
+                name="start_time"
+                inputProps={{
+                  options: getTimeOptions(startHour, endHour),
+                }}
+              />
+            )}
+          </ConnectForm>
+          <div className="bg-grey-400 h-px w-4" />
+          <ConnectForm>
+            {({ control }) => (
+              <Select
+                control={control}
+                name="end_time"
+                inputProps={{
+                  options: getTimeOptions(startHour, endHour),
+                }}
+              />
+            )}
+          </ConnectForm>
+        </div>
         <ConnectForm>
           {({ control }) => (
             <Input
@@ -65,9 +92,15 @@ export const EventForm: React.FC<EventFormProps> = ({
             />
           )}
         </ConnectForm>
-        <div className="flex items-center justify-center">
-          <Button className="min-w-35.5">Сохранить</Button>
-        </div>
+        <ConnectForm>
+          {({ formState: { isSubmitting } }) => (
+            <div className="flex items-center justify-center">
+              <Button isPending={isSubmitting} className="min-w-35.5">
+                Сохранить
+              </Button>
+            </div>
+          )}
+        </ConnectForm>
       </div>
     </Form>
   )

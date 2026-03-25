@@ -18,6 +18,8 @@ export type FormProps = {
   defaultLessonValues?: LessonInputSchema
   defaultEventValues?: EventInputSchema
   actions?: React.ReactNode
+  startHour: number
+  endHour: number
   onSubmitLesson: SubmitHandler<LessonOutputSchema>
   onSubmitEvent: SubmitHandler<EventOutputSchema>
   onClose: () => void

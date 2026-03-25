@@ -7,6 +7,8 @@ export type InputSchema = z.input<typeof schema>
 export type OutputSchema = z.output<typeof schema>
 
 export type EventFormProps = {
-  onSubmit: SubmitHandler<OutputSchema>
   defaultValues?: InputSchema
+  startHour: number
+  endHour: number
+  onSubmit: SubmitHandler<OutputSchema>
 }

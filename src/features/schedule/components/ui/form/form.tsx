@@ -16,6 +16,8 @@ export const ScheduleForm: React.FC<FormProps> = ({
   defaultEventValues,
   defaultLessonValues,
   actions,
+  startHour,
+  endHour,
   onClose,
   onSubmitEvent,
   onSubmitLesson,
@@ -41,12 +43,16 @@ export const ScheduleForm: React.FC<FormProps> = ({
         </TabsList>
         <TabsContent value={TabsEnum.LESSON}>
           <LessonForm
+            startHour={startHour}
+            endHour={endHour}
             defaultValues={defaultLessonValues}
             onSubmit={onSubmitLesson}
           />
         </TabsContent>
         <TabsContent value={TabsEnum.EVENT}>
           <EventForm
+            startHour={startHour}
+            endHour={endHour}
             defaultValues={defaultEventValues}
             onSubmit={onSubmitEvent}
           />

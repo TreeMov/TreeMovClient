@@ -29,6 +29,11 @@ export const periodSchema = z.object({
     }),
 })
 
+export const rangeSchema = z.object({
+  start_time: z.string(),
+  end_time: z.string(),
+})
+
 export const periodRefine = (
   { period, periodDateRange }: PeriodSchemaOutput,
   ctx: z.core.$RefinementCtx<PeriodSchema>
