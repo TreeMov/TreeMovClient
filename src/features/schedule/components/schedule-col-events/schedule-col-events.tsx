@@ -1,43 +1,52 @@
+import type { ScheduleEvent as ScheduleEventType } from '../../types'
+
 import { useDroppable } from '@dnd-kit/react'
-import { format, isSameDay } from 'date-fns'
-import React from 'react'
+import { format } from 'date-fns'
+import React, { useMemo } from 'react'
 
 import { cn } from '@/utils/helpers/shadcn'
 
 import { dateFormat } from '../../constants'
-import { useSchedule } from '../../hooks'
+import { useScheduleStore } from '../../hooks'
 import { ScheduleEvent } from '../schedule-event'
 import { ScheduleEventDroppable } from '../schedule-event-droppable'
-import { ScheduleGroupObserver } from '../schedule-group-observer'
 
-export const ScheduleColEvents: React.FC<
-  React.ComponentProps<'div'> & { day: Date }
-> = ({ day, className, children, ...props }) => {
-  const { store } = useSchedule()
+import { getEventGroups } from './helpers'
+
+const ScheduleColEventsComponent: React.FC<
+  React.ComponentProps<'div'> & {
+    day: Date
+    events: ScheduleEventType[]
+  }
+> = ({ day, events, className, children, ...props }) => {
+  const dragEvent = useScheduleStore((store) => store.dragEvent)
 
   const { ref, isDropTarget } = useDroppable({
     id: format(day, dateFormat),
   })
-
-  const events = store.events.filter(({ date }) =>
-    isSameDay(date, day)
-  )
+  const eventGroups = useMemo(() => getEventGroups(events), [events])
 
   return (
     <div ref={ref} className={cn('relative', className)} {...props}>
       {children}
-      {isDropTarget && store.dragEvent && (
-        <ScheduleEventDroppable day={day} events={store.dragEvent} />
+      {isDropTarget && dragEvent && (
+        <ScheduleEventDroppable day={day} events={dragEvent} />
       )}
       {events.map((event) => (
-        <ScheduleGroupObserver
+        <ScheduleEvent
           key={event.id}
-          events={events}
           event={event}
-        >
-          {(group) => <ScheduleEvent event={event} group={group} />}
-        </ScheduleGroupObserver>
+          group={eventGroups.get(event.id) ?? 0}
+        />
       ))}
     </div>
   )
 }
+
+export const ScheduleColEvents = React.memo(
+  ScheduleColEventsComponent,
+  (prevProps, nextProps) =>
+    prevProps.day.getTime() === nextProps.day.getTime() &&
+    prevProps.events === nextProps.events &&
+    prevProps.className === nextProps.className
+)

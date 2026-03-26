@@ -6,14 +6,14 @@ import {
   setHours,
   startOfDay,
 } from 'date-fns'
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 
 import { combineDateAndTime } from '../helpers'
 
-import { useSchedule } from './use-schedule'
+import { useScheduleTime } from './use-schedule'
 
 export const useEventPosition = (date: Date) => {
-  const { hours } = useSchedule()
+  const { hours } = useScheduleTime()
 
   const scheduleRange = useMemo(() => {
     if (hours.length === 0) {
@@ -37,44 +37,47 @@ export const useEventPosition = (date: Date) => {
     return { scheduleStart, scheduleEnd, totalMinutes }
   }, [date, hours])
 
-  const clampPercent = (value: number) =>
-    Math.min(Math.max(value, 0), 100)
-  const toPercent = (minutes: number) =>
-    scheduleRange ? (minutes / scheduleRange.totalMinutes) * 100 : 0
+  const getEventPosition = useCallback(
+    (
+      start_time: string,
+      end_time: string
+    ): Pick<React.CSSProperties, 'top' | 'height'> => {
+      if (!scheduleRange) {
+        return { top: '0%', height: '0%' }
+      }
 
-  const getEventPosition = (
-    start_time: string,
-    end_time: string
-  ): Pick<React.CSSProperties, 'top' | 'height'> => {
-    if (!scheduleRange) {
-      return { top: '0%', height: '0%' }
-    }
+      const clampPercent = (value: number) =>
+        Math.min(Math.max(value, 0), 100)
+      const toPercent = (minutes: number) =>
+        (minutes / scheduleRange.totalMinutes) * 100
 
-    const eventStart = combineDateAndTime(date, start_time)
-    const eventEnd = combineDateAndTime(date, end_time)
-    const visibleStart = max([
-      eventStart,
-      scheduleRange.scheduleStart,
-    ])
-    const visibleEnd = min([eventEnd, scheduleRange.scheduleEnd])
-    const eventOffsetMinutes = differenceInMinutes(
-      eventStart,
-      scheduleRange.scheduleStart
-    )
-    const visibleDurationMinutes = Math.max(
-      differenceInMinutes(visibleEnd, visibleStart),
-      0
-    )
-    const topPercent = clampPercent(toPercent(eventOffsetMinutes))
-    const heightPercent = clampPercent(
-      toPercent(visibleDurationMinutes)
-    )
+      const eventStart = combineDateAndTime(date, start_time)
+      const eventEnd = combineDateAndTime(date, end_time)
+      const visibleStart = max([
+        eventStart,
+        scheduleRange.scheduleStart,
+      ])
+      const visibleEnd = min([eventEnd, scheduleRange.scheduleEnd])
+      const eventOffsetMinutes = differenceInMinutes(
+        eventStart,
+        scheduleRange.scheduleStart
+      )
+      const visibleDurationMinutes = Math.max(
+        differenceInMinutes(visibleEnd, visibleStart),
+        0
+      )
+      const topPercent = clampPercent(toPercent(eventOffsetMinutes))
+      const heightPercent = clampPercent(
+        toPercent(visibleDurationMinutes)
+      )
 
-    return {
-      top: `${topPercent}%`,
-      height: `${heightPercent}%`,
-    }
-  }
+      return {
+        top: `${topPercent}%`,
+        height: `${heightPercent}%`,
+      }
+    },
+    [date, scheduleRange]
+  )
 
   return { getEventPosition }
 }

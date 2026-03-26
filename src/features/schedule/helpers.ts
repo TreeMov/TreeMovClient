@@ -1,4 +1,5 @@
 import type { LessonModelRead } from '@/api/generated/core'
+import type { ISelectOption } from '@/components/ui/select/types'
 import type {
   DeserializedEvent,
   ScheduleEventFormFields,
@@ -11,6 +12,7 @@ import type {
 
 import {
   addHours,
+  addMinutes,
   addWeeks,
   endOfDay,
   endOfWeek,
@@ -22,6 +24,7 @@ import {
   startOfWeek,
   subDays,
 } from 'date-fns'
+import { minutesInHour } from 'date-fns/constants'
 import { omit } from 'lodash-es'
 
 import { getDayHours, getWeeks } from '@/utils/helpers/dates'
@@ -154,3 +157,33 @@ export const getDateMin = (
     }
   }
 }
+
+export const getTimeOptions = (
+  startHour: number,
+  endHour: number,
+  segmentSize: number
+): ISelectOption[] =>
+  getScheduleHours(startHour, endHour)
+    .map((hour) => {
+      const segmentsCount = Math.ceil(minutesInHour / segmentSize)
+      const segmentsValues = Array.from({
+        length: segmentsCount,
+      })
+        .reduce<Date[]>(
+          (acc, _, idx) => [
+            ...acc,
+            addMinutes(acc[idx], segmentSize),
+          ],
+          [hour]
+        )
+        .slice(0, -1)
+      const segmentsOptions: ISelectOption[] = segmentsValues.map(
+        (value) => {
+          const time = format(value, timeFormat)
+          return { label: time, value: time }
+        }
+      )
+
+      return segmentsOptions
+    })
+    .flat()

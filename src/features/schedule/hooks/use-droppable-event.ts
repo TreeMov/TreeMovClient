@@ -12,7 +12,7 @@ import { timeFormat } from '../constants'
 import { combineDateAndTime } from '../helpers'
 
 import { useMouseEvents } from './use-mouse-events'
-import { useSchedule } from './use-schedule'
+import { useScheduleStore, useScheduleTime } from './use-schedule'
 
 type GetEventRangeParams = {
   day: Date
@@ -22,11 +22,8 @@ type GetEventRangeParams = {
 }
 
 export const useDroppableEvent = () => {
-  const {
-    hours,
-    store,
-    config: { segmentSize },
-  } = useSchedule()
+  const { hours, segmentSize } = useScheduleTime()
+  const dragSegment = useScheduleStore((store) => store.dragSegment)
   const { getMouseDate } = useMouseEvents()
 
   const isOutOfRangeUpper = (day: Date, dateTimeToCompare: Date) => {
@@ -98,7 +95,7 @@ export const useDroppableEvent = () => {
 
     const dateWithOffset = subMinutes(
       date ?? start_time,
-      (store.dragSegment ?? 0) * segmentSize
+      (dragSegment ?? 0) * segmentSize
     )
     const startTime = dateWithOffset
     const endTime = addMinutes(dateWithOffset, eventDurationInMinutes)

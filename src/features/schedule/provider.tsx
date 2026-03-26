@@ -2,18 +2,34 @@ import type { PeriodEnum } from './components/ui/form'
 import type {
   OnChangeHandlerParams,
   PeriodRange,
-  ScheduleContextType,
+  ScheduleActionsContextType,
+  ScheduleCalendarContextType,
   ScheduleEventRead,
+  ScheduleEventsContextType,
   ScheduleEventType,
   ScheduleProps,
+  ScheduleStatusContextType,
+  ScheduleStoreContextType,
+  ScheduleTimeContextType,
 } from './types'
 
 import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { toast } from 'sonner'
 
+import {
+  SCHEDULE_END_HOUR,
+  SCHEDULE_START_HOUR,
+} from '@/utils/constants/schedule'
 import { getWeekDays } from '@/utils/helpers/dates'
 
-import { ScheduleContext } from './context'
+import {
+  ScheduleActionsContext,
+  ScheduleCalendarContext,
+  ScheduleEventsContext,
+  ScheduleStatusContext,
+  ScheduleStoreContext,
+  ScheduleTimeContext,
+} from './context'
 import { deserializeEvent, getScheduleHours } from './helpers'
 import { Store } from './store'
 
@@ -22,8 +38,8 @@ export const ScheduleProvider: React.FC<
 > = ({
   children,
   view = 'week',
-  startHour = 8,
-  endHour = 22,
+  startHour = SCHEDULE_START_HOUR,
+  endHour = SCHEDULE_END_HOUR,
   onChange,
   onDelete,
   onCreate,
@@ -32,7 +48,7 @@ export const ScheduleProvider: React.FC<
 }) => {
   const { selectedDate } = props
 
-  const [store] = useState(new Store())
+  const [store] = useState(() => new Store())
 
   const contentRef = useRef<HTMLDivElement>(null)
 
@@ -41,7 +57,10 @@ export const ScheduleProvider: React.FC<
       view === 'day' ? [selectedDate] : getWeekDays(selectedDate),
     [selectedDate, view]
   )
-  const hours = getScheduleHours(startHour, endHour)
+  const hours = useMemo(
+    () => getScheduleHours(startHour, endHour),
+    [endHour, startHour]
+  )
 
   const onChangeHandler = useCallback(
     async (params: OnChangeHandlerParams) => {
@@ -107,15 +126,44 @@ export const ScheduleProvider: React.FC<
     [store, onCreatePeriod]
   )
 
-  const value = useMemo<ScheduleContextType>(
+  const storeValue = useMemo<ScheduleStoreContextType>(
     () => ({
       store,
       contentRef,
+    }),
+    [store]
+  )
+
+  const calendarValue = useMemo<ScheduleCalendarContextType>(
+    () => ({
+      config: props.config,
       view,
       days,
+      selectedDate,
+      onClickCell: props.onClickCell,
+    }),
+    [days, props.config, props.onClickCell, selectedDate, view]
+  )
+
+  const timeValue = useMemo<ScheduleTimeContextType>(
+    () => ({
       hours,
       startHour,
       endHour,
+      segmentSize: props.config.segmentSize,
+    }),
+    [endHour, hours, props.config.segmentSize, startHour]
+  )
+
+  const statusValue = useMemo<ScheduleStatusContextType>(
+    () => ({
+      isLoading: props.isLoading,
+    }),
+    [props.isLoading]
+  )
+
+  const actionsValue = useMemo<ScheduleActionsContextType>(
+    () => ({
       onChange,
       onDelete,
       onCreate,
@@ -124,30 +172,39 @@ export const ScheduleProvider: React.FC<
       onDeleteHandler,
       onCreateHandler,
       onCreatePeriodHandler,
-      ...props,
     }),
     [
-      props,
-      store,
-      view,
-      days,
-      hours,
-      startHour,
-      endHour,
       onChange,
       onDelete,
       onCreate,
       onCreatePeriod,
       onChangeHandler,
-      onCreateHandler,
       onDeleteHandler,
+      onCreateHandler,
       onCreatePeriodHandler,
     ]
   )
 
+  const eventsValue = useMemo<ScheduleEventsContextType>(
+    () => ({
+      events: props.events,
+    }),
+    [props.events]
+  )
+
   return (
-    <ScheduleContext.Provider value={value}>
-      {children}
-    </ScheduleContext.Provider>
+    <ScheduleStoreContext.Provider value={storeValue}>
+      <ScheduleCalendarContext.Provider value={calendarValue}>
+        <ScheduleTimeContext.Provider value={timeValue}>
+          <ScheduleStatusContext.Provider value={statusValue}>
+            <ScheduleActionsContext.Provider value={actionsValue}>
+              <ScheduleEventsContext.Provider value={eventsValue}>
+                {children}
+              </ScheduleEventsContext.Provider>
+            </ScheduleActionsContext.Provider>
+          </ScheduleStatusContext.Provider>
+        </ScheduleTimeContext.Provider>
+      </ScheduleCalendarContext.Provider>
+    </ScheduleStoreContext.Provider>
   )
 }

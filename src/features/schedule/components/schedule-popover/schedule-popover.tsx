@@ -1,6 +1,6 @@
 import type { ScheduleEvent } from '../../types'
 
-import React, { useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 
 import {
   Popover,
@@ -8,50 +8,60 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 
-import { useSchedule } from '../../hooks'
+import {
+  useScheduleActions,
+  useScheduleStoreContext,
+} from '../../hooks'
+import { ScheduleDelete } from '../schedule-delete'
 import { ScheduleForm } from '../schedule-form'
 
 export const SchedulePopover: React.FC<
   React.PropsWithChildren<ScheduleEvent>
 > = ({ children, ...event }) => {
-  const { id } = event
-
+  const { id, type, state } = event
   const [open, setOpen] = useState(false)
-  const [initialState] = useState(event.state)
+  const prevStateRef = useRef(state)
 
-  const {
-    store,
-    onCreateHandler,
-    onCreatePeriodHandler,
-    onChangeHandler,
-  } = useSchedule()
+  const { store } = useScheduleStoreContext()
+  const { onCreateHandler, onCreatePeriodHandler, onChangeHandler } =
+    useScheduleActions()
 
-  const onOpenChange = (open: boolean) => {
-    setOpen(open)
-    if (open) {
-      store.setActiveEvent(id)
-    } else {
-      store.clearActiveEvent(id, initialState)
-    }
-  }
+  const onOpenChange = useCallback(
+    (nextOpen: boolean) => {
+      setOpen(nextOpen)
+
+      if (nextOpen) {
+        prevStateRef.current = state
+      }
+
+      if (nextOpen) {
+        store.setActiveEvent(id)
+      } else {
+        store.clearActiveEvent(id, prevStateRef.current)
+      }
+    },
+    [id, state, store]
+  )
 
   return (
     <Popover modal open={open} onOpenChange={onOpenChange}>
       <PopoverTrigger asChild>{children}</PopoverTrigger>
-      <PopoverContent
-        sideOffset={16}
-        side="right"
-        align="start"
-        className="w-118 shadow-2xl"
-      >
-        <ScheduleForm
-          onCreateHandler={onCreateHandler}
-          onCreatePeriodHandler={onCreatePeriodHandler}
-          onChangeHandler={onChangeHandler}
-          onClose={() => setOpen(false)}
-          {...event}
-        />
-      </PopoverContent>
+      {open && (
+        <PopoverContent
+          sideOffset={16}
+          side="right"
+          align="start"
+          className="w-118 shadow-2xl"
+          actions={<ScheduleDelete id={id} type={type} />}
+        >
+          <ScheduleForm
+            onCreateHandler={onCreateHandler}
+            onCreatePeriodHandler={onCreatePeriodHandler}
+            onChangeHandler={onChangeHandler}
+            {...event}
+          />
+        </PopoverContent>
+      )}
     </Popover>
   )
 }

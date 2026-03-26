@@ -8,6 +8,7 @@ import type {
   PopoverTriggerProps,
 } from './types'
 
+import { XIcon } from 'lucide-react'
 import { Popover as PopoverPrimitive } from 'radix-ui'
 import * as React from 'react'
 
@@ -32,8 +33,13 @@ const PopoverContent: React.FC<PopoverContentProps> = ({
   className,
   align = 'center',
   sideOffset = 4,
+  children,
+  showCloseButton = true,
+  actions,
   ...props
 }) => {
+  const showActions = actions || showCloseButton
+
   return (
     <PopoverPrimitive.Portal>
       <PopoverPrimitive.Content
@@ -45,7 +51,23 @@ const PopoverContent: React.FC<PopoverContentProps> = ({
           className
         )}
         {...props}
-      />
+      >
+        {showActions && (
+          <div className="mb-4 flex items-center justify-end gap-3">
+            {actions}
+            {showCloseButton && (
+              <PopoverPrimitive.Close
+                data-slot="popover-close"
+                className="flex size-6 cursor-pointer items-center justify-center"
+              >
+                <XIcon />
+                <span className="sr-only">Close</span>
+              </PopoverPrimitive.Close>
+            )}
+          </div>
+        )}
+        {children}
+      </PopoverPrimitive.Content>
     </PopoverPrimitive.Portal>
   )
 }

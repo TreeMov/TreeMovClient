@@ -6,10 +6,13 @@ import { Form } from '@/components/shared/form'
 import { Select } from '@/components/shared/select'
 import { Textarea } from '@/components/shared/textarea'
 import { Button } from '@/components/ui/button'
-import { useFormQuery } from '@/features/schedule/hooks'
+import {
+  useFormQuery,
+  useTimeSelect,
+} from '@/features/schedule/hooks'
 import { createConnectForm } from '@/hocs/create-connect-form'
 
-import { getTimeOptions, periodOptions } from '../../constants'
+import { periodOptions } from '../../constants'
 
 import { schema } from './schema'
 import {
@@ -26,6 +29,7 @@ export const LessonForm: React.FC<LessonFormProps> = ({
   endHour,
   onSubmit,
 }) => {
+  const { getTimeOptions } = useTimeSelect()
   const queryData = useFormQuery()
   const {
     isPending,
@@ -52,6 +56,7 @@ export const LessonForm: React.FC<LessonFormProps> = ({
                 control={control}
                 name="start_time"
                 inputProps={{
+                  placeholder: 'Начало события',
                   options: getTimeOptions(startHour, endHour),
                 }}
               />
@@ -64,6 +69,7 @@ export const LessonForm: React.FC<LessonFormProps> = ({
                 control={control}
                 name="end_time"
                 inputProps={{
+                  placeholder: 'Окончание события',
                   options: getTimeOptions(startHour, endHour),
                 }}
               />

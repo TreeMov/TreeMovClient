@@ -7,7 +7,11 @@ import { defineConfig, globalIgnores } from 'eslint/config'
 import simpleImportSort from 'eslint-plugin-simple-import-sort'
 
 export default defineConfig([
-  globalIgnores(['dist', 'src/api/generated']),
+  globalIgnores([
+    'dist',
+    'src/api/generated',
+    'src/components/ui/icon/sprite.gen.ts',
+  ]),
   {
     files: ['**/*.{ts,tsx}'],
     extends: [

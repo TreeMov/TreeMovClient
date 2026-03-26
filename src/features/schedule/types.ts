@@ -87,7 +87,10 @@ export type ScheduleEventRead = ScheduleEventBase & {
   type: 'read'
 }
 
-export type ScheduleEvent = ScheduleEventCreate | ScheduleEventRead
+export type ScheduleEvent = (
+  | ScheduleEventCreate
+  | ScheduleEventRead
+) & { className?: string }
 
 export type ScheduleProps = {
   config: ScheduleConfig
@@ -135,6 +138,45 @@ export type ScheduleContextType = ScheduleProps & {
     range: PeriodRange
   ) => MaybePromise<void>
 }
+
+export type ScheduleStoreContextType = Pick<
+  ScheduleContextType,
+  'store' | 'contentRef'
+>
+
+export type ScheduleCalendarContextType = Pick<
+  ScheduleContextType,
+  'config' | 'view' | 'days' | 'selectedDate' | 'onClickCell'
+>
+
+export type ScheduleTimeContextType = Pick<
+  ScheduleContextType,
+  'hours' | 'startHour' | 'endHour'
+> & {
+  segmentSize: ScheduleContextType['config']['segmentSize']
+}
+
+export type ScheduleStatusContextType = Pick<
+  ScheduleContextType,
+  'isLoading'
+>
+
+export type ScheduleActionsContextType = Pick<
+  ScheduleContextType,
+  | 'onChange'
+  | 'onDelete'
+  | 'onCreate'
+  | 'onCreatePeriod'
+  | 'onChangeHandler'
+  | 'onDeleteHandler'
+  | 'onCreateHandler'
+  | 'onCreatePeriodHandler'
+>
+
+export type ScheduleEventsContextType = Pick<
+  ScheduleContextType,
+  'events'
+>
 
 export type Direction = 'down' | 'up'
 

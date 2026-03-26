@@ -1,11 +1,21 @@
+import type { ScheduleEvent } from '../../types'
+
 import { DragOverlay } from '@dnd-kit/react'
-import React, { useEffect } from 'react'
+import { format } from 'date-fns'
+import React, { useDeferredValue, useEffect, useMemo } from 'react'
 
 import { Spinner } from '@/components/ui/spinner'
 import { getWeekDays, getWeeks } from '@/utils/helpers/dates'
 import { cn } from '@/utils/helpers/shadcn'
 
-import { useSchedule } from '../../hooks'
+import { dateFormat } from '../../constants'
+import {
+  useScheduleCalendar,
+  useScheduleEvents,
+  useScheduleStatus,
+  useScheduleStore,
+  useScheduleStoreContext,
+} from '../../hooks'
 import { ScheduleCol } from '../schedule-col'
 import { ScheduleColEvents } from '../schedule-col-events'
 import { ScheduleContentWrapper } from '../schedule-content-wrapper'
@@ -14,22 +24,48 @@ import { ScheduleHeader } from '../schedule-header'
 import { ScheduleHoursCol } from '../schedule-hours-col'
 import { ScheduleMonthCell } from '../schedule-month-cell'
 
-export const ScheduleContent: React.FC = () => {
-  const {
-    store,
-    events,
-    selectedDate,
-    contentRef,
-    isLoading,
-    view,
-    days,
-  } = useSchedule()
+const getEventsByDay = (events: ScheduleEvent[]) => {
+  const eventsByDay = new Map<string, ScheduleEvent[]>()
 
-  const weeks = getWeeks(selectedDate)
+  for (const event of events) {
+    const dayKey = format(new Date(event.date), dateFormat)
+    const dayEvents = eventsByDay.get(dayKey)
+
+    if (dayEvents) {
+      dayEvents.push(event)
+    } else {
+      eventsByDay.set(dayKey, [event])
+    }
+  }
+
+  return eventsByDay
+}
+
+export const ScheduleContent: React.FC = () => {
+  const { store, contentRef } = useScheduleStoreContext()
+  const { events } = useScheduleEvents()
+  const { isLoading } = useScheduleStatus()
+  const { selectedDate, view, days } = useScheduleCalendar()
+  const scheduleEvents = useScheduleStore((state) => state.events)
+  const deferredEvents = useDeferredValue(events)
+
+  const weeks = useMemo(() => getWeeks(selectedDate), [selectedDate])
+  const monthWeeks = useMemo(
+    () =>
+      weeks.map((week) => ({
+        key: week.getTime(),
+        days: getWeekDays(week),
+      })),
+    [weeks]
+  )
+  const eventsByDay = useMemo(
+    () => getEventsByDay(scheduleEvents),
+    [scheduleEvents]
+  )
 
   useEffect(() => {
-    store.syncEvents(events)
-  }, [events, store])
+    store.syncEvents(deferredEvents)
+  }, [deferredEvents, store])
 
   return (
     <ScheduleContentWrapper>
@@ -56,19 +92,23 @@ export const ScheduleContent: React.FC = () => {
                     key={day.getTime()}
                     className="not-last:border-grey-200 not-last:border-r"
                     day={day}
+                    events={
+                      eventsByDay.get(format(day, dateFormat)) ?? []
+                    }
                   >
                     <ScheduleCol date={day} />
                   </ScheduleColEvents>
                 ))
-              : weeks.map((week) => (
-                  <div
-                    key={week.getTime()}
-                    className="grid grid-cols-7"
-                  >
-                    {getWeekDays(week).map((day) => (
+              : monthWeeks.map((week) => (
+                  <div key={week.key} className="grid grid-cols-7">
+                    {week.days.map((day) => (
                       <ScheduleMonthCell
                         key={day.getTime()}
                         day={day}
+                        events={
+                          eventsByDay.get(format(day, dateFormat)) ??
+                          []
+                        }
                       />
                     ))}
                   </div>

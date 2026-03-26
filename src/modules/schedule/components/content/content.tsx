@@ -1,7 +1,7 @@
 import type { ContentProps } from './types'
 
 import { format } from 'date-fns'
-import React from 'react'
+import React, { useCallback, useMemo } from 'react'
 
 import { useLessons } from '@/api/generated/core'
 import {
@@ -30,6 +30,15 @@ export const Content: React.FC<ContentProps> = ({
 
   const { onChange, onDelete, onCreate, onCreatePeriod } =
     useScheduleActions({ refetch })
+  const selectedDate = useMemo(() => new Date(date), [date])
+  const handleClickCell = useCallback(
+    (nextDate: Date) =>
+      setQueryFilter({
+        date: format(nextDate, dateFormat),
+        view: 'day',
+      }),
+    [setQueryFilter]
+  )
 
   return (
     <Schedule
@@ -37,17 +46,12 @@ export const Content: React.FC<ContentProps> = ({
       config={scheduleConfig}
       events={events ?? []}
       isLoading={isPending}
-      selectedDate={new Date(date)}
+      selectedDate={selectedDate}
       onChange={onChange}
       onDelete={onDelete}
       onCreate={onCreate}
       onCreatePeriod={onCreatePeriod}
-      onClickCell={(date) =>
-        setQueryFilter({
-          date: format(date, dateFormat),
-          view: 'day',
-        })
-      }
+      onClickCell={handleClickCell}
     />
   )
 }

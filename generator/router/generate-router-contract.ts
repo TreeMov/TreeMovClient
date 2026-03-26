@@ -1,3 +1,4 @@
+import { spawn } from 'node:child_process'
 import { promises as fs, watch as watchFs } from 'node:fs'
 import path from 'node:path'
 import process from 'node:process'
@@ -24,6 +25,53 @@ const ROUTES_MAP_PATH = path.join(
 )
 const CONTRACT_PATH = path.join(SRC_DIR, 'router', 'contract.ts')
 const PAGES_DIR = path.join(SRC_DIR, 'pages')
+const runNpmScriptForFile = async (
+  scriptName: 'prettier' | 'lint:fix',
+  filePath: string
+) => {
+  const relativeFilePath = path
+    .relative(ROOT_DIR, filePath)
+    .split(path.sep)
+    .join('/')
+  const child =
+    process.platform === 'win32'
+      ? spawn(
+          'cmd.exe',
+          [
+            '/d',
+            '/c',
+            'npm',
+            'run',
+            scriptName,
+            '--',
+            relativeFilePath,
+          ],
+          {
+            cwd: ROOT_DIR,
+            stdio: 'inherit',
+          }
+        )
+      : spawn('npm', ['run', scriptName, '--', relativeFilePath], {
+          cwd: ROOT_DIR,
+          stdio: 'inherit',
+        })
+
+  await new Promise<void>((resolve, reject) => {
+    child.on('error', reject)
+    child.on('exit', (code) => {
+      if (code === 0) {
+        resolve()
+        return
+      }
+
+      reject(
+        new Error(
+          `npm run ${scriptName} failed for ${relativeFilePath} with exit code ${code ?? 'unknown'}`
+        )
+      )
+    })
+  })
+}
 
 const unwrapExpression = (
   expression: ts.Expression
@@ -314,6 +362,8 @@ const generateRouterContract = async () => {
   }
 
   await fs.writeFile(CONTRACT_PATH, output, 'utf8')
+  await runNpmScriptForFile('prettier', CONTRACT_PATH)
+  await runNpmScriptForFile('lint:fix', CONTRACT_PATH)
 
   // eslint-disable-next-line no-console
   console.log(

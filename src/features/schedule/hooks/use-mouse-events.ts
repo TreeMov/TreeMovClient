@@ -17,14 +17,14 @@ import { useState } from 'react'
 import { fullDateFormat } from '../constants'
 import { combineDateAndTime } from '../helpers'
 
-import { useSchedule } from './use-schedule'
+import {
+  useScheduleStoreContext,
+  useScheduleTime,
+} from './use-schedule'
 
 export const useMouseEvents = () => {
-  const {
-    contentRef,
-    config: { segmentSize },
-    hours,
-  } = useSchedule()
+  const { contentRef } = useScheduleStoreContext()
+  const { segmentSize, hours } = useScheduleTime()
   const [direction, setDirection] = useState<Direction | null>(null)
   const [isTransition, setIsTransition] = useState(false)
 
