@@ -1,6 +1,6 @@
 import { useDroppable } from '@dnd-kit/react'
 import { format, isSameDay } from 'date-fns'
-import React from 'react'
+import React, { useMemo } from 'react'
 
 import { cn } from '@/utils/helpers/shadcn'
 
@@ -8,7 +8,8 @@ import { dateFormat } from '../../constants'
 import { useSchedule } from '../../hooks'
 import { ScheduleEvent } from '../schedule-event'
 import { ScheduleEventDroppable } from '../schedule-event-droppable'
-import { ScheduleGroupObserver } from '../schedule-group-observer'
+
+import { getEventGroups } from './helpers'
 
 export const ScheduleColEvents: React.FC<
   React.ComponentProps<'div'> & { day: Date }
@@ -22,6 +23,7 @@ export const ScheduleColEvents: React.FC<
   const events = store.events.filter(({ date }) =>
     isSameDay(date, day)
   )
+  const eventGroups = useMemo(() => getEventGroups(events), [events])
 
   return (
     <div ref={ref} className={cn('relative', className)} {...props}>
@@ -30,13 +32,11 @@ export const ScheduleColEvents: React.FC<
         <ScheduleEventDroppable day={day} events={store.dragEvent} />
       )}
       {events.map((event) => (
-        <ScheduleGroupObserver
+        <ScheduleEvent
           key={event.id}
-          events={events}
           event={event}
-        >
-          {(group) => <ScheduleEvent event={event} group={group} />}
-        </ScheduleGroupObserver>
+          group={eventGroups.get(event.id) ?? 0}
+        />
       ))}
     </div>
   )

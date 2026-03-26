@@ -25,7 +25,7 @@ export const EventCard: React.FC<
   return (
     <div
       className={cn(
-        'text-grey-600 z-10 w-full rounded-2xl border bg-white shadow-lg transition-shadow',
+        'text-grey-600 z-10 w-full rounded-2xl border bg-white transition-shadow',
         {
           'z-15 shadow-2xl': isActive,
           'opacity-60': isDrag,
