@@ -10,10 +10,6 @@ export const useMonthCellObserver = (events: ScheduleEvent[]) => {
   )
   const isOverflowedCell = !isNil(overflowedIdx)
 
-  const filteredEvents = overflowedIdx
-    ? events.slice(0, overflowedIdx)
-    : events
-
   useEffect(() => {
     if (!cellObserverRef.current) {
       return
@@ -25,6 +21,10 @@ export const useMonthCellObserver = (events: ScheduleEvent[]) => {
 
     if (!previews.length) {
       return
+    }
+
+    for (let idx = 0; idx < previews.length; idx++) {
+      ;(previews[idx] as HTMLElement).style.display = ''
     }
 
     const containerRect =
@@ -42,6 +42,12 @@ export const useMonthCellObserver = (events: ScheduleEvent[]) => {
       if (isOverflow) {
         // eslint-disable-next-line react-hooks/set-state-in-effect
         setOverflowedIdx(idx)
+        for (const preview of [...previews].slice(
+          idx,
+          previews.length
+        )) {
+          ;(preview as HTMLElement).style.display = 'none'
+        }
         break
       }
     }
@@ -51,5 +57,5 @@ export const useMonthCellObserver = (events: ScheduleEvent[]) => {
     }
   }, [events])
 
-  return { cellObserverRef, filteredEvents, isOverflowedCell }
+  return { cellObserverRef, isOverflowedCell }
 }

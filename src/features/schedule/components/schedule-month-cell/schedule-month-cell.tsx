@@ -28,7 +28,7 @@ export const ScheduleMonthCell: React.FC<ScheduleMonthCellProps> = ({
     [day, store.events]
   )
 
-  const { cellObserverRef, filteredEvents, isOverflowedCell } =
+  const { cellObserverRef, isOverflowedCell } =
     useMonthCellObserver(events)
 
   const { ref, isDropTarget } = useDroppable({
@@ -73,7 +73,7 @@ export const ScheduleMonthCell: React.FC<ScheduleMonthCellProps> = ({
         ref={cellObserverRef}
         className="relative flex size-full flex-wrap gap-1 self-start justify-self-start overflow-hidden"
       >
-        {filteredEvents.map((event) => (
+        {events.map((event) => (
           <ScheduleEventPreview
             key={event.id}
             className="relative z-10"
