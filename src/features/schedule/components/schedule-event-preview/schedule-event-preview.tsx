@@ -8,13 +8,15 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from '@/components/ui/hover-card'
+import { cn } from '@/utils/helpers/shadcn'
 
 import { SchedulePopover } from '../schedule-popover'
 import { EventCard } from '../ui/event-card'
 
-export const ScheduleEventPreview: React.FC<ScheduleEvent> = (
-  event
-) => {
+export const ScheduleEventPreview: React.FC<ScheduleEvent> = ({
+  className,
+  ...event
+}) => {
   const { id, state } = event
 
   const { ref } = useDraggable({
@@ -26,11 +28,14 @@ export const ScheduleEventPreview: React.FC<ScheduleEvent> = (
   return (
     <HoverCard openDelay={0} closeDelay={0}>
       <SchedulePopover {...event}>
-        <HoverCardTrigger>
+        <HoverCardTrigger
+          className={cn('size-4', className)}
+          data-event-preview
+        >
           <button
             ref={ref}
             style={{ backgroundColor: event.color }}
-            className="size-4 cursor-pointer rounded-sm"
+            className="flex size-full cursor-pointer items-center justify-center rounded-sm"
           />
         </HoverCardTrigger>
       </SchedulePopover>
