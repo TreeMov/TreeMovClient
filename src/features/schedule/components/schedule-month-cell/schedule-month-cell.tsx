@@ -2,7 +2,7 @@ import type { ScheduleMonthCellProps } from './types'
 
 import { useDroppable } from '@dnd-kit/react'
 import { format, getMonth } from 'date-fns'
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useDeferredValue, useMemo } from 'react'
 
 import { cn } from '@/utils/helpers/shadcn'
 
@@ -21,6 +21,7 @@ const ScheduleMonthCellComponent: React.FC<
 > = ({ day, events }) => {
   const { selectedDate, onClickCell } = useScheduleCalendar()
   const { onCreate, onCreatePeriod } = useScheduleActions()
+  const deferredEvents = useDeferredValue(events)
   const dayKey = useMemo(() => format(day, dateFormat), [day])
   const isOutsideSelectedMonth =
     getMonth(selectedDate) !== getMonth(day)
@@ -29,7 +30,7 @@ const ScheduleMonthCellComponent: React.FC<
   }, [day, onClickCell])
 
   const { cellObserverRef, isOverflowedCell } =
-    useMonthCellObserver(events)
+    useMonthCellObserver(deferredEvents)
 
   const { ref, isDropTarget } = useDroppable({
     id: dayKey,
@@ -72,7 +73,7 @@ const ScheduleMonthCellComponent: React.FC<
         ref={cellObserverRef}
         className="relative flex size-full flex-wrap gap-1 self-start justify-self-start overflow-hidden"
       >
-        {events.map((event) => (
+        {deferredEvents.map((event) => (
           <ScheduleEventPreview
             key={event.id}
             className="relative z-10"

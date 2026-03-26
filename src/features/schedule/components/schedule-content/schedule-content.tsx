@@ -2,7 +2,7 @@ import type { ScheduleEvent } from '../../types'
 
 import { DragOverlay } from '@dnd-kit/react'
 import { format } from 'date-fns'
-import React, { useEffect, useMemo } from 'react'
+import React, { useDeferredValue, useEffect, useMemo } from 'react'
 
 import { Spinner } from '@/components/ui/spinner'
 import { getWeekDays, getWeeks } from '@/utils/helpers/dates'
@@ -47,6 +47,7 @@ export const ScheduleContent: React.FC = () => {
   const { isLoading } = useScheduleStatus()
   const { selectedDate, view, days } = useScheduleCalendar()
   const scheduleEvents = useScheduleStore((state) => state.events)
+  const deferredEvents = useDeferredValue(events)
 
   const weeks = useMemo(() => getWeeks(selectedDate), [selectedDate])
   const monthWeeks = useMemo(
@@ -63,8 +64,8 @@ export const ScheduleContent: React.FC = () => {
   )
 
   useEffect(() => {
-    store.syncEvents(events)
-  }, [events, store])
+    store.syncEvents(deferredEvents)
+  }, [deferredEvents, store])
 
   return (
     <ScheduleContentWrapper>
