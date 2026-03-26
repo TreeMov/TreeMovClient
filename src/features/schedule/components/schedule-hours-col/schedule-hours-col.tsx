@@ -2,13 +2,13 @@ import { format } from 'date-fns'
 import React from 'react'
 
 import { timeFormat } from '../../constants'
-import { useSchedule } from '../../hooks'
+import { useScheduleTime } from '../../hooks'
 import { Cell } from '../ui'
 
 export const ScheduleHoursCol: React.FC<
   React.ComponentProps<'div'>
 > = ({ className, ...props }) => {
-  const { hours } = useSchedule()
+  const { hours } = useScheduleTime()
 
   return (
     <div className={className} {...props}>

@@ -3,11 +3,11 @@ import React from 'react'
 
 import { cn } from '@/utils/helpers/shadcn'
 
-import { useSchedule } from '../../hooks'
+import { useScheduleCalendar } from '../../hooks'
 import { Cell } from '../ui'
 
 export const ScheduleHeader: React.FC = () => {
-  const { config, view, days, onClickCell } = useSchedule()
+  const { config, view, days, onClickCell } = useScheduleCalendar()
   const { dayFormat } = config
 
   return (

@@ -4,21 +4,18 @@ import { SCHEDULE_SEGMENT_SIZE } from '@/utils/constants/schedule'
 
 import { getTimeOptions } from '../helpers'
 
-import { useSchedule } from './use-schedule'
+import { useScheduleTime } from './use-schedule'
 
 export const useTimeSelect = () => {
-  const { config } = useSchedule()
+  const { segmentSize } = useScheduleTime()
 
-  const segmentSize =
-    typeof config !== 'undefined'
-      ? config.segmentSize
-      : SCHEDULE_SEGMENT_SIZE
+  const resolvedSegmentSize = segmentSize ?? SCHEDULE_SEGMENT_SIZE
 
   const getOptions = (
     startHour: number,
     endHour: number
   ): ISelectOption[] =>
-    getTimeOptions(startHour, endHour, segmentSize)
+    getTimeOptions(startHour, endHour, resolvedSegmentSize)
 
   return { getTimeOptions: getOptions }
 }

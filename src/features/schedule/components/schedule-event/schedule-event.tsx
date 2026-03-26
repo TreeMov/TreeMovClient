@@ -1,7 +1,7 @@
 import type { ScheduleEventProps } from './types'
 
 import { useDraggable } from '@dnd-kit/react'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { createPortal } from 'react-dom'
 
 import { useEventPosition } from '../../hooks'
@@ -9,12 +9,16 @@ import { ScheduleEventResizer } from '../schedule-event-resizer'
 import { SchedulePopover } from '../schedule-popover'
 import { Event } from '../ui'
 
-export const ScheduleEvent: React.FC<ScheduleEventProps> = ({
+const ScheduleEventComponent: React.FC<ScheduleEventProps> = ({
   group,
   event,
 }) => {
   const { id, start_time, end_time, date, state } = event
   const { getEventPosition } = useEventPosition(new Date(date))
+  const position = useMemo(
+    () => getEventPosition(start_time, end_time),
+    [end_time, getEventPosition, start_time]
+  )
 
   const { ref } = useDraggable({
     id,
@@ -24,7 +28,7 @@ export const ScheduleEvent: React.FC<ScheduleEventProps> = ({
 
   return (
     <Event
-      style={getEventPosition(start_time, end_time)}
+      style={position}
       isActive={state === 'active'}
       isDrag={state === 'drag'}
       event={event}
@@ -39,12 +43,14 @@ export const ScheduleEvent: React.FC<ScheduleEventProps> = ({
 
       {state === 'resize' &&
         createPortal(
-          <React.Fragment>
+          <>
             <style>{` * { cursor: n-resize !important; } `}</style>
             <style>{` * { user-select: none !important; -webkit-user-select: none !important; } `}</style>
-          </React.Fragment>,
+          </>,
           document.head
         )}
     </Event>
   )
 }
+
+export const ScheduleEvent = React.memo(ScheduleEventComponent)

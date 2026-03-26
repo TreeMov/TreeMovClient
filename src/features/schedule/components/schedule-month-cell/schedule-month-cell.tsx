@@ -1,38 +1,38 @@
 import type { ScheduleMonthCellProps } from './types'
 
 import { useDroppable } from '@dnd-kit/react'
-import { format, getMonth, isSameDay } from 'date-fns'
-import React, { useMemo } from 'react'
+import { format, getMonth } from 'date-fns'
+import React, { useCallback, useMemo } from 'react'
 
 import { cn } from '@/utils/helpers/shadcn'
 
 import { dateFormat } from '../../constants'
-import { useMonthCellObserver, useSchedule } from '../../hooks'
+import {
+  useMonthCellObserver,
+  useScheduleActions,
+  useScheduleCalendar,
+} from '../../hooks'
 import { ScheduleDialog } from '../schedule-dialog'
 import { ScheduleEventPreview } from '../schedule-event-preview'
 import { Cell } from '../ui'
 
-export const ScheduleMonthCell: React.FC<ScheduleMonthCellProps> = ({
-  day,
-}) => {
-  const {
-    store,
-    selectedDate,
-    onClickCell,
-    onCreate,
-    onCreatePeriod,
-  } = useSchedule()
-
-  const events = useMemo(
-    () => store.events.filter(({ date }) => isSameDay(date, day)),
-    [day, store.events]
-  )
+const ScheduleMonthCellComponent: React.FC<
+  ScheduleMonthCellProps
+> = ({ day, events }) => {
+  const { selectedDate, onClickCell } = useScheduleCalendar()
+  const { onCreate, onCreatePeriod } = useScheduleActions()
+  const dayKey = useMemo(() => format(day, dateFormat), [day])
+  const isOutsideSelectedMonth =
+    getMonth(selectedDate) !== getMonth(day)
+  const handleClickCell = useCallback(() => {
+    onClickCell?.(day)
+  }, [day, onClickCell])
 
   const { cellObserverRef, isOverflowedCell } =
     useMonthCellObserver(events)
 
   const { ref, isDropTarget } = useDroppable({
-    id: format(day, dateFormat),
+    id: dayKey,
   })
 
   return (
@@ -51,18 +51,17 @@ export const ScheduleMonthCell: React.FC<ScheduleMonthCellProps> = ({
             className={cn(
               'hover:bg-grey-200 relative z-10 size-8 cursor-pointer rounded-full transition-colors',
               {
-                'text-grey-400':
-                  getMonth(selectedDate) !== getMonth(day),
+                'text-grey-400': isOutsideSelectedMonth,
               }
             )}
-            onClick={() => onClickCell?.(day)}
+            onClick={handleClickCell}
           >
             {format(day, 'd')}
           </button>
           {isOverflowedCell && (
             <button
               className="absolute top-0 right-0 z-10 cursor-pointer text-xs text-violet-400 transition-colors hover:text-violet-600"
-              onClick={() => onClickCell?.(day)}
+              onClick={handleClickCell}
             >
               Показать все
             </button>
@@ -82,7 +81,7 @@ export const ScheduleMonthCell: React.FC<ScheduleMonthCellProps> = ({
         ))}
       </div>
       <ScheduleDialog
-        date={format(day, dateFormat)}
+        date={dayKey}
         onCreate={onCreate}
         onCreatePeriod={onCreatePeriod}
       >
@@ -91,3 +90,10 @@ export const ScheduleMonthCell: React.FC<ScheduleMonthCellProps> = ({
     </Cell>
   )
 }
+
+export const ScheduleMonthCell = React.memo(
+  ScheduleMonthCellComponent,
+  (prevProps, nextProps) =>
+    prevProps.day.getTime() === nextProps.day.getTime() &&
+    prevProps.events === nextProps.events
+)

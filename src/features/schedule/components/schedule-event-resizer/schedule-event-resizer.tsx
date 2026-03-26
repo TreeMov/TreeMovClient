@@ -5,7 +5,11 @@ import React, { useRef, useState } from 'react'
 
 import { useEventListener } from '@/hooks/use-event-listener'
 
-import { useMouseEvents, useSchedule } from '../../hooks'
+import {
+  useMouseEvents,
+  useScheduleActions,
+  useScheduleStoreContext,
+} from '../../hooks'
 
 export const ScheduleEventResizer: React.FC<
   ScheduleEventResizerProps
@@ -13,7 +17,8 @@ export const ScheduleEventResizer: React.FC<
   const { id, start_time, end_time, date } = event
 
   const ref = useRef<HTMLDivElement>(null)
-  const { store, contentRef, onChangeHandler } = useSchedule()
+  const { store, contentRef } = useScheduleStoreContext()
+  const { onChangeHandler } = useScheduleActions()
   const [isResizeMoveEnabled, setIsResizeMoveEnabled] =
     useState(false)
   const [initialEvent, setInitialEvent] = useState(cloneDeep(event))

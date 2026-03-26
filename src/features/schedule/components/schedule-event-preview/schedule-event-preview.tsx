@@ -1,7 +1,7 @@
 import type { ScheduleEvent } from '../../types'
 
 import { useDraggable } from '@dnd-kit/react'
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 
 import {
   HoverCard,
@@ -13,20 +13,29 @@ import { cn } from '@/utils/helpers/shadcn'
 import { SchedulePopover } from '../schedule-popover'
 import { EventCard } from '../ui/event-card'
 
-export const ScheduleEventPreview: React.FC<ScheduleEvent> = ({
+const ScheduleEventPreviewComponent: React.FC<ScheduleEvent> = ({
   className,
   ...event
 }) => {
   const { id, state } = event
+  const [isHovered, setIsHovered] = useState(false)
 
   const { ref } = useDraggable({
     id,
     data: event,
     disabled: state === 'resize',
   })
+  const onHoverChange = useCallback((open: boolean) => {
+    setIsHovered(open)
+  }, [])
 
   return (
-    <HoverCard openDelay={0} closeDelay={0}>
+    <HoverCard
+      open={isHovered}
+      openDelay={0}
+      closeDelay={0}
+      onOpenChange={onHoverChange}
+    >
       <SchedulePopover {...event}>
         <HoverCardTrigger
           className={cn('size-4', className)}
@@ -39,9 +48,15 @@ export const ScheduleEventPreview: React.FC<ScheduleEvent> = ({
           />
         </HoverCardTrigger>
       </SchedulePopover>
-      <HoverCardContent>
-        <EventCard event={event} />
-      </HoverCardContent>
+      {isHovered && (
+        <HoverCardContent>
+          <EventCard event={event} />
+        </HoverCardContent>
+      )}
     </HoverCard>
   )
 }
+
+export const ScheduleEventPreview = React.memo(
+  ScheduleEventPreviewComponent
+)

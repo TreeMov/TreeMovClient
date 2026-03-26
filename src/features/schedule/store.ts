@@ -6,6 +6,7 @@ import type {
 } from './types'
 
 import { isBefore, isSameMinute } from 'date-fns'
+import { isEqual } from 'lodash-es'
 import { makeAutoObservable } from 'mobx'
 
 import { combineDateAndTime, serializeEvent } from './helpers'
@@ -56,8 +57,9 @@ export class Store {
   }
 
   startDrag(event: ScheduleEvent, dragSegment: number) {
-    this.updateEvent(event.id, { state: 'drag' })
-    this.dragEvent = event
+    // @ts-expect-error todo исправить
+    this.dragEvent =
+      this.updateEvent(event.id, { state: 'drag' }) ?? event
     this.dragSegment = dragSegment
   }
 
@@ -80,10 +82,45 @@ export class Store {
   }
 
   syncEvents(events: LessonModelRead[]) {
-    const filteredEvents = this._events.filter(
+    const draftEvents = this._events.filter(
       ({ type }) => type !== 'read'
     )
-    this._events = [...filteredEvents, ...events.map(serializeEvent)]
+    const readEventsById = new Map(
+      this._events
+        .filter(
+          (
+            event
+          ): event is Extract<ScheduleEvent, { type: 'read' }> =>
+            event.type === 'read'
+        )
+        .map((event) => [event.id, event])
+    )
+
+    const nextReadEvents = events.map((event) => {
+      const serializedEvent = serializeEvent(event)
+      const prevEvent = readEventsById.get(serializedEvent.id)
+
+      if (!prevEvent) {
+        return serializedEvent
+      }
+
+      const nextEvent = {
+        ...serializedEvent,
+        state: prevEvent.state,
+        className: prevEvent.className,
+      }
+
+      return isEqual(prevEvent, nextEvent) ? prevEvent : nextEvent
+    })
+
+    const nextEvents = [...draftEvents, ...nextReadEvents]
+    const isSameEvents =
+      nextEvents.length === this._events.length &&
+      nextEvents.every((event, idx) => event === this._events[idx])
+
+    if (!isSameEvents) {
+      this._events = nextEvents
+    }
   }
 
   createEvent({
@@ -104,8 +141,18 @@ export class Store {
     const idx = this._events.findIndex((event) => event.id === id)
 
     if (idx >= 0) {
-      const updatedEvent = Object.assign(this._events[idx], payload)
+      const updatedEvent = {
+        ...this._events[idx],
+        ...payload,
+      }
+      // @ts-expect-error todo исправить
       this._events.splice(idx, 1, updatedEvent)
+
+      if (this.dragEvent?.id === id) {
+        // @ts-expect-error todo исправить
+        this.dragEvent = updatedEvent
+      }
+
       return updatedEvent
     }
   }

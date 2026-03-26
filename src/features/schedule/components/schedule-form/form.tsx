@@ -5,7 +5,7 @@ import type { OutputSchema } from '../ui/form/components/lesson-form/types'
 
 import React from 'react'
 
-import { useFormQuery, useSchedule } from '../../hooks'
+import { useFormQuery, useScheduleTime } from '../../hooks'
 import { ScheduleForm as UScheduleForm } from '../ui/form'
 
 import { getDefaultValues, mapFormDataFields } from './helpers'
@@ -18,7 +18,7 @@ export const ScheduleForm: React.FC<FormProps> = ({
   ...event
 }) => {
   const { id, type, start_time, end_time } = event
-  const { startHour, endHour } = useSchedule()
+  const { startHour, endHour } = useScheduleTime()
   const queryData = useFormQuery()
 
   const onSubmitEvent: SubmitHandler<EventSchema> = async ({
