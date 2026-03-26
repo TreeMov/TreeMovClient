@@ -32,7 +32,6 @@ export const ScheduleDialog: React.FC<
         <ScheduleForm
           startHour={SCHEDULE_START_HOUR}
           endHour={SCHEDULE_END_HOUR}
-          onClose={() => {}}
           onSubmitEvent={onSubmitEvent}
           onSubmitLesson={onSubmitLesson}
         />

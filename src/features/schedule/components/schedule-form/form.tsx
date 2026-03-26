@@ -6,14 +6,12 @@ import type { OutputSchema } from '../ui/form/components/lesson-form/types'
 import React from 'react'
 
 import { useFormQuery, useSchedule } from '../../hooks'
-import { ScheduleDelete } from '../schedule-delete'
 import { ScheduleForm as UScheduleForm } from '../ui/form'
 
 import { getDefaultValues, mapFormDataFields } from './helpers'
 import { type FormProps } from './types'
 
 export const ScheduleForm: React.FC<FormProps> = ({
-  onClose,
   onChangeHandler,
   onCreateHandler,
   onCreatePeriodHandler,
@@ -115,10 +113,8 @@ export const ScheduleForm: React.FC<FormProps> = ({
       defaultLessonValues={getDefaultValues(event)}
       startHour={startHour ?? 0}
       endHour={endHour ?? 0}
-      actions={<ScheduleDelete id={id} type={type} />}
       onSubmitEvent={onSubmitEvent}
       onSubmitLesson={onSubmitLesson}
-      onClose={onClose}
     />
   )
 }

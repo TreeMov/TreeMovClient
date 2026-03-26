@@ -11,7 +11,10 @@ export type PopoverTriggerProps = React.ComponentProps<
 
 export type PopoverContentProps = React.ComponentProps<
   typeof PopoverPrimitive.Content
->
+> & {
+  actions?: React.ReactNode
+  showCloseButton?: boolean
+}
 
 export type PopoverAnchorProps = React.ComponentProps<
   typeof PopoverPrimitive.Anchor

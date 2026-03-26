@@ -24,6 +24,7 @@ export type DialogOverlayProps = React.ComponentProps<
 export type DialogContentProps = React.ComponentProps<
   typeof DialogPrimitive.Content
 > & {
+  actions?: React.ReactNode
   showCloseButton?: boolean
 }
 

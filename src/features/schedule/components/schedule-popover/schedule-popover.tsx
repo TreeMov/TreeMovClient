@@ -9,14 +9,14 @@ import {
 } from '@/components/ui/popover'
 
 import { useSchedule } from '../../hooks'
+import { ScheduleDelete } from '../schedule-delete'
 import { ScheduleForm } from '../schedule-form'
 
 export const SchedulePopover: React.FC<
   React.PropsWithChildren<ScheduleEvent>
 > = ({ children, ...event }) => {
-  const { id } = event
+  const { id, type } = event
 
-  const [open, setOpen] = useState(false)
   const [initialState] = useState(event.state)
 
   const {
@@ -27,7 +27,6 @@ export const SchedulePopover: React.FC<
   } = useSchedule()
 
   const onOpenChange = (open: boolean) => {
-    setOpen(open)
     if (open) {
       store.setActiveEvent(id)
     } else {
@@ -36,19 +35,19 @@ export const SchedulePopover: React.FC<
   }
 
   return (
-    <Popover modal open={open} onOpenChange={onOpenChange}>
+    <Popover modal onOpenChange={onOpenChange}>
       <PopoverTrigger asChild>{children}</PopoverTrigger>
       <PopoverContent
         sideOffset={16}
         side="right"
         align="start"
         className="w-118 shadow-2xl"
+        actions={<ScheduleDelete id={id} type={type} />}
       >
         <ScheduleForm
           onCreateHandler={onCreateHandler}
           onCreatePeriodHandler={onCreatePeriodHandler}
           onChangeHandler={onChangeHandler}
-          onClose={() => setOpen(false)}
           {...event}
         />
       </PopoverContent>

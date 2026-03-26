@@ -6,7 +6,4 @@ export type FormActions = Pick<
   'onCreatePeriodHandler' | 'onCreateHandler' | 'onChangeHandler'
 >
 
-export type FormProps = ScheduleEvent &
-  FormActions & {
-    onClose: () => void
-  }
+export type FormProps = ScheduleEvent & FormActions

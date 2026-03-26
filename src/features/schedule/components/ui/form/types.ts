@@ -17,12 +17,10 @@ export type PeriodSchemaOutput = z.output<typeof periodSchema>
 export type FormProps = {
   defaultLessonValues?: LessonInputSchema
   defaultEventValues?: EventInputSchema
-  actions?: React.ReactNode
   startHour: number
   endHour: number
   onSubmitLesson: SubmitHandler<LessonOutputSchema>
   onSubmitEvent: SubmitHandler<EventOutputSchema>
-  onClose: () => void
 }
 
 export type TabOption = {
