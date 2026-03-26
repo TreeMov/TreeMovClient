@@ -11,6 +11,10 @@ import type {
 import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { toast } from 'sonner'
 
+import {
+  SCHEDULE_END_HOUR,
+  SCHEDULE_START_HOUR,
+} from '@/utils/constants/schedule'
 import { getWeekDays } from '@/utils/helpers/dates'
 
 import { ScheduleContext } from './context'
@@ -22,8 +26,8 @@ export const ScheduleProvider: React.FC<
 > = ({
   children,
   view = 'week',
-  startHour = 8,
-  endHour = 22,
+  startHour = SCHEDULE_START_HOUR,
+  endHour = SCHEDULE_END_HOUR,
   onChange,
   onDelete,
   onCreate,

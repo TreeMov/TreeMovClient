@@ -20,12 +20,12 @@ export const EventCard: React.FC<
   children,
   ...props
 }) => {
-  const { id, date, start_time, end_time, color } = event
+  const { date, start_time, end_time, color } = event
 
   return (
     <div
       className={cn(
-        'z-10 w-full rounded-xl border bg-white p-2.5 shadow-lg transition-shadow',
+        'text-grey-600 z-10 w-full rounded-2xl border bg-white shadow-lg transition-shadow',
         {
           'z-15 shadow-2xl': isActive,
           'opacity-60': isDrag,
@@ -38,18 +38,17 @@ export const EventCard: React.FC<
       }}
       {...props}
     >
-      <div>{event.state}</div>
-      <div>{event.type}</div>
-      <div>{id}</div>
-      {event.type === 'create' ? (
-        <div>Добавление</div>
-      ) : (
-        <EventContent {...event} />
-      )}
-
-      <div>
-        {format(combineDateAndTime(date, start_time), timeFormat)}-
-        {format(combineDateAndTime(date, end_time), timeFormat)}
+      <div className="flex h-full flex-col gap-1 overflow-hidden p-2.5">
+        {event.type === 'create' ? (
+          <div>Добавление</div>
+        ) : (
+          <EventContent {...event} />
+        )}
+        <div>
+          {format(combineDateAndTime(date, start_time), timeFormat)}
+          <span>-</span>
+          {format(combineDateAndTime(date, end_time), timeFormat)}
+        </div>
       </div>
 
       {children}

@@ -8,6 +8,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import {
+  SCHEDULE_END_HOUR,
+  SCHEDULE_START_HOUR,
+} from '@/utils/constants/schedule'
 
 import { useFormActions } from '../../hooks'
 import { ScheduleForm } from '../ui/form'
@@ -26,8 +30,8 @@ export const ScheduleDialog: React.FC<
           <DialogDescription>создать событие</DialogDescription>
         </VisuallyHidden.Root>
         <ScheduleForm
-          startHour={8}
-          endHour={22}
+          startHour={SCHEDULE_START_HOUR}
+          endHour={SCHEDULE_END_HOUR}
           onClose={() => {}}
           onSubmitEvent={onSubmitEvent}
           onSubmitLesson={onSubmitLesson}

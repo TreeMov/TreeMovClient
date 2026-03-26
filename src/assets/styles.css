@@ -32,6 +32,7 @@
   --color-grey-300: var(--grey-300);
   --color-grey-400: var(--grey-400);
   --color-grey-500: var(--grey-500);
+  --color-grey-600: var(--grey-600);
 
   --color-destructive: var(--destructive);
 
@@ -64,6 +65,7 @@
   --grey-300: rgb(245, 245, 245);
   --grey-400: rgb(179, 179, 179);
   --grey-500: rgb(97, 97, 97);
+  --grey-600: rgb(112, 112, 112);
 
   --destructive: rgb(255, 24, 20);
 

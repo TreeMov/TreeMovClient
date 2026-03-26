@@ -8,9 +8,10 @@ import { Form } from '@/components/shared/form'
 import { Input } from '@/components/shared/input'
 import { Select } from '@/components/shared/select'
 import { Button } from '@/components/ui/button'
+import { useTimeSelect } from '@/features/schedule/hooks'
 import { createConnectForm } from '@/hocs/create-connect-form'
 
-import { getTimeOptions, periodOptions } from '../../constants'
+import { periodOptions } from '../../constants'
 
 import { schema } from './schema'
 
@@ -22,6 +23,8 @@ export const EventForm: React.FC<EventFormProps> = ({
   endHour,
   onSubmit,
 }) => {
+  const { getTimeOptions } = useTimeSelect()
+
   return (
     <Form
       useFormProps={{
@@ -38,6 +41,7 @@ export const EventForm: React.FC<EventFormProps> = ({
                 control={control}
                 name="start_time"
                 inputProps={{
+                  placeholder: 'Начало события',
                   options: getTimeOptions(startHour, endHour),
                 }}
               />
@@ -50,6 +54,7 @@ export const EventForm: React.FC<EventFormProps> = ({
                 control={control}
                 name="end_time"
                 inputProps={{
+                  placeholder: 'Окончание события',
                   options: getTimeOptions(startHour, endHour),
                 }}
               />
