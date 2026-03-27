@@ -22,34 +22,13 @@ export type LessonModelRead = {
    * @type integer
    */
   id: number
-  /**
-   * @type string
-   */
-  title: string
-  /**
-   * @type string, time
-   */
+  title?: (string | null) | undefined
   start_time: string
-  /**
-   * @type string, time
-   */
   end_time: string
-  /**
-   * @type object
-   */
-  teacher: TeacherModelRead | null
-  /**
-   * @type object
-   */
-  classroom: ClassroomModelRead | null
-  /**
-   * @type object
-   */
-  student_group: StudentGroupModelRead | null
-  /**
-   * @type object
-   */
-  subject: SubjectModelRead | null
+  teacher?: (TeacherModelRead | null) | undefined
+  classroom?: (ClassroomModelRead | null) | undefined
+  student_group?: (StudentGroupModelRead | null) | undefined
+  subject?: (SubjectModelRead | null) | undefined
   /**
    * @type string, date
    */

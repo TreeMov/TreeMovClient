@@ -9,6 +9,7 @@ import {
 export const schema = z
   .object({
     title: z.string().min(1),
+    comment: z.string(),
     ...periodSchema.shape,
     ...rangeSchema.shape,
   })

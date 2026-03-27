@@ -1,9 +1,4 @@
-import {
-  eachDayOfInterval,
-  format,
-  isWeekend,
-  parseISO,
-} from 'date-fns'
+import { format } from 'date-fns'
 import {
   parseAsString,
   parseAsStringEnum,
@@ -15,13 +10,15 @@ import {
   type LessonModelUpdate,
   type PeriodLessonModelCreate,
   useCreateLessons,
-  useCreatePeriodLessonLessons,
+  useCreatePeriodLesson,
   useLessons,
   useLessons2,
-  useUpdateStudentsLessonsId,
+  useUpdateLessonsId,
 } from '@/api/generated/core'
 import { dateFormat, type ScheduleView } from '@/features/schedule'
 import { PeriodEnum } from '@/features/schedule/components/ui/form'
+
+import { periodMap } from './constants'
 
 export const useFilters = () => {
   const [queryFilters, setQueryFilter] = useQueryStates({
@@ -40,9 +37,9 @@ export const useScheduleActions = ({
   refetch,
 }: Pick<ReturnType<typeof useLessons>, 'refetch'>) => {
   const { mutateAsync: deleteEvent } = useLessons2()
-  const { mutateAsync: updateEvent } = useUpdateStudentsLessonsId()
+  const { mutateAsync: updateEvent } = useUpdateLessonsId()
   const { mutateAsync: createEvent } = useCreateLessons()
-  const { mutateAsync: createPeriod } = useCreatePeriodLessonLessons()
+  const { mutateAsync: createPeriod } = useCreatePeriodLesson()
 
   const onChange = async (id: number, data: LessonModelUpdate) => {
     await updateEvent({
@@ -66,44 +63,9 @@ export const useScheduleActions = ({
     dto: Omit<PeriodLessonModelCreate, 'period'>,
     period: PeriodEnum
   ) => {
-    switch (period) {
-      case PeriodEnum.DAILY:
-        await createPeriod({ data: { ...dto, period: 1 } })
-        break
-      case PeriodEnum.WEEKLY:
-        await createPeriod({ data: { ...dto, period: 7 } })
-        break
-      case PeriodEnum.WEEKDAYS: {
-        const startDate = parseISO(dto.start_date)
-        const endDate = parseISO(dto.repeat_lessons_until_date)
-        const weekdaysByDay = new Map<number, string>()
-
-        for (const day of eachDayOfInterval({
-          start: startDate,
-          end: endDate,
-        })) {
-          if (isWeekend(day)) {
-            continue
-          }
-
-          const weekDay = day.getDay()
-          if (weekdaysByDay.has(weekDay)) {
-            continue
-          }
-
-          weekdaysByDay.set(weekDay, format(day, dateFormat))
-        }
-
-        await Promise.all(
-          [...weekdaysByDay.values()].map((startDateValue) =>
-            createPeriod({
-              data: { ...dto, start_date: startDateValue, period: 7 },
-            })
-          )
-        )
-        break
-      }
-    }
+    await createPeriod({
+      data: { ...dto, weekdays: periodMap[period] },
+    })
     await refetch()
   }
 

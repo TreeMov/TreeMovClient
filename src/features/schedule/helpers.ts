@@ -2,6 +2,7 @@ import type { LessonModelRead } from '@/api/generated/core'
 import type { ISelectOption } from '@/components/ui/select/types'
 import type {
   DeserializedEvent,
+  ScheduleEvent,
   ScheduleEventFormFields,
   ScheduleEventRead,
   ScheduleLessonFormFields,
@@ -35,7 +36,7 @@ import {
   lessonFormFields,
   timeFormat,
 } from './constants'
-import { isSerializedLesson } from './typeguards'
+import { isSerializedEvent, isSerializedLesson } from './typeguards'
 
 export const getScheduleHours = (start: number, end: number) =>
   getDayHours(
@@ -64,10 +65,14 @@ export const serializeEventsFields = (
       },
       comment: comment ?? '',
     }
-  } else {
-    const { title } = fields
-    return { formType: 'event', title }
   }
+
+  if (isSerializedEvent(fields)) {
+    const { title, comment } = fields
+    return { formType: 'event', title, comment: comment ?? '' }
+  }
+
+  throw new Error('unable to determine form type for event')
 }
 
 export const serializeEvent = ({
@@ -187,3 +192,20 @@ export const getTimeOptions = (
       return segmentsOptions
     })
     .flat()
+
+export const getEventsByDay = (events: ScheduleEvent[]) => {
+  const eventsByDay = new Map<string, ScheduleEvent[]>()
+
+  for (const event of events) {
+    const dayKey = format(new Date(event.date), dateFormat)
+    const dayEvents = eventsByDay.get(dayKey)
+
+    if (dayEvents) {
+      dayEvents.push(event)
+    } else {
+      eventsByDay.set(dayKey, [event])
+    }
+  }
+
+  return eventsByDay
+}

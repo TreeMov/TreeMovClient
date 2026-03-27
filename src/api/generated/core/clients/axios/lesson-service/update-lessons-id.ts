@@ -16,15 +16,13 @@ import type {
   ResponseErrorConfig,
 } from '@/api/clients/core-client'
 import type {
-  UpdateStudentsLessonsIdMutationRequest,
-  UpdateStudentsLessonsIdMutationResponse,
-  UpdateStudentsLessonsIdPathParams,
-  UpdateStudentsLessonsId422,
-} from '../../../types/lesson-controller/update-students-lessons-id.ts'
+  UpdateLessonsIdMutationRequest,
+  UpdateLessonsIdMutationResponse,
+  UpdateLessonsIdPathParams,
+  UpdateLessonsId422,
+} from '../../../types/lesson-controller/update-lessons-id.ts'
 
-function getUpdateStudentsLessonsIdUrl(
-  id: UpdateStudentsLessonsIdPathParams['id']
-) {
+function getUpdateLessonsIdUrl(id: UpdateLessonsIdPathParams['id']) {
   const res = {
     method: 'PATCH',
     url: `/api/v1/lessons/${id}` as const,
@@ -33,27 +31,27 @@ function getUpdateStudentsLessonsIdUrl(
 }
 
 /**
- * @summary Update Students
+ * @summary  Update
  * {@link /api/v1/lessons/:id}
  */
-export async function updateStudentsLessonsId(
-  id: UpdateStudentsLessonsIdPathParams['id'],
-  data: UpdateStudentsLessonsIdMutationRequest,
-  config: Partial<
-    RequestConfig<UpdateStudentsLessonsIdMutationRequest>
-  > & { client?: Client } = {}
+export async function updateLessonsId(
+  id: UpdateLessonsIdPathParams['id'],
+  data: UpdateLessonsIdMutationRequest,
+  config: Partial<RequestConfig<UpdateLessonsIdMutationRequest>> & {
+    client?: Client
+  } = {}
 ) {
   const { client: request = fetch, ...requestConfig } = config
 
   const requestData = data
 
   const res = await request<
-    UpdateStudentsLessonsIdMutationResponse,
-    ResponseErrorConfig<UpdateStudentsLessonsId422>,
-    UpdateStudentsLessonsIdMutationRequest
+    UpdateLessonsIdMutationResponse,
+    ResponseErrorConfig<UpdateLessonsId422>,
+    UpdateLessonsIdMutationRequest
   >({
     method: 'PATCH',
-    url: getUpdateStudentsLessonsIdUrl(id).url.toString(),
+    url: getUpdateLessonsIdUrl(id).url.toString(),
     data: requestData,
     ...requestConfig,
   })

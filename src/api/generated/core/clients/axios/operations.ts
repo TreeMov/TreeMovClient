@@ -182,11 +182,15 @@ export const operations = {
     path: '/api/v1/lessons/period',
     method: 'post',
   },
+  my_lessons_me: {
+    path: '/api/v1/lessons/me',
+    method: 'get',
+  },
   by_id_lessons: {
     path: '/api/v1/lessons/:id',
     method: 'get',
   },
-  update_students_lessons_id: {
+  update_lessons_id: {
     path: '/api/v1/lessons/:id',
     method: 'patch',
   },
@@ -298,12 +302,12 @@ export const operations = {
     path: '/api/v1/teacher-notes/:id',
     method: 'patch',
   },
-  public_key: {
-    path: '/api/v1/public_key',
-    method: 'get',
-  },
   my_orgs_organizations_me_2: {
     path: '/api/v2/organizations/me',
     method: 'get',
+  },
+  create_period_lesson: {
+    path: '/api/v2/lessons/period',
+    method: 'post',
   },
 }

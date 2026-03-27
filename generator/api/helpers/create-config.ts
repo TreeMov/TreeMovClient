@@ -61,7 +61,7 @@ export const createConfig = (
         write: true,
       },
       hooks: {
-        done: `node ./generator/scripts/normalize-generated-files.mjs "${getOutputPath(
+        done: `node ./generator/api/scripts/normalize-generated-files.mjs "${getOutputPath(
           key
         )}"`,
       },

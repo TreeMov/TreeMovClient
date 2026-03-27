@@ -22,34 +22,13 @@ export type PeriodLessonModelRead = {
    * @type integer
    */
   id: number
-  /**
-   * @type string
-   */
-  title: string
-  /**
-   * @type string, time
-   */
-  start_time: string
-  /**
-   * @type string, time
-   */
-  end_time: string
-  /**
-   * @type object
-   */
-  teacher: TeacherModelRead
-  /**
-   * @type object
-   */
-  classroom: ClassroomModelRead
-  /**
-   * @type object
-   */
-  student_group: StudentGroupModelRead
-  /**
-   * @type object
-   */
-  subject: SubjectModelRead
+  title?: (string | null) | undefined
+  start_time?: (string | null) | undefined
+  end_time?: (string | null) | undefined
+  teacher?: (TeacherModelRead | null) | undefined
+  classroom?: (ClassroomModelRead | null) | undefined
+  student_group?: (StudentGroupModelRead | null) | undefined
+  subject?: (SubjectModelRead | null) | undefined
   /**
    * @type integer
    */

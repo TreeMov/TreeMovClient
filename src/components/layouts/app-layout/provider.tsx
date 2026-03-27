@@ -2,7 +2,9 @@ import type { AppLayoutProviderProps } from './types'
 
 import React, { useState } from 'react'
 
+import { Navigate } from '@/components/shared/navigate'
 import { GlobalSpinner } from '@/components/ui/global-spinner'
+import { paths } from '@/router/contract'
 
 import { AppLayoutContext } from './context'
 import { AppStore } from './store'
@@ -19,7 +21,7 @@ export const AppLayoutProvider: React.FC<
     organizations?.filter(({ id }) => id !== store.orgId) ?? []
 
   if (!organizations?.length) {
-    return <div>create org</div>
+    return <Navigate to={{ path: paths['create-org'] }} />
   }
 
   if (!currentOrg) {

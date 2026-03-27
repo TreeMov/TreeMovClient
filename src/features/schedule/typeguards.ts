@@ -1,3 +1,4 @@
+import type { DefinedFields } from '@/types/utility'
 import type {
   SerializedEventFields,
   SerializedLessonFields,
@@ -5,16 +6,20 @@ import type {
 
 import { every, has, isNil } from 'lodash-es'
 
-import { lessonFormFields } from './constants'
+import { formCommonFields, lessonFormFields } from './constants'
 
 export const isSerializedLesson = (
   fields: SerializedLessonFields | SerializedEventFields
-): fields is SerializedLessonFields =>
+): fields is DefinedFields<SerializedLessonFields> =>
   every(
-    lessonFormFields,
+    lessonFormFields.filter(
+      (key) =>
+        !formCommonFields.some((commonKey) => commonKey === key)
+    ),
     (key) => has(fields, key) && !isNil(fields[key])
   )
 
 export const isSerializedEvent = (
   fields: SerializedLessonFields | SerializedEventFields
-): fields is SerializedEventFields => !isSerializedLesson(fields)
+): fields is DefinedFields<SerializedEventFields> =>
+  !isSerializedLesson(fields)

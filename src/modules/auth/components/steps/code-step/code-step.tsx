@@ -5,10 +5,12 @@ import type { CodeStepProps } from './types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import React, { useRef } from 'react'
 
+import { useLoginAuth } from '@/api/generated/auth'
 import {
   emailCodePurposeEnum,
   useVerifyEmail,
 } from '@/api/generated/email'
+import { session } from '@/api/session'
 import { AuthLayout } from '@/components/layouts/auth-layout'
 import { CodeResend } from '@/components/shared/auth'
 import { Form } from '@/components/shared/form'
@@ -26,6 +28,7 @@ import { codeSchema } from './schema'
 const ConnectForm = createConnectForm<CodeStepSchema>()
 
 export const CodeStep: React.FC<CodeStepProps> = ({
+  password,
   email,
   onNext,
 }) => {
@@ -36,6 +39,8 @@ export const CodeStep: React.FC<CodeStepProps> = ({
   const { handleSendEmail, isPending: isPendingSendEmail } =
     useSendEmail(emailCodePurposeEnum.verify_email, email)
 
+  const { mutateAsync: login } = useLoginAuth()
+
   const onSubmit: SubmitHandler<CodeStepSchema> = async ({
     code,
   }) => {
@@ -45,6 +50,13 @@ export const CodeStep: React.FC<CodeStepProps> = ({
         email,
         purpose: emailCodePurposeEnum.verify_email,
       },
+    })
+    const { access_token, refresh_token } = await login({
+      data: { email, password },
+    })
+    session.createSession({
+      access_token,
+      refresh_token,
     })
     onNext?.({ code })
   }

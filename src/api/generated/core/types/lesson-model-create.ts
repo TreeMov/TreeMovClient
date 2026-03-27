@@ -13,34 +13,13 @@
  * LessonModelCreate
  */
 export type LessonModelCreate = {
-  /**
-   * @type string
-   */
-  title?: string
-  /**
-   * @type string, time
-   */
-  start_time: string
-  /**
-   * @type string, time
-   */
-  end_time: string
-  /**
-   * @type integer
-   */
-  teacher_id?: number
-  /**
-   * @type integer
-   */
-  classroom_id?: number
-  /**
-   * @type integer
-   */
-  student_group_id?: number
-  /**
-   * @type integer
-   */
-  subject_id?: number
+  title?: (string | null) | undefined
+  start_time?: (string | null) | undefined
+  end_time?: (string | null) | undefined
+  teacher_id?: (number | null) | undefined
+  classroom_id?: (number | null) | undefined
+  student_group_id?: (number | null) | undefined
+  subject_id?: (number | null) | undefined
   /**
    * @type string, date
    */

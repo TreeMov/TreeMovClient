@@ -47,12 +47,17 @@ export type ScheduleFormBase = {
   formType: ScheduleFormType
 }
 
-export type ScheduleLessonFormFieldsBase = {
+export type ScheduleFormFieldsBase = {
+  comment: string
+}
+
+export type ScheduleFormFieldsBaseKeys = keyof ScheduleFormFieldsBase
+
+export type ScheduleLessonFormFieldsBase = ScheduleFormFieldsBase & {
   subject: ScheduleField
   teacher: ScheduleField
   classroom: ScheduleField
   student_group: ScheduleField
-  comment: string
 }
 
 export type ScheduleLessonFormFields = ScheduleFormBase &
@@ -60,7 +65,9 @@ export type ScheduleLessonFormFields = ScheduleFormBase &
     formType: 'lesson'
   }
 
-export type ScheduleEventFormFieldsBase = { title: string }
+export type ScheduleEventFormFieldsBase = ScheduleFormFieldsBase & {
+  title: string
+}
 
 export type ScheduleEventFormFields = ScheduleFormBase &
   ScheduleEventFormFieldsBase & {
@@ -203,6 +210,13 @@ export type DeserializedEvent = (
   is_completed: boolean
 }
 
+export type SerializedFields = Prettify<
+  Pick<
+    LessonModelRead,
+    keyof (ScheduleLessonFormFieldsBase & ScheduleEventFormFieldsBase)
+  >
+>
+
 export type SeriazliedEventCommonFieldsKeys = keyof Pick<
   SerializedFields,
   'comment'
@@ -210,29 +224,22 @@ export type SeriazliedEventCommonFieldsKeys = keyof Pick<
 
 export type SerializedLessonFieldsKeys = keyof Pick<
   SerializedFields,
-  'subject' | 'classroom' | 'teacher' | 'student_group'
+  'subject' | 'classroom' | 'teacher' | 'student_group' | 'comment'
 >
 
 export type SerializedEventFieldsKeys = keyof Pick<
   SerializedFields,
-  'title'
->
-
-export type SerializedFields = Pick<
-  LessonModelRead,
-  keyof (ScheduleLessonFormFieldsBase & ScheduleEventFormFieldsBase)
+  'title' | 'comment'
 >
 
 export type SerializedLessonFields = Prettify<
-  NonNullableFields<
-    Pick<SerializedFields, SerializedLessonFieldsKeys>
-  > &
+  Pick<SerializedFields, SerializedLessonFieldsKeys> &
     Pick<SerializedFields, SeriazliedEventCommonFieldsKeys>
 >
 
+export type Req = NonNullableFields<Required<SerializedLessonFields>>
+
 export type SerializedEventFields = Prettify<
-  NonNullableFields<
-    Pick<SerializedFields, SerializedEventFieldsKeys>
-  > &
+  Pick<SerializedFields, SerializedEventFieldsKeys> &
     Pick<SerializedFields, SeriazliedEventCommonFieldsKeys>
 >

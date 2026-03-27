@@ -8,4 +8,5 @@ export const ROUTES = {
   report: '/report',
   signUp: '/sign-up',
   signIn: '/sign-in',
+  createOrg: '/organizations/create',
 } as const

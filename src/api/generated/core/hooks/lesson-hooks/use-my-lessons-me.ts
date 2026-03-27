@@ -20,46 +20,61 @@ import type {
   QueryObserverOptions,
   UseQueryResult,
 } from '@tanstack/react-query'
-import type { PublicKeyQueryResponse } from '../../types/undefined-controller/public-key.ts'
+import type {
+  MyLessonsMeQueryResponse,
+  MyLessonsMeQueryParams,
+  MyLessonsMe422,
+} from '../../types/lesson-controller/my-lessons-me.ts'
 import { queryOptions, useQuery } from '@tanstack/react-query'
-import { publicKey } from '../../clients/axios/undefined-service/public-key.ts'
+import { myLessonsMe } from '../../clients/axios/lesson-service/my-lessons-me.ts'
 
-export const publicKeyQueryKey = () =>
-  [{ url: '/api/v1/public_key' }] as const
+export const myLessonsMeQueryKey = (params: MyLessonsMeQueryParams) =>
+  [
+    { url: '/api/v1/lessons/me' },
+    ...(params ? [params] : []),
+  ] as const
 
-export type PublicKeyQueryKey = ReturnType<typeof publicKeyQueryKey>
+export type MyLessonsMeQueryKey = ReturnType<
+  typeof myLessonsMeQueryKey
+>
 
-export function publicKeyQueryOptions(
+export function myLessonsMeQueryOptions(
+  params: MyLessonsMeQueryParams,
   config: Partial<RequestConfig> & { client?: Client } = {}
 ) {
-  const queryKey = publicKeyQueryKey()
+  const queryKey = myLessonsMeQueryKey(params)
   return queryOptions<
-    PublicKeyQueryResponse,
-    ResponseErrorConfig<Error>,
-    PublicKeyQueryResponse,
+    MyLessonsMeQueryResponse,
+    ResponseErrorConfig<MyLessonsMe422>,
+    MyLessonsMeQueryResponse,
     typeof queryKey
   >({
+    enabled: !!params,
     queryKey,
     queryFn: async ({ signal }) => {
-      return publicKey({ ...config, signal: config.signal ?? signal })
+      return myLessonsMe(params, {
+        ...config,
+        signal: config.signal ?? signal,
+      })
     },
   })
 }
 
 /**
- * @summary Public Key
- * {@link /api/v1/public_key}
+ * @summary Get My Lessons
+ * {@link /api/v1/lessons/me}
  */
-export function usePublicKey<
-  TData = PublicKeyQueryResponse,
-  TQueryData = PublicKeyQueryResponse,
-  TQueryKey extends QueryKey = PublicKeyQueryKey,
+export function useMyLessonsMe<
+  TData = MyLessonsMeQueryResponse,
+  TQueryData = MyLessonsMeQueryResponse,
+  TQueryKey extends QueryKey = MyLessonsMeQueryKey,
 >(
+  params: MyLessonsMeQueryParams,
   options: {
     query?: Partial<
       QueryObserverOptions<
-        PublicKeyQueryResponse,
-        ResponseErrorConfig<Error>,
+        MyLessonsMeQueryResponse,
+        ResponseErrorConfig<MyLessonsMe422>,
         TData,
         TQueryData,
         TQueryKey
@@ -71,16 +86,17 @@ export function usePublicKey<
   const { query: queryConfig = {}, client: config = {} } =
     options ?? {}
   const { client: queryClient, ...queryOptions } = queryConfig
-  const queryKey = queryOptions?.queryKey ?? publicKeyQueryKey()
+  const queryKey =
+    queryOptions?.queryKey ?? myLessonsMeQueryKey(params)
 
   const query = useQuery(
     {
-      ...publicKeyQueryOptions(config),
+      ...myLessonsMeQueryOptions(params, config),
       queryKey,
       ...queryOptions,
     } as unknown as QueryObserverOptions,
     queryClient
-  ) as UseQueryResult<TData, ResponseErrorConfig<Error>> & {
+  ) as UseQueryResult<TData, ResponseErrorConfig<MyLessonsMe422>> & {
     queryKey: TQueryKey
   }
 

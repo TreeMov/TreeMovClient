@@ -4,7 +4,7 @@ import { useNavigate } from '@/hooks/use-navigate'
 import { useSteps } from '@/modules/auth/hooks'
 import { paths } from '@/router/contract'
 
-import { CodeStep, OrgStep, SignUpStep } from '../../../steps'
+import { CodeStep, SignUpStep } from '../../../steps'
 import { stepSequence } from '../../constants'
 import { useFormValues } from '../../hooks'
 
@@ -18,7 +18,7 @@ export const Content: React.FC = () => {
     stepSequence,
     setFormValues,
     () => {
-      navigate({ to: { path: paths.analytics } })
+      navigate({ to: { path: paths['create-org'] } })
     }
   )
 
@@ -26,13 +26,11 @@ export const Content: React.FC = () => {
     case 'sign-up':
       return <SignUpStep onNext={onNextHandler} />
     case 'code':
-      return <CodeStep onNext={onNextHandler} email={email} />
-    case 'org':
       return (
-        <OrgStep
+        <CodeStep
+          onNext={onSubmit}
           email={email}
           password={password}
-          onNext={onSubmit}
         />
       )
   }

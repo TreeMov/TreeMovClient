@@ -8,7 +8,11 @@ import React from 'react'
 import { useFormQuery, useScheduleTime } from '../../hooks'
 import { ScheduleForm as UScheduleForm } from '../ui/form'
 
-import { getDefaultValues, mapFormDataFields } from './helpers'
+import {
+  getDefaultEventValues,
+  getDefaultLessonValues,
+  mapFormDataFields,
+} from './helpers'
 import { type FormProps } from './types'
 
 export const ScheduleForm: React.FC<FormProps> = ({
@@ -17,7 +21,7 @@ export const ScheduleForm: React.FC<FormProps> = ({
   onCreatePeriodHandler,
   ...event
 }) => {
-  const { id, type, start_time, end_time } = event
+  const { id, type } = event
   const { startHour, endHour } = useScheduleTime()
   const queryData = useFormQuery()
 
@@ -27,6 +31,7 @@ export const ScheduleForm: React.FC<FormProps> = ({
     title,
     period,
     periodDateRange,
+    comment,
   }) => {
     const nextEvent: ScheduleEventRead = {
       ...event,
@@ -37,6 +42,7 @@ export const ScheduleForm: React.FC<FormProps> = ({
       is_canceled: false,
       is_completed: false,
       title,
+      comment,
     }
     if (period && periodDateRange) {
       await onCreatePeriodHandler(
@@ -102,15 +108,8 @@ export const ScheduleForm: React.FC<FormProps> = ({
 
   return (
     <UScheduleForm
-      defaultEventValues={{
-        title:
-          event.type === 'read' && event.formType === 'event'
-            ? event.title
-            : '',
-        start_time,
-        end_time,
-      }}
-      defaultLessonValues={getDefaultValues(event)}
+      defaultEventValues={getDefaultEventValues(event)}
+      defaultLessonValues={getDefaultLessonValues(event)}
       startHour={startHour ?? 0}
       endHour={endHour ?? 0}
       onSubmitEvent={onSubmitEvent}

@@ -34,11 +34,6 @@
       "anyOf": [{ "type": "integer" }, { "type": "null" }],
       "title": "Subject Id"
     },
-    "period": {
-      "type": "integer",
-      "exclusiveMinimum": 0,
-      "title": "Period"
-    },
     "repeat_lessons_until_date": {
       "type": "string",
       "format": "date",
@@ -48,10 +43,16 @@
       "type": "string",
       "format": "date",
       "title": "Start Date"
+    },
+    "weekdays": {
+      "items": { "type": "integer" },
+      "type": "array",
+      "maxItems": 7,
+      "title": "Weekdays"
     }
   },
   "type": "object",
-  "required": ["period", "repeat_lessons_until_date", "start_date"],
-  "title": "PeriodLessonModelCreate",
-  "x-readme-ref-name": "PeriodLessonModelCreate"
+  "required": ["repeat_lessons_until_date", "start_date", "weekdays"],
+  "title": "PeriodLessonModelCreate_V2",
+  "x-readme-ref-name": "PeriodLessonModelCreate_V2"
 }
