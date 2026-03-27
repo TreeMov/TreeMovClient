@@ -87,10 +87,7 @@ export type ScheduleEventRead = ScheduleEventBase & {
   type: 'read'
 }
 
-export type ScheduleEvent = (
-  | ScheduleEventCreate
-  | ScheduleEventRead
-) & { className?: string }
+export type ScheduleEvent = ScheduleEventCreate | ScheduleEventRead
 
 export type ScheduleProps = {
   config: ScheduleConfig

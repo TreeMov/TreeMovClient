@@ -1,6 +1,7 @@
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { NuqsAdapter } from 'nuqs/adapters/react'
 import React from 'react'
+import { createPortal } from 'react-dom'
 import { Outlet, ScrollRestoration } from 'react-router'
 
 import { QueryClientProvider } from '@/components/providers/query-client-provider'
@@ -15,6 +16,15 @@ export const RootLayout: React.FC = () => {
         <ReactQueryDevtools initialIsOpen={false} />
         <Toaster />
       </NuqsAdapter>
+      {import.meta.env.DEV &&
+        createPortal(
+          <script
+            crossOrigin="anonymous"
+            async
+            src="//unpkg.com/react-scan/dist/auto.global.js"
+          />,
+          document.head
+        )}
     </QueryClientProvider>
   )
 }

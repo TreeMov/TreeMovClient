@@ -44,9 +44,5 @@ const ScheduleColEventsComponent: React.FC<
 }
 
 export const ScheduleColEvents = React.memo(
-  ScheduleColEventsComponent,
-  (prevProps, nextProps) =>
-    prevProps.day.getTime() === nextProps.day.getTime() &&
-    prevProps.events === nextProps.events &&
-    prevProps.className === nextProps.className
+  ScheduleColEventsComponent
 )
