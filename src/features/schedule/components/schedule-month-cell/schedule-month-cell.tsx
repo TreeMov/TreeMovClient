@@ -71,7 +71,7 @@ const ScheduleMonthCellComponent: React.FC<
       </div>
       <div
         ref={cellObserverRef}
-        className="relative flex size-full flex-wrap gap-1 self-start justify-self-start overflow-hidden"
+        className="relative flex size-full max-h-fit flex-wrap gap-1 self-start justify-self-start overflow-hidden"
       >
         {deferredEvents.map((event) => (
           <ScheduleEventPreview

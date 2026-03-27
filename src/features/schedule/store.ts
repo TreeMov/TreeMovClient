@@ -107,7 +107,6 @@ export class Store {
       const nextEvent = {
         ...serializedEvent,
         state: prevEvent.state,
-        className: prevEvent.className,
       }
 
       return isEqual(prevEvent, nextEvent) ? prevEvent : nextEvent

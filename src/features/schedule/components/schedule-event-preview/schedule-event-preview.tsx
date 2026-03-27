@@ -13,10 +13,9 @@ import { cn } from '@/utils/helpers/shadcn'
 import { SchedulePopover } from '../schedule-popover'
 import { EventCard } from '../ui/event-card'
 
-const ScheduleEventPreviewComponent: React.FC<ScheduleEvent> = ({
-  className,
-  ...event
-}) => {
+const ScheduleEventPreviewComponent: React.FC<
+  ScheduleEvent & { className?: string }
+> = ({ className, ...event }) => {
   const { id, state } = event
 
   const { ref } = useDraggable({
