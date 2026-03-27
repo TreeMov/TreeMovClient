@@ -54,14 +54,18 @@ export type { ByIdLessonsSuspenseQueryKey } from './hooks/lesson-hooks/use-by-id
 export type { ByIdLessonsQueryKey } from './hooks/lesson-hooks/use-by-id-lessons.ts'
 export type { CreateLessonsMutationKey } from './hooks/lesson-hooks/use-create-lessons.ts'
 export type { CreatePeriodLessonLessonsMutationKey } from './hooks/lesson-hooks/use-create-period-lesson-lessons.ts'
+export type { CreatePeriodLessonMutationKey } from './hooks/lesson-hooks/use-create-period-lesson.ts'
 export type { LessonsSuspenseInfiniteQueryKey } from './hooks/lesson-hooks/use-lessons-suspense-infinite.ts'
 export type { LessonsSuspenseQueryKey } from './hooks/lesson-hooks/use-lessons-suspense.ts'
 export type { LessonsQueryKey } from './hooks/lesson-hooks/use-lessons.ts'
 export type { Lessons2MutationKey } from './hooks/lesson-hooks/use-lessons2.ts'
+export type { MyLessonsMeSuspenseInfiniteQueryKey } from './hooks/lesson-hooks/use-my-lessons-me-suspense-infinite.ts'
+export type { MyLessonsMeSuspenseQueryKey } from './hooks/lesson-hooks/use-my-lessons-me-suspense.ts'
+export type { MyLessonsMeQueryKey } from './hooks/lesson-hooks/use-my-lessons-me.ts'
 export type { PeriodLessonLessonsIdSuspenseInfiniteQueryKey } from './hooks/lesson-hooks/use-period-lesson-lessons-id-suspense-infinite.ts'
 export type { PeriodLessonLessonsIdSuspenseQueryKey } from './hooks/lesson-hooks/use-period-lesson-lessons-id-suspense.ts'
 export type { PeriodLessonLessonsIdQueryKey } from './hooks/lesson-hooks/use-period-lesson-lessons-id.ts'
-export type { UpdateStudentsLessonsIdMutationKey } from './hooks/lesson-hooks/use-update-students-lessons-id.ts'
+export type { UpdateLessonsIdMutationKey } from './hooks/lesson-hooks/use-update-lessons-id.ts'
 export type { InitOrganizationOrganizationsMutationKey } from './hooks/organization-hooks/use-init-organization-organizations.ts'
 export type { MyOrgsOrganizationsMeSuspenseInfiniteQueryKey } from './hooks/organization-hooks/use-my-orgs-organizations-me-suspense-infinite.ts'
 export type { MyOrgsOrganizationsMeSuspenseQueryKey } from './hooks/organization-hooks/use-my-orgs-organizations-me-suspense.ts'
@@ -135,9 +139,6 @@ export type { TeachersSuspenseQueryKey } from './hooks/teacher-hooks/use-teacher
 export type { TeachersQueryKey } from './hooks/teacher-hooks/use-teachers.ts'
 export type { Teachers2MutationKey } from './hooks/teacher-hooks/use-teachers2.ts'
 export type { UpdateTeacherTeachersIdMutationKey } from './hooks/teacher-hooks/use-update-teacher-teachers-id.ts'
-export type { PublicKeySuspenseInfiniteQueryKey } from './hooks/undefined-hooks/use-public-key-suspense-infinite.ts'
-export type { PublicKeySuspenseQueryKey } from './hooks/undefined-hooks/use-public-key-suspense.ts'
-export type { PublicKeyQueryKey } from './hooks/undefined-hooks/use-public-key.ts'
 export type {
   Accruals204,
   Accruals422,
@@ -353,6 +354,13 @@ export type {
   CreatePeriodLessonLessonsMutationResponse,
 } from './types/lesson-controller/create-period-lesson-lessons.ts'
 export type {
+  CreatePeriodLesson201,
+  CreatePeriodLesson422,
+  CreatePeriodLessonMutation,
+  CreatePeriodLessonMutationRequest,
+  CreatePeriodLessonMutationResponse,
+} from './types/lesson-controller/create-period-lesson.ts'
+export type {
   Lessons200,
   Lessons422,
   LessonsQuery,
@@ -367,6 +375,13 @@ export type {
   Lessons2QueryParams,
 } from './types/lesson-controller/lessons2.ts'
 export type {
+  MyLessonsMe200,
+  MyLessonsMe422,
+  MyLessonsMeQuery,
+  MyLessonsMeQueryParams,
+  MyLessonsMeQueryResponse,
+} from './types/lesson-controller/my-lessons-me.ts'
+export type {
   PeriodLessonLessonsId200,
   PeriodLessonLessonsId422,
   PeriodLessonLessonsIdPathParams,
@@ -374,13 +389,13 @@ export type {
   PeriodLessonLessonsIdQueryResponse,
 } from './types/lesson-controller/period-lesson-lessons-id.ts'
 export type {
-  UpdateStudentsLessonsId200,
-  UpdateStudentsLessonsId422,
-  UpdateStudentsLessonsIdMutation,
-  UpdateStudentsLessonsIdMutationRequest,
-  UpdateStudentsLessonsIdMutationResponse,
-  UpdateStudentsLessonsIdPathParams,
-} from './types/lesson-controller/update-students-lessons-id.ts'
+  UpdateLessonsId200,
+  UpdateLessonsId422,
+  UpdateLessonsIdMutation,
+  UpdateLessonsIdMutationRequest,
+  UpdateLessonsIdMutationResponse,
+  UpdateLessonsIdPathParams,
+} from './types/lesson-controller/update-lessons-id.ts'
 export type {
   InitOrganizationOrganizations201,
   InitOrganizationOrganizations422,
@@ -683,6 +698,7 @@ export type { OrganizationCreate } from './types/organization-create.ts'
 export type { OrganizationMemberRead } from './types/organization-member-read.ts'
 export type { OrganizationMemberShortRead } from './types/organization-member-short-read.ts'
 export type { OrganizationRead } from './types/organization-read.ts'
+export type { PeriodLessonModelCreateV2 } from './types/period-lesson-model-create-v2.ts'
 export type { PeriodLessonModelCreate } from './types/period-lesson-model-create.ts'
 export type { PeriodLessonModelRead } from './types/period-lesson-model-read.ts'
 export type { ProfileRead } from './types/profile-read.ts'
@@ -712,11 +728,6 @@ export type { TeacherNotesModelCreate } from './types/teacher-notes-model-create
 export type { TeacherNotesModelRead } from './types/teacher-notes-model-read.ts'
 export type { TeacherNotesModelUpdate } from './types/teacher-notes-model-update.ts'
 export type { TeacherOrgMemberModelUpdate } from './types/teacher-org-member-model-update.ts'
-export type {
-  PublicKey200,
-  PublicKeyQuery,
-  PublicKeyQueryResponse,
-} from './types/undefined-controller/public-key.ts'
 export type { ValidationError } from './types/validation-error.ts'
 export { accrualService } from './clients/axios/accrual-service/accrual-service.ts'
 export { accruals } from './clients/axios/accrual-service/accruals.ts'
@@ -753,11 +764,13 @@ export { allPeriodLessonLessons } from './clients/axios/lesson-service/all-perio
 export { byIdLessons } from './clients/axios/lesson-service/by-id-lessons.ts'
 export { createLessons } from './clients/axios/lesson-service/create-lessons.ts'
 export { createPeriodLessonLessons } from './clients/axios/lesson-service/create-period-lesson-lessons.ts'
+export { createPeriodLesson } from './clients/axios/lesson-service/create-period-lesson.ts'
 export { lessonService } from './clients/axios/lesson-service/lesson-service.ts'
 export { lessons } from './clients/axios/lesson-service/lessons.ts'
 export { lessons2 } from './clients/axios/lesson-service/lessons2.ts'
+export { myLessonsMe } from './clients/axios/lesson-service/my-lessons-me.ts'
 export { periodLessonLessonsId } from './clients/axios/lesson-service/period-lesson-lessons-id.ts'
-export { updateStudentsLessonsId } from './clients/axios/lesson-service/update-students-lessons-id.ts'
+export { updateLessonsId } from './clients/axios/lesson-service/update-lessons-id.ts'
 export { initOrganizationOrganizations } from './clients/axios/organization-service/init-organization-organizations.ts'
 export { myOrgsOrganizationsMe } from './clients/axios/organization-service/my-orgs-organizations-me.ts'
 export { myOrgsOrganizationsMe2 } from './clients/axios/organization-service/my-orgs-organizations-me2.ts'
@@ -806,7 +819,6 @@ export { teachers } from './clients/axios/teacher-service/teachers.ts'
 export { teachers2 } from './clients/axios/teacher-service/teachers2.ts'
 export { updateTeacherTeachersId } from './clients/axios/teacher-service/update-teacher-teachers-id.ts'
 export { operations } from './clients/axios/operations.ts'
-export { publicKey } from './clients/axios/undefined-service/public-key.ts'
 export { accrualsMutationKey } from './hooks/accrual-hooks/use-accruals.ts'
 export { accrualsMutationOptions } from './hooks/accrual-hooks/use-accruals.ts'
 export { useAccruals } from './hooks/accrual-hooks/use-accruals.ts'
@@ -975,6 +987,9 @@ export { useCreateLessons } from './hooks/lesson-hooks/use-create-lessons.ts'
 export { createPeriodLessonLessonsMutationKey } from './hooks/lesson-hooks/use-create-period-lesson-lessons.ts'
 export { createPeriodLessonLessonsMutationOptions } from './hooks/lesson-hooks/use-create-period-lesson-lessons.ts'
 export { useCreatePeriodLessonLessons } from './hooks/lesson-hooks/use-create-period-lesson-lessons.ts'
+export { createPeriodLessonMutationKey } from './hooks/lesson-hooks/use-create-period-lesson.ts'
+export { createPeriodLessonMutationOptions } from './hooks/lesson-hooks/use-create-period-lesson.ts'
+export { useCreatePeriodLesson } from './hooks/lesson-hooks/use-create-period-lesson.ts'
 export { lessonsSuspenseInfiniteQueryKey } from './hooks/lesson-hooks/use-lessons-suspense-infinite.ts'
 export { lessonsSuspenseInfiniteQueryOptions } from './hooks/lesson-hooks/use-lessons-suspense-infinite.ts'
 export { useLessonsSuspenseInfinite } from './hooks/lesson-hooks/use-lessons-suspense-infinite.ts'
@@ -987,6 +1002,15 @@ export { useLessons } from './hooks/lesson-hooks/use-lessons.ts'
 export { lessons2MutationKey } from './hooks/lesson-hooks/use-lessons2.ts'
 export { lessons2MutationOptions } from './hooks/lesson-hooks/use-lessons2.ts'
 export { useLessons2 } from './hooks/lesson-hooks/use-lessons2.ts'
+export { myLessonsMeSuspenseInfiniteQueryKey } from './hooks/lesson-hooks/use-my-lessons-me-suspense-infinite.ts'
+export { myLessonsMeSuspenseInfiniteQueryOptions } from './hooks/lesson-hooks/use-my-lessons-me-suspense-infinite.ts'
+export { useMyLessonsMeSuspenseInfinite } from './hooks/lesson-hooks/use-my-lessons-me-suspense-infinite.ts'
+export { myLessonsMeSuspenseQueryKey } from './hooks/lesson-hooks/use-my-lessons-me-suspense.ts'
+export { myLessonsMeSuspenseQueryOptions } from './hooks/lesson-hooks/use-my-lessons-me-suspense.ts'
+export { useMyLessonsMeSuspense } from './hooks/lesson-hooks/use-my-lessons-me-suspense.ts'
+export { myLessonsMeQueryKey } from './hooks/lesson-hooks/use-my-lessons-me.ts'
+export { myLessonsMeQueryOptions } from './hooks/lesson-hooks/use-my-lessons-me.ts'
+export { useMyLessonsMe } from './hooks/lesson-hooks/use-my-lessons-me.ts'
 export { periodLessonLessonsIdSuspenseInfiniteQueryKey } from './hooks/lesson-hooks/use-period-lesson-lessons-id-suspense-infinite.ts'
 export { periodLessonLessonsIdSuspenseInfiniteQueryOptions } from './hooks/lesson-hooks/use-period-lesson-lessons-id-suspense-infinite.ts'
 export { usePeriodLessonLessonsIdSuspenseInfinite } from './hooks/lesson-hooks/use-period-lesson-lessons-id-suspense-infinite.ts'
@@ -996,9 +1020,9 @@ export { usePeriodLessonLessonsIdSuspense } from './hooks/lesson-hooks/use-perio
 export { periodLessonLessonsIdQueryKey } from './hooks/lesson-hooks/use-period-lesson-lessons-id.ts'
 export { periodLessonLessonsIdQueryOptions } from './hooks/lesson-hooks/use-period-lesson-lessons-id.ts'
 export { usePeriodLessonLessonsId } from './hooks/lesson-hooks/use-period-lesson-lessons-id.ts'
-export { updateStudentsLessonsIdMutationKey } from './hooks/lesson-hooks/use-update-students-lessons-id.ts'
-export { updateStudentsLessonsIdMutationOptions } from './hooks/lesson-hooks/use-update-students-lessons-id.ts'
-export { useUpdateStudentsLessonsId } from './hooks/lesson-hooks/use-update-students-lessons-id.ts'
+export { updateLessonsIdMutationKey } from './hooks/lesson-hooks/use-update-lessons-id.ts'
+export { updateLessonsIdMutationOptions } from './hooks/lesson-hooks/use-update-lessons-id.ts'
+export { useUpdateLessonsId } from './hooks/lesson-hooks/use-update-lessons-id.ts'
 export { initOrganizationOrganizationsMutationKey } from './hooks/organization-hooks/use-init-organization-organizations.ts'
 export { initOrganizationOrganizationsMutationOptions } from './hooks/organization-hooks/use-init-organization-organizations.ts'
 export { useInitOrganizationOrganizations } from './hooks/organization-hooks/use-init-organization-organizations.ts'
@@ -1218,15 +1242,6 @@ export { useTeachers2 } from './hooks/teacher-hooks/use-teachers2.ts'
 export { updateTeacherTeachersIdMutationKey } from './hooks/teacher-hooks/use-update-teacher-teachers-id.ts'
 export { updateTeacherTeachersIdMutationOptions } from './hooks/teacher-hooks/use-update-teacher-teachers-id.ts'
 export { useUpdateTeacherTeachersId } from './hooks/teacher-hooks/use-update-teacher-teachers-id.ts'
-export { publicKeySuspenseInfiniteQueryKey } from './hooks/undefined-hooks/use-public-key-suspense-infinite.ts'
-export { publicKeySuspenseInfiniteQueryOptions } from './hooks/undefined-hooks/use-public-key-suspense-infinite.ts'
-export { usePublicKeySuspenseInfinite } from './hooks/undefined-hooks/use-public-key-suspense-infinite.ts'
-export { publicKeySuspenseQueryKey } from './hooks/undefined-hooks/use-public-key-suspense.ts'
-export { publicKeySuspenseQueryOptions } from './hooks/undefined-hooks/use-public-key-suspense.ts'
-export { usePublicKeySuspense } from './hooks/undefined-hooks/use-public-key-suspense.ts'
-export { publicKeyQueryKey } from './hooks/undefined-hooks/use-public-key.ts'
-export { publicKeyQueryOptions } from './hooks/undefined-hooks/use-public-key.ts'
-export { usePublicKey } from './hooks/undefined-hooks/use-public-key.ts'
 export { accuralCategoryEnum } from './types/accural-category.ts'
 export { inviteStatusEnum } from './types/invite-status.ts'
 export { profileRoleEnum } from './types/profile-role.ts'

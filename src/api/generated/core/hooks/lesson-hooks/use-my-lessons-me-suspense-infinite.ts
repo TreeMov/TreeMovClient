@@ -21,34 +21,53 @@ import type {
   UseSuspenseInfiniteQueryOptions,
   UseSuspenseInfiniteQueryResult,
 } from '@tanstack/react-query'
-import type { PublicKeyQueryResponse } from '../../types/undefined-controller/public-key.ts'
+import type {
+  MyLessonsMeQueryResponse,
+  MyLessonsMeQueryParams,
+  MyLessonsMe422,
+} from '../../types/lesson-controller/my-lessons-me.ts'
 import {
   infiniteQueryOptions,
   useSuspenseInfiniteQuery,
 } from '@tanstack/react-query'
-import { publicKey } from '../../clients/axios/undefined-service/public-key.ts'
+import { myLessonsMe } from '../../clients/axios/lesson-service/my-lessons-me.ts'
 
-export const publicKeySuspenseInfiniteQueryKey = () =>
-  [{ url: '/api/v1/public_key' }] as const
+export const myLessonsMeSuspenseInfiniteQueryKey = (
+  params: MyLessonsMeQueryParams
+) =>
+  [
+    { url: '/api/v1/lessons/me' },
+    ...(params ? [params] : []),
+  ] as const
 
-export type PublicKeySuspenseInfiniteQueryKey = ReturnType<
-  typeof publicKeySuspenseInfiniteQueryKey
+export type MyLessonsMeSuspenseInfiniteQueryKey = ReturnType<
+  typeof myLessonsMeSuspenseInfiniteQueryKey
 >
 
-export function publicKeySuspenseInfiniteQueryOptions(
+export function myLessonsMeSuspenseInfiniteQueryOptions(
+  params: MyLessonsMeQueryParams,
   config: Partial<RequestConfig> & { client?: Client } = {}
 ) {
-  const queryKey = publicKeySuspenseInfiniteQueryKey()
+  const queryKey = myLessonsMeSuspenseInfiniteQueryKey(params)
   return infiniteQueryOptions<
-    PublicKeyQueryResponse,
-    ResponseErrorConfig<Error>,
-    InfiniteData<PublicKeyQueryResponse>,
+    MyLessonsMeQueryResponse,
+    ResponseErrorConfig<MyLessonsMe422>,
+    InfiniteData<MyLessonsMeQueryResponse>,
     typeof queryKey,
-    number
+    NonNullable<MyLessonsMeQueryParams['page']>
   >({
+    enabled: !!params,
     queryKey,
-    queryFn: async ({ signal }) => {
-      return publicKey({ ...config, signal: config.signal ?? signal })
+    queryFn: async ({ signal, pageParam }) => {
+      params = {
+        ...(params ?? {}),
+        ['page']:
+          pageParam as unknown as MyLessonsMeQueryParams['page'],
+      } as MyLessonsMeQueryParams
+      return myLessonsMe(params, {
+        ...config,
+        signal: config.signal ?? signal,
+      })
     },
     initialPageParam: 1,
     getNextPageParam: (lastPage) => lastPage['nextCursor'],
@@ -57,16 +76,17 @@ export function publicKeySuspenseInfiniteQueryOptions(
 }
 
 /**
- * @summary Public Key
- * {@link /api/v1/public_key}
+ * @summary Get My Lessons
+ * {@link /api/v1/lessons/me}
  */
-export function usePublicKeySuspenseInfinite<
-  TQueryFnData = PublicKeyQueryResponse,
-  TError = ResponseErrorConfig<Error>,
+export function useMyLessonsMeSuspenseInfinite<
+  TQueryFnData = MyLessonsMeQueryResponse,
+  TError = ResponseErrorConfig<MyLessonsMe422>,
   TData = InfiniteData<TQueryFnData>,
-  TQueryKey extends QueryKey = PublicKeySuspenseInfiniteQueryKey,
-  TPageParam = number,
+  TQueryKey extends QueryKey = MyLessonsMeSuspenseInfiniteQueryKey,
+  TPageParam = NonNullable<MyLessonsMeQueryParams['page']>,
 >(
+  params: MyLessonsMeQueryParams,
   options: {
     query?: Partial<
       UseSuspenseInfiniteQueryOptions<
@@ -84,11 +104,12 @@ export function usePublicKeySuspenseInfinite<
     options ?? {}
   const { client: queryClient, ...queryOptions } = queryConfig
   const queryKey =
-    queryOptions?.queryKey ?? publicKeySuspenseInfiniteQueryKey()
+    queryOptions?.queryKey ??
+    myLessonsMeSuspenseInfiniteQueryKey(params)
 
   const query = useSuspenseInfiniteQuery(
     {
-      ...publicKeySuspenseInfiniteQueryOptions(config),
+      ...myLessonsMeSuspenseInfiniteQueryOptions(params, config),
       queryKey,
       ...queryOptions,
     } as unknown as UseSuspenseInfiniteQueryOptions<

@@ -15,29 +15,35 @@ import type {
   RequestConfig,
   ResponseErrorConfig,
 } from '@/api/clients/core-client'
-import type { PublicKeyQueryResponse } from '../../../types/undefined-controller/public-key.ts'
+import type {
+  MyLessonsMeQueryResponse,
+  MyLessonsMeQueryParams,
+  MyLessonsMe422,
+} from '../../../types/lesson-controller/my-lessons-me.ts'
 
-function getPublicKeyUrl() {
-  const res = { method: 'GET', url: `/api/v1/public_key` as const }
+function getMyLessonsMeUrl() {
+  const res = { method: 'GET', url: `/api/v1/lessons/me` as const }
   return res
 }
 
 /**
- * @summary Public Key
- * {@link /api/v1/public_key}
+ * @summary Get My Lessons
+ * {@link /api/v1/lessons/me}
  */
-export async function publicKey(
+export async function myLessonsMe(
+  params: MyLessonsMeQueryParams,
   config: Partial<RequestConfig> & { client?: Client } = {}
 ) {
   const { client: request = fetch, ...requestConfig } = config
 
   const res = await request<
-    PublicKeyQueryResponse,
-    ResponseErrorConfig<Error>,
+    MyLessonsMeQueryResponse,
+    ResponseErrorConfig<MyLessonsMe422>,
     unknown
   >({
     method: 'GET',
-    url: getPublicKeyUrl().url.toString(),
+    url: getMyLessonsMeUrl().url.toString(),
+    params,
     ...requestConfig,
   })
   return res.data

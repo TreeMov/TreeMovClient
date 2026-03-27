@@ -213,6 +213,13 @@ export type {
   CreatePeriodLessonLessonsMutationResponse,
 } from './lesson-controller/create-period-lesson-lessons.ts'
 export type {
+  CreatePeriodLesson201,
+  CreatePeriodLesson422,
+  CreatePeriodLessonMutation,
+  CreatePeriodLessonMutationRequest,
+  CreatePeriodLessonMutationResponse,
+} from './lesson-controller/create-period-lesson.ts'
+export type {
   Lessons200,
   Lessons422,
   LessonsQuery,
@@ -227,6 +234,13 @@ export type {
   Lessons2QueryParams,
 } from './lesson-controller/lessons2.ts'
 export type {
+  MyLessonsMe200,
+  MyLessonsMe422,
+  MyLessonsMeQuery,
+  MyLessonsMeQueryParams,
+  MyLessonsMeQueryResponse,
+} from './lesson-controller/my-lessons-me.ts'
+export type {
   PeriodLessonLessonsId200,
   PeriodLessonLessonsId422,
   PeriodLessonLessonsIdPathParams,
@@ -234,13 +248,13 @@ export type {
   PeriodLessonLessonsIdQueryResponse,
 } from './lesson-controller/period-lesson-lessons-id.ts'
 export type {
-  UpdateStudentsLessonsId200,
-  UpdateStudentsLessonsId422,
-  UpdateStudentsLessonsIdMutation,
-  UpdateStudentsLessonsIdMutationRequest,
-  UpdateStudentsLessonsIdMutationResponse,
-  UpdateStudentsLessonsIdPathParams,
-} from './lesson-controller/update-students-lessons-id.ts'
+  UpdateLessonsId200,
+  UpdateLessonsId422,
+  UpdateLessonsIdMutation,
+  UpdateLessonsIdMutationRequest,
+  UpdateLessonsIdMutationResponse,
+  UpdateLessonsIdPathParams,
+} from './lesson-controller/update-lessons-id.ts'
 export type {
   InitOrganizationOrganizations201,
   InitOrganizationOrganizations422,
@@ -543,6 +557,7 @@ export type { OrganizationCreate } from './organization-create.ts'
 export type { OrganizationMemberRead } from './organization-member-read.ts'
 export type { OrganizationMemberShortRead } from './organization-member-short-read.ts'
 export type { OrganizationRead } from './organization-read.ts'
+export type { PeriodLessonModelCreateV2 } from './period-lesson-model-create-v2.ts'
 export type { PeriodLessonModelCreate } from './period-lesson-model-create.ts'
 export type { PeriodLessonModelRead } from './period-lesson-model-read.ts'
 export type { ProfileRead } from './profile-read.ts'
@@ -572,11 +587,6 @@ export type { TeacherNotesModelCreate } from './teacher-notes-model-create.ts'
 export type { TeacherNotesModelRead } from './teacher-notes-model-read.ts'
 export type { TeacherNotesModelUpdate } from './teacher-notes-model-update.ts'
 export type { TeacherOrgMemberModelUpdate } from './teacher-org-member-model-update.ts'
-export type {
-  PublicKey200,
-  PublicKeyQuery,
-  PublicKeyQueryResponse,
-} from './undefined-controller/public-key.ts'
 export type { ValidationError } from './validation-error.ts'
 export { accuralCategoryEnum } from './accural-category.ts'
 export { inviteStatusEnum } from './invite-status.ts'

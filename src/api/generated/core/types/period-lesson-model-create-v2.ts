@@ -10,9 +10,9 @@
  */
 
 /**
- * PeriodLessonModelCreate
+ * PeriodLessonModelCreate_V2
  */
-export type PeriodLessonModelCreate = {
+export type PeriodLessonModelCreateV2 = {
   title?: (string | null) | undefined
   start_time?: (string | null) | undefined
   end_time?: (string | null) | undefined
@@ -21,10 +21,6 @@ export type PeriodLessonModelCreate = {
   student_group_id?: (number | null) | undefined
   subject_id?: (number | null) | undefined
   /**
-   * @type integer
-   */
-  period: number
-  /**
    * @type string, date
    */
   repeat_lessons_until_date: string
@@ -32,4 +28,8 @@ export type PeriodLessonModelCreate = {
    * @type string, date
    */
   start_date: string
+  /**
+   * @type array
+   */
+  weekdays: number[]
 }

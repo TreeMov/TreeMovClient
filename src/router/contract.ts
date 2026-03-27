@@ -6,6 +6,7 @@
 
 export const paths = {
   analytics: '/analytics',
+  'create-org': '/organizations/create',
   employees: '/employees',
   groups: '/groups',
   home: '/',

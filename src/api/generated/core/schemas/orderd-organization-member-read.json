@@ -17,6 +17,7 @@
     "members": {
       "items": {
         "properties": {
+          "id": { "type": "integer", "title": "Id" },
           "profile": {
             "properties": {
               "id": { "type": "integer", "title": "Id" },
@@ -62,7 +63,7 @@
           }
         },
         "type": "object",
-        "required": ["profile", "role"],
+        "required": ["id", "profile", "role"],
         "title": "OrganizationMemberShortRead",
         "x-readme-ref-name": "OrganizationMemberShortRead"
       },

@@ -1,28 +1,40 @@
 import type { useFormQuery } from '@/features/schedule/hooks'
 import type {
   ScheduleEvent,
+  ScheduleEventFormFields,
   ScheduleField,
   ScheduleLessonFormFields,
 } from '@/features/schedule/types'
+import type { InputSchema as EventInputSchema } from '../ui/form/components/event-form/types'
 import type {
   BaseSchema,
-  InputSchema,
+  InputSchema as LessonInputSchema,
 } from '../ui/form/components/lesson-form/types'
 
-type GetDefaultValuesParams = Partial<
+type DefaultEventValuesBase = Pick<
+  ScheduleEvent,
+  'type' | 'start_time' | 'end_time'
+>
+
+type GetDefaultLessonValuesParams = Partial<
   Omit<ScheduleLessonFormFields, 'formType'>
 > &
-  Pick<ScheduleEvent, 'type' | 'start_time' | 'end_time'>
+  DefaultEventValuesBase
+
+type GetDefaultEventValuesParams = Partial<
+  Omit<ScheduleEventFormFields, 'formType'>
+> &
+  DefaultEventValuesBase
 
 const mapField = (
   field: ScheduleField | null | undefined
 ): string | null => (field?.id ? `${field.id}` : null)
 
-export const getDefaultValues = ({
+export const getDefaultLessonValues = ({
   start_time,
   end_time,
   ...event
-}: GetDefaultValuesParams): InputSchema => {
+}: GetDefaultLessonValuesParams): LessonInputSchema => {
   if (event.type === 'create') {
     return {
       start_time,
@@ -44,6 +56,29 @@ export const getDefaultValues = ({
     teacher: mapField(teacher),
     classroom: mapField(classroom),
     student_group: mapField(student_group),
+    comment: comment ?? '',
+  }
+}
+
+export const getDefaultEventValues = ({
+  start_time,
+  end_time,
+  ...event
+}: GetDefaultEventValuesParams): EventInputSchema => {
+  if (event.type === 'create') {
+    return {
+      start_time,
+      end_time,
+      comment: '',
+      title: '',
+    }
+  }
+
+  const { title, comment } = event
+  return {
+    start_time,
+    end_time,
+    title: title ?? '',
     comment: comment ?? '',
   }
 }

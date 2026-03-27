@@ -7,6 +7,7 @@ import { Calendar } from '@/components/shared/calendar'
 import { Form } from '@/components/shared/form'
 import { Input } from '@/components/shared/input'
 import { Select } from '@/components/shared/select'
+import { Textarea } from '@/components/shared/textarea'
 import { Button } from '@/components/ui/button'
 import { useTimeSelect } from '@/features/schedule/hooks'
 import { createConnectForm } from '@/hocs/create-connect-form'
@@ -93,6 +94,18 @@ export const EventForm: React.FC<EventFormProps> = ({
               inputProps={{
                 placeholder: 'Переодичность',
                 options: periodOptions,
+              }}
+            />
+          )}
+        </ConnectForm>
+        <ConnectForm>
+          {({ control }) => (
+            <Textarea
+              control={control}
+              name="comment"
+              inputProps={{
+                variant: 'underline',
+                placeholder: 'Описание',
               }}
             />
           )}

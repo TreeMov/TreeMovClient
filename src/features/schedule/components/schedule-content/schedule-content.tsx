@@ -1,5 +1,3 @@
-import type { ScheduleEvent } from '../../types'
-
 import { DragOverlay } from '@dnd-kit/react'
 import { format } from 'date-fns'
 import React, { useDeferredValue, useEffect, useMemo } from 'react'
@@ -9,6 +7,7 @@ import { getWeekDays, getWeeks } from '@/utils/helpers/dates'
 import { cn } from '@/utils/helpers/shadcn'
 
 import { dateFormat } from '../../constants'
+import { getEventsByDay } from '../../helpers'
 import {
   useScheduleCalendar,
   useScheduleEvents,
@@ -23,23 +22,6 @@ import { ScheduleDndProvider } from '../schedule-dnd-provider'
 import { ScheduleHeader } from '../schedule-header'
 import { ScheduleHoursCol } from '../schedule-hours-col'
 import { ScheduleMonthCell } from '../schedule-month-cell'
-
-const getEventsByDay = (events: ScheduleEvent[]) => {
-  const eventsByDay = new Map<string, ScheduleEvent[]>()
-
-  for (const event of events) {
-    const dayKey = format(new Date(event.date), dateFormat)
-    const dayEvents = eventsByDay.get(dayKey)
-
-    if (dayEvents) {
-      dayEvents.push(event)
-    } else {
-      eventsByDay.set(dayKey, [event])
-    }
-  }
-
-  return eventsByDay
-}
 
 export const ScheduleContent: React.FC = () => {
   const { store, contentRef } = useScheduleStoreContext()

@@ -1,55 +1,32 @@
 import type { SubmitHandler } from 'react-hook-form'
-import type { OrgStepSchema } from '@/modules/auth/types'
-import type { OrgStepProps } from './types'
+import type { Schema } from './types'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import React from 'react'
 
-import { useLoginAuth } from '@/api/generated/auth'
 import { useInitOrganizationOrganizations } from '@/api/generated/core'
-import { emailCodePurposeEnum } from '@/api/generated/email'
 import { session } from '@/api/session'
 import { AuthLayout } from '@/components/layouts/auth-layout'
-import { CodeResend } from '@/components/shared/auth'
 import { Form } from '@/components/shared/form'
 import { Input } from '@/components/shared/input'
 import { Button } from '@/components/ui/button'
 import { createConnectForm } from '@/hocs/create-connect-form'
-import { useSendEmail } from '@/modules/auth/hooks'
 
-import { orgSchema } from './schema'
+import { schema } from './schema'
 
-const ConnectForm = createConnectForm<OrgStepSchema>()
+const ConnectForm = createConnectForm<Schema>()
 
-export const OrgStep: React.FC<OrgStepProps> = ({
-  email,
-  password,
-  onNext,
-}) => {
-  const { mutateAsync: login } = useLoginAuth()
-
-  const { handleSendEmail, isPending: isPendingSendEmail } =
-    useSendEmail(emailCodePurposeEnum.login, email)
-
+export const CreateOrg: React.FC = () => {
   const { mutateAsync: createOrganization } =
     useInitOrganizationOrganizations()
 
-  const onSubmit: SubmitHandler<OrgStepSchema> = async ({
+  const onSubmit: SubmitHandler<Schema> = async ({
     organization,
   }) => {
-    const { access_token, refresh_token } = await login({
-      data: { email, password },
-    })
-    session.createSession({
-      access_token,
-      refresh_token,
-    })
-
     const { id } = await createOrganization({
       data: { title: organization },
     })
     session.changeOrg(id)
-    onNext?.({ organization })
   }
 
   return (
@@ -59,7 +36,7 @@ export const OrgStep: React.FC<OrgStepProps> = ({
     >
       <Form
         useFormProps={{
-          resolver: zodResolver(orgSchema),
+          resolver: zodResolver(schema),
           defaultValues: {
             organization: '',
           },
@@ -91,10 +68,6 @@ export const OrgStep: React.FC<OrgStepProps> = ({
           </ConnectForm>
         </div>
       </Form>
-      <CodeResend
-        isLoading={isPendingSendEmail}
-        onResend={handleSendEmail}
-      />
     </AuthLayout>
   )
 }

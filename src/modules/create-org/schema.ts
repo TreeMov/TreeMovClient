@@ -1,5 +1,5 @@
 import { z } from 'zod'
 
-export const orgSchema = z.object({
+export const schema = z.object({
   organization: z.string(),
 })

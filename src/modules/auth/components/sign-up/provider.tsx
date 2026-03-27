@@ -13,7 +13,6 @@ export const FormProvider: React.FC<React.PropsWithChildren> = ({
     password: '',
     confirmPassword: '',
     code: '',
-    organization: '',
   })
 
   const value = useMemo<FormValuesContextType>(

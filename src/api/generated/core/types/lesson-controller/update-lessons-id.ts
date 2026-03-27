@@ -13,7 +13,7 @@ import type { HTTPValidationError } from '../httpvalidation-error.ts'
 import type { LessonModelRead } from '../lesson-model-read.ts'
 import type { LessonModelUpdate } from '../lesson-model-update.ts'
 
-export type UpdateStudentsLessonsIdPathParams = {
+export type UpdateLessonsIdPathParams = {
   /**
    * @type integer
    */
@@ -24,25 +24,24 @@ export type UpdateStudentsLessonsIdPathParams = {
  * LessonModelRead
  * @description Successful Response
  */
-export type UpdateStudentsLessonsId200 = LessonModelRead
+export type UpdateLessonsId200 = LessonModelRead
 
 /**
  * HTTPValidationError
  * @description Validation Error
  */
-export type UpdateStudentsLessonsId422 = HTTPValidationError
+export type UpdateLessonsId422 = HTTPValidationError
 
 /**
  * LessonModelUpdate
  */
-export type UpdateStudentsLessonsIdMutationRequest = LessonModelUpdate
+export type UpdateLessonsIdMutationRequest = LessonModelUpdate
 
-export type UpdateStudentsLessonsIdMutationResponse =
-  UpdateStudentsLessonsId200
+export type UpdateLessonsIdMutationResponse = UpdateLessonsId200
 
-export type UpdateStudentsLessonsIdMutation = {
-  Response: UpdateStudentsLessonsId200
-  Request: UpdateStudentsLessonsIdMutationRequest
-  PathParams: UpdateStudentsLessonsIdPathParams
-  Errors: UpdateStudentsLessonsId422
+export type UpdateLessonsIdMutation = {
+  Response: UpdateLessonsId200
+  Request: UpdateLessonsIdMutationRequest
+  PathParams: UpdateLessonsIdPathParams
+  Errors: UpdateLessonsId422
 }

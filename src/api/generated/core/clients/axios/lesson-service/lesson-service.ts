@@ -13,10 +13,12 @@ import { allPeriodLessonLessons } from './all-period-lesson-lessons.ts'
 import { byIdLessons } from './by-id-lessons.ts'
 import { createLessons } from './create-lessons.ts'
 import { createPeriodLessonLessons } from './create-period-lesson-lessons.ts'
+import { createPeriodLesson } from './create-period-lesson.ts'
 import { lessons } from './lessons.ts'
 import { lessons2 } from './lessons2.ts'
+import { myLessonsMe } from './my-lessons-me.ts'
 import { periodLessonLessonsId } from './period-lesson-lessons-id.ts'
-import { updateStudentsLessonsId } from './update-students-lessons-id.ts'
+import { updateLessonsId } from './update-lessons-id.ts'
 
 export function lessonService() {
   return {
@@ -25,8 +27,10 @@ export function lessonService() {
     lessons2,
     allPeriodLessonLessons,
     createPeriodLessonLessons,
+    myLessonsMe,
     byIdLessons,
-    updateStudentsLessonsId,
+    updateLessonsId,
     periodLessonLessonsId,
+    createPeriodLesson,
   }
 }

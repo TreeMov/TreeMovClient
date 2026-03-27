@@ -17,6 +17,10 @@ import type { ProfileRoleRead } from './profile-role-read.ts'
  */
 export type OrganizationMemberShortRead = {
   /**
+   * @type integer
+   */
+  id: number
+  /**
    * @type object
    */
   profile: ProfileRead
