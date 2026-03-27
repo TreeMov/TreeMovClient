@@ -45,8 +45,4 @@ const ScheduleColComponent: React.FC<{ date: Date }> = ({ date }) => {
   ))
 }
 
-export const ScheduleCol = React.memo(
-  ScheduleColComponent,
-  (prevProps, nextProps) =>
-    prevProps.date.getTime() === nextProps.date.getTime()
-)
+export const ScheduleCol = React.memo(ScheduleColComponent)

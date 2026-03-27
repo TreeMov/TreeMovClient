@@ -93,8 +93,5 @@ const ScheduleMonthCellComponent: React.FC<
 }
 
 export const ScheduleMonthCell = React.memo(
-  ScheduleMonthCellComponent,
-  (prevProps, nextProps) =>
-    prevProps.day.getTime() === nextProps.day.getTime() &&
-    prevProps.events === nextProps.events
+  ScheduleMonthCellComponent
 )

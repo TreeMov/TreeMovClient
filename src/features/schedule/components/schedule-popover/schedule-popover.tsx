@@ -1,6 +1,6 @@
 import type { ScheduleEvent } from '../../types'
 
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useRef } from 'react'
 
 import {
   Popover,
@@ -19,7 +19,6 @@ export const SchedulePopover: React.FC<
   React.PropsWithChildren<ScheduleEvent>
 > = ({ children, ...event }) => {
   const { id, type, state } = event
-  const [open, setOpen] = useState(false)
   const prevStateRef = useRef(state)
 
   const { store } = useScheduleStoreContext()
@@ -28,8 +27,6 @@ export const SchedulePopover: React.FC<
 
   const onOpenChange = useCallback(
     (nextOpen: boolean) => {
-      setOpen(nextOpen)
-
       if (nextOpen) {
         prevStateRef.current = state
       }
@@ -44,24 +41,22 @@ export const SchedulePopover: React.FC<
   )
 
   return (
-    <Popover modal open={open} onOpenChange={onOpenChange}>
+    <Popover modal onOpenChange={onOpenChange}>
       <PopoverTrigger asChild>{children}</PopoverTrigger>
-      {open && (
-        <PopoverContent
-          sideOffset={16}
-          side="right"
-          align="start"
-          className="w-118 shadow-2xl"
-          actions={<ScheduleDelete id={id} type={type} />}
-        >
-          <ScheduleForm
-            onCreateHandler={onCreateHandler}
-            onCreatePeriodHandler={onCreatePeriodHandler}
-            onChangeHandler={onChangeHandler}
-            {...event}
-          />
-        </PopoverContent>
-      )}
+      <PopoverContent
+        sideOffset={16}
+        side="right"
+        align="start"
+        className="w-118 shadow-2xl"
+        actions={<ScheduleDelete id={id} type={type} />}
+      >
+        <ScheduleForm
+          onCreateHandler={onCreateHandler}
+          onCreatePeriodHandler={onCreatePeriodHandler}
+          onChangeHandler={onChangeHandler}
+          {...event}
+        />
+      </PopoverContent>
     </Popover>
   )
 }
