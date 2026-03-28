@@ -11,6 +11,7 @@ import { ScheduleForm as UScheduleForm } from '../ui/form'
 import {
   getDefaultEventValues,
   getDefaultLessonValues,
+  getDefaultTab,
   mapFormDataFields,
 } from './helpers'
 import { type FormProps } from './types'
@@ -108,6 +109,7 @@ export const ScheduleForm: React.FC<FormProps> = ({
 
   return (
     <UScheduleForm
+      defaultTab={getDefaultTab(event)}
       defaultEventValues={getDefaultEventValues(event)}
       defaultLessonValues={getDefaultLessonValues(event)}
       startHour={startHour ?? 0}

@@ -12,6 +12,7 @@ import { tabsOptions } from './constants'
 import { type FormProps, TabsEnum } from './types'
 
 export const ScheduleForm: React.FC<FormProps> = ({
+  defaultTab = TabsEnum.LESSON,
   defaultEventValues,
   defaultLessonValues,
   startHour,
@@ -21,7 +22,7 @@ export const ScheduleForm: React.FC<FormProps> = ({
 }) => {
   return (
     <div>
-      <Tabs defaultValue={TabsEnum.LESSON}>
+      <Tabs defaultValue={defaultTab}>
         <TabsList className="mb-6 flex w-full items-center justify-center gap-3">
           {tabsOptions.map(({ value, label }) => (
             <TabsTrigger

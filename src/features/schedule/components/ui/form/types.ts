@@ -15,6 +15,7 @@ export type PeriodSchema = z.infer<typeof periodSchema>
 export type PeriodSchemaOutput = z.output<typeof periodSchema>
 
 export type FormProps = {
+  defaultTab?: TabsEnum
   defaultLessonValues?: LessonInputSchema
   defaultEventValues?: EventInputSchema
   startHour: number
