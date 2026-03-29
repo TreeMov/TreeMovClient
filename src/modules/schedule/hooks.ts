@@ -69,5 +69,24 @@ export const useScheduleActions = ({
     await refetch()
   }
 
-  return { onDelete, onChange, onCreate, onCreatePeriod }
+  const onDeletePeriod = async (periodId: number) => {
+    // todo доделать
+    // eslint-disable-next-line no-console
+    console.log({ periodId })
+  }
+
+  const onChangePeriod = async (periodId: number) => {
+    // todo доделать
+    // eslint-disable-next-line no-console
+    console.log({ periodId })
+  }
+
+  return {
+    onDelete,
+    onChange,
+    onCreate,
+    onCreatePeriod,
+    onChangePeriod,
+    onDeletePeriod,
+  }
 }

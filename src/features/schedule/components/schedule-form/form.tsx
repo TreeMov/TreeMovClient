@@ -35,6 +35,7 @@ export const ScheduleForm: React.FC<FormProps> = ({
     comment,
   }) => {
     const nextEvent: ScheduleEventRead = {
+      period_lesson_id: null,
       ...event,
       start_time,
       end_time,
@@ -76,6 +77,7 @@ export const ScheduleForm: React.FC<FormProps> = ({
   }) => {
     const { id, type } = event
     const nextEvent: ScheduleEventRead = {
+      period_lesson_id: null,
       ...event,
       start_time,
       end_time,

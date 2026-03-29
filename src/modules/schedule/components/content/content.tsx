@@ -28,8 +28,14 @@ export const Content: React.FC<ContentProps> = ({
     date_min: getDateMin(date, view),
   })
 
-  const { onChange, onDelete, onCreate, onCreatePeriod } =
-    useScheduleActions({ refetch })
+  const {
+    onChange,
+    onDelete,
+    onCreate,
+    onCreatePeriod,
+    onChangePeriod,
+    onDeletePeriod,
+  } = useScheduleActions({ refetch })
   const selectedDate = useMemo(() => new Date(date), [date])
   const handleClickCell = useCallback(
     (nextDate: Date) =>
@@ -52,6 +58,8 @@ export const Content: React.FC<ContentProps> = ({
       onCreate={onCreate}
       onCreatePeriod={onCreatePeriod}
       onClickCell={handleClickCell}
+      onChangePeriod={onChangePeriod}
+      onDeletePeriod={onDeletePeriod}
     />
   )
 }

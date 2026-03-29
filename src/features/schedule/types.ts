@@ -79,6 +79,7 @@ export type ScheduleEventFields = Prettify<
     ScheduleEventBaseFields & {
       is_completed: boolean
       is_canceled: boolean
+      period_lesson_id?: number | null
     }
 >
 
@@ -111,6 +112,8 @@ export type ScheduleProps = {
     dto: Omit<PeriodLessonModelCreate, 'period'>,
     period: PeriodEnum
   ) => MaybePromise<void>
+  onChangePeriod: (periodId: number) => MaybePromise<void>
+  onDeletePeriod: (periodId: number) => MaybePromise<void>
   onClickCell?: (date: Date) => void
 }
 
@@ -122,6 +125,13 @@ export type PeriodRange = {
 export type OnChangeHandlerParams = {
   dto: ScheduleEventRead
   prevData: ScheduleEvent
+}
+
+export type OnCreatePeriodHandlerParams = {
+  id: number
+  dto: ScheduleEventRead
+  period: PeriodEnum
+  range: PeriodRange
 }
 
 export type ScheduleContextType = ScheduleProps & {
@@ -141,6 +151,14 @@ export type ScheduleContextType = ScheduleProps & {
     period: PeriodEnum,
     range: PeriodRange
   ) => MaybePromise<void>
+  // todo доделать
+  onChangePeriodHandler: (
+    eventId: number,
+    periodId: number,
+    prevData: ScheduleEvent
+  ) => MaybePromise<void>
+  // todo доделать
+  onDeletePeriodHandler: (periodId: number) => MaybePromise<void>
 }
 
 export type ScheduleStoreContextType = Pick<
@@ -171,10 +189,14 @@ export type ScheduleActionsContextType = Pick<
   | 'onDelete'
   | 'onCreate'
   | 'onCreatePeriod'
+  | 'onChangePeriod'
+  | 'onDeletePeriod'
   | 'onChangeHandler'
   | 'onDeleteHandler'
   | 'onCreateHandler'
   | 'onCreatePeriodHandler'
+  | 'onChangePeriodHandler'
+  | 'onDeletePeriodHandler'
 >
 
 export type ScheduleEventsContextType = Pick<

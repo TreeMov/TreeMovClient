@@ -4,6 +4,7 @@ import type {
   PeriodRange,
   ScheduleActionsContextType,
   ScheduleCalendarContextType,
+  ScheduleEvent,
   ScheduleEventRead,
   ScheduleEventsContextType,
   ScheduleEventType,
@@ -44,6 +45,8 @@ export const ScheduleProvider: React.FC<
   onDelete,
   onCreate,
   onCreatePeriod,
+  onChangePeriod,
+  onDeletePeriod,
   ...props
 }) => {
   const { selectedDate } = props
@@ -70,6 +73,7 @@ export const ScheduleProvider: React.FC<
         await onChange(id, deserializeEvent(dto))
       } catch {
         store.updateEvent(id, prevData)
+        toast('Не удалось изменить мероприятие')
       }
     },
     [store, onChange]
@@ -126,6 +130,33 @@ export const ScheduleProvider: React.FC<
     [store, onCreatePeriod]
   )
 
+  const onChangePeriodHandler = useCallback(
+    async (
+      eventId: number,
+      periodId: number,
+      prevData: ScheduleEvent
+    ) => {
+      try {
+        await onChangePeriod(periodId)
+      } catch {
+        store.updateEvent(eventId, prevData)
+        toast('Не удалось изменить период')
+      }
+    },
+    [store, onChangePeriod]
+  )
+
+  const onDeletePeriodHandler = useCallback(
+    async (periodId: number) => {
+      try {
+        await onDeletePeriod(periodId)
+      } catch {
+        toast('Не удалось удалить период')
+      }
+    },
+    [onDeletePeriod]
+  )
+
   const storeValue = useMemo<ScheduleStoreContextType>(
     () => ({
       store,
@@ -168,20 +199,28 @@ export const ScheduleProvider: React.FC<
       onDelete,
       onCreate,
       onCreatePeriod,
+      onChangePeriod,
+      onDeletePeriod,
       onChangeHandler,
       onDeleteHandler,
       onCreateHandler,
       onCreatePeriodHandler,
+      onChangePeriodHandler,
+      onDeletePeriodHandler,
     }),
     [
       onChange,
       onDelete,
       onCreate,
       onCreatePeriod,
+      onChangePeriod,
+      onDeletePeriod,
       onChangeHandler,
       onDeleteHandler,
       onCreateHandler,
       onCreatePeriodHandler,
+      onChangePeriodHandler,
+      onDeletePeriodHandler,
     ]
   )
 
