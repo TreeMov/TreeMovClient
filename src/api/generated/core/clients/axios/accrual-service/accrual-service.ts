@@ -9,18 +9,18 @@
  * Do not edit manually.
  */
 
-import { accruals } from './accruals.ts'
-import { allAccruals } from './all-accruals.ts'
-import { byIdAccruals } from './by-id-accruals.ts'
-import { createAccruals } from './create-accruals.ts'
-import { updateAccrualsId } from './update-accruals-id.ts'
+import { createAccrual } from './create-accrual.ts'
+import { deleteAccrual } from './delete-accrual.ts'
+import { getAccrual } from './get-accrual.ts'
+import { listAccruals } from './list-accruals.ts'
+import { updateAccrual } from './update-accrual.ts'
 
 export function accrualService() {
   return {
-    allAccruals,
-    createAccruals,
-    accruals,
-    byIdAccruals,
-    updateAccrualsId,
+    listAccruals,
+    createAccrual,
+    deleteAccrual,
+    getAccrual,
+    updateAccrual,
   }
 }

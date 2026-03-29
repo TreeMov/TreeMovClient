@@ -5,10 +5,10 @@ import type { SignUpStepProps } from './types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import React from 'react'
 
-import { useRegisterAuth } from '@/api/generated/auth'
+import { useRegisterApiV1AuthRegisterPost } from '@/api/generated/auth'
 import {
   emailCodePurposeEnum,
-  useSendEmail,
+  useSendEmailEmailSendPost,
 } from '@/api/generated/email'
 import { AuthLayout } from '@/components/layouts/auth-layout'
 import { Form } from '@/components/shared/form'
@@ -26,10 +26,10 @@ const ConnectForm = createConnectForm<SignUpStepSchema>()
 
 export const SignUpStep: React.FC<SignUpStepProps> = ({ onNext }) => {
   const { mutateAsync: sendEmail, isPending: isPendingSendEmail } =
-    useSendEmail()
+    useSendEmailEmailSendPost()
 
   const { mutateAsync: register, isPending: isPendingRegister } =
-    useRegisterAuth({
+    useRegisterApiV1AuthRegisterPost({
       mutation: {
         onSuccess: (_, { data: { email } }) => {
           sendEmail({

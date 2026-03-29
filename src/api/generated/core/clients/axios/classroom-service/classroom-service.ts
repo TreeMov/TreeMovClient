@@ -9,18 +9,18 @@
  * Do not edit manually.
  */
 
-import { classroomClassrooms } from './classroom-classrooms.ts'
-import { classroomsId } from './classrooms-id.ts'
-import { classrooms } from './classrooms.ts'
-import { createClassroomClassrooms } from './create-classroom-classrooms.ts'
-import { updateClassroomClassroomsId } from './update-classroom-classrooms-id.ts'
+import { createClassroom } from './create-classroom.ts'
+import { deleteClassroom } from './delete-classroom.ts'
+import { getClassroom } from './get-classroom.ts'
+import { listClassrooms } from './list-classrooms.ts'
+import { updateClassroom } from './update-classroom.ts'
 
 export function classroomService() {
   return {
-    classroomClassrooms,
-    createClassroomClassrooms,
-    classrooms,
-    classroomsId,
-    updateClassroomClassroomsId,
+    listClassrooms,
+    createClassroom,
+    deleteClassroom,
+    getClassroom,
+    updateClassroom,
   }
 }

@@ -9,10 +9,14 @@
  * Do not edit manually.
  */
 
-import { emailHealth } from './email-health.ts'
-import { sendEmail } from './send-email.ts'
-import { verifyEmail } from './verify-email.ts'
+import { emailHealthEmailHealthGet } from './email-health-email-health-get.ts'
+import { sendEmailEmailSendPost } from './send-email-email-send-post.ts'
+import { verifyEmailEmailVerifyPost } from './verify-email-email-verify-post.ts'
 
 export function emailService() {
-  return { sendEmail, verifyEmail, emailHealth }
+  return {
+    sendEmailEmailSendPost,
+    verifyEmailEmailVerifyPost,
+    emailHealthEmailHealthGet,
+  }
 }

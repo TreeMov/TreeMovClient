@@ -1,3 +1,5 @@
+import { Groups } from '@/modules/groups'
+
 export const Component = () => {
-  return <div>groups</div>
+  return <Groups />
 }

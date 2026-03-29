@@ -5,10 +5,10 @@ import type { CodeStepProps } from './types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import React, { useRef } from 'react'
 
-import { useLoginAuth } from '@/api/generated/auth'
+import { useLoginApiV1AuthLoginPost } from '@/api/generated/auth'
 import {
   emailCodePurposeEnum,
-  useVerifyEmail,
+  useVerifyEmailEmailVerifyPost,
 } from '@/api/generated/email'
 import { session } from '@/api/session'
 import { AuthLayout } from '@/components/layouts/auth-layout'
@@ -34,12 +34,12 @@ export const CodeStep: React.FC<CodeStepProps> = ({
 }) => {
   const buttonRef = useRef<HTMLButtonElement>(null)
 
-  const { mutateAsync: verifyEmail } = useVerifyEmail()
+  const { mutateAsync: verifyEmail } = useVerifyEmailEmailVerifyPost()
 
   const { handleSendEmail, isPending: isPendingSendEmail } =
     useSendEmail(emailCodePurposeEnum.verify_email, email)
 
-  const { mutateAsync: login } = useLoginAuth()
+  const { mutateAsync: login } = useLoginApiV1AuthLoginPost()
 
   const onSubmit: SubmitHandler<CodeStepSchema> = async ({
     code,

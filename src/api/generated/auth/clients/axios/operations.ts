@@ -10,43 +10,43 @@
  */
 
 export const operations = {
-  user_id_by_email_users: {
+  get_user_id_by_email_api_v1_internal_users_by_email_get: {
     path: '/api/v1/internal/users/by-email',
     method: 'get',
   },
-  register_auth: {
+  register_api_v1_auth_register_post: {
     path: '/api/v1/auth/register',
     method: 'post',
   },
-  login_auth: {
+  login_api_v1_auth_login_post: {
     path: '/api/v1/auth/login',
     method: 'post',
   },
-  refresh_auth: {
+  refresh_api_v1_auth_refresh_post: {
     path: '/api/v1/auth/refresh',
     method: 'post',
   },
-  logout_auth: {
+  logout_api_v1_auth_logout_post: {
     path: '/api/v1/auth/logout',
     method: 'post',
   },
-  all_users_list: {
+  all_users_api_v1_users_list_get: {
     path: '/api/v1/users/list',
     method: 'get',
   },
-  create_admin_users: {
+  create_admin_api_v1_users_admin_post: {
     path: '/api/v1/users/admin',
     method: 'post',
   },
-  me_users: {
+  me_api_v1_users_me_get: {
     path: '/api/v1/users/me',
     method: 'get',
   },
-  ping: {
+  ping_api_v1_ping_get: {
     path: '/api/v1/ping',
     method: 'get',
   },
-  test_message: {
+  test_message_api_v1_test_message_post: {
     path: '/api/v1/test_message',
     method: 'post',
   },

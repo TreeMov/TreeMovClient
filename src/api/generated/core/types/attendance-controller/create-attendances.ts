@@ -13,7 +13,7 @@ import type { AttendanceModelCreate } from '../attendance-model-create.ts'
 import type { HTTPValidationError } from '../httpvalidation-error.ts'
 
 /**
- * Response  Create Api V1 Attendances Post
+ * Response Create Attendances
  * @description Successful Response
  */
 export type CreateAttendances201 = {
@@ -27,9 +27,9 @@ export type CreateAttendances201 = {
 export type CreateAttendances422 = HTTPValidationError
 
 /**
- * AttendanceModelCreate
+ * Data
  */
-export type CreateAttendancesMutationRequest = AttendanceModelCreate
+export type CreateAttendancesMutationRequest = AttendanceModelCreate[]
 
 export type CreateAttendancesMutationResponse = CreateAttendances201
 

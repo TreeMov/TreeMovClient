@@ -9,16 +9,16 @@
  * Do not edit manually.
  */
 
-import { initOrganizationOrganizations } from './init-organization-organizations.ts'
-import { myOrgsOrganizationsMe } from './my-orgs-organizations-me.ts'
-import { myOrgsOrganizationsMe2 } from './my-orgs-organizations-me2.ts'
-import { orgMembersOrganizations } from './org-members-organizations.ts'
+import { organizationInit } from './organization-init.ts'
+import { organizationMeV2 } from './organization-me-v2.ts'
+import { organizationMe } from './organization-me.ts'
+import { organizationMembers } from './organization-members.ts'
 
 export function organizationService() {
   return {
-    initOrganizationOrganizations,
-    orgMembersOrganizations,
-    myOrgsOrganizationsMe,
-    myOrgsOrganizationsMe2,
+    organizationInit,
+    organizationMembers,
+    organizationMe,
+    organizationMeV2,
   }
 }

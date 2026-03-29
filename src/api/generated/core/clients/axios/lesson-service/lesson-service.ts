@@ -9,28 +9,30 @@
  * Do not edit manually.
  */
 
-import { allPeriodLessonLessons } from './all-period-lesson-lessons.ts'
-import { byIdLessons } from './by-id-lessons.ts'
-import { createLessons } from './create-lessons.ts'
-import { createPeriodLessonLessons } from './create-period-lesson-lessons.ts'
-import { createPeriodLesson } from './create-period-lesson.ts'
-import { lessons } from './lessons.ts'
-import { lessons2 } from './lessons2.ts'
-import { myLessonsMe } from './my-lessons-me.ts'
-import { periodLessonLessonsId } from './period-lesson-lessons-id.ts'
-import { updateLessonsId } from './update-lessons-id.ts'
+import { createLesson } from './create-lesson.ts'
+import { createPeriodLessonsV2 } from './create-period-lessons-v2.ts'
+import { createPeriodLessons } from './create-period-lessons.ts'
+import { deleteLesson } from './delete-lesson.ts'
+import { getLesson } from './get-lesson.ts'
+import { getPeriodLessonsV2 } from './get-period-lessons-v2.ts'
+import { getPeriodLessons } from './get-period-lessons.ts'
+import { listLessonsMe } from './list-lessons-me.ts'
+import { listLessons } from './list-lessons.ts'
+import { listPeriodLessons } from './list-period-lessons.ts'
+import { upadateLesson } from './upadate-lesson.ts'
 
 export function lessonService() {
   return {
-    lessons,
-    createLessons,
-    lessons2,
-    allPeriodLessonLessons,
-    createPeriodLessonLessons,
-    myLessonsMe,
-    byIdLessons,
-    updateLessonsId,
-    periodLessonLessonsId,
-    createPeriodLesson,
+    listLessons,
+    createLesson,
+    deleteLesson,
+    listPeriodLessons,
+    createPeriodLessons,
+    listLessonsMe,
+    getLesson,
+    upadateLesson,
+    getPeriodLessons,
+    createPeriodLessonsV2,
+    getPeriodLessonsV2,
   }
 }

@@ -15,7 +15,7 @@ import {
 import { ChevronLeft, ChevronRight, Plus } from 'lucide-react'
 import React from 'react'
 
-import { useLessons } from '@/api/generated/core'
+import { useListLessons } from '@/api/generated/core'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import { Select } from '@/components/ui/select'
@@ -33,7 +33,7 @@ export const Header: React.FC = () => {
     })
   }
 
-  const { refetch } = useLessons({
+  const { refetch } = useListLessons({
     date_max: format(endOfWeek(date), dateFormat),
     date_min: format(startOfWeek(date), dateFormat),
   })

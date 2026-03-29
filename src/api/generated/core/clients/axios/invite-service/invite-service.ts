@@ -9,18 +9,18 @@
  * Do not edit manually.
  */
 
-import { acceptInviteInvites } from './accept-invite-invites.ts'
-import { byIdInvites } from './by-id-invites.ts'
-import { createInviteInvites } from './create-invite-invites.ts'
-import { invites } from './invites.ts'
-import { myInvitesMe } from './my-invites-me.ts'
+import { acceptInvite } from './accept-invite.ts'
+import { createInvite } from './create-invite.ts'
+import { getInvite } from './get-invite.ts'
+import { listInvitesMe } from './list-invites-me.ts'
+import { listInvites } from './list-invites.ts'
 
 export function inviteService() {
   return {
-    invites,
-    createInviteInvites,
-    myInvitesMe,
-    byIdInvites,
-    acceptInviteInvites,
+    listInvites,
+    createInvite,
+    listInvitesMe,
+    getInvite,
+    acceptInvite,
   }
 }

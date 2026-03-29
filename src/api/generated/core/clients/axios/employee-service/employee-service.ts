@@ -9,18 +9,18 @@
  * Do not edit manually.
  */
 
-import { createEmployeeEmployees } from './create-employee-employees.ts'
-import { employeeEmployeesId } from './employee-employees-id.ts'
-import { employees } from './employees.ts'
-import { employees2 } from './employees2.ts'
-import { updateEmployeeEmployeesId } from './update-employee-employees-id.ts'
+import { createEmployee } from './create-employee.ts'
+import { deleteEmployee } from './delete-employee.ts'
+import { getEmployee } from './get-employee.ts'
+import { listEmployees } from './list-employees.ts'
+import { updateEmployee } from './update-employee.ts'
 
 export function employeeService() {
   return {
-    employees,
-    createEmployeeEmployees,
-    employees2,
-    employeeEmployeesId,
-    updateEmployeeEmployeesId,
+    listEmployees,
+    createEmployee,
+    deleteEmployee,
+    getEmployee,
+    updateEmployee,
   }
 }

@@ -9,20 +9,20 @@
  * Do not edit manually.
  */
 
-import { addOrgMemberTeachers } from './add-org-member-teachers.ts'
-import { createEmployeeTeachers } from './create-employee-teachers.ts'
-import { teacherTeachersId } from './teacher-teachers-id.ts'
-import { teachers } from './teachers.ts'
-import { teachers2 } from './teachers2.ts'
-import { updateTeacherTeachersId } from './update-teacher-teachers-id.ts'
+import { addOrgMemeberToTeacher } from './add-org-memeber-to-teacher.ts'
+import { createTeacher } from './create-teacher.ts'
+import { deleteTeacher } from './delete-teacher.ts'
+import { getTeacher } from './get-teacher.ts'
+import { listTeacher } from './list-teacher.ts'
+import { updateTeacher } from './update-teacher.ts'
 
 export function teacherService() {
   return {
-    teachers,
-    createEmployeeTeachers,
-    teachers2,
-    teacherTeachersId,
-    updateTeacherTeachersId,
-    addOrgMemberTeachers,
+    listTeacher,
+    createTeacher,
+    deleteTeacher,
+    getTeacher,
+    updateTeacher,
+    addOrgMemeberToTeacher,
   }
 }

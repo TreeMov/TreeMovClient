@@ -1,5 +1,5 @@
 import type {
-  MyOrgsOrganizationsMe200,
+  OrganizationMe200,
   OrganizationMemberRead,
 } from '@/api/generated/core'
 import type { AppStore } from './store'
@@ -11,5 +11,5 @@ export type AppLayoutContextType = {
 }
 
 export type AppLayoutProviderProps = {
-  organizations: MyOrgsOrganizationsMe200 | undefined
+  organizations: OrganizationMe200 | undefined
 }

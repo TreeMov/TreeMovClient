@@ -4,7 +4,7 @@ import type { Schema } from './types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import React from 'react'
 
-import { useInitOrganizationOrganizations } from '@/api/generated/core'
+import { useOrganizationInit } from '@/api/generated/core'
 import { session } from '@/api/session'
 import { AuthLayout } from '@/components/layouts/auth-layout'
 import { Form } from '@/components/shared/form'
@@ -17,8 +17,7 @@ import { schema } from './schema'
 const ConnectForm = createConnectForm<Schema>()
 
 export const CreateOrg: React.FC = () => {
-  const { mutateAsync: createOrganization } =
-    useInitOrganizationOrganizations()
+  const { mutateAsync: createOrganization } = useOrganizationInit()
 
   const onSubmit: SubmitHandler<Schema> = async ({
     organization,

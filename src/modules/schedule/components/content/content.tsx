@@ -3,7 +3,7 @@ import type { ContentProps } from './types'
 import { format } from 'date-fns'
 import React, { useCallback, useMemo } from 'react'
 
-import { useLessons } from '@/api/generated/core'
+import { useListLessons } from '@/api/generated/core'
 import {
   dateFormat,
   getDateMax,
@@ -23,7 +23,7 @@ export const Content: React.FC<ContentProps> = ({
     data: events,
     isPending,
     refetch,
-  } = useLessons({
+  } = useListLessons({
     date_max: getDateMax(date, view),
     date_min: getDateMin(date, view),
   })

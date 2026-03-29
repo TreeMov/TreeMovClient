@@ -1,6 +1,6 @@
 import type { AppLayoutProviderProps } from './types'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Navigate } from '@/components/shared/navigate'
 import { GlobalSpinner } from '@/components/ui/global-spinner'
@@ -20,12 +20,17 @@ export const AppLayoutProvider: React.FC<
   const restOrgs =
     organizations?.filter(({ id }) => id !== store.orgId) ?? []
 
+  useEffect(() => {
+    if (!currentOrg && organizations) {
+      store.changeOrg(organizations[0].id)
+    }
+  }, [currentOrg, organizations, store])
+
   if (!organizations?.length) {
     return <Navigate to={{ path: paths['create-org'] }} />
   }
 
   if (!currentOrg) {
-    store.changeOrg(organizations[0].id)
     return <GlobalSpinner />
   }
 

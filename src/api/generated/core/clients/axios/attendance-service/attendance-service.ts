@@ -9,20 +9,20 @@
  * Do not edit manually.
  */
 
-import { attendances } from './attendances.ts'
-import { attendances2 } from './attendances2.ts'
-import { classroomsAttendancesId } from './classrooms-attendances-id.ts'
+import { createAttendance } from './create-attendance.ts'
 import { createAttendances } from './create-attendances.ts'
-import { createManyAttendancesBatch } from './create-many-attendances-batch.ts'
-import { updateClassroomAttendancesId } from './update-classroom-attendances-id.ts'
+import { deleteAttendance } from './delete-attendance.ts'
+import { getAttendance } from './get-attendance.ts'
+import { listAttendances } from './list-attendances.ts'
+import { updateAttendance } from './update-attendance.ts'
 
 export function attendanceService() {
   return {
-    attendances,
+    listAttendances,
+    createAttendance,
+    deleteAttendance,
+    getAttendance,
+    updateAttendance,
     createAttendances,
-    attendances2,
-    classroomsAttendancesId,
-    updateClassroomAttendancesId,
-    createManyAttendancesBatch,
   }
 }

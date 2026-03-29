@@ -1,5 +1,5 @@
-export { emailHealth } from './email-service/email-health.ts'
+export { emailHealthEmailHealthGet } from './email-service/email-health-email-health-get.ts'
 export { emailService } from './email-service/email-service.ts'
-export { sendEmail } from './email-service/send-email.ts'
-export { verifyEmail } from './email-service/verify-email.ts'
+export { sendEmailEmailSendPost } from './email-service/send-email-email-send-post.ts'
+export { verifyEmailEmailVerifyPost } from './email-service/verify-email-email-verify-post.ts'
 export { operations } from './operations.ts'

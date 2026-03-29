@@ -9,11 +9,16 @@
  * Do not edit manually.
  */
 
-import { loginAuth } from './login-auth.ts'
-import { logoutAuth } from './logout-auth.ts'
-import { refreshAuth } from './refresh-auth.ts'
-import { registerAuth } from './register-auth.ts'
+import { loginApiV1AuthLoginPost } from './login-api-v1-auth-login-post.ts'
+import { logoutApiV1AuthLogoutPost } from './logout-api-v1-auth-logout-post.ts'
+import { refreshApiV1AuthRefreshPost } from './refresh-api-v1-auth-refresh-post.ts'
+import { registerApiV1AuthRegisterPost } from './register-api-v1-auth-register-post.ts'
 
 export function authService() {
-  return { registerAuth, loginAuth, refreshAuth, logoutAuth }
+  return {
+    registerApiV1AuthRegisterPost,
+    loginApiV1AuthLoginPost,
+    refreshApiV1AuthRefreshPost,
+    logoutApiV1AuthLogoutPost,
+  }
 }
