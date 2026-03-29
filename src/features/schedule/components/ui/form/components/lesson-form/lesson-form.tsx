@@ -82,6 +82,7 @@ export const LessonForm: React.FC<LessonFormProps> = ({
               control={control}
               name="periodDateRange"
               inputProps={{
+                defaultMonth: defaultValues?.periodDateRange?.from,
                 mode: 'range',
                 placeholder: 'Выберите дату',
               }}

@@ -80,6 +80,7 @@ export const EventForm: React.FC<EventFormProps> = ({
               control={control}
               name="periodDateRange"
               inputProps={{
+                defaultMonth: defaultValues?.periodDateRange?.from,
                 mode: 'range',
                 placeholder: 'Выберите дату',
               }}

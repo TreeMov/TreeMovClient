@@ -11,6 +11,8 @@ import type {
   InputSchema as LessonInputSchema,
 } from '../ui/form/components/lesson-form/types'
 
+import { TabsEnum } from '../ui/form'
+
 type DefaultEventValuesBase = Pick<
   ScheduleEvent,
   'type' | 'start_time' | 'end_time'
@@ -29,6 +31,19 @@ type GetDefaultEventValuesParams = Partial<
 const mapField = (
   field: ScheduleField | null | undefined
 ): string | null => (field?.id ? `${field.id}` : null)
+
+export const getDefaultTab = (event: ScheduleEvent) => {
+  if (event.type === 'create') {
+    return undefined
+  }
+
+  switch (event.formType) {
+    case 'event':
+      return TabsEnum.EVENT
+    case 'lesson':
+      return TabsEnum.LESSON
+  }
+}
 
 export const getDefaultLessonValues = ({
   start_time,

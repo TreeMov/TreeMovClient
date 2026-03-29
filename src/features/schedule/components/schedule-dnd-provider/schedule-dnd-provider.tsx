@@ -1,4 +1,4 @@
-import type { ScheduleEvent } from '../../types'
+import type { ScheduleEvent, ScheduleEventRead } from '../../types'
 
 import {
   PointerActivationConstraints,
@@ -6,7 +6,8 @@ import {
 } from '@dnd-kit/dom'
 import { DragDropProvider } from '@dnd-kit/react'
 import { differenceInMinutes } from 'date-fns'
-import React, { useCallback, useMemo } from 'react'
+import { cloneDeep } from 'lodash-es'
+import React, { useCallback, useMemo, useRef, useState } from 'react'
 
 import { combineDateAndTime } from '../../helpers'
 import {
@@ -17,6 +18,8 @@ import {
   useScheduleStoreContext,
   useScheduleTime,
 } from '../../hooks'
+import { ScheduleChangePeriodAlert } from '../alerts'
+import { PeriodAlertEnum } from '../alerts/types'
 
 type DragDropProviderProps = Parameters<typeof DragDropProvider>[0]
 type OnDragStartProps = Parameters<
@@ -32,9 +35,43 @@ export const ScheduleDndProvider: React.FC<
   const { store } = useScheduleStoreContext()
   const { view } = useScheduleCalendar()
   const { segmentSize } = useScheduleTime()
-  const { onChangeHandler } = useScheduleActions()
+  const { onChangeHandler, onChangePeriodHandler } =
+    useScheduleActions()
   const { getMouseDate } = useMouseEvents()
   const { getEventRange } = useDroppableEvent()
+
+  const initialEventRef = useRef<ScheduleEvent | null>(null)
+  const eventRef = useRef<ScheduleEventRead | null>(null)
+
+  const [isAlertOpen, setIsAlertOpen] = useState(false)
+  const onAlertSubmit = (value: PeriodAlertEnum) => {
+    if (!eventRef.current || !initialEventRef.current) {
+      return
+    }
+
+    switch (value) {
+      case PeriodAlertEnum.ALL:
+        onChangePeriodHandler(
+          eventRef.current.id,
+          eventRef.current.period_lesson_id!,
+          initialEventRef.current
+        )
+        break
+      case PeriodAlertEnum.CURRENT:
+        onChangeHandler({
+          dto: eventRef.current,
+          prevData: initialEventRef.current,
+        })
+        break
+    }
+  }
+  const onAlertCancel = () => {
+    if (!eventRef.current || !initialEventRef.current) {
+      return
+    }
+
+    store.updateEvent(eventRef.current.id, initialEventRef.current)
+  }
 
   const sensors = useMemo(
     () => [
@@ -55,6 +92,7 @@ export const ScheduleDndProvider: React.FC<
 
       const event = source.data as ScheduleEvent
       const { date, start_time } = event
+      initialEventRef.current = cloneDeep(event)
 
       const ev =
         nativeEvent as unknown as React.PointerEvent<HTMLDivElement>
@@ -110,25 +148,42 @@ export const ScheduleDndProvider: React.FC<
       }
       store.updateEvent(nextEvent.id, nextEvent)
 
-      if (nextEvent.type !== 'create') {
-        onChangeHandler({
-          dto: nextEvent,
-          prevData: store.dragEvent,
-        })
+      if (nextEvent.type === 'create') {
+        store.endDrag(nextEvent.id)
+        return
       }
 
+      if (nextEvent.period_lesson_id) {
+        eventRef.current = cloneDeep(nextEvent)
+        store.endDrag(nextEvent.id)
+        setIsAlertOpen(true)
+        return
+      }
+
+      onChangeHandler({
+        dto: nextEvent,
+        prevData: store.dragEvent,
+      })
       store.endDrag(nextEvent.id)
     },
     [getEventRange, onChangeHandler, store, view]
   )
 
   return (
-    <DragDropProvider
-      sensors={sensors}
-      onDragStart={onDragStart}
-      onDragEnd={onDragEnd}
-    >
-      {children}
-    </DragDropProvider>
+    <React.Fragment>
+      <DragDropProvider
+        sensors={sensors}
+        onDragStart={onDragStart}
+        onDragEnd={onDragEnd}
+      >
+        {children}
+      </DragDropProvider>
+      <ScheduleChangePeriodAlert
+        open={isAlertOpen}
+        onOpenChange={setIsAlertOpen}
+        onSubmit={onAlertSubmit}
+        onCancel={onAlertCancel}
+      />
+    </React.Fragment>
   )
 }

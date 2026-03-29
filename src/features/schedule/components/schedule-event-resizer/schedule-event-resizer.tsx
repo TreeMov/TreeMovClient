@@ -1,3 +1,4 @@
+import type { ScheduleEventRead } from '../../types'
 import type { ScheduleEventResizerProps } from './types'
 
 import { cloneDeep, isEqual as isEqualObjects } from 'lodash-es'
@@ -10,6 +11,8 @@ import {
   useScheduleActions,
   useScheduleStoreContext,
 } from '../../hooks'
+import { ScheduleChangePeriodAlert } from '../alerts'
+import { PeriodAlertEnum } from '../alerts/types'
 
 export const ScheduleEventResizer: React.FC<
   ScheduleEventResizerProps
@@ -18,10 +21,34 @@ export const ScheduleEventResizer: React.FC<
 
   const ref = useRef<HTMLDivElement>(null)
   const { store, contentRef } = useScheduleStoreContext()
-  const { onChangeHandler } = useScheduleActions()
+  const { onChangeHandler, onChangePeriodHandler } =
+    useScheduleActions()
   const [isResizeMoveEnabled, setIsResizeMoveEnabled] =
     useState(false)
   const [initialEvent, setInitialEvent] = useState(cloneDeep(event))
+
+  const [isAlertOpen, setIsAlertOpen] = useState(false)
+  const onAlertSubmit = (value: PeriodAlertEnum) => {
+    const currentEvent = event as ScheduleEventRead
+    switch (value) {
+      case PeriodAlertEnum.ALL:
+        onChangePeriodHandler(
+          currentEvent.id,
+          currentEvent.period_lesson_id!,
+          initialEvent
+        )
+        break
+      case PeriodAlertEnum.CURRENT:
+        onChangeHandler({
+          dto: currentEvent,
+          prevData: initialEvent,
+        })
+        break
+    }
+  }
+  const onAlertCancel = () => {
+    store.updateEvent(id, initialEvent)
+  }
 
   const { onMouseDown, onMouseUp, onResizeMove } = useMouseEvents()
 
@@ -39,6 +66,11 @@ export const ScheduleEventResizer: React.FC<
       store.setEventState(id, initialEvent.state)
 
       if (event.type === 'create') {
+        return
+      }
+
+      if (event.period_lesson_id) {
+        setIsAlertOpen(true)
         return
       }
 
@@ -84,9 +116,17 @@ export const ScheduleEventResizer: React.FC<
   )
 
   return (
-    <div
-      ref={ref}
-      className="absolute bottom-0 left-0 h-4 w-full translate-y-[50%] cursor-n-resize"
-    />
+    <React.Fragment>
+      <div
+        ref={ref}
+        className="absolute bottom-0 left-0 h-4 w-full translate-y-[50%] cursor-n-resize"
+      />
+      <ScheduleChangePeriodAlert
+        open={isAlertOpen}
+        onOpenChange={setIsAlertOpen}
+        onSubmit={onAlertSubmit}
+        onCancel={onAlertCancel}
+      />
+    </React.Fragment>
   )
 }

@@ -86,7 +86,7 @@ export const serializeEvent = ({
   state: 'normal',
   start_time: getSerializedTime(start_time),
   end_time: getSerializedTime(end_time),
-  color: event.subject?.color ?? '#ffffff',
+  color: event.subject?.color ?? '#000000',
   ...serializeEventsFields(event),
 })
 
