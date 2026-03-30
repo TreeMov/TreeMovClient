@@ -36,7 +36,7 @@ export const ScheduleChangePeriodAlert: React.FC<
 
   return (
     <AlertDialog {...props}>
-      <AlertDialogContent>
+      <AlertDialogContent onEscapeKeyDown={onCancel}>
         <AlertDialogHeader>
           <AlertDialogTitle>
             Изменение повторяющегося мероприятия
