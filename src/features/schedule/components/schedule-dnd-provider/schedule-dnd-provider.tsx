@@ -146,6 +146,7 @@ export const ScheduleDndProvider: React.FC<
         start_time: startTime,
         end_time: endTime,
       }
+      const prevData = cloneDeep(store.dragEvent)
       store.updateEvent(nextEvent.id, nextEvent)
 
       if (nextEvent.type === 'create') {
@@ -162,7 +163,7 @@ export const ScheduleDndProvider: React.FC<
 
       onChangeHandler({
         dto: nextEvent,
-        prevData: store.dragEvent,
+        prevData,
       })
       store.endDrag(nextEvent.id)
     },
