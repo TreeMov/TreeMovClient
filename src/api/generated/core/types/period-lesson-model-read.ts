@@ -10,6 +10,7 @@
  */
 
 import type { ClassroomModelRead } from './classroom-model-read.ts'
+import type { LessonModelRead } from './lesson-model-read.ts'
 import type { StudentGroupModelRead } from './student-group-model-read.ts'
 import type { SubjectModelRead } from './subject-model-read.ts'
 import type { TeacherModelRead } from './teacher-model-read.ts'
@@ -29,10 +30,7 @@ export type PeriodLessonModelRead = {
   classroom?: (ClassroomModelRead | null) | undefined
   student_group?: (StudentGroupModelRead | null) | undefined
   subject?: (SubjectModelRead | null) | undefined
-  /**
-   * @type integer
-   */
-  period: number
+  period: number | null
   /**
    * @type string, date
    */
@@ -41,4 +39,5 @@ export type PeriodLessonModelRead = {
    * @type string, date
    */
   start_date: string
+  lessons?: (LessonModelRead[] | null) | undefined
 }

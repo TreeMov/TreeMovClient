@@ -9,20 +9,20 @@
  * Do not edit manually.
  */
 
-import { addOrgMemberStudents } from './add-org-member-students.ts'
-import { createStudents } from './create-students.ts'
-import { studentStudents } from './student-students.ts'
-import { studentsId } from './students-id.ts'
-import { students } from './students.ts'
-import { updateStudentsId } from './update-students-id.ts'
+import { addOrgMemeberToStudent } from './add-org-memeber-to-student.ts'
+import { createStudent } from './create-student.ts'
+import { deleteStudent } from './delete-student.ts'
+import { getApiV1StudentsId } from './get-api-v1-students-id.ts'
+import { listStudents } from './list-students.ts'
+import { patchApiV1StudentsId } from './patch-api-v1-students-id.ts'
 
 export function studentService() {
   return {
-    studentStudents,
-    createStudents,
-    students,
-    studentsId,
-    updateStudentsId,
-    addOrgMemberStudents,
+    listStudents,
+    createStudent,
+    deleteStudent,
+    getApiV1StudentsId,
+    patchApiV1StudentsId,
+    addOrgMemeberToStudent,
   }
 }

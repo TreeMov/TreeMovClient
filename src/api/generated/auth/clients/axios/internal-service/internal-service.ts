@@ -9,8 +9,8 @@
  * Do not edit manually.
  */
 
-import { userIdByEmailUsers } from './user-id-by-email-users.ts'
+import { getUserIdByEmailApiV1InternalUsersByEmailGet } from './get-user-id-by-email-api-v1-internal-users-by-email-get.ts'
 
 export function internalService() {
-  return { userIdByEmailUsers }
+  return { getUserIdByEmailApiV1InternalUsersByEmailGet }
 }

@@ -10,304 +10,308 @@
  */
 
 export const operations = {
-  my_profiles_me: {
+  get_my_profiles_api_v1_profiles_me_get: {
     path: '/api/v1/profiles/me',
     method: 'get',
   },
-  profiles: {
+  get_profiles_api_v1_profiles_get: {
     path: '/api/v1/profiles',
     method: 'get',
   },
-  update_profile_profiles: {
+  update_profile_api_v1_profiles_patch: {
     path: '/api/v1/profiles',
     method: 'patch',
   },
-  init_organization_organizations: {
+  organization_init: {
     path: '/api/v1/organizations/init',
     method: 'post',
   },
-  org_members_organizations: {
+  organization_members: {
     path: '/api/v1/organizations/members',
     method: 'get',
   },
-  my_orgs_organizations_me: {
+  organization_me: {
     path: '/api/v1/organizations/me',
     method: 'get',
   },
-  employees: {
+  list_employees: {
     path: '/api/v1/employees',
     method: 'get',
   },
-  create_employee_employees: {
+  create_employee: {
     path: '/api/v1/employees',
     method: 'post',
   },
-  employees_2: {
+  delete_employee: {
     path: '/api/v1/employees',
     method: 'delete',
   },
-  employee_employees_id: {
+  get_employee: {
     path: '/api/v1/employees/:id',
     method: 'get',
   },
-  update_employee_employees_id: {
+  update_employee: {
     path: '/api/v1/employees/:id',
     method: 'patch',
   },
-  student_students: {
+  list_students: {
     path: '/api/v1/students',
     method: 'get',
   },
-  create_students: {
+  create_student: {
     path: '/api/v1/students',
     method: 'post',
   },
-  students: {
+  delete_student: {
     path: '/api/v1/students',
     method: 'delete',
   },
-  students_id: {
+  get_api_v1_students_id: {
     path: '/api/v1/students/:id',
     method: 'get',
   },
-  update_students_id: {
+  patch_api_v1_students_id: {
     path: '/api/v1/students/:id',
     method: 'patch',
   },
-  add_org_member_students: {
+  add_org_memeber_to_student: {
     path: '/api/v1/students/add_org_member',
     method: 'post',
   },
-  teachers: {
+  list_teacher: {
     path: '/api/v1/teachers',
     method: 'get',
   },
-  create_employee_teachers: {
+  create_teacher: {
     path: '/api/v1/teachers',
     method: 'post',
   },
-  teachers_2: {
+  delete_teacher: {
     path: '/api/v1/teachers',
     method: 'delete',
   },
-  teacher_teachers_id: {
+  get_teacher: {
     path: '/api/v1/teachers/:id',
     method: 'get',
   },
-  update_teacher_teachers_id: {
+  update_teacher: {
     path: '/api/v1/teachers/:id',
     method: 'patch',
   },
-  add_org_member_teachers: {
+  add_org_memeber_to_teacher: {
     path: '/api/v1/teachers/add_org_member',
     method: 'post',
   },
-  invites: {
+  list_invites: {
     path: '/api/v1/invites',
     method: 'get',
   },
-  create_invite_invites: {
+  create_invite: {
     path: '/api/v1/invites',
     method: 'post',
   },
-  my_invites_me: {
+  list_invites_me: {
     path: '/api/v1/invites/me',
     method: 'get',
   },
-  by_id_invites: {
+  get_invite: {
     path: '/api/v1/invites/:id',
     method: 'get',
   },
-  accept_invite_invites: {
+  accept_invite: {
     path: '/api/v1/invites/accept',
     method: 'post',
   },
-  classroom_classrooms: {
+  list_classrooms: {
     path: '/api/v1/classrooms',
     method: 'get',
   },
-  create_classroom_classrooms: {
+  create_classroom: {
     path: '/api/v1/classrooms',
     method: 'post',
   },
-  classrooms: {
+  delete_classroom: {
     path: '/api/v1/classrooms',
     method: 'delete',
   },
-  classrooms_id: {
+  get_classroom: {
     path: '/api/v1/classrooms/:id',
     method: 'get',
   },
-  update_classroom_classrooms_id: {
+  update_classroom: {
     path: '/api/v1/classrooms/:id',
     method: 'patch',
   },
-  classroom_subjects: {
+  list_subjects: {
     path: '/api/v1/subjects',
     method: 'get',
   },
-  create_classroom_subjects: {
+  create_subject: {
     path: '/api/v1/subjects',
     method: 'post',
   },
-  subjects: {
+  delete_subject: {
     path: '/api/v1/subjects',
     method: 'delete',
   },
-  classrooms_subjects_id: {
+  get_subject: {
     path: '/api/v1/subjects/:id',
     method: 'get',
   },
-  update_classroom_subjects_id: {
+  update_subject: {
     path: '/api/v1/subjects/:id',
     method: 'patch',
   },
-  lessons: {
+  list_lessons: {
     path: '/api/v1/lessons',
     method: 'get',
   },
-  create_lessons: {
+  create_lesson: {
     path: '/api/v1/lessons',
     method: 'post',
   },
-  lessons_2: {
+  delete_lesson: {
     path: '/api/v1/lessons',
     method: 'delete',
   },
-  all_period_lesson_lessons: {
+  list_period_lessons: {
     path: '/api/v1/lessons/period',
     method: 'get',
   },
-  create_period_lesson_lessons: {
+  create_period_lessons: {
     path: '/api/v1/lessons/period',
     method: 'post',
   },
-  my_lessons_me: {
+  list_lessons_me: {
     path: '/api/v1/lessons/me',
     method: 'get',
   },
-  by_id_lessons: {
+  get_lesson: {
     path: '/api/v1/lessons/:id',
     method: 'get',
   },
-  update_lessons_id: {
+  upadate_lesson: {
     path: '/api/v1/lessons/:id',
     method: 'patch',
   },
-  period_lesson_lessons_id: {
+  get_period_lessons: {
     path: '/api/v1/lessons/period/:id',
     method: 'get',
   },
-  all_student_groups: {
+  list_student_groups: {
     path: '/api/v1/student-groups',
     method: 'get',
   },
-  create_student_groups: {
+  create_student_group: {
     path: '/api/v1/student-groups',
     method: 'post',
   },
-  student_groups: {
+  delete_student_group: {
     path: '/api/v1/student-groups',
     method: 'delete',
   },
-  by_id_student_groups: {
+  get_student_group: {
     path: '/api/v1/student-groups/:id',
     method: 'get',
   },
-  update_student_groups_id: {
+  update_student_group: {
     path: '/api/v1/student-groups/:id',
     method: 'patch',
   },
-  all_student_group_members: {
+  list_student_group_members: {
     path: '/api/v1/student-group-members',
     method: 'get',
   },
-  create_student_group_members: {
+  create_student_group_member: {
     path: '/api/v1/student-group-members',
     method: 'post',
   },
-  student_group_members: {
+  delete_student_group_member: {
     path: '/api/v1/student-group-members',
     method: 'delete',
   },
-  student_group_members_id: {
+  get_student_group_member: {
     path: '/api/v1/student-group-members/:id',
     method: 'get',
   },
-  update_student_group_members_id: {
+  update_student_group_member: {
     path: '/api/v1/student-group-members/:id',
     method: 'patch',
   },
-  attendances: {
+  list_attendances: {
     path: '/api/v1/attendances',
     method: 'get',
+  },
+  create_attendance: {
+    path: '/api/v1/attendances',
+    method: 'post',
+  },
+  delete_attendance: {
+    path: '/api/v1/attendances',
+    method: 'delete',
+  },
+  get_attendance: {
+    path: '/api/v1/attendances/:id',
+    method: 'get',
+  },
+  update_attendance: {
+    path: '/api/v1/attendances/:id',
+    method: 'patch',
   },
   create_attendances: {
-    path: '/api/v1/attendances',
-    method: 'post',
-  },
-  attendances_2: {
-    path: '/api/v1/attendances',
-    method: 'delete',
-  },
-  classrooms_attendances_id: {
-    path: '/api/v1/attendances/:id',
-    method: 'get',
-  },
-  update_classroom_attendances_id: {
-    path: '/api/v1/attendances/:id',
-    method: 'patch',
-  },
-  create_many_attendances_batch: {
     path: '/api/v1/attendances/batch',
     method: 'post',
   },
-  all_accruals: {
+  list_accruals: {
     path: '/api/v1/accruals',
     method: 'get',
   },
-  create_accruals: {
+  create_accrual: {
     path: '/api/v1/accruals',
     method: 'post',
   },
-  accruals: {
+  delete_accrual: {
     path: '/api/v1/accruals',
     method: 'delete',
   },
-  by_id_accruals: {
+  get_accrual: {
     path: '/api/v1/accruals/:id',
     method: 'get',
   },
-  update_accruals_id: {
+  update_accrual: {
     path: '/api/v1/accruals/:id',
     method: 'patch',
   },
-  teacher_notes: {
+  _get_api_v1_teacher_notes_get: {
     path: '/api/v1/teacher-notes',
     method: 'get',
   },
-  create_teacher_notes: {
+  _create_api_v1_teacher_notes_post: {
     path: '/api/v1/teacher-notes',
     method: 'post',
   },
-  teacher_notes_2: {
+  _delete_api_v1_teacher_notes_delete: {
     path: '/api/v1/teacher-notes',
     method: 'delete',
   },
-  by_id_teacher_notes: {
+  _get_by_id_api_v1_teacher_notes__id__get: {
     path: '/api/v1/teacher-notes/:id',
     method: 'get',
   },
-  update_teacher_notes_id: {
+  _update_api_v1_teacher_notes__id__patch: {
     path: '/api/v1/teacher-notes/:id',
     method: 'patch',
   },
-  my_orgs_organizations_me_2: {
+  organization_me_v2: {
     path: '/api/v2/organizations/me',
     method: 'get',
   },
-  create_period_lesson: {
+  create_period_lessons_v2: {
     path: '/api/v2/lessons/period',
+    method: 'post',
+  },
+  get_period_lessons_v2: {
+    path: '/api/v2/lessons/period/:id',
     method: 'post',
   },
 }

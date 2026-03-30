@@ -9,10 +9,14 @@
  * Do not edit manually.
  */
 
-import { allUsersList } from './all-users-list.ts'
-import { createAdminUsers } from './create-admin-users.ts'
-import { meUsers } from './me-users.ts'
+import { allUsersApiV1UsersListGet } from './all-users-api-v1-users-list-get.ts'
+import { createAdminApiV1UsersAdminPost } from './create-admin-api-v1-users-admin-post.ts'
+import { meApiV1UsersMeGet } from './me-api-v1-users-me-get.ts'
 
 export function userService() {
-  return { allUsersList, createAdminUsers, meUsers }
+  return {
+    allUsersApiV1UsersListGet,
+    createAdminApiV1UsersAdminPost,
+    meApiV1UsersMeGet,
+  }
 }

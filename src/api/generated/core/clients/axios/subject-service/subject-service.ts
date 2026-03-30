@@ -9,18 +9,18 @@
  * Do not edit manually.
  */
 
-import { classroomSubjects } from './classroom-subjects.ts'
-import { classroomsSubjectsId } from './classrooms-subjects-id.ts'
-import { createClassroomSubjects } from './create-classroom-subjects.ts'
-import { subjects } from './subjects.ts'
-import { updateClassroomSubjectsId } from './update-classroom-subjects-id.ts'
+import { createSubject } from './create-subject.ts'
+import { deleteSubject } from './delete-subject.ts'
+import { getSubject } from './get-subject.ts'
+import { listSubjects } from './list-subjects.ts'
+import { updateSubject } from './update-subject.ts'
 
 export function subjectService() {
   return {
-    classroomSubjects,
-    createClassroomSubjects,
-    subjects,
-    classroomsSubjectsId,
-    updateClassroomSubjectsId,
+    listSubjects,
+    createSubject,
+    deleteSubject,
+    getSubject,
+    updateSubject,
   }
 }

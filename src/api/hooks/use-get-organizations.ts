@@ -1,6 +1,6 @@
-import { useMyOrgsOrganizationsMe } from '../generated/core'
+import { useOrganizationMe } from '../generated/core'
 
 export const useGetOrganizations = () =>
-  useMyOrgsOrganizationsMe({
+  useOrganizationMe({
     query: { gcTime: Infinity, refetchOnMount: false },
   })

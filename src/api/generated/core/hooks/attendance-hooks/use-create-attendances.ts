@@ -28,7 +28,7 @@ import { mutationOptions, useMutation } from '@tanstack/react-query'
 import { createAttendances } from '../../clients/axios/attendance-service/create-attendances.ts'
 
 export const createAttendancesMutationKey = () =>
-  [{ url: '/api/v1/attendances' }] as const
+  [{ url: '/api/v1/attendances/batch' }] as const
 
 export type CreateAttendancesMutationKey = ReturnType<
   typeof createAttendancesMutationKey
@@ -54,8 +54,8 @@ export function createAttendancesMutationOptions<TContext = unknown>(
 }
 
 /**
- * @summary  Create
- * {@link /api/v1/attendances}
+ * @summary  Create Many
+ * {@link /api/v1/attendances/batch}
  */
 export function useCreateAttendances<TContext>(
   options: {

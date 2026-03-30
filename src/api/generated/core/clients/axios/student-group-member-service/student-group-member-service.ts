@@ -9,18 +9,18 @@
  * Do not edit manually.
  */
 
-import { allStudentGroupMembers } from './all-student-group-members.ts'
-import { createStudentGroupMembers } from './create-student-group-members.ts'
-import { studentGroupMembersId } from './student-group-members-id.ts'
-import { studentGroupMembers } from './student-group-members.ts'
-import { updateStudentGroupMembersId } from './update-student-group-members-id.ts'
+import { createStudentGroupMember } from './create-student-group-member.ts'
+import { deleteStudentGroupMember } from './delete-student-group-member.ts'
+import { getStudentGroupMember } from './get-student-group-member.ts'
+import { listStudentGroupMembers } from './list-student-group-members.ts'
+import { updateStudentGroupMember } from './update-student-group-member.ts'
 
 export function studentGroupMemberService() {
   return {
-    allStudentGroupMembers,
-    createStudentGroupMembers,
-    studentGroupMembers,
-    studentGroupMembersId,
-    updateStudentGroupMembersId,
+    listStudentGroupMembers,
+    createStudentGroupMember,
+    deleteStudentGroupMember,
+    getStudentGroupMember,
+    updateStudentGroupMember,
   }
 }

@@ -4,8 +4,8 @@ import type { SignInStepProps } from './types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import React from 'react'
 
-import { useLoginAuth } from '@/api/generated/auth'
-import { myOrgsOrganizationsMe } from '@/api/generated/core'
+import { useLoginApiV1AuthLoginPost } from '@/api/generated/auth'
+import { organizationMe } from '@/api/generated/core'
 import { session } from '@/api/session'
 import { AuthLayout } from '@/components/layouts/auth-layout'
 import { Form } from '@/components/shared/form'
@@ -26,19 +26,20 @@ const ConnectForm = createConnectForm<SignInStepSchema>()
 export const SignInStep: React.FC<SignInStepProps> = ({ onNext }) => {
   const { email, password } = useFormValues()
 
-  const { mutateAsync: login, isPending } = useLoginAuth({
-    mutation: {
-      onSuccess: async ({ access_token, refresh_token }) => {
-        session.createSession({
-          access_token,
-          refresh_token,
-        })
-        const [{ id }] = await myOrgsOrganizationsMe()
-        session.changeOrg(id)
-        onNext({ email, password })
+  const { mutateAsync: login, isPending } =
+    useLoginApiV1AuthLoginPost({
+      mutation: {
+        onSuccess: async ({ access_token, refresh_token }) => {
+          session.createSession({
+            access_token,
+            refresh_token,
+          })
+          const [{ id }] = await organizationMe()
+          session.changeOrg(id)
+          onNext({ email, password })
+        },
       },
-    },
-  })
+    })
 
   return (
     <AuthLayout

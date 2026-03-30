@@ -9,11 +9,11 @@ import {
   type LessonModelCreate,
   type LessonModelUpdate,
   type PeriodLessonModelCreate,
-  useCreateLessons,
-  useCreatePeriodLesson,
-  useLessons,
-  useLessons2,
-  useUpdateLessonsId,
+  useCreateLesson,
+  useCreatePeriodLessonsV2,
+  useDeleteLesson,
+  useListLessons,
+  useUpadateLesson,
 } from '@/api/generated/core'
 import { dateFormat, type ScheduleView } from '@/features/schedule'
 import { PeriodEnum } from '@/features/schedule/components/ui/form'
@@ -35,11 +35,11 @@ export const useFilters = () => {
 
 export const useScheduleActions = ({
   refetch,
-}: Pick<ReturnType<typeof useLessons>, 'refetch'>) => {
-  const { mutateAsync: deleteEvent } = useLessons2()
-  const { mutateAsync: updateEvent } = useUpdateLessonsId()
-  const { mutateAsync: createEvent } = useCreateLessons()
-  const { mutateAsync: createPeriod } = useCreatePeriodLesson()
+}: Pick<ReturnType<typeof useListLessons>, 'refetch'>) => {
+  const { mutateAsync: deleteEvent } = useDeleteLesson()
+  const { mutateAsync: updateEvent } = useUpadateLesson()
+  const { mutateAsync: createEvent } = useCreateLesson()
+  const { mutateAsync: createPeriod } = useCreatePeriodLessonsV2()
 
   const onChange = async (id: number, data: LessonModelUpdate) => {
     await updateEvent({

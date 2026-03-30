@@ -9,10 +9,14 @@
  * Do not edit manually.
  */
 
-import { myProfilesMe } from './my-profiles-me.ts'
-import { profiles } from './profiles.ts'
-import { updateProfileProfiles } from './update-profile-profiles.ts'
+import { getMyProfilesApiV1ProfilesMeGet } from './get-my-profiles-api-v1-profiles-me-get.ts'
+import { getProfilesApiV1ProfilesGet } from './get-profiles-api-v1-profiles-get.ts'
+import { updateProfileApiV1ProfilesPatch } from './update-profile-api-v1-profiles-patch.ts'
 
 export function profileService() {
-  return { myProfilesMe, profiles, updateProfileProfiles }
+  return {
+    getMyProfilesApiV1ProfilesMeGet,
+    getProfilesApiV1ProfilesGet,
+    updateProfileApiV1ProfilesPatch,
+  }
 }

@@ -22,13 +22,16 @@ import type {
 } from '../../../types/attendance-controller/create-attendances.ts'
 
 function getCreateAttendancesUrl() {
-  const res = { method: 'POST', url: `/api/v1/attendances` as const }
+  const res = {
+    method: 'POST',
+    url: `/api/v1/attendances/batch` as const,
+  }
   return res
 }
 
 /**
- * @summary  Create
- * {@link /api/v1/attendances}
+ * @summary  Create Many
+ * {@link /api/v1/attendances/batch}
  */
 export async function createAttendances(
   data: CreateAttendancesMutationRequest,

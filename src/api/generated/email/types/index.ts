@@ -3,24 +3,24 @@ export type {
   EmailCodePurposeEnumKey,
 } from './email-code-purpose.ts'
 export type {
-  EmailHealth200,
-  EmailHealthQuery,
-  EmailHealthQueryResponse,
-} from './email-controller/email-health.ts'
+  EmailHealthEmailHealthGet200,
+  EmailHealthEmailHealthGetQuery,
+  EmailHealthEmailHealthGetQueryResponse,
+} from './email-controller/email-health-email-health-get.ts'
 export type {
-  SendEmail202,
-  SendEmail422,
-  SendEmailMutation,
-  SendEmailMutationRequest,
-  SendEmailMutationResponse,
-} from './email-controller/send-email.ts'
+  SendEmailEmailSendPost202,
+  SendEmailEmailSendPost422,
+  SendEmailEmailSendPostMutation,
+  SendEmailEmailSendPostMutationRequest,
+  SendEmailEmailSendPostMutationResponse,
+} from './email-controller/send-email-email-send-post.ts'
 export type {
-  VerifyEmail202,
-  VerifyEmail422,
-  VerifyEmailMutation,
-  VerifyEmailMutationRequest,
-  VerifyEmailMutationResponse,
-} from './email-controller/verify-email.ts'
+  VerifyEmailEmailVerifyPost202,
+  VerifyEmailEmailVerifyPost422,
+  VerifyEmailEmailVerifyPostMutation,
+  VerifyEmailEmailVerifyPostMutationRequest,
+  VerifyEmailEmailVerifyPostMutationResponse,
+} from './email-controller/verify-email-email-verify-post.ts'
 export type { HTTPValidationError } from './httpvalidation-error.ts'
 export type { SendCodeSchema } from './send-code-schema.ts'
 export type { ValidationError } from './validation-error.ts'

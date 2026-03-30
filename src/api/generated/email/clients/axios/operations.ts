@@ -10,15 +10,15 @@
  */
 
 export const operations = {
-  send_email: {
+  send_email_email_send_post: {
     path: '/email/send',
     method: 'post',
   },
-  verify_email: {
+  verify_email_email_verify_post: {
     path: '/email/verify',
     method: 'post',
   },
-  email_health: {
+  email_health_email_health_get: {
     path: '/email/health',
     method: 'get',
   },

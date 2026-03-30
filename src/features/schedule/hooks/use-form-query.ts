@@ -1,26 +1,26 @@
 import {
-  useAllStudentGroups,
-  useClassroomClassrooms,
-  useClassroomSubjects,
-  useTeachers,
+  useListClassrooms,
+  useListStudentGroups,
+  useListSubjects,
+  useListTeacher,
 } from '@/api/generated/core'
 
 export const useFormQuery = () => {
-  const subjects = useClassroomSubjects(
+  const subjects = useListSubjects(
     {},
     { query: { refetchOnMount: false } }
   )
-  const teachers = useTeachers(
+  const teachers = useListTeacher(
     {},
     {
       query: { refetchOnMount: false },
     }
   )
-  const classrooms = useClassroomClassrooms(
+  const classrooms = useListClassrooms(
     {},
     { query: { refetchOnMount: false } }
   )
-  const studentGroups = useAllStudentGroups(
+  const studentGroups = useListStudentGroups(
     {},
     { query: { refetchOnMount: false } }
   )

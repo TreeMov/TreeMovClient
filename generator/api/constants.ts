@@ -18,6 +18,3 @@ export const HTTP_METHODS = [
   'head',
   'trace',
 ] as const
-
-export const HTTP_METHOD_SET = new Set<string>(HTTP_METHODS)
-export const VERSION_TOKEN_REGEX = /^v\d+$/i

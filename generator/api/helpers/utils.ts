@@ -1,79 +1,56 @@
-import {
-  HTTP_METHOD_SET,
-  HTTP_METHODS,
-  VERSION_TOKEN_REGEX,
-} from '../constants'
+import { HTTP_METHODS } from '../constants'
 import { OpenApiParameter, OpenApiSpec } from '../types'
-
-export const concatLines = (lines: string[]) =>
-  `${lines.join(' \n ')}\n`
 
 const splitToTokens = (value: string) =>
   value
     .replace(/([a-z0-9])([A-Z])/g, '$1_$2')
+    .replace(/[^a-zA-Z0-9]+/g, '_')
     .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '_')
     .split('_')
     .filter(Boolean)
 
-const isSkippableToken = (token: string) =>
-  token === 'api' ||
-  token === 'internal' ||
-  HTTP_METHOD_SET.has(token) ||
-  VERSION_TOKEN_REGEX.test(token)
-
-const getUniqueTokens = (tokens: string[]) => {
-  const seen = new Set<string>()
-  const result: string[] = []
-
-  for (const token of tokens) {
-    if (seen.has(token)) {
-      continue
-    }
-
-    seen.add(token)
-    result.push(token)
-  }
-
-  return result
-}
-
-const buildOperationNameTokens = (
-  rawOperationId: string | undefined,
-  pathKey: string
+const getUniqueOperationId = (
+  baseName: string,
+  usedNames: Set<string>
 ) => {
-  const operationIdTokens = rawOperationId
-    ? splitToTokens(rawOperationId)
-    : []
-  const cleanedOperationIdTokens = operationIdTokens.filter(
-    (token) => !isSkippableToken(token)
-  )
+  let candidate = baseName
+  let index = 2
 
-  if (cleanedOperationIdTokens.length > 0) {
-    return getUniqueTokens(cleanedOperationIdTokens)
+  while (usedNames.has(candidate)) {
+    candidate = `${baseName}_${index}`
+    index += 1
   }
 
-  const pathTokens = splitToTokens(pathKey).filter(
-    (token) => !isSkippableToken(token)
-  )
-
-  if (pathTokens.length > 0) {
-    return getUniqueTokens(pathTokens)
-  }
-
-  return ['operation']
+  usedNames.add(candidate)
+  return candidate
 }
 
-export const normalizeOperationIds = (
+const buildFallbackOperationId = (
+  pathKey: string,
+  method: string
+) => {
+  const pathTokens = splitToTokens(pathKey)
+  const tokens = [method, ...pathTokens]
+  return tokens.join('_') || `${method}_operation`
+}
+
+export const ensureUniqueOperationIds = (
   source: OpenApiSpec
 ): OpenApiSpec => {
   const spec = structuredClone(source) as OpenApiSpec
   const paths = spec.paths
-  const usedNames = new Map<string, number>()
 
   if (!paths || typeof paths !== 'object') {
     return spec
   }
+
+  const operations: Array<{
+    method: string
+    pathKey: string
+    operation: Record<string, unknown>
+    rawOperationId?: string
+  }> = []
+  const operationIdCounts = new Map<string, number>()
 
   for (const [pathKey, pathItem] of Object.entries(paths)) {
     if (!pathItem || typeof pathItem !== 'object') {
@@ -90,21 +67,60 @@ export const normalizeOperationIds = (
 
       const typedOperation = operation as Record<string, unknown>
       const rawOperationId =
-        typeof typedOperation.operationId === 'string'
-          ? typedOperation.operationId
+        typeof typedOperation.operationId === 'string' &&
+        typedOperation.operationId.trim()
+          ? typedOperation.operationId.trim()
           : undefined
 
-      const tokens = buildOperationNameTokens(rawOperationId, pathKey)
-      const baseName = tokens.join('_')
-      const duplicateIndex = usedNames.get(baseName) ?? 0
-      const operationId =
-        duplicateIndex === 0
-          ? baseName
-          : `${baseName}_${duplicateIndex + 1}`
+      operations.push({
+        method,
+        pathKey,
+        operation: typedOperation,
+        rawOperationId,
+      })
 
-      usedNames.set(baseName, duplicateIndex + 1)
-      typedOperation.operationId = operationId
+      if (rawOperationId) {
+        operationIdCounts.set(
+          rawOperationId,
+          (operationIdCounts.get(rawOperationId) ?? 0) + 1
+        )
+      }
     }
+  }
+
+  const usedNames = new Set<string>()
+
+  for (const { rawOperationId } of operations) {
+    if (
+      rawOperationId &&
+      (operationIdCounts.get(rawOperationId) ?? 0) === 1
+    ) {
+      usedNames.add(rawOperationId)
+    }
+  }
+
+  for (const {
+    method,
+    pathKey,
+    operation,
+    rawOperationId,
+  } of operations) {
+    if (
+      rawOperationId &&
+      (operationIdCounts.get(rawOperationId) ?? 0) === 1
+    ) {
+      operation.operationId = rawOperationId
+      continue
+    }
+
+    const fallbackOperationId = buildFallbackOperationId(
+      pathKey,
+      method
+    )
+    operation.operationId = getUniqueOperationId(
+      fallbackOperationId,
+      usedNames
+    )
   }
 
   return spec

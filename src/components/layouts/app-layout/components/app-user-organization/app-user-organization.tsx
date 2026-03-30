@@ -2,7 +2,7 @@ import type React from 'react'
 
 import { useQueryClient } from '@tanstack/react-query'
 
-import { useLogoutAuth } from '@/api/generated/auth'
+import { useLogoutApiV1AuthLogoutPost } from '@/api/generated/auth'
 import { useGetOrganizations } from '@/api/hooks/use-get-organizations'
 import { session } from '@/api/session'
 import {
@@ -29,7 +29,7 @@ export const AppUserOrganization: React.FC = () => {
   const { isPending } = useGetOrganizations()
 
   const { mutateAsync: logout, isPending: isPendingLogout } =
-    useLogoutAuth({
+    useLogoutApiV1AuthLogoutPost({
       mutation: {
         onSuccess: () => {
           session.deleteSession()
@@ -81,7 +81,7 @@ export const AppUserOrganization: React.FC = () => {
           <>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              {restOrgs.map(({ org: { id, title } }) => (
+              {restOrgs.map(({ id, org: { title } }) => (
                 <DropdownMenuItem
                   key={title}
                   onClick={() => onClick(id)}
