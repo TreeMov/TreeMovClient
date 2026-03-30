@@ -8,6 +8,10 @@ import {
   SidebarContent,
   SidebarGroup,
   SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarRail,
   SidebarTrigger,
   useSidebar,
 } from '@/components/ui/sidebar'
@@ -30,33 +34,47 @@ export const AppSidebar: React.FC = () => {
 
   return (
     <div className="relative">
-      <Sidebar className="bg-violet-600 px-5 py-12 text-white">
-        <SidebarHeader className="mb-12 flex items-center justify-center">
+      <Sidebar collapsible="icon">
+        <SidebarHeader className="overflow-hidden">
           <Link
             to={{ path: paths.home }}
-            className="flex items-center gap-1.5"
+            className="mx-auto flex items-center gap-1.5 transition-all group-data-[state=collapsed]:mx-0"
           >
-            <Icon name="general:logo" className="size-12" />
-            <Typography variant="white" size="xl">
+            <Icon name="general:logo" className="size-12 shrink-0" />
+            <Typography
+              variant="white"
+              size="xl"
+              className="group-data-[state=collapsed]:invisible"
+            >
               <p>TreeMov</p>
             </Typography>
           </Link>
         </SidebarHeader>
         <SidebarContent>
-          <SidebarGroup>
-            <div className="flex flex-col gap-1.5">
-              {links.map(({ label, to }) => (
-                <SidebarLink
-                  key={to}
-                  isActive={isMatches(to)}
-                  to={to}
-                >
-                  {label}
-                </SidebarLink>
-              ))}
-            </div>
-          </SidebarGroup>
+          <SidebarMenu>
+            <SidebarGroup>
+              <div className="flex flex-col gap-1.5">
+                {links.map(({ label, to, icon }) => (
+                  <SidebarMenuItem key={to}>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={isMatches(to)}
+                      tooltip={label}
+                    >
+                      <SidebarLink to={to}>
+                        <Icon className="shrink-0" name={icon} />
+                        <span className="group-data-[state=collapsed]:hidden">
+                          {label}
+                        </span>
+                      </SidebarLink>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </div>
+            </SidebarGroup>
+          </SidebarMenu>
         </SidebarContent>
+        <SidebarRail />
       </Sidebar>
       <SidebarTrigger
         className={cn(

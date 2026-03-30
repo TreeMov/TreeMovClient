@@ -1,22 +1,18 @@
-import type { SidebarLinkProps } from './types'
-
 import React from 'react'
-import { Link } from 'react-router'
+import { Link, type LinkProps } from 'react-router'
 
 import { cn } from '@/utils/helpers/shadcn'
 
 export const SidebarLink = ({
   children,
   className,
-  isActive,
   ...props
-}: React.PropsWithChildren<SidebarLinkProps>) => {
+}: React.PropsWithChildren<LinkProps>) => {
   return (
     <Link
       className={cn(
         className,
-        'flex min-h-12 items-center rounded-2xl px-6 py-4 font-bold text-white transition-colors hover:bg-violet-700 hover:underline',
-        { 'bg-violet-700': isActive }
+        'flex min-h-12 items-center gap-1.5 rounded-2xl px-6 font-bold text-white transition-all hover:bg-violet-700 hover:underline data-[active=true]:bg-violet-700'
       )}
       {...props}
     >

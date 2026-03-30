@@ -10,26 +10,32 @@ export const getLinks = () =>
     {
       label: 'Аналитика',
       to: ROUTES.analytics,
+      icon: 'general:analytics',
     },
     {
       label: 'Расписание',
       to: ROUTES.schedule,
+      icon: 'general:schedule',
     },
     {
       label: 'Сотрудники',
       to: ROUTES.employees,
+      icon: 'general:schedule',
     },
     {
       label: 'Ученики',
       to: ROUTES.students,
+      icon: 'general:schedule',
     },
     {
       label: 'Группы',
       to: ROUTES.groups,
+      icon: 'general:catalog',
     },
     {
       label: 'Финансовая отчетность',
       to: ROUTES.report,
+      icon: 'general:report',
     },
   ] as const satisfies ILink[]
 
