@@ -32,11 +32,13 @@ export const LessonForm: React.FC<LessonFormProps> = ({
   const { getTimeOptions } = useTimeSelect()
   const queryData = useFormQuery()
   const {
-    isPending,
-    subjects: { data: subjects },
-    teachers: { data: teachers },
-    classrooms: { data: classrooms },
-    studentGroups: { data: studentGroups },
+    subjects: { data: subjects, isPending: isPendingSubjects },
+    teachers: { data: teachers, isPending: isPendingTeachers },
+    classrooms: { data: classrooms, isPending: isPendingClassroms },
+    studentGroups: {
+      data: studentGroups,
+      isPending: isPendingGroups,
+    },
   } = queryData
 
   return (
@@ -44,7 +46,6 @@ export const LessonForm: React.FC<LessonFormProps> = ({
       useFormProps={{
         resolver: zodResolver(schema),
         defaultValues,
-        disabled: isPending,
       }}
       onSubmit={onSubmit}
     >
@@ -107,6 +108,7 @@ export const LessonForm: React.FC<LessonFormProps> = ({
               control={control}
               name="subject"
               inputProps={{
+                isLoading: isPendingSubjects,
                 placeholder: 'Предмет',
                 options:
                   subjects?.map(({ title, id }) => ({
@@ -123,6 +125,7 @@ export const LessonForm: React.FC<LessonFormProps> = ({
               control={control}
               name="teacher"
               inputProps={{
+                isLoading: isPendingTeachers,
                 placeholder: 'Преподаватель',
                 options:
                   teachers?.map(({ employee: { name }, id }) => ({
@@ -139,6 +142,7 @@ export const LessonForm: React.FC<LessonFormProps> = ({
               control={control}
               name="classroom"
               inputProps={{
+                isLoading: isPendingClassroms,
                 placeholder: 'Аудитория',
                 options:
                   classrooms?.map(({ title, id }) => ({
@@ -155,6 +159,7 @@ export const LessonForm: React.FC<LessonFormProps> = ({
               control={control}
               name="student_group"
               inputProps={{
+                isLoading: isPendingGroups,
                 placeholder: 'Группы',
                 options:
                   studentGroups?.map(({ title, id }) => ({

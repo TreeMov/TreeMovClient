@@ -25,11 +25,5 @@ export const useFormQuery = () => {
     { query: { refetchOnMount: false } }
   )
 
-  const isPending =
-    subjects.isPending ||
-    teachers.isPending ||
-    classrooms.isPending ||
-    studentGroups.isPending
-
-  return { subjects, teachers, classrooms, studentGroups, isPending }
+  return { subjects, teachers, classrooms, studentGroups }
 }

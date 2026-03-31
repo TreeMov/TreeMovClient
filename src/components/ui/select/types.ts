@@ -10,6 +10,7 @@ export type ISelectOption<Values extends string = string> = {
 
 export type SelectProps<Values extends string> =
   _SelectProps<Values> & {
+    isLoading?: boolean
     options: ISelectOption<Values>[]
     placeholder?: string
   } & SelectValueProps
