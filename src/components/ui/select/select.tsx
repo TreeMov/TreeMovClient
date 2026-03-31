@@ -29,6 +29,10 @@ export const Select = <Values extends string>({
   ...props
 }: SelectProps<Values>) => {
   const disabled = disabledProp || isLoading
+  const labelFromOptions = options.find(
+    (option) => option.value === value
+  )
+  const hasLabel = !!labelFromOptions
 
   return (
     <USelect
@@ -46,7 +50,7 @@ export const Select = <Values extends string>({
       onOpenChange={onOpenChange}
     >
       <SelectTrigger>
-        {value ? <SelectValue {...props} /> : placeholder}
+        {hasLabel ? <SelectValue {...props} /> : placeholder}
         {isLoading && <Spinner className="ml-auto size-4" />}
       </SelectTrigger>
       <SelectContent position="popper">
