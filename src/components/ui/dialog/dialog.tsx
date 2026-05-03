@@ -76,20 +76,22 @@ const DialogContent: React.FC<DialogContentProps> = ({
         )}
         {...props}
       >
-        {showActions && (
-          <div className="mb-4 flex items-center justify-end gap-3">
-            {actions}
-            {showCloseButton && (
-              <DialogPrimitive.Close
-                data-slot="dialog-close"
-                className="flex size-6 cursor-pointer items-center justify-center"
-              >
-                <XIcon />
-                <span className="sr-only">Close</span>
-              </DialogPrimitive.Close>
-            )}
-          </div>
-        )}
+        <div className="mb-4 flex items-center justify-between">
+          {showActions && (
+            <div className="flex items-center justify-end gap-3">
+              {actions}
+              {showCloseButton && (
+                <DialogPrimitive.Close
+                  data-slot="dialog-close"
+                  className="flex size-6 cursor-pointer items-center justify-center"
+                >
+                  <XIcon />
+                  <span className="sr-only">Close</span>
+                </DialogPrimitive.Close>
+              )}
+            </div>
+          )}
+        </div>
         {children}
       </DialogPrimitive.Content>
     </DialogPortal>

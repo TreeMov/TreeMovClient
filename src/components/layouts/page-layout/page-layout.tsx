@@ -12,6 +12,7 @@ export const PageLayout: React.FC<PageLayoutProps> = ({
   actions,
   className,
   scrollable = true,
+  footer,
   ...props
 }) => {
   return (
@@ -32,6 +33,7 @@ export const PageLayout: React.FC<PageLayoutProps> = ({
       >
         {children}
       </div>
+      {footer}
     </div>
   )
 }

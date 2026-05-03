@@ -27,12 +27,15 @@
   --color-violet-700: var(--violet-700);
   --color-violet-800: var(--violet-800);
 
+  --color-grey-65: var(--grey-65);
   --color-grey-100: var(--grey-100);
   --color-grey-200: var(--grey-200);
   --color-grey-300: var(--grey-300);
   --color-grey-400: var(--grey-400);
   --color-grey-500: var(--grey-500);
   --color-grey-600: var(--grey-600);
+
+  --color-orange-57: var(--orange-57);
 
   --color-destructive: var(--destructive);
 
@@ -60,12 +63,15 @@
   --violet-700: rgb(75, 0, 150);
   --violet-800: rgb(47, 33, 62);
 
+  --grey-65: rgb(161, 161, 170);
   --grey-100: rgb(248, 250, 252);
   --grey-200: rgb(217, 217, 217);
   --grey-300: rgb(245, 245, 245);
   --grey-400: rgb(179, 179, 179);
   --grey-500: rgb(97, 97, 97);
   --grey-600: rgb(112, 112, 112);
+
+  --orange-57: rgb(255, 171, 37);
 
   --destructive: rgb(255, 24, 20);
 

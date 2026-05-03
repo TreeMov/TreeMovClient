@@ -294,6 +294,8 @@ export const sprites = defineSpriteMap([
       [
         defineSpriteSymbol(['analytics'], [19]),
         defineSpriteSymbol(['catalog'], [19]),
+        defineSpriteSymbol(['check-circle'], [22]),
+        defineSpriteSymbol(['delete'], [14]),
         defineSpriteSymbol(['logo'], [48]),
         defineSpriteSymbol(['logout'], [24, 22]),
         defineSpriteSymbol(['plus'], [24]),
@@ -301,7 +303,7 @@ export const sprites = defineSpriteMap([
         defineSpriteSymbol(['schedule'], [19]),
         defineSpriteSymbol(['settings'], [24]),
       ],
-      defineExternalAssetMeta('general.534a5ca7.svg')
+      defineExternalAssetMeta('general.4a70ddc8.svg')
     ),
     defineSpriteAsset(
       [
@@ -325,6 +327,8 @@ export type SpritesMeta = {
   general:
     | 'analytics'
     | 'catalog'
+    | 'check-circle'
+    | 'delete'
     | 'logo'
     | 'logout'
     | 'plus'
