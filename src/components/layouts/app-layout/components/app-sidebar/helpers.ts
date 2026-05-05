@@ -33,6 +33,11 @@ export const getLinks = () =>
       icon: 'general:catalog',
     },
     {
+      label: 'Предметы',
+      to: ROUTES.subjects,
+      icon: 'general:catalog',
+    },
+    {
       label: 'Финансовая отчетность',
       to: ROUTES.report,
       icon: 'general:report',

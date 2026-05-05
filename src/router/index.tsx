@@ -13,6 +13,7 @@ import { scheduleRoute } from '@/pages/schedule'
 import { signInRoute } from '@/pages/sign-in'
 import { signUpRoute } from '@/pages/sign-up'
 import { studentsRoute } from '@/pages/students'
+import { subjectsRoute } from '@/pages/subjects'
 
 export const routerConfig = {
   element: <RootLayout />,
@@ -29,6 +30,7 @@ export const routerConfig = {
             employeesRoute,
             studentsRoute,
             groupsRoute,
+            subjectsRoute,
             reportRoute,
           ],
         },

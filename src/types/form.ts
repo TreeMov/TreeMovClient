@@ -16,6 +16,7 @@ export type BaseInputFormProps<
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
   TTransformedValues = TFieldValues,
 > = BaseDisplayInputFormProps & {
+  formItemClassName?: string
   name: TName
   control?: Control<TFieldValues, unknown, TTransformedValues>
   controllerProps?: Omit<

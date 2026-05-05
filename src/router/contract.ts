@@ -15,6 +15,7 @@ export const paths = {
   'sign-in': '/sign-in',
   'sign-up': '/sign-up',
   students: '/students',
+  subjects: '/subjects',
 } as const
 
 export type RouteId = keyof typeof paths
