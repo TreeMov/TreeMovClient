@@ -21,6 +21,7 @@ export const FormWrapper = <
   isRequired,
   description,
   name,
+  formItemClassName,
 }: FormWrapperProps<TFieldValues, TName>) => {
   return (
     <FormField
@@ -28,7 +29,7 @@ export const FormWrapper = <
       control={control}
       {...controllerProps}
       render={(props) => (
-        <FormItem>
+        <FormItem className={formItemClassName}>
           <FormLabel
             isRequired={isRequired}
             aria-required={isRequired}

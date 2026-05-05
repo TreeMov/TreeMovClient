@@ -9,11 +9,7 @@ export const Schedule: React.FC = () => {
   const filters = useFilters()
 
   return (
-    <PageLayout
-      breadcrumbs={['Расписание']}
-      actions={<Header />}
-      scrollable={false}
-    >
+    <PageLayout actions={<Header />} scrollable={false}>
       <Content {...filters} />
     </PageLayout>
   )

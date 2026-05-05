@@ -4,17 +4,9 @@ import React from 'react'
 
 import { cn } from '@/utils/helpers/shadcn'
 
-import { Header } from './components'
-
-export const PageLayout: React.FC<PageLayoutProps> = ({
-  breadcrumbs,
-  children,
-  actions,
-  className,
-  scrollable = true,
-  footer,
-  ...props
-}) => {
+export const PageLayout: React.FC<
+  React.PropsWithChildren<PageLayoutProps>
+> = ({ className, actions, scrollable = true, footer, children }) => {
   return (
     <div
       className={cn(
@@ -22,9 +14,7 @@ export const PageLayout: React.FC<PageLayoutProps> = ({
         'flex h-full flex-col overflow-hidden'
       )}
     >
-      <Header className="mb-5" breadcrumbs={breadcrumbs} {...props}>
-        {actions}
-      </Header>
+      <div className="mb-5 ml-auto">{actions}</div>
       <div
         className={cn({
           'h-full overflow-auto': scrollable,

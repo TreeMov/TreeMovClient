@@ -3,14 +3,14 @@ import React from 'react'
 import { PageLayout } from '@/components/layouts/page-layout'
 
 import { Content, Footer, Header } from './components'
-import { GroupsProvider } from './provider'
+import { SubjectsProvider } from './provider'
 
-export const Groups: React.FC = () => {
+export const Subjects: React.FC = () => {
   return (
-    <GroupsProvider>
+    <SubjectsProvider>
       <PageLayout actions={<Header />} footer={<Footer />}>
         <Content />
       </PageLayout>
-    </GroupsProvider>
+    </SubjectsProvider>
   )
 }
