@@ -8,11 +8,7 @@ import { GroupsProvider } from './provider'
 export const Groups: React.FC = () => {
   return (
     <GroupsProvider>
-      <PageLayout
-        breadcrumbs={['Группы', 'Основное']}
-        actions={<Header />}
-        footer={<Footer />}
-      >
+      <PageLayout actions={<Header />} footer={<Footer />}>
         <Content />
       </PageLayout>
     </GroupsProvider>

@@ -6,8 +6,10 @@ import { type RouteObject } from 'react-router'
 
 export type { PathsKeys } from '@/router/contract'
 
-export type RoutePage = Omit<RouteObject, 'id'> &
-  Required<Pick<RouteObject, 'id'>>
+export type RoutePage = Omit<RouteObject, 'id' | 'handle'> &
+  Required<Pick<RouteObject, 'id'>> & {
+    handle?: { breadcrumbs: string[] }
+  }
 
 type StringifyParams = Parameters<typeof stringify>
 export type PathQuery =

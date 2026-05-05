@@ -8,11 +8,7 @@ import { SubjectsProvider } from './provider'
 export const Subjects: React.FC = () => {
   return (
     <SubjectsProvider>
-      <PageLayout
-        breadcrumbs={['Предметы', 'Основное']}
-        actions={<Header />}
-        footer={<Footer />}
-      >
+      <PageLayout actions={<Header />} footer={<Footer />}>
         <Content />
       </PageLayout>
     </SubjectsProvider>

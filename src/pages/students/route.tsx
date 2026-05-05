@@ -4,5 +4,6 @@ import { ROUTES } from '@/utils/constants/routes-map'
 export const studentsRoute = {
   id: 'students',
   path: ROUTES.students,
+  handle: { breadcrumbs: ['Ученики'] },
   lazy: () => import('./students'),
 } as const satisfies RoutePage
