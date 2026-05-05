@@ -8,6 +8,7 @@ const buttonVariants = cva(
         primary: 'bg-violet-600 text-white disabled:bg-violet-600/60',
         outlined:
           'border-grey-200 border bg-white disabled:opacity-50',
+        dark: 'disabled:bg-grey-65 bg-violet-800 text-white',
         ghost: 'bg-transparent',
       },
       size: {
