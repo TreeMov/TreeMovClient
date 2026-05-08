@@ -1,13 +1,11 @@
 import React from 'react'
 
 import { useListSubjects } from '@/api/generated/core'
+import { useGroupSelect } from '@/components/shared/group-select/hooks'
 import { Checkbox } from '@/components/ui/checkbox'
 
-import { useSubjects } from '../../hooks'
-
 export const Content: React.FC = () => {
-  const { selectedSubjectsIds, setSelectedSubjectsIds } =
-    useSubjects()
+  const { isSelected, onCheckChange } = useGroupSelect()
   const { data, isPending } = useListSubjects()
 
   if (isPending || !data) {
@@ -31,14 +29,8 @@ export const Content: React.FC = () => {
             </div>
           </div>
           <Checkbox
-            checked={selectedSubjectsIds.includes(id)}
-            onCheckedChange={(value) =>
-              setSelectedSubjectsIds((prev) =>
-                value
-                  ? [...prev, id]
-                  : prev.filter((itemId) => itemId !== id)
-              )
-            }
+            checked={isSelected(id)}
+            onCheckedChange={() => onCheckChange(id)}
           />
         </div>
       ))}

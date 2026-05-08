@@ -1,16 +1,27 @@
+import { useQueryClient } from '@tanstack/react-query'
 import React from 'react'
 
-import { PageLayout } from '@/components/layouts/page-layout'
+import {
+  listStudentGroupsQueryOptions,
+  useDeleteStudentGroup,
+} from '@/api/generated/core'
+import { PageLayoutList } from '@/components/layouts/page-layout-list'
 
-import { Content, Footer, Header } from './components'
-import { GroupsProvider } from './provider'
+import { Content, Header } from './components'
 
 export const Groups: React.FC = () => {
+  const queryClient = useQueryClient()
+  const { mutateAsync: deleteGroup } = useDeleteStudentGroup()
+
   return (
-    <GroupsProvider>
-      <PageLayout actions={<Header />} footer={<Footer />}>
-        <Content />
-      </PageLayout>
-    </GroupsProvider>
+    <PageLayoutList
+      actions={<Header />}
+      deleteHandler={(id) => deleteGroup({ params: { id } })}
+      onDeleteSuccess={() =>
+        queryClient.invalidateQueries(listStudentGroupsQueryOptions())
+      }
+    >
+      <Content />
+    </PageLayoutList>
   )
 }
