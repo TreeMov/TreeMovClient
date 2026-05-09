@@ -70,7 +70,7 @@ const Calendar: React.FC<CalendarProps> = (props) => {
           {getLabel()}
         </Button>
       </PopoverTrigger>
-      <PopoverContent align="end">
+      <PopoverContent align="end" className="z-150">
         <CalendarCard {...props} />
       </PopoverContent>
     </Popover>

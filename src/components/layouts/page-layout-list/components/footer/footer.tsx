@@ -1,11 +1,9 @@
-import { useQueryClient } from '@tanstack/react-query'
-import { VisuallyHidden } from 'radix-ui'
-import React from 'react'
+import type { FooterProps } from './types'
 
-import {
-  listStudentGroupsQueryOptions,
-  useDeleteStudentGroup,
-} from '@/api/generated/core'
+import { VisuallyHidden } from 'radix-ui'
+import React, { useTransition } from 'react'
+
+import { useGroupSelect } from '@/components/shared/group-select/hooks'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,34 +16,34 @@ import {
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
 
-import { useGroups } from '../../hooks'
+export const Footer: React.FC<FooterProps> = ({
+  deleteHandler,
+  onDeleteSuccess,
+}) => {
+  const { selectedIds, hasSelectedIds, onReset } = useGroupSelect()
 
-export const Footer: React.FC = () => {
-  const queryClient = useQueryClient()
-  const { selectedGroupsIds } = useGroups()
-  const { mutateAsync: deleteGroup } = useDeleteStudentGroup({
-    mutation: {
-      onSuccess: () =>
-        queryClient.invalidateQueries(
-          listStudentGroupsQueryOptions()
-        ),
-    },
-  })
+  const [isPending, startTransition] = useTransition()
 
-  const deleteSelectedGroups = () => {
-    for (const id of Object.values(selectedGroupsIds)) {
-      deleteGroup({ params: { id } })
-    }
+  const onDelete = () => {
+    startTransition(async () => {
+      try {
+        await Promise.all(selectedIds.map((id) => deleteHandler(id)))
+        onReset()
+        onDeleteSuccess()
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error)
+      }
+    })
   }
-
-  const hasSelected = Object.keys(selectedGroupsIds).length > 0
 
   return (
     <div className="flex justify-end">
       <AlertDialog>
         <AlertDialogTrigger asChild>
           <Button
-            disabled={!hasSelected}
+            isPending={isPending}
+            disabled={!hasSelectedIds}
             className="min-w-3xs"
             size="lg"
             variant="dark"
@@ -59,7 +57,7 @@ export const Footer: React.FC = () => {
             <AlertDialogTitle>Удалить выбранное?</AlertDialogTitle>
             <VisuallyHidden.Root>
               <AlertDialogDescription>
-                Удаление выбранных групп
+                Удаление выбранных элементов
               </AlertDialogDescription>
             </VisuallyHidden.Root>
           </AlertDialogHeader>
@@ -67,7 +65,7 @@ export const Footer: React.FC = () => {
             <AlertDialogAction
               size="lg"
               variant="dark"
-              onClick={deleteSelectedGroups}
+              onClick={onDelete}
             >
               Удалить
             </AlertDialogAction>

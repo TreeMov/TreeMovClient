@@ -2,23 +2,23 @@ import { useQueryClient } from '@tanstack/react-query'
 import React from 'react'
 
 import {
-  listSubjectsQueryOptions,
-  useDeleteSubject,
+  listStudentsQueryOptions,
+  useDeleteStudent,
 } from '@/api/generated/core'
 import { PageLayoutList } from '@/components/layouts/page-layout-list'
 
 import { Content, Header } from './components'
 
-export const Subjects: React.FC = () => {
+export const Students: React.FC = () => {
   const queryClient = useQueryClient()
-  const { mutateAsync: deleteSubject } = useDeleteSubject()
+  const { mutateAsync: deleteStudent } = useDeleteStudent()
 
   return (
     <PageLayoutList
       actions={<Header />}
-      deleteHandler={(id) => deleteSubject({ params: { id } })}
+      deleteHandler={(id) => deleteStudent({ params: { id } })}
       onDeleteSuccess={() =>
-        queryClient.invalidateQueries(listSubjectsQueryOptions())
+        queryClient.invalidateQueries(listStudentsQueryOptions())
       }
     >
       <Content />
