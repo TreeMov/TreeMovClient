@@ -1,5 +1,4 @@
-import type { SubmitHandler } from 'react-hook-form'
-import type { Schema } from '../group-form/types'
+import type { OnSubmit } from '../group-form/types'
 
 import { useQueryClient } from '@tanstack/react-query'
 import { Plus } from 'lucide-react'
@@ -9,6 +8,7 @@ import React, { useState } from 'react'
 import {
   listStudentGroupsQueryOptions,
   useCreateStudentGroup,
+  useCreateStudentGroupMember,
 } from '@/api/generated/core'
 import { Button } from '@/components/ui/button'
 import {
@@ -25,6 +25,9 @@ export const CreateDialog: React.FC = () => {
 
   const [open, setOpen] = useState(false)
 
+  const { mutateAsync: addStudentToGroup } =
+    useCreateStudentGroupMember()
+
   const { mutateAsync: create } = useCreateStudentGroup({
     mutation: {
       onSuccess: () =>
@@ -34,8 +37,18 @@ export const CreateDialog: React.FC = () => {
     },
   })
 
-  const onSubmit: SubmitHandler<Schema> = async (data) => {
-    await create({ data })
+  const onSubmit: OnSubmit = async ({
+    selectedStudentsIds,
+    ...data
+  }) => {
+    const { id } = await create({ data })
+    await Promise.all(
+      selectedStudentsIds.map((studentId) =>
+        addStudentToGroup({
+          data: { student_group_id: id, student_id: +studentId },
+        })
+      )
+    )
     setOpen(false)
   }
 
