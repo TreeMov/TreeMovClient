@@ -4,6 +4,8 @@ import { useListSubjects } from '@/api/generated/core'
 import { useGroupSelect } from '@/components/shared/group-select/hooks'
 import { Checkbox } from '@/components/ui/checkbox'
 
+import { SubjectColor } from './components'
+
 export const Content: React.FC = () => {
   const { isSelected, onCheckChange } = useGroupSelect()
   const { data, isPending } = useListSubjects()
@@ -20,10 +22,7 @@ export const Content: React.FC = () => {
           className="flex items-start gap-3 rounded-xl bg-white p-2.5"
         >
           <div className="flex grow items-center gap-3">
-            <div
-              className="size-11 rounded-full"
-              style={{ backgroundColor: color }}
-            />
+            <SubjectColor id={id} color={color} />
             <div className="border-grey-200 grow rounded-xl border p-2.5 text-sm font-bold">
               {title}
             </div>
