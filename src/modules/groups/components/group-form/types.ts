@@ -4,6 +4,10 @@ import type { schema } from './schema'
 
 export type Schema = z.infer<typeof schema>
 
+export type OnSubmit = SubmitHandler<
+  Schema & { selectedStudentsIds: string[] }
+>
+
 export type GroupFormProps = {
-  onSubmit: SubmitHandler<Schema>
+  onSubmit: OnSubmit
 }
