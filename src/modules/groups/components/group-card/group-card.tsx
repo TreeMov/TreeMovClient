@@ -12,7 +12,6 @@ export const GroupCard: React.FC<StudentGroupModelRead> = ({
   title,
 }) => {
   const { isSelected, onCheckChange } = useGroupSelect()
-
   const isSelect = isSelected(id)
 
   return (

@@ -1,3 +1,5 @@
+import { Students } from '@/modules/students'
+
 export const Component = () => {
-  return <div>students</div>
+  return <Students />
 }
