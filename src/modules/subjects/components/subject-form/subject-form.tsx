@@ -73,7 +73,7 @@ export const SubjectForm: React.FC<GroupFormProps> = ({
                       <ColorPickerHue />
                       <ColorPickerAlpha />
                       <div className="flex items-center gap-2">
-                        <ColorPickerEyeDropper />s
+                        <ColorPickerEyeDropper />
                         <ColorPickerOutput />
                         <ColorPickerFormat />
                       </div>
