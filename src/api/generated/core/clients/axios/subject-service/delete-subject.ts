@@ -17,21 +17,24 @@ import type {
 } from '@/api/clients/core-client'
 import type {
   DeleteSubjectMutationResponse,
-  DeleteSubjectQueryParams,
+  DeleteSubjectPathParams,
   DeleteSubject422,
 } from '../../../types/subject-controller/delete-subject.ts'
 
-function getDeleteSubjectUrl() {
-  const res = { method: 'DELETE', url: `/api/v1/subjects` as const }
+function getDeleteSubjectUrl(id: DeleteSubjectPathParams['id']) {
+  const res = {
+    method: 'DELETE',
+    url: `/api/v1/subjects/${id}` as const,
+  }
   return res
 }
 
 /**
  * @summary  Delete
- * {@link /api/v1/subjects}
+ * {@link /api/v1/subjects/:id}
  */
 export async function deleteSubject(
-  params: DeleteSubjectQueryParams,
+  id: DeleteSubjectPathParams['id'],
   config: Partial<RequestConfig> & { client?: Client } = {}
 ) {
   const { client: request = fetch, ...requestConfig } = config
@@ -42,8 +45,7 @@ export async function deleteSubject(
     unknown
   >({
     method: 'DELETE',
-    url: getDeleteSubjectUrl().url.toString(),
-    params,
+    url: getDeleteSubjectUrl(id).url.toString(),
     ...requestConfig,
   })
   return res.data

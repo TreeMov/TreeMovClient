@@ -96,7 +96,7 @@
     }
   },
   "type": "object",
-  "required": ["id"],
+  "required": ["id", "org_member"],
   "title": "EmployeeModelRead",
   "x-readme-ref-name": "EmployeeModelRead"
 }

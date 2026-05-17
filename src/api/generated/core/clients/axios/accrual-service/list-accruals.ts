@@ -17,7 +17,6 @@ import type {
 } from '@/api/clients/core-client'
 import type {
   ListAccrualsQueryResponse,
-  ListAccrualsQueryParams,
   ListAccruals422,
 } from '../../../types/accrual-controller/list-accruals.ts'
 
@@ -31,7 +30,6 @@ function getListAccrualsUrl() {
  * {@link /api/v1/accruals}
  */
 export async function listAccruals(
-  params?: ListAccrualsQueryParams,
   config: Partial<RequestConfig> & { client?: Client } = {}
 ) {
   const { client: request = fetch, ...requestConfig } = config
@@ -43,7 +41,6 @@ export async function listAccruals(
   >({
     method: 'GET',
     url: getListAccrualsUrl().url.toString(),
-    params,
     ...requestConfig,
   })
   return res.data

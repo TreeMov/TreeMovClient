@@ -18,4 +18,5 @@ export type StudentModelUpdate = {
   progress?: (number | string | null) | undefined
   birthday?: (string | null) | undefined
   score?: (number | null) | undefined
+  org_member_id?: (number | null) | undefined
 }

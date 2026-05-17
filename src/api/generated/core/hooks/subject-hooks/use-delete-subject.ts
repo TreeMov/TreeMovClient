@@ -21,14 +21,14 @@ import type {
 } from '@tanstack/react-query'
 import type {
   DeleteSubjectMutationResponse,
-  DeleteSubjectQueryParams,
+  DeleteSubjectPathParams,
   DeleteSubject422,
 } from '../../types/subject-controller/delete-subject.ts'
 import { mutationOptions, useMutation } from '@tanstack/react-query'
 import { deleteSubject } from '../../clients/axios/subject-service/delete-subject.ts'
 
 export const deleteSubjectMutationKey = () =>
-  [{ url: '/api/v1/subjects' }] as const
+  [{ url: '/api/v1/subjects/:id' }] as const
 
 export type DeleteSubjectMutationKey = ReturnType<
   typeof deleteSubjectMutationKey
@@ -41,26 +41,26 @@ export function deleteSubjectMutationOptions<TContext = unknown>(
   return mutationOptions<
     DeleteSubjectMutationResponse,
     ResponseErrorConfig<DeleteSubject422>,
-    { params: DeleteSubjectQueryParams },
+    { id: DeleteSubjectPathParams['id'] },
     TContext
   >({
     mutationKey,
-    mutationFn: async ({ params }) => {
-      return deleteSubject(params, config)
+    mutationFn: async ({ id }) => {
+      return deleteSubject(id, config)
     },
   })
 }
 
 /**
  * @summary  Delete
- * {@link /api/v1/subjects}
+ * {@link /api/v1/subjects/:id}
  */
 export function useDeleteSubject<TContext>(
   options: {
     mutation?: UseMutationOptions<
       DeleteSubjectMutationResponse,
       ResponseErrorConfig<DeleteSubject422>,
-      { params: DeleteSubjectQueryParams },
+      { id: DeleteSubjectPathParams['id'] },
       TContext
     > & { client?: QueryClient }
     client?: Partial<RequestConfig> & { client?: Client }
@@ -76,14 +76,14 @@ export function useDeleteSubject<TContext>(
   ) as UseMutationOptions<
     DeleteSubjectMutationResponse,
     ResponseErrorConfig<DeleteSubject422>,
-    { params: DeleteSubjectQueryParams },
+    { id: DeleteSubjectPathParams['id'] },
     TContext
   >
 
   return useMutation<
     DeleteSubjectMutationResponse,
     ResponseErrorConfig<DeleteSubject422>,
-    { params: DeleteSubjectQueryParams },
+    { id: DeleteSubjectPathParams['id'] },
     TContext
   >(
     {
@@ -95,7 +95,7 @@ export function useDeleteSubject<TContext>(
   ) as UseMutationResult<
     DeleteSubjectMutationResponse,
     ResponseErrorConfig<DeleteSubject422>,
-    { params: DeleteSubjectQueryParams },
+    { id: DeleteSubjectPathParams['id'] },
     TContext
   >
 }

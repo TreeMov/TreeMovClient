@@ -11,7 +11,7 @@
 
 import type { HTTPValidationError } from '../httpvalidation-error.ts'
 
-export type DeleteStudentQueryParams = {
+export type DeleteStudentPathParams = {
   /**
    * @type integer
    */
@@ -33,6 +33,6 @@ export type DeleteStudentMutationResponse = DeleteStudent204
 
 export type DeleteStudentMutation = {
   Response: DeleteStudent204
-  QueryParams: DeleteStudentQueryParams
+  PathParams: DeleteStudentPathParams
   Errors: DeleteStudent422
 }

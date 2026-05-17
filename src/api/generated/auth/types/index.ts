@@ -14,6 +14,11 @@ export type {
   LogoutApiV1AuthLogoutPostMutationResponse,
 } from './auth-controller/logout-api-v1-auth-logout-post.ts'
 export type {
+  PublicKeyApiV1AuthPublicKeyGet200,
+  PublicKeyApiV1AuthPublicKeyGetQuery,
+  PublicKeyApiV1AuthPublicKeyGetQueryResponse,
+} from './auth-controller/public-key-api-v1-auth-public-key-get.ts'
+export type {
   RefreshApiV1AuthRefreshPost201,
   RefreshApiV1AuthRefreshPost422,
   RefreshApiV1AuthRefreshPostMutation,

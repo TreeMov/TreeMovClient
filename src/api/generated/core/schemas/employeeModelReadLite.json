@@ -1,0 +1,32 @@
+{
+  "properties": {
+    "id": { "type": "integer", "title": "Id" },
+    "name": {
+      "anyOf": [{ "type": "string" }, { "type": "null" }],
+      "title": "Name"
+    },
+    "surname": {
+      "anyOf": [{ "type": "string" }, { "type": "null" }],
+      "title": "Surname"
+    },
+    "patronymic": {
+      "anyOf": [{ "type": "string" }, { "type": "null" }],
+      "title": "Patronymic"
+    },
+    "email": {
+      "anyOf": [
+        { "type": "string", "format": "email" },
+        { "type": "null" }
+      ],
+      "title": "Email"
+    },
+    "org_member_id": {
+      "anyOf": [{ "type": "integer" }, { "type": "null" }],
+      "title": "Org Member Id"
+    }
+  },
+  "type": "object",
+  "required": ["id"],
+  "title": "EmployeeModelReadLite",
+  "x-readme-ref-name": "EmployeeModelReadLite"
+}

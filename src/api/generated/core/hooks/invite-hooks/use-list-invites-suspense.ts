@@ -22,26 +22,22 @@ import type {
 } from '@tanstack/react-query'
 import type {
   ListInvitesQueryResponse,
-  ListInvitesQueryParams,
   ListInvites422,
 } from '../../types/invite-controller/list-invites.ts'
 import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
 import { listInvites } from '../../clients/axios/invite-service/list-invites.ts'
 
-export const listInvitesSuspenseQueryKey = (
-  params: ListInvitesQueryParams = {}
-) =>
-  [{ url: '/api/v1/invites' }, ...(params ? [params] : [])] as const
+export const listInvitesSuspenseQueryKey = () =>
+  [{ url: '/api/v1/invites' }] as const
 
 export type ListInvitesSuspenseQueryKey = ReturnType<
   typeof listInvitesSuspenseQueryKey
 >
 
 export function listInvitesSuspenseQueryOptions(
-  params?: ListInvitesQueryParams,
   config: Partial<RequestConfig> & { client?: Client } = {}
 ) {
-  const queryKey = listInvitesSuspenseQueryKey(params)
+  const queryKey = listInvitesSuspenseQueryKey()
   return queryOptions<
     ListInvitesQueryResponse,
     ResponseErrorConfig<ListInvites422>,
@@ -50,7 +46,7 @@ export function listInvitesSuspenseQueryOptions(
   >({
     queryKey,
     queryFn: async ({ signal }) => {
-      return listInvites(params, {
+      return listInvites({
         ...config,
         signal: config.signal ?? signal,
       })
@@ -66,7 +62,6 @@ export function useListInvitesSuspense<
   TData = ListInvitesQueryResponse,
   TQueryKey extends QueryKey = ListInvitesSuspenseQueryKey,
 >(
-  params?: ListInvitesQueryParams,
   options: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -83,11 +78,11 @@ export function useListInvitesSuspense<
     options ?? {}
   const { client: queryClient, ...queryOptions } = queryConfig
   const queryKey =
-    queryOptions?.queryKey ?? listInvitesSuspenseQueryKey(params)
+    queryOptions?.queryKey ?? listInvitesSuspenseQueryKey()
 
   const query = useSuspenseQuery(
     {
-      ...listInvitesSuspenseQueryOptions(params, config),
+      ...listInvitesSuspenseQueryOptions(config),
       queryKey,
       ...queryOptions,
     } as unknown as UseSuspenseQueryOptions,

@@ -12,17 +12,6 @@
 import type { HTTPValidationError } from '../httpvalidation-error.ts'
 import type { SubjectModelRead } from '../subject-model-read.ts'
 
-export type ListSubjectsQueryParams = {
-  /**
-   * @default 0
-   */
-  offset?: (number | null) | undefined
-  /**
-   * @default 1000
-   */
-  limit?: (number | null) | undefined
-}
-
 /**
  * Response List Subjects
  * @description Successful Response
@@ -39,6 +28,5 @@ export type ListSubjectsQueryResponse = ListSubjects200
 
 export type ListSubjectsQuery = {
   Response: ListSubjects200
-  QueryParams: ListSubjectsQueryParams
   Errors: ListSubjects422
 }

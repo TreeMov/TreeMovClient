@@ -22,29 +22,22 @@ import type {
 } from '@tanstack/react-query'
 import type {
   ListPeriodLessonsQueryResponse,
-  ListPeriodLessonsQueryParams,
   ListPeriodLessons422,
 } from '../../types/lesson-controller/list-period-lessons.ts'
 import { queryOptions, useQuery } from '@tanstack/react-query'
 import { listPeriodLessons } from '../../clients/axios/lesson-service/list-period-lessons.ts'
 
-export const listPeriodLessonsQueryKey = (
-  params: ListPeriodLessonsQueryParams = {}
-) =>
-  [
-    { url: '/api/v1/lessons/period' },
-    ...(params ? [params] : []),
-  ] as const
+export const listPeriodLessonsQueryKey = () =>
+  [{ url: '/api/v1/lessons/period' }] as const
 
 export type ListPeriodLessonsQueryKey = ReturnType<
   typeof listPeriodLessonsQueryKey
 >
 
 export function listPeriodLessonsQueryOptions(
-  params?: ListPeriodLessonsQueryParams,
   config: Partial<RequestConfig> & { client?: Client } = {}
 ) {
-  const queryKey = listPeriodLessonsQueryKey(params)
+  const queryKey = listPeriodLessonsQueryKey()
   return queryOptions<
     ListPeriodLessonsQueryResponse,
     ResponseErrorConfig<ListPeriodLessons422>,
@@ -53,7 +46,7 @@ export function listPeriodLessonsQueryOptions(
   >({
     queryKey,
     queryFn: async ({ signal }) => {
-      return listPeriodLessons(params, {
+      return listPeriodLessons({
         ...config,
         signal: config.signal ?? signal,
       })
@@ -70,7 +63,6 @@ export function useListPeriodLessons<
   TQueryData = ListPeriodLessonsQueryResponse,
   TQueryKey extends QueryKey = ListPeriodLessonsQueryKey,
 >(
-  params?: ListPeriodLessonsQueryParams,
   options: {
     query?: Partial<
       QueryObserverOptions<
@@ -88,11 +80,11 @@ export function useListPeriodLessons<
     options ?? {}
   const { client: queryClient, ...queryOptions } = queryConfig
   const queryKey =
-    queryOptions?.queryKey ?? listPeriodLessonsQueryKey(params)
+    queryOptions?.queryKey ?? listPeriodLessonsQueryKey()
 
   const query = useQuery(
     {
-      ...listPeriodLessonsQueryOptions(params, config),
+      ...listPeriodLessonsQueryOptions(config),
       queryKey,
       ...queryOptions,
     } as unknown as QueryObserverOptions,

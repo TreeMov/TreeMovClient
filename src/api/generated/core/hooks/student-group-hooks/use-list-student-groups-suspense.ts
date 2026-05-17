@@ -22,29 +22,22 @@ import type {
 } from '@tanstack/react-query'
 import type {
   ListStudentGroupsQueryResponse,
-  ListStudentGroupsQueryParams,
   ListStudentGroups422,
 } from '../../types/student-group-controller/list-student-groups.ts'
 import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
 import { listStudentGroups } from '../../clients/axios/student-group-service/list-student-groups.ts'
 
-export const listStudentGroupsSuspenseQueryKey = (
-  params: ListStudentGroupsQueryParams = {}
-) =>
-  [
-    { url: '/api/v1/student-groups' },
-    ...(params ? [params] : []),
-  ] as const
+export const listStudentGroupsSuspenseQueryKey = () =>
+  [{ url: '/api/v1/student-groups' }] as const
 
 export type ListStudentGroupsSuspenseQueryKey = ReturnType<
   typeof listStudentGroupsSuspenseQueryKey
 >
 
 export function listStudentGroupsSuspenseQueryOptions(
-  params?: ListStudentGroupsQueryParams,
   config: Partial<RequestConfig> & { client?: Client } = {}
 ) {
-  const queryKey = listStudentGroupsSuspenseQueryKey(params)
+  const queryKey = listStudentGroupsSuspenseQueryKey()
   return queryOptions<
     ListStudentGroupsQueryResponse,
     ResponseErrorConfig<ListStudentGroups422>,
@@ -53,7 +46,7 @@ export function listStudentGroupsSuspenseQueryOptions(
   >({
     queryKey,
     queryFn: async ({ signal }) => {
-      return listStudentGroups(params, {
+      return listStudentGroups({
         ...config,
         signal: config.signal ?? signal,
       })
@@ -69,7 +62,6 @@ export function useListStudentGroupsSuspense<
   TData = ListStudentGroupsQueryResponse,
   TQueryKey extends QueryKey = ListStudentGroupsSuspenseQueryKey,
 >(
-  params?: ListStudentGroupsQueryParams,
   options: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -86,12 +78,11 @@ export function useListStudentGroupsSuspense<
     options ?? {}
   const { client: queryClient, ...queryOptions } = queryConfig
   const queryKey =
-    queryOptions?.queryKey ??
-    listStudentGroupsSuspenseQueryKey(params)
+    queryOptions?.queryKey ?? listStudentGroupsSuspenseQueryKey()
 
   const query = useSuspenseQuery(
     {
-      ...listStudentGroupsSuspenseQueryOptions(params, config),
+      ...listStudentGroupsSuspenseQueryOptions(config),
       queryKey,
       ...queryOptions,
     } as unknown as UseSuspenseQueryOptions,

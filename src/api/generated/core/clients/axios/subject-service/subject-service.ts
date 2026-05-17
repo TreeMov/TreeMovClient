@@ -19,8 +19,8 @@ export function subjectService() {
   return {
     listSubjects,
     createSubject,
-    deleteSubject,
     getSubject,
     updateSubject,
+    deleteSubject,
   }
 }

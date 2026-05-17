@@ -17,4 +17,5 @@ export type StudentGroupModelCreate = {
    * @type string
    */
   title: string
+  student_ids?: (number[] | null) | undefined
 }

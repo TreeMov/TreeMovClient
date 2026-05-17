@@ -19,8 +19,8 @@ export function studentGroupMemberService() {
   return {
     listStudentGroupMembers,
     createStudentGroupMember,
-    deleteStudentGroupMember,
     getStudentGroupMember,
     updateStudentGroupMember,
+    deleteStudentGroupMember,
   }
 }

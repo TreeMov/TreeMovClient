@@ -10,7 +10,7 @@ export type {
   DeleteAccrual422,
   DeleteAccrualMutation,
   DeleteAccrualMutationResponse,
-  DeleteAccrualQueryParams,
+  DeleteAccrualPathParams,
 } from './accrual-controller/delete-accrual.ts'
 export type {
   GetAccrual200,
@@ -23,7 +23,6 @@ export type {
   ListAccruals200,
   ListAccruals422,
   ListAccrualsQuery,
-  ListAccrualsQueryParams,
   ListAccrualsQueryResponse,
 } from './accrual-controller/list-accruals.ts'
 export type {
@@ -60,7 +59,7 @@ export type {
   DeleteAttendance422,
   DeleteAttendanceMutation,
   DeleteAttendanceMutationResponse,
-  DeleteAttendanceQueryParams,
+  DeleteAttendancePathParams,
 } from './attendance-controller/delete-attendance.ts'
 export type {
   GetAttendance200,
@@ -69,6 +68,20 @@ export type {
   GetAttendanceQuery,
   GetAttendanceQueryResponse,
 } from './attendance-controller/get-attendance.ts'
+export type {
+  GetMyAttendance200,
+  GetMyAttendance422,
+  GetMyAttendanceQuery,
+  GetMyAttendanceQueryParams,
+  GetMyAttendanceQueryResponse,
+} from './attendance-controller/get-my-attendance.ts'
+export type {
+  ListAttendancesV2200,
+  ListAttendancesV2422,
+  ListAttendancesV2Query,
+  ListAttendancesV2QueryParams,
+  ListAttendancesV2QueryResponse,
+} from './attendance-controller/list-attendances-v2.ts'
 export type {
   ListAttendances200,
   ListAttendances422,
@@ -99,7 +112,7 @@ export type {
   DeleteClassroom422,
   DeleteClassroomMutation,
   DeleteClassroomMutationResponse,
-  DeleteClassroomQueryParams,
+  DeleteClassroomPathParams,
 } from './classroom-controller/delete-classroom.ts'
 export type {
   GetClassroom200,
@@ -112,7 +125,6 @@ export type {
   ListClassrooms200,
   ListClassrooms422,
   ListClassroomsQuery,
-  ListClassroomsQueryParams,
   ListClassroomsQueryResponse,
 } from './classroom-controller/list-classrooms.ts'
 export type {
@@ -126,6 +138,21 @@ export type {
 export type { ClassroomModelCreate } from './classroom-model-create.ts'
 export type { ClassroomModelRead } from './classroom-model-read.ts'
 export type { ClassroomModelUpdate } from './classroom-model-update.ts'
+export type { ClassroomPaginationList } from './classroom-pagination-list.ts'
+export type {
+  ListClassroomV2200,
+  ListClassroomV2422,
+  ListClassroomV2Query,
+  ListClassroomV2QueryParams,
+  ListClassroomV2QueryResponse,
+} from './classroom-v2-controller/list-classroom-v2.ts'
+export type {
+  SoftDeleteClassroom204,
+  SoftDeleteClassroom422,
+  SoftDeleteClassroomMutation,
+  SoftDeleteClassroomMutationResponse,
+  SoftDeleteClassroomPathParams,
+} from './classroom-v2-controller/soft-delete-classroom.ts'
 export type {
   CreateEmployee201,
   CreateEmployee422,
@@ -138,7 +165,7 @@ export type {
   DeleteEmployee422,
   DeleteEmployeeMutation,
   DeleteEmployeeMutationResponse,
-  DeleteEmployeeQueryParams,
+  DeleteEmployeePathParams,
 } from './employee-controller/delete-employee.ts'
 export type {
   GetEmployee200,
@@ -151,7 +178,6 @@ export type {
   ListEmployees200,
   ListEmployees422,
   ListEmployeesQuery,
-  ListEmployeesQueryParams,
   ListEmployeesQueryResponse,
 } from './employee-controller/list-employees.ts'
 export type {
@@ -163,8 +189,24 @@ export type {
   UpdateEmployeePathParams,
 } from './employee-controller/update-employee.ts'
 export type { EmployeeModelCreate } from './employee-model-create.ts'
+export type { EmployeeModelReadLite } from './employee-model-read-lite.ts'
 export type { EmployeeModelRead } from './employee-model-read.ts'
 export type { EmployeeModelUpdate } from './employee-model-update.ts'
+export type { EmployeePaginationList } from './employee-pagination-list.ts'
+export type {
+  ListEmployeeV2200,
+  ListEmployeeV2422,
+  ListEmployeeV2Query,
+  ListEmployeeV2QueryParams,
+  ListEmployeeV2QueryResponse,
+} from './employee-v2-controller/list-employee-v2.ts'
+export type {
+  SoftDeleteEmployee200,
+  SoftDeleteEmployee422,
+  SoftDeleteEmployeeMutation,
+  SoftDeleteEmployeeMutationResponse,
+  SoftDeleteEmployeePathParams,
+} from './employee-v2-controller/soft-delete-employee.ts'
 export type { HTTPValidationError } from './httpvalidation-error.ts'
 export type {
   AcceptInvite200,
@@ -198,7 +240,6 @@ export type {
   ListInvites200,
   ListInvites422,
   ListInvitesQuery,
-  ListInvitesQueryParams,
   ListInvitesQueryResponse,
 } from './invite-controller/list-invites.ts'
 export type { InviteModelCreate } from './invite-model-create.ts'
@@ -215,13 +256,6 @@ export type {
   CreateLessonMutationResponse,
 } from './lesson-controller/create-lesson.ts'
 export type {
-  CreatePeriodLessonsV2201,
-  CreatePeriodLessonsV2422,
-  CreatePeriodLessonsV2Mutation,
-  CreatePeriodLessonsV2MutationRequest,
-  CreatePeriodLessonsV2MutationResponse,
-} from './lesson-controller/create-period-lessons-v2.ts'
-export type {
   CreatePeriodLessons201,
   CreatePeriodLessons422,
   CreatePeriodLessonsMutation,
@@ -233,8 +267,15 @@ export type {
   DeleteLesson422,
   DeleteLessonMutation,
   DeleteLessonMutationResponse,
-  DeleteLessonQueryParams,
+  DeleteLessonPathParams,
 } from './lesson-controller/delete-lesson.ts'
+export type {
+  DeletePeriodLesson204,
+  DeletePeriodLesson422,
+  DeletePeriodLessonMutation,
+  DeletePeriodLessonMutationResponse,
+  DeletePeriodLessonPathParams,
+} from './lesson-controller/delete-period-lesson.ts'
 export type {
   GetLesson200,
   GetLesson422,
@@ -242,14 +283,6 @@ export type {
   GetLessonQuery,
   GetLessonQueryResponse,
 } from './lesson-controller/get-lesson.ts'
-export type {
-  GetPeriodLessonsV2200,
-  GetPeriodLessonsV2422,
-  GetPeriodLessonsV2Mutation,
-  GetPeriodLessonsV2MutationResponse,
-  GetPeriodLessonsV2PathParams,
-  GetPeriodLessonsV2QueryParams,
-} from './lesson-controller/get-period-lessons-v2.ts'
 export type {
   GetPeriodLessons200,
   GetPeriodLessons422,
@@ -276,7 +309,6 @@ export type {
   ListPeriodLessons200,
   ListPeriodLessons422,
   ListPeriodLessonsQuery,
-  ListPeriodLessonsQueryParams,
   ListPeriodLessonsQueryResponse,
 } from './lesson-controller/list-period-lessons.ts'
 export type {
@@ -287,9 +319,75 @@ export type {
   UpadateLessonMutationResponse,
   UpadateLessonPathParams,
 } from './lesson-controller/upadate-lesson.ts'
+export type {
+  UpadatePeriodLesson200,
+  UpadatePeriodLesson422,
+  UpadatePeriodLessonMutation,
+  UpadatePeriodLessonMutationRequest,
+  UpadatePeriodLessonMutationResponse,
+  UpadatePeriodLessonPathParams,
+} from './lesson-controller/upadate-period-lesson.ts'
 export type { LessonModelCreate } from './lesson-model-create.ts'
 export type { LessonModelRead } from './lesson-model-read.ts'
 export type { LessonModelUpdate } from './lesson-model-update.ts'
+export type {
+  CreateLessonV2200,
+  CreateLessonV2422,
+  CreateLessonV2Mutation,
+  CreateLessonV2MutationRequest,
+  CreateLessonV2MutationResponse,
+} from './lesson-v2-controller/create-lesson-v2.ts'
+export type {
+  CreatePeriodLessonsV2201,
+  CreatePeriodLessonsV2422,
+  CreatePeriodLessonsV2Mutation,
+  CreatePeriodLessonsV2MutationRequest,
+  CreatePeriodLessonsV2MutationResponse,
+} from './lesson-v2-controller/create-period-lessons-v2.ts'
+export type {
+  GetLessonV2200,
+  GetLessonV2422,
+  GetLessonV2Mutation,
+  GetLessonV2MutationResponse,
+  GetLessonV2PathParams,
+} from './lesson-v2-controller/get-lesson-v2.ts'
+export type {
+  GetPeriodLessonsV2200,
+  GetPeriodLessonsV2422,
+  GetPeriodLessonsV2Mutation,
+  GetPeriodLessonsV2MutationResponse,
+  GetPeriodLessonsV2PathParams,
+  GetPeriodLessonsV2QueryParams,
+} from './lesson-v2-controller/get-period-lessons-v2.ts'
+export type {
+  ListLessonsV2200,
+  ListLessonsV2422,
+  ListLessonsV2Query,
+  ListLessonsV2QueryParams,
+  ListLessonsV2QueryResponse,
+} from './lesson-v2-controller/list-lessons-v2.ts'
+export type {
+  ListPeriodLessonsV2200,
+  ListPeriodLessonsV2422,
+  ListPeriodLessonsV2Query,
+  ListPeriodLessonsV2QueryParams,
+  ListPeriodLessonsV2QueryResponse,
+} from './lesson-v2-controller/list-period-lessons-v2.ts'
+export type {
+  SoftDeleteLesson200,
+  SoftDeleteLesson422,
+  SoftDeleteLessonMutation,
+  SoftDeleteLessonMutationResponse,
+  SoftDeleteLessonPathParams,
+} from './lesson-v2-controller/soft-delete-lesson.ts'
+export type {
+  UpdatePeriodLessonsV2200,
+  UpdatePeriodLessonsV2422,
+  UpdatePeriodLessonsV2Mutation,
+  UpdatePeriodLessonsV2MutationRequest,
+  UpdatePeriodLessonsV2MutationResponse,
+  UpdatePeriodLessonsV2PathParams,
+} from './lesson-v2-controller/update-period-lessons-v2.ts'
 export type { OrderdOrganizationMemberRead } from './orderd-organization-member-read.ts'
 export type {
   OrganizationInit201,
@@ -298,11 +396,6 @@ export type {
   OrganizationInitMutationRequest,
   OrganizationInitMutationResponse,
 } from './organization-controller/organization-init.ts'
-export type {
-  OrganizationMeV2200,
-  OrganizationMeV2Query,
-  OrganizationMeV2QueryResponse,
-} from './organization-controller/organization-me-v2.ts'
 export type {
   OrganizationMe200,
   OrganizationMeQuery,
@@ -316,23 +409,27 @@ export type {
   OrganizationMembersQueryResponse,
 } from './organization-controller/organization-members.ts'
 export type { OrganizationCreate } from './organization-create.ts'
+export type { OrganizationMemberPaginationList } from './organization-member-pagination-list.ts'
 export type { OrganizationMemberRead } from './organization-member-read.ts'
 export type { OrganizationMemberShortRead } from './organization-member-short-read.ts'
 export type { OrganizationRead } from './organization-read.ts'
+export type {
+  OrganizationMeV2200,
+  OrganizationMeV2Query,
+  OrganizationMeV2QueryResponse,
+} from './organization-v2-controller/organization-me-v2.ts'
+export type { PaginationMeta } from './pagination-meta.ts'
 export type { PeriodLessonModelCreateV2 } from './period-lesson-model-create-v2.ts'
 export type { PeriodLessonModelCreate } from './period-lesson-model-create.ts'
 export type { PeriodLessonModelReadV2 } from './period-lesson-model-read-v2.ts'
 export type { PeriodLessonModelRead } from './period-lesson-model-read.ts'
+export type { PeriodLessonModelUpdate } from './period-lesson-model-update.ts'
+export type { PeriodLessonPaginationList } from './period-lesson-pagination-list.ts'
 export type {
   GetMyProfilesApiV1ProfilesMeGet200,
   GetMyProfilesApiV1ProfilesMeGetQuery,
   GetMyProfilesApiV1ProfilesMeGetQueryResponse,
 } from './profile-controller/get-my-profiles-api-v1-profiles-me-get.ts'
-export type {
-  GetProfilesApiV1ProfilesGet200,
-  GetProfilesApiV1ProfilesGetQuery,
-  GetProfilesApiV1ProfilesGetQueryResponse,
-} from './profile-controller/get-profiles-api-v1-profiles-get.ts'
 export type {
   UpdateProfileApiV1ProfilesPatch200,
   UpdateProfileApiV1ProfilesPatch422,
@@ -342,11 +439,12 @@ export type {
 } from './profile-controller/update-profile-api-v1-profiles-patch.ts'
 export type { ProfileRead } from './profile-read.ts'
 export type { ProfileRoleRead } from './profile-role-read.ts'
-export type {
-  ProfileRole,
-  ProfileRoleEnumKey,
-} from './profile-role.ts'
 export type { ProfileUpdate } from './profile-update.ts'
+export type {
+  PublicKeyApiV1PublicKeyGet200,
+  PublicKeyApiV1PublicKeyGetQuery,
+  PublicKeyApiV1PublicKeyGetQueryResponse,
+} from './public-key-api-v1-public-key-get.ts'
 export type {
   AddOrgMemeberToStudent201,
   AddOrgMemeberToStudent422,
@@ -366,15 +464,15 @@ export type {
   DeleteStudent422,
   DeleteStudentMutation,
   DeleteStudentMutationResponse,
-  DeleteStudentQueryParams,
+  DeleteStudentPathParams,
 } from './student-controller/delete-student.ts'
 export type {
-  GetApiV1StudentsId200,
-  GetApiV1StudentsId422,
-  GetApiV1StudentsIdPathParams,
-  GetApiV1StudentsIdQuery,
-  GetApiV1StudentsIdQueryResponse,
-} from './student-controller/get-api-v1-students-id.ts'
+  GetStudent200,
+  GetStudent422,
+  GetStudentPathParams,
+  GetStudentQuery,
+  GetStudentQueryResponse,
+} from './student-controller/get-student.ts'
 export type {
   ListStudents200,
   ListStudents422,
@@ -383,13 +481,13 @@ export type {
   ListStudentsQueryResponse,
 } from './student-controller/list-students.ts'
 export type {
-  PatchApiV1StudentsId200,
-  PatchApiV1StudentsId422,
-  PatchApiV1StudentsIdMutation,
-  PatchApiV1StudentsIdMutationRequest,
-  PatchApiV1StudentsIdMutationResponse,
-  PatchApiV1StudentsIdPathParams,
-} from './student-controller/patch-api-v1-students-id.ts'
+  UpdateStudent200,
+  UpdateStudent422,
+  UpdateStudentMutation,
+  UpdateStudentMutationRequest,
+  UpdateStudentMutationResponse,
+  UpdateStudentPathParams,
+} from './student-controller/update-student.ts'
 export type {
   CreateStudentGroup201,
   CreateStudentGroup422,
@@ -402,8 +500,15 @@ export type {
   DeleteStudentGroup422,
   DeleteStudentGroupMutation,
   DeleteStudentGroupMutationResponse,
-  DeleteStudentGroupQueryParams,
+  DeleteStudentGroupPathParams,
 } from './student-group-controller/delete-student-group.ts'
+export type {
+  GetGroupListApiV1StudentGroupsIdStudentsGet200,
+  GetGroupListApiV1StudentGroupsIdStudentsGet422,
+  GetGroupListApiV1StudentGroupsIdStudentsGetPathParams,
+  GetGroupListApiV1StudentGroupsIdStudentsGetQuery,
+  GetGroupListApiV1StudentGroupsIdStudentsGetQueryResponse,
+} from './student-group-controller/get-group-list-api-v1-student-groups-id-students-get.ts'
 export type {
   GetStudentGroup200,
   GetStudentGroup422,
@@ -415,7 +520,6 @@ export type {
   ListStudentGroups200,
   ListStudentGroups422,
   ListStudentGroupsQuery,
-  ListStudentGroupsQueryParams,
   ListStudentGroupsQueryResponse,
 } from './student-group-controller/list-student-groups.ts'
 export type {
@@ -438,7 +542,7 @@ export type {
   DeleteStudentGroupMember422,
   DeleteStudentGroupMemberMutation,
   DeleteStudentGroupMemberMutationResponse,
-  DeleteStudentGroupMemberQueryParams,
+  DeleteStudentGroupMemberPathParams,
 } from './student-group-member-controller/delete-student-group-member.ts'
 export type {
   GetStudentGroupMember200,
@@ -466,12 +570,59 @@ export type { StudentGroupMemberModelCreate } from './student-group-member-model
 export type { StudentGroupMemberModelRead } from './student-group-member-model-read.ts'
 export type { StudentGroupMemberModelUpdate } from './student-group-member-model-update.ts'
 export type { StudentGroupModelCreate } from './student-group-model-create.ts'
-export type { StudentGroupModelRead } from './student-group-model-read.ts'
+export type { StudentGroupModelReadFull } from './student-group-model-read-full.ts'
+export type { StudentGroupModelReadLite } from './student-group-model-read-lite.ts'
 export type { StudentGroupModelUpdate } from './student-group-model-update.ts'
+export type { StudentGroupPaginationList } from './student-group-pagination-list.ts'
+export type {
+  CreateStudentGroupV2ApiV2StudentGroupsPost200,
+  CreateStudentGroupV2ApiV2StudentGroupsPost422,
+  CreateStudentGroupV2ApiV2StudentGroupsPostMutation,
+  CreateStudentGroupV2ApiV2StudentGroupsPostMutationRequest,
+  CreateStudentGroupV2ApiV2StudentGroupsPostMutationResponse,
+} from './student-group-v2-controller/create-student-group-v2-api-v2-student-groups-post.ts'
+export type {
+  ListStudentGroupV2ApiV2StudentGroupsGet200,
+  ListStudentGroupV2ApiV2StudentGroupsGet422,
+  ListStudentGroupV2ApiV2StudentGroupsGetQuery,
+  ListStudentGroupV2ApiV2StudentGroupsGetQueryParams,
+  ListStudentGroupV2ApiV2StudentGroupsGetQueryResponse,
+} from './student-group-v2-controller/list-student-group-v2-api-v2-student-groups-get.ts'
+export type {
+  SoftDeleteStudentGroup204,
+  SoftDeleteStudentGroup422,
+  SoftDeleteStudentGroupMutation,
+  SoftDeleteStudentGroupMutationResponse,
+  SoftDeleteStudentGroupPathParams,
+} from './student-group-v2-controller/soft-delete-student-group.ts'
 export type { StudentModelCreate } from './student-model-create.ts'
+export type { StudentModelReadLite } from './student-model-read-lite.ts'
 export type { StudentModelRead } from './student-model-read.ts'
 export type { StudentModelUpdate } from './student-model-update.ts'
 export type { StudentOrgMemberModelCreate } from './student-org-member-model-create.ts'
+export type { StudentPaginationList } from './student-pagination-list.ts'
+export type {
+  CreateStudentGroupV2ApiV2StudentsPost200,
+  CreateStudentGroupV2ApiV2StudentsPost422,
+  CreateStudentGroupV2ApiV2StudentsPostMutation,
+  CreateStudentGroupV2ApiV2StudentsPostMutationRequest,
+  CreateStudentGroupV2ApiV2StudentsPostMutationResponse,
+} from './student-v2-controller/create-student-group-v2-api-v2-students-post.ts'
+export type {
+  ListStudentGroupV2ApiV2StudentsGet200,
+  ListStudentGroupV2ApiV2StudentsGet422,
+  ListStudentGroupV2ApiV2StudentsGetQuery,
+  ListStudentGroupV2ApiV2StudentsGetQueryParams,
+  ListStudentGroupV2ApiV2StudentsGetQueryResponse,
+} from './student-v2-controller/list-student-group-v2-api-v2-students-get.ts'
+export type {
+  UpdateStudent2200,
+  UpdateStudent2422,
+  UpdateStudent2Mutation,
+  UpdateStudent2MutationRequest,
+  UpdateStudent2MutationResponse,
+  UpdateStudent2PathParams,
+} from './student-v2-controller/update-student2.ts'
 export type {
   CreateSubject201,
   CreateSubject422,
@@ -484,7 +635,7 @@ export type {
   DeleteSubject422,
   DeleteSubjectMutation,
   DeleteSubjectMutationResponse,
-  DeleteSubjectQueryParams,
+  DeleteSubjectPathParams,
 } from './subject-controller/delete-subject.ts'
 export type {
   GetSubject200,
@@ -497,7 +648,6 @@ export type {
   ListSubjects200,
   ListSubjects422,
   ListSubjectsQuery,
-  ListSubjectsQueryParams,
   ListSubjectsQueryResponse,
 } from './subject-controller/list-subjects.ts'
 export type {
@@ -530,7 +680,7 @@ export type {
   DeleteTeacher422,
   DeleteTeacherMutation,
   DeleteTeacherMutationResponse,
-  DeleteTeacherQueryParams,
+  DeleteTeacherPathParams,
 } from './teacher-controller/delete-teacher.ts'
 export type {
   GetTeacher200,
@@ -565,17 +715,16 @@ export type {
   CreateApiV1TeacherNotesPostMutationResponse,
 } from './teacher-notes-controller/create-api-v1-teacher-notes-post.ts'
 export type {
-  DeleteApiV1TeacherNotesDelete204,
-  DeleteApiV1TeacherNotesDelete422,
-  DeleteApiV1TeacherNotesDeleteMutation,
-  DeleteApiV1TeacherNotesDeleteMutationResponse,
-  DeleteApiV1TeacherNotesDeleteQueryParams,
-} from './teacher-notes-controller/delete-api-v1-teacher-notes-delete.ts'
+  DeleteApiV1TeacherNotesIdDelete204,
+  DeleteApiV1TeacherNotesIdDelete422,
+  DeleteApiV1TeacherNotesIdDeleteMutation,
+  DeleteApiV1TeacherNotesIdDeleteMutationResponse,
+  DeleteApiV1TeacherNotesIdDeletePathParams,
+} from './teacher-notes-controller/delete-api-v1-teacher-notes-id-delete.ts'
 export type {
   GetApiV1TeacherNotesGet200,
   GetApiV1TeacherNotesGet422,
   GetApiV1TeacherNotesGetQuery,
-  GetApiV1TeacherNotesGetQueryParams,
   GetApiV1TeacherNotesGetQueryResponse,
 } from './teacher-notes-controller/get-api-v1-teacher-notes-get.ts'
 export type {
@@ -597,7 +746,28 @@ export type { TeacherNotesModelCreate } from './teacher-notes-model-create.ts'
 export type { TeacherNotesModelRead } from './teacher-notes-model-read.ts'
 export type { TeacherNotesModelUpdate } from './teacher-notes-model-update.ts'
 export type { TeacherOrgMemberModelUpdate } from './teacher-org-member-model-update.ts'
+export type { TeacherPaginationList } from './teacher-pagination-list.ts'
+export type {
+  CreateTeacherV2201,
+  CreateTeacherV2422,
+  CreateTeacherV2Mutation,
+  CreateTeacherV2MutationRequest,
+  CreateTeacherV2MutationResponse,
+} from './teacher-v2-controller/create-teacher-v2.ts'
+export type {
+  ListTeacherV2200,
+  ListTeacherV2422,
+  ListTeacherV2Query,
+  ListTeacherV2QueryParams,
+  ListTeacherV2QueryResponse,
+} from './teacher-v2-controller/list-teacher-v2.ts'
+export type {
+  SoftDeleteTeacher200,
+  SoftDeleteTeacher422,
+  SoftDeleteTeacherMutation,
+  SoftDeleteTeacherMutationResponse,
+  SoftDeleteTeacherPathParams,
+} from './teacher-v2-controller/soft-delete-teacher.ts'
 export type { ValidationError } from './validation-error.ts'
 export { accuralCategoryEnum } from './accural-category.ts'
 export { inviteStatusEnum } from './invite-status.ts'
-export { profileRoleEnum } from './profile-role.ts'

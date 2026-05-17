@@ -13,14 +13,6 @@ import type { HTTPValidationError } from '../httpvalidation-error.ts'
 import type { StudentGroupMemberModelRead } from '../student-group-member-model-read.ts'
 
 export type ListStudentGroupMembersQueryParams = {
-  /**
-   * @default 0
-   */
-  offset?: (number | null) | undefined
-  /**
-   * @default 1000
-   */
-  limit?: (number | null) | undefined
   student_group__id?: (string | null) | undefined
 }
 

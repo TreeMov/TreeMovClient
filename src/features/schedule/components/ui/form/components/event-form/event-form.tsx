@@ -6,7 +6,7 @@ import React from 'react'
 import { Calendar } from '@/components/shared/calendar'
 import { Form } from '@/components/shared/form'
 import { Input } from '@/components/shared/input'
-import { Select } from '@/components/shared/select'
+import { SingleSelect } from '@/components/shared/single-select'
 import { Textarea } from '@/components/shared/textarea'
 import { Button } from '@/components/ui/button'
 import { useTimeSelect } from '@/features/schedule/hooks'
@@ -38,7 +38,7 @@ export const EventForm: React.FC<EventFormProps> = ({
         <div className="flex items-center gap-4">
           <ConnectForm>
             {({ control }) => (
-              <Select
+              <SingleSelect
                 control={control}
                 name="start_time"
                 inputProps={{
@@ -51,7 +51,7 @@ export const EventForm: React.FC<EventFormProps> = ({
           <div className="bg-grey-400 h-px w-4" />
           <ConnectForm>
             {({ control }) => (
-              <Select
+              <SingleSelect
                 control={control}
                 name="end_time"
                 inputProps={{
@@ -89,7 +89,7 @@ export const EventForm: React.FC<EventFormProps> = ({
         </ConnectForm>
         <ConnectForm>
           {({ control }) => (
-            <Select
+            <SingleSelect
               control={control}
               name="period"
               inputProps={{

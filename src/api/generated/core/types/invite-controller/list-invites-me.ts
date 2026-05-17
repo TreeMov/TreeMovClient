@@ -14,14 +14,6 @@ import type { InviteModelRead } from '../invite-model-read.ts'
 import type { InviteStatus } from '../invite-status.ts'
 
 export type ListInvitesMeQueryParams = {
-  /**
-   * @default 0
-   */
-  offset?: (number | null) | undefined
-  /**
-   * @default 1000
-   */
-  limit?: (number | null) | undefined
   status?: (InviteStatus | null) | undefined
 }
 

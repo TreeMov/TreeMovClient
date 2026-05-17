@@ -29,7 +29,7 @@ import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
 import { organizationMembers } from '../../clients/axios/organization-service/organization-members.ts'
 
 export const organizationMembersSuspenseQueryKey = (
-  params: OrganizationMembersQueryParams
+  params: OrganizationMembersQueryParams = {}
 ) =>
   [
     { url: '/api/v1/organizations/members' },
@@ -41,7 +41,7 @@ export type OrganizationMembersSuspenseQueryKey = ReturnType<
 >
 
 export function organizationMembersSuspenseQueryOptions(
-  params: OrganizationMembersQueryParams,
+  params?: OrganizationMembersQueryParams,
   config: Partial<RequestConfig> & { client?: Client } = {}
 ) {
   const queryKey = organizationMembersSuspenseQueryKey(params)
@@ -51,7 +51,6 @@ export function organizationMembersSuspenseQueryOptions(
     OrganizationMembersQueryResponse,
     typeof queryKey
   >({
-    enabled: !!params,
     queryKey,
     queryFn: async ({ signal }) => {
       return organizationMembers(params, {
@@ -70,7 +69,7 @@ export function useOrganizationMembersSuspense<
   TData = OrganizationMembersQueryResponse,
   TQueryKey extends QueryKey = OrganizationMembersSuspenseQueryKey,
 >(
-  params: OrganizationMembersQueryParams,
+  params?: OrganizationMembersQueryParams,
   options: {
     query?: Partial<
       UseSuspenseQueryOptions<

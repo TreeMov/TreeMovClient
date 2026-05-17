@@ -21,14 +21,14 @@ import type {
 } from '@tanstack/react-query'
 import type {
   DeleteEmployeeMutationResponse,
-  DeleteEmployeeQueryParams,
+  DeleteEmployeePathParams,
   DeleteEmployee422,
 } from '../../types/employee-controller/delete-employee.ts'
 import { mutationOptions, useMutation } from '@tanstack/react-query'
 import { deleteEmployee } from '../../clients/axios/employee-service/delete-employee.ts'
 
 export const deleteEmployeeMutationKey = () =>
-  [{ url: '/api/v1/employees' }] as const
+  [{ url: '/api/v1/employees/:id' }] as const
 
 export type DeleteEmployeeMutationKey = ReturnType<
   typeof deleteEmployeeMutationKey
@@ -41,26 +41,26 @@ export function deleteEmployeeMutationOptions<TContext = unknown>(
   return mutationOptions<
     DeleteEmployeeMutationResponse,
     ResponseErrorConfig<DeleteEmployee422>,
-    { params: DeleteEmployeeQueryParams },
+    { id: DeleteEmployeePathParams['id'] },
     TContext
   >({
     mutationKey,
-    mutationFn: async ({ params }) => {
-      return deleteEmployee(params, config)
+    mutationFn: async ({ id }) => {
+      return deleteEmployee(id, config)
     },
   })
 }
 
 /**
  * @summary  Delete
- * {@link /api/v1/employees}
+ * {@link /api/v1/employees/:id}
  */
 export function useDeleteEmployee<TContext>(
   options: {
     mutation?: UseMutationOptions<
       DeleteEmployeeMutationResponse,
       ResponseErrorConfig<DeleteEmployee422>,
-      { params: DeleteEmployeeQueryParams },
+      { id: DeleteEmployeePathParams['id'] },
       TContext
     > & { client?: QueryClient }
     client?: Partial<RequestConfig> & { client?: Client }
@@ -76,14 +76,14 @@ export function useDeleteEmployee<TContext>(
   ) as UseMutationOptions<
     DeleteEmployeeMutationResponse,
     ResponseErrorConfig<DeleteEmployee422>,
-    { params: DeleteEmployeeQueryParams },
+    { id: DeleteEmployeePathParams['id'] },
     TContext
   >
 
   return useMutation<
     DeleteEmployeeMutationResponse,
     ResponseErrorConfig<DeleteEmployee422>,
-    { params: DeleteEmployeeQueryParams },
+    { id: DeleteEmployeePathParams['id'] },
     TContext
   >(
     {
@@ -95,7 +95,7 @@ export function useDeleteEmployee<TContext>(
   ) as UseMutationResult<
     DeleteEmployeeMutationResponse,
     ResponseErrorConfig<DeleteEmployee422>,
-    { params: DeleteEmployeeQueryParams },
+    { id: DeleteEmployeePathParams['id'] },
     TContext
   >
 }

@@ -18,7 +18,7 @@ import React from 'react'
 import { useListLessons } from '@/api/generated/core'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
-import { Select } from '@/components/ui/select'
+import { SingleSelect } from '@/components/ui/single-select'
 import { dateFormat, type ScheduleView } from '@/features/schedule'
 import { ScheduleDialog } from '@/features/schedule/components/schedule-dialog'
 
@@ -110,10 +110,12 @@ export const Header: React.FC = () => {
         selected={new Date(date)}
         onSelect={handleSelectDate}
       />
-      <Select
+      <SingleSelect
         value={view}
         options={viewOptions}
-        onValueChange={(value) => setQueryFilter({ view: value })}
+        onChange={(value) =>
+          setQueryFilter({ view: value as ScheduleView })
+        }
       />
     </div>
   )

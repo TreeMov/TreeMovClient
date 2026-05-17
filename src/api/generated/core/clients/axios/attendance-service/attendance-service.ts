@@ -13,6 +13,8 @@ import { createAttendance } from './create-attendance.ts'
 import { createAttendances } from './create-attendances.ts'
 import { deleteAttendance } from './delete-attendance.ts'
 import { getAttendance } from './get-attendance.ts'
+import { getMyAttendance } from './get-my-attendance.ts'
+import { listAttendancesV2 } from './list-attendances-v2.ts'
 import { listAttendances } from './list-attendances.ts'
 import { updateAttendance } from './update-attendance.ts'
 
@@ -20,9 +22,11 @@ export function attendanceService() {
   return {
     listAttendances,
     createAttendance,
-    deleteAttendance,
+    getMyAttendance,
+    createAttendances,
     getAttendance,
     updateAttendance,
-    createAttendances,
+    deleteAttendance,
+    listAttendancesV2,
   }
 }

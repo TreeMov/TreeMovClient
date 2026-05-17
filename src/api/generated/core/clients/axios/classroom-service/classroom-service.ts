@@ -19,8 +19,8 @@ export function classroomService() {
   return {
     listClassrooms,
     createClassroom,
-    deleteClassroom,
     getClassroom,
     updateClassroom,
+    deleteClassroom,
   }
 }

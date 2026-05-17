@@ -17,7 +17,6 @@ import type {
 } from '@/api/clients/core-client'
 import type {
   ListEmployeesQueryResponse,
-  ListEmployeesQueryParams,
   ListEmployees422,
 } from '../../../types/employee-controller/list-employees.ts'
 
@@ -31,7 +30,6 @@ function getListEmployeesUrl() {
  * {@link /api/v1/employees}
  */
 export async function listEmployees(
-  params?: ListEmployeesQueryParams,
   config: Partial<RequestConfig> & { client?: Client } = {}
 ) {
   const { client: request = fetch, ...requestConfig } = config
@@ -43,7 +41,6 @@ export async function listEmployees(
   >({
     method: 'GET',
     url: getListEmployeesUrl().url.toString(),
-    params,
     ...requestConfig,
   })
   return res.data

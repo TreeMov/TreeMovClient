@@ -17,7 +17,6 @@ import type {
 } from '@/api/clients/core-client'
 import type {
   ListSubjectsQueryResponse,
-  ListSubjectsQueryParams,
   ListSubjects422,
 } from '../../../types/subject-controller/list-subjects.ts'
 
@@ -31,7 +30,6 @@ function getListSubjectsUrl() {
  * {@link /api/v1/subjects}
  */
 export async function listSubjects(
-  params?: ListSubjectsQueryParams,
   config: Partial<RequestConfig> & { client?: Client } = {}
 ) {
   const { client: request = fetch, ...requestConfig } = config
@@ -43,7 +41,6 @@ export async function listSubjects(
   >({
     method: 'GET',
     url: getListSubjectsUrl().url.toString(),
-    params,
     ...requestConfig,
   })
   return res.data

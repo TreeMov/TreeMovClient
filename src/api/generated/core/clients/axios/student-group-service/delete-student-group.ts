@@ -17,24 +17,26 @@ import type {
 } from '@/api/clients/core-client'
 import type {
   DeleteStudentGroupMutationResponse,
-  DeleteStudentGroupQueryParams,
+  DeleteStudentGroupPathParams,
   DeleteStudentGroup422,
 } from '../../../types/student-group-controller/delete-student-group.ts'
 
-function getDeleteStudentGroupUrl() {
+function getDeleteStudentGroupUrl(
+  id: DeleteStudentGroupPathParams['id']
+) {
   const res = {
     method: 'DELETE',
-    url: `/api/v1/student-groups` as const,
+    url: `/api/v1/student-groups/${id}` as const,
   }
   return res
 }
 
 /**
  * @summary  Delete
- * {@link /api/v1/student-groups}
+ * {@link /api/v1/student-groups/:id}
  */
 export async function deleteStudentGroup(
-  params: DeleteStudentGroupQueryParams,
+  id: DeleteStudentGroupPathParams['id'],
   config: Partial<RequestConfig> & { client?: Client } = {}
 ) {
   const { client: request = fetch, ...requestConfig } = config
@@ -45,8 +47,7 @@ export async function deleteStudentGroup(
     unknown
   >({
     method: 'DELETE',
-    url: getDeleteStudentGroupUrl().url.toString(),
-    params,
+    url: getDeleteStudentGroupUrl(id).url.toString(),
     ...requestConfig,
   })
   return res.data

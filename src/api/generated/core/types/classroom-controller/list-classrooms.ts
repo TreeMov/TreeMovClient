@@ -12,17 +12,6 @@
 import type { ClassroomModelRead } from '../classroom-model-read.ts'
 import type { HTTPValidationError } from '../httpvalidation-error.ts'
 
-export type ListClassroomsQueryParams = {
-  /**
-   * @default 0
-   */
-  offset?: (number | null) | undefined
-  /**
-   * @default 1000
-   */
-  limit?: (number | null) | undefined
-}
-
 /**
  * Response List Classrooms
  * @description Successful Response
@@ -39,6 +28,5 @@ export type ListClassroomsQueryResponse = ListClassrooms200
 
 export type ListClassroomsQuery = {
   Response: ListClassrooms200
-  QueryParams: ListClassroomsQueryParams
   Errors: ListClassrooms422
 }

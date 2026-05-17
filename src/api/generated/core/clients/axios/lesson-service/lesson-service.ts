@@ -10,29 +10,29 @@
  */
 
 import { createLesson } from './create-lesson.ts'
-import { createPeriodLessonsV2 } from './create-period-lessons-v2.ts'
 import { createPeriodLessons } from './create-period-lessons.ts'
 import { deleteLesson } from './delete-lesson.ts'
+import { deletePeriodLesson } from './delete-period-lesson.ts'
 import { getLesson } from './get-lesson.ts'
-import { getPeriodLessonsV2 } from './get-period-lessons-v2.ts'
 import { getPeriodLessons } from './get-period-lessons.ts'
 import { listLessonsMe } from './list-lessons-me.ts'
 import { listLessons } from './list-lessons.ts'
 import { listPeriodLessons } from './list-period-lessons.ts'
 import { upadateLesson } from './upadate-lesson.ts'
+import { upadatePeriodLesson } from './upadate-period-lesson.ts'
 
 export function lessonService() {
   return {
     listLessons,
     createLesson,
-    deleteLesson,
     listPeriodLessons,
     createPeriodLessons,
     listLessonsMe,
     getLesson,
     upadateLesson,
+    deleteLesson,
     getPeriodLessons,
-    createPeriodLessonsV2,
-    getPeriodLessonsV2,
+    upadatePeriodLesson,
+    deletePeriodLesson,
   }
 }

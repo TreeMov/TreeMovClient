@@ -17,21 +17,24 @@ import type {
 } from '@/api/clients/core-client'
 import type {
   DeleteAccrualMutationResponse,
-  DeleteAccrualQueryParams,
+  DeleteAccrualPathParams,
   DeleteAccrual422,
 } from '../../../types/accrual-controller/delete-accrual.ts'
 
-function getDeleteAccrualUrl() {
-  const res = { method: 'DELETE', url: `/api/v1/accruals` as const }
+function getDeleteAccrualUrl(id: DeleteAccrualPathParams['id']) {
+  const res = {
+    method: 'DELETE',
+    url: `/api/v1/accruals/${id}` as const,
+  }
   return res
 }
 
 /**
  * @summary  Delete
- * {@link /api/v1/accruals}
+ * {@link /api/v1/accruals/:id}
  */
 export async function deleteAccrual(
-  params: DeleteAccrualQueryParams,
+  id: DeleteAccrualPathParams['id'],
   config: Partial<RequestConfig> & { client?: Client } = {}
 ) {
   const { client: request = fetch, ...requestConfig } = config
@@ -42,8 +45,7 @@ export async function deleteAccrual(
     unknown
   >({
     method: 'DELETE',
-    url: getDeleteAccrualUrl().url.toString(),
-    params,
+    url: getDeleteAccrualUrl(id).url.toString(),
     ...requestConfig,
   })
   return res.data

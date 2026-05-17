@@ -23,7 +23,6 @@ import type {
 } from '@tanstack/react-query'
 import type {
   ListClassroomsQueryResponse,
-  ListClassroomsQueryParams,
   ListClassrooms422,
 } from '../../types/classroom-controller/list-classrooms.ts'
 import {
@@ -32,38 +31,27 @@ import {
 } from '@tanstack/react-query'
 import { listClassrooms } from '../../clients/axios/classroom-service/list-classrooms.ts'
 
-export const listClassroomsSuspenseInfiniteQueryKey = (
-  params: ListClassroomsQueryParams = {}
-) =>
-  [
-    { url: '/api/v1/classrooms' },
-    ...(params ? [params] : []),
-  ] as const
+export const listClassroomsSuspenseInfiniteQueryKey = () =>
+  [{ url: '/api/v1/classrooms' }] as const
 
 export type ListClassroomsSuspenseInfiniteQueryKey = ReturnType<
   typeof listClassroomsSuspenseInfiniteQueryKey
 >
 
 export function listClassroomsSuspenseInfiniteQueryOptions(
-  params?: ListClassroomsQueryParams,
   config: Partial<RequestConfig> & { client?: Client } = {}
 ) {
-  const queryKey = listClassroomsSuspenseInfiniteQueryKey(params)
+  const queryKey = listClassroomsSuspenseInfiniteQueryKey()
   return infiniteQueryOptions<
     ListClassroomsQueryResponse,
     ResponseErrorConfig<ListClassrooms422>,
     InfiniteData<ListClassroomsQueryResponse>,
     typeof queryKey,
-    NonNullable<ListClassroomsQueryParams['page']>
+    number
   >({
     queryKey,
-    queryFn: async ({ signal, pageParam }) => {
-      params = {
-        ...(params ?? {}),
-        ['page']:
-          pageParam as unknown as ListClassroomsQueryParams['page'],
-      } as ListClassroomsQueryParams
-      return listClassrooms(params, {
+    queryFn: async ({ signal }) => {
+      return listClassrooms({
         ...config,
         signal: config.signal ?? signal,
       })
@@ -83,9 +71,8 @@ export function useListClassroomsSuspenseInfinite<
   TError = ResponseErrorConfig<ListClassrooms422>,
   TData = InfiniteData<TQueryFnData>,
   TQueryKey extends QueryKey = ListClassroomsSuspenseInfiniteQueryKey,
-  TPageParam = NonNullable<ListClassroomsQueryParams['page']>,
+  TPageParam = number,
 >(
-  params?: ListClassroomsQueryParams,
   options: {
     query?: Partial<
       UseSuspenseInfiniteQueryOptions<
@@ -103,12 +90,11 @@ export function useListClassroomsSuspenseInfinite<
     options ?? {}
   const { client: queryClient, ...queryOptions } = queryConfig
   const queryKey =
-    queryOptions?.queryKey ??
-    listClassroomsSuspenseInfiniteQueryKey(params)
+    queryOptions?.queryKey ?? listClassroomsSuspenseInfiniteQueryKey()
 
   const query = useSuspenseInfiniteQuery(
     {
-      ...listClassroomsSuspenseInfiniteQueryOptions(params, config),
+      ...listClassroomsSuspenseInfiniteQueryOptions(config),
       queryKey,
       ...queryOptions,
     } as unknown as UseSuspenseInfiniteQueryOptions<

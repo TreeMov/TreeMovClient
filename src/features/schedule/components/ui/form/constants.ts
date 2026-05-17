@@ -1,8 +1,8 @@
-import type { ISelectOption } from '@/components/ui/select/types'
+import type { SelectOptionType } from '@/components/ui/base-select/types'
 
 import { PeriodEnum, type TabOption, TabsEnum } from './types'
 
-export const periodOptions: ISelectOption[] = [
+export const periodOptions: SelectOptionType[] = [
   { label: 'Ежедневно', value: PeriodEnum.DAILY },
   { label: 'Еженедельно', value: PeriodEnum.WEEKLY },
   { label: 'По будням', value: PeriodEnum.WEEKDAYS },

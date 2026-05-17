@@ -11,6 +11,7 @@
 
 import { loginApiV1AuthLoginPost } from './login-api-v1-auth-login-post.ts'
 import { logoutApiV1AuthLogoutPost } from './logout-api-v1-auth-logout-post.ts'
+import { publicKeyApiV1AuthPublicKeyGet } from './public-key-api-v1-auth-public-key-get.ts'
 import { refreshApiV1AuthRefreshPost } from './refresh-api-v1-auth-refresh-post.ts'
 import { registerApiV1AuthRegisterPost } from './register-api-v1-auth-register-post.ts'
 
@@ -20,5 +21,6 @@ export function authService() {
     loginApiV1AuthLoginPost,
     refreshApiV1AuthRefreshPost,
     logoutApiV1AuthLogoutPost,
+    publicKeyApiV1AuthPublicKeyGet,
   }
 }

@@ -36,7 +36,7 @@ export const CreateDialog: React.FC = () => {
     surname,
     birthday,
   }) => {
-    if (!session.getSessionTokens().X_ORG_MEMBER_ID) {
+    if (!session.getSessionTokens()['X-ORG-MEMBER-ID']) {
       throw new Error('отсутствует токен организации')
     }
 
@@ -45,7 +45,8 @@ export const CreateDialog: React.FC = () => {
         name,
         surname,
         birthday,
-        org_mebmer_id: +session.getSessionTokens().X_ORG_MEMBER_ID!,
+        org_mebmer_id:
+          +session.getSessionTokens()['X-ORG-MEMBER-ID']!,
       },
     })
     setOpen(false)

@@ -1,0 +1,119 @@
+{
+  "properties": {
+    "items": {
+      "items": {
+        "properties": {
+          "id": { "type": "integer", "title": "Id" },
+          "title": { "type": "string", "title": "Title" },
+          "students": {
+            "anyOf": [
+              {
+                "items": {
+                  "properties": {
+                    "id": { "type": "integer", "title": "Id" },
+                    "name": { "type": "string", "title": "Name" },
+                    "surname": {
+                      "type": "string",
+                      "title": "Surname"
+                    },
+                    "progress": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+                        },
+                        { "type": "null" }
+                      ],
+                      "title": "Progress"
+                    },
+                    "birthday": {
+                      "anyOf": [
+                        { "type": "string", "format": "date" },
+                        { "type": "null" }
+                      ],
+                      "title": "Birthday"
+                    },
+                    "score": {
+                      "anyOf": [
+                        { "type": "integer" },
+                        { "type": "null" }
+                      ],
+                      "title": "Score"
+                    },
+                    "org_member_id": {
+                      "anyOf": [
+                        { "type": "integer" },
+                        { "type": "null" }
+                      ],
+                      "title": "Org Member Id"
+                    }
+                  },
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "name",
+                    "surname",
+                    "progress",
+                    "birthday",
+                    "score"
+                  ],
+                  "title": "StudentModelReadLite",
+                  "x-readme-ref-name": "StudentModelReadLite"
+                },
+                "type": "array"
+              },
+              { "type": "null" }
+            ],
+            "title": "Students"
+          }
+        },
+        "type": "object",
+        "required": ["id", "title", "students"],
+        "title": "StudentGroupModelReadFull",
+        "x-readme-ref-name": "StudentGroupModelReadFull"
+      },
+      "type": "array",
+      "title": "Items"
+    },
+    "pagination_meta": {
+      "properties": {
+        "current_page": {
+          "type": "integer",
+          "title": "Current Page"
+        },
+        "per_page": { "type": "integer", "title": "Per Page" },
+        "total_items": { "type": "integer", "title": "Total Items" },
+        "total_pages": {
+          "type": "integer",
+          "title": "Total Pages",
+          "readOnly": true
+        },
+        "has_next": {
+          "type": "boolean",
+          "title": "Has Next",
+          "readOnly": true
+        },
+        "has_prev": {
+          "type": "boolean",
+          "title": "Has Prev",
+          "readOnly": true
+        }
+      },
+      "type": "object",
+      "required": [
+        "current_page",
+        "per_page",
+        "total_items",
+        "total_pages",
+        "has_next",
+        "has_prev"
+      ],
+      "title": "PaginationMeta",
+      "x-readme-ref-name": "PaginationMeta"
+    }
+  },
+  "type": "object",
+  "required": ["items", "pagination_meta"],
+  "title": "StudentGroupPaginationList",
+  "x-readme-ref-name": "StudentGroupPaginationList"
+}

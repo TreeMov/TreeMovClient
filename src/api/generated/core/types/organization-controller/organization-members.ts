@@ -10,26 +10,27 @@
  */
 
 import type { HTTPValidationError } from '../httpvalidation-error.ts'
-import type { OrganizationMemberRead } from '../organization-member-read.ts'
-import type { ProfileRole } from '../profile-role.ts'
+import type { OrganizationMemberPaginationList } from '../organization-member-pagination-list.ts'
 
 export type OrganizationMembersQueryParams = {
-  role__code__in: ProfileRole[] | null
   /**
-   * @default 0
+   * @default 1
+   * @type integer | undefined
    */
-  offset?: (number | null) | undefined
+  page?: number | undefined
   /**
-   * @default 1000
+   * @maxLength 10000
+   * @default 20
+   * @type integer | undefined
    */
-  limit?: (number | null) | undefined
+  per_page?: number | undefined
 }
 
 /**
- * Response Organization Members
+ * OrganizationMemberPaginationList
  * @description Successful Response
  */
-export type OrganizationMembers200 = OrganizationMemberRead[]
+export type OrganizationMembers200 = OrganizationMemberPaginationList
 
 /**
  * HTTPValidationError

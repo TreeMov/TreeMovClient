@@ -33,7 +33,7 @@ import {
 import { organizationMembers } from '../../clients/axios/organization-service/organization-members.ts'
 
 export const organizationMembersSuspenseInfiniteQueryKey = (
-  params: OrganizationMembersQueryParams
+  params: OrganizationMembersQueryParams = {}
 ) =>
   [
     { url: '/api/v1/organizations/members' },
@@ -45,7 +45,7 @@ export type OrganizationMembersSuspenseInfiniteQueryKey = ReturnType<
 >
 
 export function organizationMembersSuspenseInfiniteQueryOptions(
-  params: OrganizationMembersQueryParams,
+  params?: OrganizationMembersQueryParams,
   config: Partial<RequestConfig> & { client?: Client } = {}
 ) {
   const queryKey = organizationMembersSuspenseInfiniteQueryKey(params)
@@ -56,7 +56,6 @@ export function organizationMembersSuspenseInfiniteQueryOptions(
     typeof queryKey,
     NonNullable<OrganizationMembersQueryParams['page']>
   >({
-    enabled: !!params,
     queryKey,
     queryFn: async ({ signal, pageParam }) => {
       params = {
@@ -87,7 +86,7 @@ export function useOrganizationMembersSuspenseInfinite<
     OrganizationMembersSuspenseInfiniteQueryKey,
   TPageParam = NonNullable<OrganizationMembersQueryParams['page']>,
 >(
-  params: OrganizationMembersQueryParams,
+  params?: OrganizationMembersQueryParams,
   options: {
     query?: Partial<
       UseSuspenseInfiniteQueryOptions<

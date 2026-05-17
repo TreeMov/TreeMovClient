@@ -17,21 +17,24 @@ import type {
 } from '@/api/clients/core-client'
 import type {
   DeleteClassroomMutationResponse,
-  DeleteClassroomQueryParams,
+  DeleteClassroomPathParams,
   DeleteClassroom422,
 } from '../../../types/classroom-controller/delete-classroom.ts'
 
-function getDeleteClassroomUrl() {
-  const res = { method: 'DELETE', url: `/api/v1/classrooms` as const }
+function getDeleteClassroomUrl(id: DeleteClassroomPathParams['id']) {
+  const res = {
+    method: 'DELETE',
+    url: `/api/v1/classrooms/${id}` as const,
+  }
   return res
 }
 
 /**
  * @summary  Delete
- * {@link /api/v1/classrooms}
+ * {@link /api/v1/classrooms/:id}
  */
 export async function deleteClassroom(
-  params: DeleteClassroomQueryParams,
+  id: DeleteClassroomPathParams['id'],
   config: Partial<RequestConfig> & { client?: Client } = {}
 ) {
   const { client: request = fetch, ...requestConfig } = config
@@ -42,8 +45,7 @@ export async function deleteClassroom(
     unknown
   >({
     method: 'DELETE',
-    url: getDeleteClassroomUrl().url.toString(),
-    params,
+    url: getDeleteClassroomUrl(id).url.toString(),
     ...requestConfig,
   })
   return res.data

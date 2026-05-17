@@ -30,6 +30,10 @@ export const operations = {
     path: '/api/v1/auth/logout',
     method: 'post',
   },
+  public_key_api_v1_auth_public_key_get: {
+    path: '/api/v1/auth/public-key',
+    method: 'get',
+  },
   all_users_api_v1_users_list_get: {
     path: '/api/v1/users/list',
     method: 'get',

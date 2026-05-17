@@ -22,26 +22,22 @@ import type {
 } from '@tanstack/react-query'
 import type {
   ListEmployeesQueryResponse,
-  ListEmployeesQueryParams,
   ListEmployees422,
 } from '../../types/employee-controller/list-employees.ts'
 import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
 import { listEmployees } from '../../clients/axios/employee-service/list-employees.ts'
 
-export const listEmployeesSuspenseQueryKey = (
-  params: ListEmployeesQueryParams = {}
-) =>
-  [{ url: '/api/v1/employees' }, ...(params ? [params] : [])] as const
+export const listEmployeesSuspenseQueryKey = () =>
+  [{ url: '/api/v1/employees' }] as const
 
 export type ListEmployeesSuspenseQueryKey = ReturnType<
   typeof listEmployeesSuspenseQueryKey
 >
 
 export function listEmployeesSuspenseQueryOptions(
-  params?: ListEmployeesQueryParams,
   config: Partial<RequestConfig> & { client?: Client } = {}
 ) {
-  const queryKey = listEmployeesSuspenseQueryKey(params)
+  const queryKey = listEmployeesSuspenseQueryKey()
   return queryOptions<
     ListEmployeesQueryResponse,
     ResponseErrorConfig<ListEmployees422>,
@@ -50,7 +46,7 @@ export function listEmployeesSuspenseQueryOptions(
   >({
     queryKey,
     queryFn: async ({ signal }) => {
-      return listEmployees(params, {
+      return listEmployees({
         ...config,
         signal: config.signal ?? signal,
       })
@@ -66,7 +62,6 @@ export function useListEmployeesSuspense<
   TData = ListEmployeesQueryResponse,
   TQueryKey extends QueryKey = ListEmployeesSuspenseQueryKey,
 >(
-  params?: ListEmployeesQueryParams,
   options: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -83,11 +78,11 @@ export function useListEmployeesSuspense<
     options ?? {}
   const { client: queryClient, ...queryOptions } = queryConfig
   const queryKey =
-    queryOptions?.queryKey ?? listEmployeesSuspenseQueryKey(params)
+    queryOptions?.queryKey ?? listEmployeesSuspenseQueryKey()
 
   const query = useSuspenseQuery(
     {
-      ...listEmployeesSuspenseQueryOptions(params, config),
+      ...listEmployeesSuspenseQueryOptions(config),
       queryKey,
       ...queryOptions,
     } as unknown as UseSuspenseQueryOptions,

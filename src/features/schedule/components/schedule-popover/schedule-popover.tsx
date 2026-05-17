@@ -47,7 +47,7 @@ export const SchedulePopover: React.FC<
         onChangePeriodHandler(
           nextEvent.current.id,
           nextEvent.current.period_lesson_id!,
-          initialEvent.current
+          { dto: nextEvent.current, prevData: initialEvent.current }
         )
         break
       case PeriodAlertEnum.CURRENT:

@@ -1,5 +1,9 @@
 import type { Nullable } from '@/types/utility'
-import type { SessionSchema, SessionTokens } from './types'
+import type {
+  SessionSchema,
+  SessionTokens,
+  SessionValues,
+} from './types'
 
 import { sessionKeys } from './constants'
 
@@ -59,7 +63,7 @@ export class Session implements Partial<SessionSchema> {
         ...acc,
         [key]: localStorage.getItem(key),
       }),
-      {} as Nullable<SessionSchema>
+      {} as Nullable<SessionValues>
     )
   }
 }

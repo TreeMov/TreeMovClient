@@ -10,7 +10,7 @@
  */
 
 import type { ClassroomModelRead } from './classroom-model-read.ts'
-import type { StudentGroupModelRead } from './student-group-model-read.ts'
+import type { StudentGroupModelReadLite } from './student-group-model-read-lite.ts'
 import type { SubjectModelRead } from './subject-model-read.ts'
 import type { TeacherModelRead } from './teacher-model-read.ts'
 
@@ -27,7 +27,7 @@ export type LessonModelRead = {
   end_time: string
   teacher?: (TeacherModelRead | null) | undefined
   classroom?: (ClassroomModelRead | null) | undefined
-  student_group?: (StudentGroupModelRead | null) | undefined
+  student_group?: (StudentGroupModelReadLite | null) | undefined
   subject?: (SubjectModelRead | null) | undefined
   /**
    * @type string, date

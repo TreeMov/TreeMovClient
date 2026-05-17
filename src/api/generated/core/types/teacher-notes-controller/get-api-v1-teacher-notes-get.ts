@@ -12,17 +12,6 @@
 import type { HTTPValidationError } from '../httpvalidation-error.ts'
 import type { TeacherNotesModelRead } from '../teacher-notes-model-read.ts'
 
-export type GetApiV1TeacherNotesGetQueryParams = {
-  /**
-   * @default 0
-   */
-  offset?: (number | null) | undefined
-  /**
-   * @default 1000
-   */
-  limit?: (number | null) | undefined
-}
-
 /**
  * Response  Get Api V1 Teacher Notes Get
  * @description Successful Response
@@ -40,6 +29,5 @@ export type GetApiV1TeacherNotesGetQueryResponse =
 
 export type GetApiV1TeacherNotesGetQuery = {
   Response: GetApiV1TeacherNotesGet200
-  QueryParams: GetApiV1TeacherNotesGetQueryParams
   Errors: GetApiV1TeacherNotesGet422
 }

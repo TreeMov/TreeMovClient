@@ -12,17 +12,6 @@
 import type { HTTPValidationError } from '../httpvalidation-error.ts'
 import type { InviteModelRead } from '../invite-model-read.ts'
 
-export type ListInvitesQueryParams = {
-  /**
-   * @default 0
-   */
-  offset?: (number | null) | undefined
-  /**
-   * @default 1000
-   */
-  limit?: (number | null) | undefined
-}
-
 /**
  * Response List Invites
  * @description Successful Response
@@ -39,6 +28,5 @@ export type ListInvitesQueryResponse = ListInvites200
 
 export type ListInvitesQuery = {
   Response: ListInvites200
-  QueryParams: ListInvitesQueryParams
   Errors: ListInvites422
 }

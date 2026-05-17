@@ -22,26 +22,22 @@ import type {
 } from '@tanstack/react-query'
 import type {
   ListEmployeesQueryResponse,
-  ListEmployeesQueryParams,
   ListEmployees422,
 } from '../../types/employee-controller/list-employees.ts'
 import { queryOptions, useQuery } from '@tanstack/react-query'
 import { listEmployees } from '../../clients/axios/employee-service/list-employees.ts'
 
-export const listEmployeesQueryKey = (
-  params: ListEmployeesQueryParams = {}
-) =>
-  [{ url: '/api/v1/employees' }, ...(params ? [params] : [])] as const
+export const listEmployeesQueryKey = () =>
+  [{ url: '/api/v1/employees' }] as const
 
 export type ListEmployeesQueryKey = ReturnType<
   typeof listEmployeesQueryKey
 >
 
 export function listEmployeesQueryOptions(
-  params?: ListEmployeesQueryParams,
   config: Partial<RequestConfig> & { client?: Client } = {}
 ) {
-  const queryKey = listEmployeesQueryKey(params)
+  const queryKey = listEmployeesQueryKey()
   return queryOptions<
     ListEmployeesQueryResponse,
     ResponseErrorConfig<ListEmployees422>,
@@ -50,7 +46,7 @@ export function listEmployeesQueryOptions(
   >({
     queryKey,
     queryFn: async ({ signal }) => {
-      return listEmployees(params, {
+      return listEmployees({
         ...config,
         signal: config.signal ?? signal,
       })
@@ -67,7 +63,6 @@ export function useListEmployees<
   TQueryData = ListEmployeesQueryResponse,
   TQueryKey extends QueryKey = ListEmployeesQueryKey,
 >(
-  params?: ListEmployeesQueryParams,
   options: {
     query?: Partial<
       QueryObserverOptions<
@@ -84,12 +79,11 @@ export function useListEmployees<
   const { query: queryConfig = {}, client: config = {} } =
     options ?? {}
   const { client: queryClient, ...queryOptions } = queryConfig
-  const queryKey =
-    queryOptions?.queryKey ?? listEmployeesQueryKey(params)
+  const queryKey = queryOptions?.queryKey ?? listEmployeesQueryKey()
 
   const query = useQuery(
     {
-      ...listEmployeesQueryOptions(params, config),
+      ...listEmployeesQueryOptions(config),
       queryKey,
       ...queryOptions,
     } as unknown as QueryObserverOptions,

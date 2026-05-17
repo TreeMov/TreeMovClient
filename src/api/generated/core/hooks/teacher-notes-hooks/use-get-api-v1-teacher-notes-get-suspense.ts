@@ -22,29 +22,22 @@ import type {
 } from '@tanstack/react-query'
 import type {
   GetApiV1TeacherNotesGetQueryResponse,
-  GetApiV1TeacherNotesGetQueryParams,
   GetApiV1TeacherNotesGet422,
 } from '../../types/teacher-notes-controller/get-api-v1-teacher-notes-get.ts'
 import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
 import { getApiV1TeacherNotesGet } from '../../clients/axios/teacher-notes-service/get-api-v1-teacher-notes-get.ts'
 
-export const getApiV1TeacherNotesGetSuspenseQueryKey = (
-  params: GetApiV1TeacherNotesGetQueryParams = {}
-) =>
-  [
-    { url: '/api/v1/teacher-notes' },
-    ...(params ? [params] : []),
-  ] as const
+export const getApiV1TeacherNotesGetSuspenseQueryKey = () =>
+  [{ url: '/api/v1/teacher-notes' }] as const
 
 export type GetApiV1TeacherNotesGetSuspenseQueryKey = ReturnType<
   typeof getApiV1TeacherNotesGetSuspenseQueryKey
 >
 
 export function getApiV1TeacherNotesGetSuspenseQueryOptions(
-  params?: GetApiV1TeacherNotesGetQueryParams,
   config: Partial<RequestConfig> & { client?: Client } = {}
 ) {
-  const queryKey = getApiV1TeacherNotesGetSuspenseQueryKey(params)
+  const queryKey = getApiV1TeacherNotesGetSuspenseQueryKey()
   return queryOptions<
     GetApiV1TeacherNotesGetQueryResponse,
     ResponseErrorConfig<GetApiV1TeacherNotesGet422>,
@@ -53,7 +46,7 @@ export function getApiV1TeacherNotesGetSuspenseQueryOptions(
   >({
     queryKey,
     queryFn: async ({ signal }) => {
-      return getApiV1TeacherNotesGet(params, {
+      return getApiV1TeacherNotesGet({
         ...config,
         signal: config.signal ?? signal,
       })
@@ -70,7 +63,6 @@ export function useGetApiV1TeacherNotesGetSuspense<
   TQueryKey extends QueryKey =
     GetApiV1TeacherNotesGetSuspenseQueryKey,
 >(
-  params?: GetApiV1TeacherNotesGetQueryParams,
   options: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -88,11 +80,11 @@ export function useGetApiV1TeacherNotesGetSuspense<
   const { client: queryClient, ...queryOptions } = queryConfig
   const queryKey =
     queryOptions?.queryKey ??
-    getApiV1TeacherNotesGetSuspenseQueryKey(params)
+    getApiV1TeacherNotesGetSuspenseQueryKey()
 
   const query = useSuspenseQuery(
     {
-      ...getApiV1TeacherNotesGetSuspenseQueryOptions(params, config),
+      ...getApiV1TeacherNotesGetSuspenseQueryOptions(config),
       queryKey,
       ...queryOptions,
     } as unknown as UseSuspenseQueryOptions,

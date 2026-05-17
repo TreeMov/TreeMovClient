@@ -22,26 +22,22 @@ import type {
 } from '@tanstack/react-query'
 import type {
   ListAccrualsQueryResponse,
-  ListAccrualsQueryParams,
   ListAccruals422,
 } from '../../types/accrual-controller/list-accruals.ts'
 import { queryOptions, useQuery } from '@tanstack/react-query'
 import { listAccruals } from '../../clients/axios/accrual-service/list-accruals.ts'
 
-export const listAccrualsQueryKey = (
-  params: ListAccrualsQueryParams = {}
-) =>
-  [{ url: '/api/v1/accruals' }, ...(params ? [params] : [])] as const
+export const listAccrualsQueryKey = () =>
+  [{ url: '/api/v1/accruals' }] as const
 
 export type ListAccrualsQueryKey = ReturnType<
   typeof listAccrualsQueryKey
 >
 
 export function listAccrualsQueryOptions(
-  params?: ListAccrualsQueryParams,
   config: Partial<RequestConfig> & { client?: Client } = {}
 ) {
-  const queryKey = listAccrualsQueryKey(params)
+  const queryKey = listAccrualsQueryKey()
   return queryOptions<
     ListAccrualsQueryResponse,
     ResponseErrorConfig<ListAccruals422>,
@@ -50,7 +46,7 @@ export function listAccrualsQueryOptions(
   >({
     queryKey,
     queryFn: async ({ signal }) => {
-      return listAccruals(params, {
+      return listAccruals({
         ...config,
         signal: config.signal ?? signal,
       })
@@ -67,7 +63,6 @@ export function useListAccruals<
   TQueryData = ListAccrualsQueryResponse,
   TQueryKey extends QueryKey = ListAccrualsQueryKey,
 >(
-  params?: ListAccrualsQueryParams,
   options: {
     query?: Partial<
       QueryObserverOptions<
@@ -84,12 +79,11 @@ export function useListAccruals<
   const { query: queryConfig = {}, client: config = {} } =
     options ?? {}
   const { client: queryClient, ...queryOptions } = queryConfig
-  const queryKey =
-    queryOptions?.queryKey ?? listAccrualsQueryKey(params)
+  const queryKey = queryOptions?.queryKey ?? listAccrualsQueryKey()
 
   const query = useQuery(
     {
-      ...listAccrualsQueryOptions(params, config),
+      ...listAccrualsQueryOptions(config),
       queryKey,
       ...queryOptions,
     } as unknown as QueryObserverOptions,

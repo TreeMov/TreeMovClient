@@ -16,7 +16,7 @@ export const Students: React.FC = () => {
   return (
     <PageLayoutList
       actions={<Header />}
-      deleteHandler={(id) => deleteStudent({ params: { id } })}
+      deleteHandler={(id) => deleteStudent({ id })}
       onDeleteSuccess={() =>
         queryClient.invalidateQueries(listStudentsQueryOptions())
       }

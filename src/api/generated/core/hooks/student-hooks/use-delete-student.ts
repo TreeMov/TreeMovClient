@@ -21,14 +21,14 @@ import type {
 } from '@tanstack/react-query'
 import type {
   DeleteStudentMutationResponse,
-  DeleteStudentQueryParams,
+  DeleteStudentPathParams,
   DeleteStudent422,
 } from '../../types/student-controller/delete-student.ts'
 import { mutationOptions, useMutation } from '@tanstack/react-query'
 import { deleteStudent } from '../../clients/axios/student-service/delete-student.ts'
 
 export const deleteStudentMutationKey = () =>
-  [{ url: '/api/v1/students' }] as const
+  [{ url: '/api/v1/students/:id' }] as const
 
 export type DeleteStudentMutationKey = ReturnType<
   typeof deleteStudentMutationKey
@@ -41,26 +41,26 @@ export function deleteStudentMutationOptions<TContext = unknown>(
   return mutationOptions<
     DeleteStudentMutationResponse,
     ResponseErrorConfig<DeleteStudent422>,
-    { params: DeleteStudentQueryParams },
+    { id: DeleteStudentPathParams['id'] },
     TContext
   >({
     mutationKey,
-    mutationFn: async ({ params }) => {
-      return deleteStudent(params, config)
+    mutationFn: async ({ id }) => {
+      return deleteStudent(id, config)
     },
   })
 }
 
 /**
  * @summary  Delete
- * {@link /api/v1/students}
+ * {@link /api/v1/students/:id}
  */
 export function useDeleteStudent<TContext>(
   options: {
     mutation?: UseMutationOptions<
       DeleteStudentMutationResponse,
       ResponseErrorConfig<DeleteStudent422>,
-      { params: DeleteStudentQueryParams },
+      { id: DeleteStudentPathParams['id'] },
       TContext
     > & { client?: QueryClient }
     client?: Partial<RequestConfig> & { client?: Client }
@@ -76,14 +76,14 @@ export function useDeleteStudent<TContext>(
   ) as UseMutationOptions<
     DeleteStudentMutationResponse,
     ResponseErrorConfig<DeleteStudent422>,
-    { params: DeleteStudentQueryParams },
+    { id: DeleteStudentPathParams['id'] },
     TContext
   >
 
   return useMutation<
     DeleteStudentMutationResponse,
     ResponseErrorConfig<DeleteStudent422>,
-    { params: DeleteStudentQueryParams },
+    { id: DeleteStudentPathParams['id'] },
     TContext
   >(
     {
@@ -95,7 +95,7 @@ export function useDeleteStudent<TContext>(
   ) as UseMutationResult<
     DeleteStudentMutationResponse,
     ResponseErrorConfig<DeleteStudent422>,
-    { params: DeleteStudentQueryParams },
+    { id: DeleteStudentPathParams['id'] },
     TContext
   >
 }

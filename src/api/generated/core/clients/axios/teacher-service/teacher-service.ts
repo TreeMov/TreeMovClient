@@ -20,9 +20,9 @@ export function teacherService() {
   return {
     listTeacher,
     createTeacher,
-    deleteTeacher,
     getTeacher,
     updateTeacher,
+    deleteTeacher,
     addOrgMemeberToTeacher,
   }
 }

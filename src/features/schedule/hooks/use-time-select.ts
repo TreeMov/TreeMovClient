@@ -1,4 +1,4 @@
-import type { ISelectOption } from '@/components/ui/select/types'
+import type { SelectOptionType } from '@/components/ui/base-select/types'
 
 import { SCHEDULE_SEGMENT_SIZE } from '@/utils/constants/schedule'
 
@@ -14,7 +14,7 @@ export const useTimeSelect = () => {
   const getOptions = (
     startHour: number,
     endHour: number
-  ): ISelectOption[] =>
+  ): SelectOptionType[] =>
     getTimeOptions(startHour, endHour, resolvedSegmentSize)
 
   return { getTimeOptions: getOptions }

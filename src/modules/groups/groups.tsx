@@ -16,7 +16,7 @@ export const Groups: React.FC = () => {
   return (
     <PageLayoutList
       actions={<Header />}
-      deleteHandler={(id) => deleteGroup({ params: { id } })}
+      deleteHandler={(id) => deleteGroup({ id })}
       onDeleteSuccess={() =>
         queryClient.invalidateQueries(listStudentGroupsQueryOptions())
       }

@@ -1,5 +1,5 @@
 import type { LessonModelRead } from '@/api/generated/core'
-import type { ISelectOption } from '@/components/ui/select/types'
+import type { SelectOptionType } from '@/components/ui/base-select/types'
 import type {
   DeserializedEvent,
   ScheduleEvent,
@@ -167,7 +167,7 @@ export const getTimeOptions = (
   startHour: number,
   endHour: number,
   segmentSize: number
-): ISelectOption[] =>
+): SelectOptionType[] =>
   getScheduleHours(startHour, endHour)
     .map((hour) => {
       const segmentsCount = Math.ceil(minutesInHour / segmentSize)
@@ -182,7 +182,7 @@ export const getTimeOptions = (
           [hour]
         )
         .slice(0, -1)
-      const segmentsOptions: ISelectOption[] = segmentsValues.map(
+      const segmentsOptions: SelectOptionType[] = segmentsValues.map(
         (value) => {
           const time = format(value, timeFormat)
           return { label: time, value: time }

@@ -22,29 +22,22 @@ import type {
 } from '@tanstack/react-query'
 import type {
   ListClassroomsQueryResponse,
-  ListClassroomsQueryParams,
   ListClassrooms422,
 } from '../../types/classroom-controller/list-classrooms.ts'
 import { queryOptions, useQuery } from '@tanstack/react-query'
 import { listClassrooms } from '../../clients/axios/classroom-service/list-classrooms.ts'
 
-export const listClassroomsQueryKey = (
-  params: ListClassroomsQueryParams = {}
-) =>
-  [
-    { url: '/api/v1/classrooms' },
-    ...(params ? [params] : []),
-  ] as const
+export const listClassroomsQueryKey = () =>
+  [{ url: '/api/v1/classrooms' }] as const
 
 export type ListClassroomsQueryKey = ReturnType<
   typeof listClassroomsQueryKey
 >
 
 export function listClassroomsQueryOptions(
-  params?: ListClassroomsQueryParams,
   config: Partial<RequestConfig> & { client?: Client } = {}
 ) {
-  const queryKey = listClassroomsQueryKey(params)
+  const queryKey = listClassroomsQueryKey()
   return queryOptions<
     ListClassroomsQueryResponse,
     ResponseErrorConfig<ListClassrooms422>,
@@ -53,7 +46,7 @@ export function listClassroomsQueryOptions(
   >({
     queryKey,
     queryFn: async ({ signal }) => {
-      return listClassrooms(params, {
+      return listClassrooms({
         ...config,
         signal: config.signal ?? signal,
       })
@@ -70,7 +63,6 @@ export function useListClassrooms<
   TQueryData = ListClassroomsQueryResponse,
   TQueryKey extends QueryKey = ListClassroomsQueryKey,
 >(
-  params?: ListClassroomsQueryParams,
   options: {
     query?: Partial<
       QueryObserverOptions<
@@ -87,12 +79,11 @@ export function useListClassrooms<
   const { query: queryConfig = {}, client: config = {} } =
     options ?? {}
   const { client: queryClient, ...queryOptions } = queryConfig
-  const queryKey =
-    queryOptions?.queryKey ?? listClassroomsQueryKey(params)
+  const queryKey = queryOptions?.queryKey ?? listClassroomsQueryKey()
 
   const query = useQuery(
     {
-      ...listClassroomsQueryOptions(params, config),
+      ...listClassroomsQueryOptions(config),
       queryKey,
       ...queryOptions,
     } as unknown as QueryObserverOptions,

@@ -23,7 +23,6 @@ import type {
 } from '@tanstack/react-query'
 import type {
   ListEmployeesQueryResponse,
-  ListEmployeesQueryParams,
   ListEmployees422,
 } from '../../types/employee-controller/list-employees.ts'
 import {
@@ -32,35 +31,27 @@ import {
 } from '@tanstack/react-query'
 import { listEmployees } from '../../clients/axios/employee-service/list-employees.ts'
 
-export const listEmployeesSuspenseInfiniteQueryKey = (
-  params: ListEmployeesQueryParams = {}
-) =>
-  [{ url: '/api/v1/employees' }, ...(params ? [params] : [])] as const
+export const listEmployeesSuspenseInfiniteQueryKey = () =>
+  [{ url: '/api/v1/employees' }] as const
 
 export type ListEmployeesSuspenseInfiniteQueryKey = ReturnType<
   typeof listEmployeesSuspenseInfiniteQueryKey
 >
 
 export function listEmployeesSuspenseInfiniteQueryOptions(
-  params?: ListEmployeesQueryParams,
   config: Partial<RequestConfig> & { client?: Client } = {}
 ) {
-  const queryKey = listEmployeesSuspenseInfiniteQueryKey(params)
+  const queryKey = listEmployeesSuspenseInfiniteQueryKey()
   return infiniteQueryOptions<
     ListEmployeesQueryResponse,
     ResponseErrorConfig<ListEmployees422>,
     InfiniteData<ListEmployeesQueryResponse>,
     typeof queryKey,
-    NonNullable<ListEmployeesQueryParams['page']>
+    number
   >({
     queryKey,
-    queryFn: async ({ signal, pageParam }) => {
-      params = {
-        ...(params ?? {}),
-        ['page']:
-          pageParam as unknown as ListEmployeesQueryParams['page'],
-      } as ListEmployeesQueryParams
-      return listEmployees(params, {
+    queryFn: async ({ signal }) => {
+      return listEmployees({
         ...config,
         signal: config.signal ?? signal,
       })
@@ -80,9 +71,8 @@ export function useListEmployeesSuspenseInfinite<
   TError = ResponseErrorConfig<ListEmployees422>,
   TData = InfiniteData<TQueryFnData>,
   TQueryKey extends QueryKey = ListEmployeesSuspenseInfiniteQueryKey,
-  TPageParam = NonNullable<ListEmployeesQueryParams['page']>,
+  TPageParam = number,
 >(
-  params?: ListEmployeesQueryParams,
   options: {
     query?: Partial<
       UseSuspenseInfiniteQueryOptions<
@@ -100,12 +90,11 @@ export function useListEmployeesSuspenseInfinite<
     options ?? {}
   const { client: queryClient, ...queryOptions } = queryConfig
   const queryKey =
-    queryOptions?.queryKey ??
-    listEmployeesSuspenseInfiniteQueryKey(params)
+    queryOptions?.queryKey ?? listEmployeesSuspenseInfiniteQueryKey()
 
   const query = useSuspenseInfiniteQuery(
     {
-      ...listEmployeesSuspenseInfiniteQueryOptions(params, config),
+      ...listEmployeesSuspenseInfiniteQueryOptions(config),
       queryKey,
       ...queryOptions,
     } as unknown as UseSuspenseInfiniteQueryOptions<

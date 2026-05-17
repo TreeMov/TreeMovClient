@@ -10,24 +10,13 @@
  */
 
 import type { HTTPValidationError } from '../httpvalidation-error.ts'
-import type { StudentGroupModelRead } from '../student-group-model-read.ts'
-
-export type ListStudentGroupsQueryParams = {
-  /**
-   * @default 0
-   */
-  offset?: (number | null) | undefined
-  /**
-   * @default 1000
-   */
-  limit?: (number | null) | undefined
-}
+import type { StudentGroupModelReadLite } from '../student-group-model-read-lite.ts'
 
 /**
  * Response List Student Groups
  * @description Successful Response
  */
-export type ListStudentGroups200 = StudentGroupModelRead[]
+export type ListStudentGroups200 = StudentGroupModelReadLite[]
 
 /**
  * HTTPValidationError
@@ -39,6 +28,5 @@ export type ListStudentGroupsQueryResponse = ListStudentGroups200
 
 export type ListStudentGroupsQuery = {
   Response: ListStudentGroups200
-  QueryParams: ListStudentGroupsQueryParams
   Errors: ListStudentGroups422
 }

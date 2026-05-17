@@ -23,5 +23,5 @@ export type EmployeeModelRead = {
   surname?: (string | null) | undefined
   patronymic?: (string | null) | undefined
   email?: (string | null) | undefined
-  org_member?: (OrganizationMemberRead | null) | undefined
+  org_member: OrganizationMemberRead | null
 }

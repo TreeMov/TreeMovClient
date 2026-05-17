@@ -12,17 +12,6 @@
 import type { EmployeeModelRead } from '../employee-model-read.ts'
 import type { HTTPValidationError } from '../httpvalidation-error.ts'
 
-export type ListEmployeesQueryParams = {
-  /**
-   * @default 0
-   */
-  offset?: (number | null) | undefined
-  /**
-   * @default 1000
-   */
-  limit?: (number | null) | undefined
-}
-
 /**
  * Response List Employees
  * @description Successful Response
@@ -39,6 +28,5 @@ export type ListEmployeesQueryResponse = ListEmployees200
 
 export type ListEmployeesQuery = {
   Response: ListEmployees200
-  QueryParams: ListEmployeesQueryParams
   Errors: ListEmployees422
 }

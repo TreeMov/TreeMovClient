@@ -17,21 +17,24 @@ import type {
 } from '@/api/clients/core-client'
 import type {
   DeleteEmployeeMutationResponse,
-  DeleteEmployeeQueryParams,
+  DeleteEmployeePathParams,
   DeleteEmployee422,
 } from '../../../types/employee-controller/delete-employee.ts'
 
-function getDeleteEmployeeUrl() {
-  const res = { method: 'DELETE', url: `/api/v1/employees` as const }
+function getDeleteEmployeeUrl(id: DeleteEmployeePathParams['id']) {
+  const res = {
+    method: 'DELETE',
+    url: `/api/v1/employees/${id}` as const,
+  }
   return res
 }
 
 /**
  * @summary  Delete
- * {@link /api/v1/employees}
+ * {@link /api/v1/employees/:id}
  */
 export async function deleteEmployee(
-  params: DeleteEmployeeQueryParams,
+  id: DeleteEmployeePathParams['id'],
   config: Partial<RequestConfig> & { client?: Client } = {}
 ) {
   const { client: request = fetch, ...requestConfig } = config
@@ -42,8 +45,7 @@ export async function deleteEmployee(
     unknown
   >({
     method: 'DELETE',
-    url: getDeleteEmployeeUrl().url.toString(),
-    params,
+    url: getDeleteEmployeeUrl(id).url.toString(),
     ...requestConfig,
   })
   return res.data

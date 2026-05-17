@@ -112,7 +112,10 @@ export type ScheduleProps = {
     dto: Omit<PeriodLessonModelCreate, 'period'>,
     period: PeriodEnum
   ) => MaybePromise<void>
-  onChangePeriod: (periodId: number) => MaybePromise<void>
+  onChangePeriod: (
+    periodId: number,
+    dto: LessonModelUpdate
+  ) => MaybePromise<void>
   onDeletePeriod: (periodId: number) => MaybePromise<void>
   onClickCell?: (date: Date) => void
 }
@@ -123,6 +126,11 @@ export type PeriodRange = {
 }
 
 export type OnChangeHandlerParams = {
+  dto: ScheduleEventRead
+  prevData: ScheduleEvent
+}
+
+export type OnChangePeriodHandlerParams = {
   dto: ScheduleEventRead
   prevData: ScheduleEvent
 }
@@ -155,7 +163,7 @@ export type ScheduleContextType = ScheduleProps & {
   onChangePeriodHandler: (
     eventId: number,
     periodId: number,
-    prevData: ScheduleEvent
+    { dto, prevData }: OnChangePeriodHandlerParams
   ) => MaybePromise<void>
   // todo доделать
   onDeletePeriodHandler: (periodId: number) => MaybePromise<void>
