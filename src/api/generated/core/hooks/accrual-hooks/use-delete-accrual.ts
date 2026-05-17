@@ -21,14 +21,14 @@ import type {
 } from '@tanstack/react-query'
 import type {
   DeleteAccrualMutationResponse,
-  DeleteAccrualQueryParams,
+  DeleteAccrualPathParams,
   DeleteAccrual422,
 } from '../../types/accrual-controller/delete-accrual.ts'
 import { mutationOptions, useMutation } from '@tanstack/react-query'
 import { deleteAccrual } from '../../clients/axios/accrual-service/delete-accrual.ts'
 
 export const deleteAccrualMutationKey = () =>
-  [{ url: '/api/v1/accruals' }] as const
+  [{ url: '/api/v1/accruals/:id' }] as const
 
 export type DeleteAccrualMutationKey = ReturnType<
   typeof deleteAccrualMutationKey
@@ -41,26 +41,26 @@ export function deleteAccrualMutationOptions<TContext = unknown>(
   return mutationOptions<
     DeleteAccrualMutationResponse,
     ResponseErrorConfig<DeleteAccrual422>,
-    { params: DeleteAccrualQueryParams },
+    { id: DeleteAccrualPathParams['id'] },
     TContext
   >({
     mutationKey,
-    mutationFn: async ({ params }) => {
-      return deleteAccrual(params, config)
+    mutationFn: async ({ id }) => {
+      return deleteAccrual(id, config)
     },
   })
 }
 
 /**
  * @summary  Delete
- * {@link /api/v1/accruals}
+ * {@link /api/v1/accruals/:id}
  */
 export function useDeleteAccrual<TContext>(
   options: {
     mutation?: UseMutationOptions<
       DeleteAccrualMutationResponse,
       ResponseErrorConfig<DeleteAccrual422>,
-      { params: DeleteAccrualQueryParams },
+      { id: DeleteAccrualPathParams['id'] },
       TContext
     > & { client?: QueryClient }
     client?: Partial<RequestConfig> & { client?: Client }
@@ -76,14 +76,14 @@ export function useDeleteAccrual<TContext>(
   ) as UseMutationOptions<
     DeleteAccrualMutationResponse,
     ResponseErrorConfig<DeleteAccrual422>,
-    { params: DeleteAccrualQueryParams },
+    { id: DeleteAccrualPathParams['id'] },
     TContext
   >
 
   return useMutation<
     DeleteAccrualMutationResponse,
     ResponseErrorConfig<DeleteAccrual422>,
-    { params: DeleteAccrualQueryParams },
+    { id: DeleteAccrualPathParams['id'] },
     TContext
   >(
     {
@@ -95,7 +95,7 @@ export function useDeleteAccrual<TContext>(
   ) as UseMutationResult<
     DeleteAccrualMutationResponse,
     ResponseErrorConfig<DeleteAccrual422>,
-    { params: DeleteAccrualQueryParams },
+    { id: DeleteAccrualPathParams['id'] },
     TContext
   >
 }

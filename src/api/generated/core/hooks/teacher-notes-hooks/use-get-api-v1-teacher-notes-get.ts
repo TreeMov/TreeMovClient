@@ -22,29 +22,22 @@ import type {
 } from '@tanstack/react-query'
 import type {
   GetApiV1TeacherNotesGetQueryResponse,
-  GetApiV1TeacherNotesGetQueryParams,
   GetApiV1TeacherNotesGet422,
 } from '../../types/teacher-notes-controller/get-api-v1-teacher-notes-get.ts'
 import { queryOptions, useQuery } from '@tanstack/react-query'
 import { getApiV1TeacherNotesGet } from '../../clients/axios/teacher-notes-service/get-api-v1-teacher-notes-get.ts'
 
-export const getApiV1TeacherNotesGetQueryKey = (
-  params: GetApiV1TeacherNotesGetQueryParams = {}
-) =>
-  [
-    { url: '/api/v1/teacher-notes' },
-    ...(params ? [params] : []),
-  ] as const
+export const getApiV1TeacherNotesGetQueryKey = () =>
+  [{ url: '/api/v1/teacher-notes' }] as const
 
 export type GetApiV1TeacherNotesGetQueryKey = ReturnType<
   typeof getApiV1TeacherNotesGetQueryKey
 >
 
 export function getApiV1TeacherNotesGetQueryOptions(
-  params?: GetApiV1TeacherNotesGetQueryParams,
   config: Partial<RequestConfig> & { client?: Client } = {}
 ) {
-  const queryKey = getApiV1TeacherNotesGetQueryKey(params)
+  const queryKey = getApiV1TeacherNotesGetQueryKey()
   return queryOptions<
     GetApiV1TeacherNotesGetQueryResponse,
     ResponseErrorConfig<GetApiV1TeacherNotesGet422>,
@@ -53,7 +46,7 @@ export function getApiV1TeacherNotesGetQueryOptions(
   >({
     queryKey,
     queryFn: async ({ signal }) => {
-      return getApiV1TeacherNotesGet(params, {
+      return getApiV1TeacherNotesGet({
         ...config,
         signal: config.signal ?? signal,
       })
@@ -70,7 +63,6 @@ export function useGetApiV1TeacherNotesGet<
   TQueryData = GetApiV1TeacherNotesGetQueryResponse,
   TQueryKey extends QueryKey = GetApiV1TeacherNotesGetQueryKey,
 >(
-  params?: GetApiV1TeacherNotesGetQueryParams,
   options: {
     query?: Partial<
       QueryObserverOptions<
@@ -88,11 +80,11 @@ export function useGetApiV1TeacherNotesGet<
     options ?? {}
   const { client: queryClient, ...queryOptions } = queryConfig
   const queryKey =
-    queryOptions?.queryKey ?? getApiV1TeacherNotesGetQueryKey(params)
+    queryOptions?.queryKey ?? getApiV1TeacherNotesGetQueryKey()
 
   const query = useQuery(
     {
-      ...getApiV1TeacherNotesGetQueryOptions(params, config),
+      ...getApiV1TeacherNotesGetQueryOptions(config),
       queryKey,
       ...queryOptions,
     } as unknown as QueryObserverOptions,

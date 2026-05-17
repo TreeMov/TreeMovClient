@@ -17,7 +17,6 @@ import type {
 } from '@/api/clients/core-client'
 import type {
   GetApiV1TeacherNotesGetQueryResponse,
-  GetApiV1TeacherNotesGetQueryParams,
   GetApiV1TeacherNotesGet422,
 } from '../../../types/teacher-notes-controller/get-api-v1-teacher-notes-get.ts'
 
@@ -31,7 +30,6 @@ function getGetApiV1TeacherNotesGetUrl() {
  * {@link /api/v1/teacher-notes}
  */
 export async function getApiV1TeacherNotesGet(
-  params?: GetApiV1TeacherNotesGetQueryParams,
   config: Partial<RequestConfig> & { client?: Client } = {}
 ) {
   const { client: request = fetch, ...requestConfig } = config
@@ -43,7 +41,6 @@ export async function getApiV1TeacherNotesGet(
   >({
     method: 'GET',
     url: getGetApiV1TeacherNotesGetUrl().url.toString(),
-    params,
     ...requestConfig,
   })
   return res.data

@@ -12,17 +12,17 @@
 import { addOrgMemeberToStudent } from './add-org-memeber-to-student.ts'
 import { createStudent } from './create-student.ts'
 import { deleteStudent } from './delete-student.ts'
-import { getApiV1StudentsId } from './get-api-v1-students-id.ts'
+import { getStudent } from './get-student.ts'
 import { listStudents } from './list-students.ts'
-import { patchApiV1StudentsId } from './patch-api-v1-students-id.ts'
+import { updateStudent } from './update-student.ts'
 
 export function studentService() {
   return {
     listStudents,
     createStudent,
+    getStudent,
+    updateStudent,
     deleteStudent,
-    getApiV1StudentsId,
-    patchApiV1StudentsId,
     addOrgMemeberToStudent,
   }
 }

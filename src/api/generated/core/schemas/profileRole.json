@@ -1,6 +1,0 @@
-{
-  "type": "string",
-  "enum": ["teacher", "student", "crm_admin"],
-  "title": "ProfileRole",
-  "x-readme-ref-name": "ProfileRole"
-}

@@ -3,7 +3,7 @@ import React from 'react'
 
 import { Calendar } from '@/components/shared/calendar'
 import { Form } from '@/components/shared/form'
-import { Select } from '@/components/shared/select'
+import { SingleSelect } from '@/components/shared/single-select'
 import { Textarea } from '@/components/shared/textarea'
 import { Button } from '@/components/ui/button'
 import {
@@ -52,7 +52,7 @@ export const LessonForm: React.FC<LessonFormProps> = ({
         <div className="flex items-center gap-4">
           <ConnectForm>
             {({ control }) => (
-              <Select
+              <SingleSelect
                 control={control}
                 name="start_time"
                 inputProps={{
@@ -65,7 +65,7 @@ export const LessonForm: React.FC<LessonFormProps> = ({
           <div className="bg-grey-400 h-px w-4" />
           <ConnectForm>
             {({ control }) => (
-              <Select
+              <SingleSelect
                 control={control}
                 name="end_time"
                 inputProps={{
@@ -91,7 +91,7 @@ export const LessonForm: React.FC<LessonFormProps> = ({
         </ConnectForm>
         <ConnectForm>
           {({ control }) => (
-            <Select
+            <SingleSelect
               control={control}
               name="period"
               inputProps={{
@@ -103,7 +103,7 @@ export const LessonForm: React.FC<LessonFormProps> = ({
         </ConnectForm>
         <ConnectForm>
           {({ control }) => (
-            <Select
+            <SingleSelect
               control={control}
               name="subject"
               inputProps={{
@@ -119,7 +119,7 @@ export const LessonForm: React.FC<LessonFormProps> = ({
         </ConnectForm>
         <ConnectForm>
           {({ control }) => (
-            <Select
+            <SingleSelect
               control={control}
               name="teacher"
               inputProps={{
@@ -135,7 +135,7 @@ export const LessonForm: React.FC<LessonFormProps> = ({
         </ConnectForm>
         <ConnectForm>
           {({ control }) => (
-            <Select
+            <SingleSelect
               control={control}
               name="classroom"
               inputProps={{
@@ -151,7 +151,7 @@ export const LessonForm: React.FC<LessonFormProps> = ({
         </ConnectForm>
         <ConnectForm>
           {({ control }) => (
-            <Select
+            <SingleSelect
               control={control}
               name="student_group"
               inputProps={{

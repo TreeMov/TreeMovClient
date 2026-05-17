@@ -17,7 +17,6 @@ import type {
 } from '@/api/clients/core-client'
 import type {
   ListClassroomsQueryResponse,
-  ListClassroomsQueryParams,
   ListClassrooms422,
 } from '../../../types/classroom-controller/list-classrooms.ts'
 
@@ -31,7 +30,6 @@ function getListClassroomsUrl() {
  * {@link /api/v1/classrooms}
  */
 export async function listClassrooms(
-  params?: ListClassroomsQueryParams,
   config: Partial<RequestConfig> & { client?: Client } = {}
 ) {
   const { client: request = fetch, ...requestConfig } = config
@@ -43,7 +41,6 @@ export async function listClassrooms(
   >({
     method: 'GET',
     url: getListClassroomsUrl().url.toString(),
-    params,
     ...requestConfig,
   })
   return res.data

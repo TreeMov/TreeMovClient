@@ -22,26 +22,22 @@ import type {
 } from '@tanstack/react-query'
 import type {
   ListSubjectsQueryResponse,
-  ListSubjectsQueryParams,
   ListSubjects422,
 } from '../../types/subject-controller/list-subjects.ts'
 import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
 import { listSubjects } from '../../clients/axios/subject-service/list-subjects.ts'
 
-export const listSubjectsSuspenseQueryKey = (
-  params: ListSubjectsQueryParams = {}
-) =>
-  [{ url: '/api/v1/subjects' }, ...(params ? [params] : [])] as const
+export const listSubjectsSuspenseQueryKey = () =>
+  [{ url: '/api/v1/subjects' }] as const
 
 export type ListSubjectsSuspenseQueryKey = ReturnType<
   typeof listSubjectsSuspenseQueryKey
 >
 
 export function listSubjectsSuspenseQueryOptions(
-  params?: ListSubjectsQueryParams,
   config: Partial<RequestConfig> & { client?: Client } = {}
 ) {
-  const queryKey = listSubjectsSuspenseQueryKey(params)
+  const queryKey = listSubjectsSuspenseQueryKey()
   return queryOptions<
     ListSubjectsQueryResponse,
     ResponseErrorConfig<ListSubjects422>,
@@ -50,7 +46,7 @@ export function listSubjectsSuspenseQueryOptions(
   >({
     queryKey,
     queryFn: async ({ signal }) => {
-      return listSubjects(params, {
+      return listSubjects({
         ...config,
         signal: config.signal ?? signal,
       })
@@ -66,7 +62,6 @@ export function useListSubjectsSuspense<
   TData = ListSubjectsQueryResponse,
   TQueryKey extends QueryKey = ListSubjectsSuspenseQueryKey,
 >(
-  params?: ListSubjectsQueryParams,
   options: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -83,11 +78,11 @@ export function useListSubjectsSuspense<
     options ?? {}
   const { client: queryClient, ...queryOptions } = queryConfig
   const queryKey =
-    queryOptions?.queryKey ?? listSubjectsSuspenseQueryKey(params)
+    queryOptions?.queryKey ?? listSubjectsSuspenseQueryKey()
 
   const query = useSuspenseQuery(
     {
-      ...listSubjectsSuspenseQueryOptions(params, config),
+      ...listSubjectsSuspenseQueryOptions(config),
       queryKey,
       ...queryOptions,
     } as unknown as UseSuspenseQueryOptions,

@@ -1,7 +1,7 @@
 import { createConfig } from '../helpers/create-config'
 
 export default createConfig(
-  'http://localhost:8001/openapi.json',
+  'https://api.treemov.ru/crm/openapi.json',
   '@/api/clients/core-client',
   'core'
 )

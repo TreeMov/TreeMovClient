@@ -29,6 +29,10 @@
     "score": {
       "anyOf": [{ "type": "integer" }, { "type": "null" }],
       "title": "Score"
+    },
+    "org_member_id": {
+      "anyOf": [{ "type": "integer" }, { "type": "null" }],
+      "title": "Org Member Id"
     }
   },
   "type": "object",

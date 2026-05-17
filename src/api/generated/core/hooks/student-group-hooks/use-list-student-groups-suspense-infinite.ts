@@ -23,7 +23,6 @@ import type {
 } from '@tanstack/react-query'
 import type {
   ListStudentGroupsQueryResponse,
-  ListStudentGroupsQueryParams,
   ListStudentGroups422,
 } from '../../types/student-group-controller/list-student-groups.ts'
 import {
@@ -32,38 +31,27 @@ import {
 } from '@tanstack/react-query'
 import { listStudentGroups } from '../../clients/axios/student-group-service/list-student-groups.ts'
 
-export const listStudentGroupsSuspenseInfiniteQueryKey = (
-  params: ListStudentGroupsQueryParams = {}
-) =>
-  [
-    { url: '/api/v1/student-groups' },
-    ...(params ? [params] : []),
-  ] as const
+export const listStudentGroupsSuspenseInfiniteQueryKey = () =>
+  [{ url: '/api/v1/student-groups' }] as const
 
 export type ListStudentGroupsSuspenseInfiniteQueryKey = ReturnType<
   typeof listStudentGroupsSuspenseInfiniteQueryKey
 >
 
 export function listStudentGroupsSuspenseInfiniteQueryOptions(
-  params?: ListStudentGroupsQueryParams,
   config: Partial<RequestConfig> & { client?: Client } = {}
 ) {
-  const queryKey = listStudentGroupsSuspenseInfiniteQueryKey(params)
+  const queryKey = listStudentGroupsSuspenseInfiniteQueryKey()
   return infiniteQueryOptions<
     ListStudentGroupsQueryResponse,
     ResponseErrorConfig<ListStudentGroups422>,
     InfiniteData<ListStudentGroupsQueryResponse>,
     typeof queryKey,
-    NonNullable<ListStudentGroupsQueryParams['page']>
+    number
   >({
     queryKey,
-    queryFn: async ({ signal, pageParam }) => {
-      params = {
-        ...(params ?? {}),
-        ['page']:
-          pageParam as unknown as ListStudentGroupsQueryParams['page'],
-      } as ListStudentGroupsQueryParams
-      return listStudentGroups(params, {
+    queryFn: async ({ signal }) => {
+      return listStudentGroups({
         ...config,
         signal: config.signal ?? signal,
       })
@@ -84,9 +72,8 @@ export function useListStudentGroupsSuspenseInfinite<
   TData = InfiniteData<TQueryFnData>,
   TQueryKey extends QueryKey =
     ListStudentGroupsSuspenseInfiniteQueryKey,
-  TPageParam = NonNullable<ListStudentGroupsQueryParams['page']>,
+  TPageParam = number,
 >(
-  params?: ListStudentGroupsQueryParams,
   options: {
     query?: Partial<
       UseSuspenseInfiniteQueryOptions<
@@ -105,14 +92,11 @@ export function useListStudentGroupsSuspenseInfinite<
   const { client: queryClient, ...queryOptions } = queryConfig
   const queryKey =
     queryOptions?.queryKey ??
-    listStudentGroupsSuspenseInfiniteQueryKey(params)
+    listStudentGroupsSuspenseInfiniteQueryKey()
 
   const query = useSuspenseInfiniteQuery(
     {
-      ...listStudentGroupsSuspenseInfiniteQueryOptions(
-        params,
-        config
-      ),
+      ...listStudentGroupsSuspenseInfiniteQueryOptions(config),
       queryKey,
       ...queryOptions,
     } as unknown as UseSuspenseInfiniteQueryOptions<

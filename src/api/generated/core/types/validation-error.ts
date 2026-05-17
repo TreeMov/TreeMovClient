@@ -25,9 +25,4 @@ export type ValidationError = {
    * @type string
    */
   type: string
-  input?: unknown | undefined
-  /**
-   * @type object | undefined
-   */
-  ctx?: object | undefined
 }

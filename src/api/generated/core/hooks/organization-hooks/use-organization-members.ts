@@ -29,7 +29,7 @@ import { queryOptions, useQuery } from '@tanstack/react-query'
 import { organizationMembers } from '../../clients/axios/organization-service/organization-members.ts'
 
 export const organizationMembersQueryKey = (
-  params: OrganizationMembersQueryParams
+  params: OrganizationMembersQueryParams = {}
 ) =>
   [
     { url: '/api/v1/organizations/members' },
@@ -41,7 +41,7 @@ export type OrganizationMembersQueryKey = ReturnType<
 >
 
 export function organizationMembersQueryOptions(
-  params: OrganizationMembersQueryParams,
+  params?: OrganizationMembersQueryParams,
   config: Partial<RequestConfig> & { client?: Client } = {}
 ) {
   const queryKey = organizationMembersQueryKey(params)
@@ -51,7 +51,6 @@ export function organizationMembersQueryOptions(
     OrganizationMembersQueryResponse,
     typeof queryKey
   >({
-    enabled: !!params,
     queryKey,
     queryFn: async ({ signal }) => {
       return organizationMembers(params, {
@@ -71,7 +70,7 @@ export function useOrganizationMembers<
   TQueryData = OrganizationMembersQueryResponse,
   TQueryKey extends QueryKey = OrganizationMembersQueryKey,
 >(
-  params: OrganizationMembersQueryParams,
+  params?: OrganizationMembersQueryParams,
   options: {
     query?: Partial<
       QueryObserverOptions<

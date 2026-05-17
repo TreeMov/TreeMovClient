@@ -1,6 +1,7 @@
 export { authService } from './auth-service/auth-service.ts'
 export { loginApiV1AuthLoginPost } from './auth-service/login-api-v1-auth-login-post.ts'
 export { logoutApiV1AuthLogoutPost } from './auth-service/logout-api-v1-auth-logout-post.ts'
+export { publicKeyApiV1AuthPublicKeyGet } from './auth-service/public-key-api-v1-auth-public-key-get.ts'
 export { refreshApiV1AuthRefreshPost } from './auth-service/refresh-api-v1-auth-refresh-post.ts'
 export { registerApiV1AuthRegisterPost } from './auth-service/register-api-v1-auth-register-post.ts'
 export { getUserIdByEmailApiV1InternalUsersByEmailGet } from './internal-service/get-user-id-by-email-api-v1-internal-users-by-email-get.ts'

@@ -22,26 +22,22 @@ import type {
 } from '@tanstack/react-query'
 import type {
   ListInvitesQueryResponse,
-  ListInvitesQueryParams,
   ListInvites422,
 } from '../../types/invite-controller/list-invites.ts'
 import { queryOptions, useQuery } from '@tanstack/react-query'
 import { listInvites } from '../../clients/axios/invite-service/list-invites.ts'
 
-export const listInvitesQueryKey = (
-  params: ListInvitesQueryParams = {}
-) =>
-  [{ url: '/api/v1/invites' }, ...(params ? [params] : [])] as const
+export const listInvitesQueryKey = () =>
+  [{ url: '/api/v1/invites' }] as const
 
 export type ListInvitesQueryKey = ReturnType<
   typeof listInvitesQueryKey
 >
 
 export function listInvitesQueryOptions(
-  params?: ListInvitesQueryParams,
   config: Partial<RequestConfig> & { client?: Client } = {}
 ) {
-  const queryKey = listInvitesQueryKey(params)
+  const queryKey = listInvitesQueryKey()
   return queryOptions<
     ListInvitesQueryResponse,
     ResponseErrorConfig<ListInvites422>,
@@ -50,7 +46,7 @@ export function listInvitesQueryOptions(
   >({
     queryKey,
     queryFn: async ({ signal }) => {
-      return listInvites(params, {
+      return listInvites({
         ...config,
         signal: config.signal ?? signal,
       })
@@ -67,7 +63,6 @@ export function useListInvites<
   TQueryData = ListInvitesQueryResponse,
   TQueryKey extends QueryKey = ListInvitesQueryKey,
 >(
-  params?: ListInvitesQueryParams,
   options: {
     query?: Partial<
       QueryObserverOptions<
@@ -84,12 +79,11 @@ export function useListInvites<
   const { query: queryConfig = {}, client: config = {} } =
     options ?? {}
   const { client: queryClient, ...queryOptions } = queryConfig
-  const queryKey =
-    queryOptions?.queryKey ?? listInvitesQueryKey(params)
+  const queryKey = queryOptions?.queryKey ?? listInvitesQueryKey()
 
   const query = useQuery(
     {
-      ...listInvitesQueryOptions(params, config),
+      ...listInvitesQueryOptions(config),
       queryKey,
       ...queryOptions,
     } as unknown as QueryObserverOptions,

@@ -1,4 +1,7 @@
-import type { ISelectOption } from '@/components/ui/select/types'
+import type {
+  SelectOptionType,
+  SelectValue,
+} from '@/components/ui/base-select/types'
 import type { GroupFormProps, Schema } from './types'
 
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -8,10 +11,8 @@ import { useListStudents } from '@/api/generated/core'
 import { Form } from '@/components/shared/form'
 import { Input } from '@/components/shared/input'
 import { Button } from '@/components/ui/button'
-import { FormLabel } from '@/components/ui/form'
-import { Select } from '@/components/ui/select'
+import { MultiSelect } from '@/components/ui/multi-select'
 import { createConnectForm } from '@/hocs/create-connect-form'
-import { declination } from '@/utils/helpers/declination'
 
 import { schema } from './schema'
 
@@ -20,25 +21,15 @@ const ConnectForm = createConnectForm<Schema>()
 export const GroupForm: React.FC<GroupFormProps> = ({ onSubmit }) => {
   const { data: students } = useListStudents()
 
-  const [selectedStudentsIds, setSelectedStudentsIds] = useState<
-    string[]
+  const [selectedStudents, setSelectedStudentsIds] = useState<
+    SelectValue[]
   >([])
-  const normalizedStudents: Record<string, string> = (
-    students ?? []
-  ).reduce(
-    (acc, { id, name, surname }) => ({
-      ...acc,
-      [id]: [name, surname].filter(Boolean).join(' '),
-    }),
-    {}
-  )
 
-  const options: ISelectOption[] =
+  const options: SelectOptionType[] =
     students?.map(({ id, name, surname }) => ({
       value: `${id}`,
       label: [name, surname].filter(Boolean).join(' '),
     })) ?? []
-  const placeholder = `${declination(selectedStudentsIds.length, ['Выбран', 'Выбрано', 'Выбрано'])} ${selectedStudentsIds.length} ${declination(selectedStudentsIds.length, ['человек', 'человека', 'человек'])}`
 
   return (
     <Form
@@ -47,7 +38,14 @@ export const GroupForm: React.FC<GroupFormProps> = ({ onSubmit }) => {
         resolver: zodResolver(schema),
         defaultValues: { title: '' },
       }}
-      onSubmit={(data) => onSubmit({ ...data, selectedStudentsIds })}
+      onSubmit={(data) =>
+        onSubmit({
+          ...data,
+          selectedStudentsIds: selectedStudents.map(
+            ({ value }) => value
+          ),
+        })
+      }
     >
       <div className="flex flex-col gap-2.5">
         <ConnectForm>
@@ -63,20 +61,18 @@ export const GroupForm: React.FC<GroupFormProps> = ({ onSubmit }) => {
           )}
         </ConnectForm>
         <div className="flex flex-col gap-2">
-          <FormLabel label="Ученики" htmlFor="students" />
-          <Select
-            id="students"
+          <MultiSelect
+            value={selectedStudents}
             options={options}
-            placeholder={placeholder}
-            onValueChange={(value) =>
-              setSelectedStudentsIds((prev) => [...prev, value])
-            }
+            placeholder="Выберите студентов"
+            valuePrefix="Выбрано студентов"
+            onChange={(value) => setSelectedStudentsIds(value)}
           />
         </div>
-        {selectedStudentsIds.length > 0 && (
+        {selectedStudents.length > 0 && (
           <div className="flex flex-col gap-1">
-            {selectedStudentsIds.map((id) => (
-              <div key={id}>{normalizedStudents[id]}</div>
+            {selectedStudents.map(({ value, label }) => (
+              <div key={value}>{label}</div>
             ))}
           </div>
         )}

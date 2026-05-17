@@ -13,14 +13,6 @@ import type { AttendanceModelRead } from '../attendance-model-read.ts'
 import type { HTTPValidationError } from '../httpvalidation-error.ts'
 
 export type ListAttendancesQueryParams = {
-  /**
-   * @default 0
-   */
-  offset?: (number | null) | undefined
-  /**
-   * @default 1000
-   */
-  limit?: (number | null) | undefined
   lesson_id?: (number | null) | undefined
 }
 

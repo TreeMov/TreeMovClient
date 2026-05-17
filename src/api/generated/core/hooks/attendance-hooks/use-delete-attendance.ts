@@ -21,14 +21,14 @@ import type {
 } from '@tanstack/react-query'
 import type {
   DeleteAttendanceMutationResponse,
-  DeleteAttendanceQueryParams,
+  DeleteAttendancePathParams,
   DeleteAttendance422,
 } from '../../types/attendance-controller/delete-attendance.ts'
 import { mutationOptions, useMutation } from '@tanstack/react-query'
 import { deleteAttendance } from '../../clients/axios/attendance-service/delete-attendance.ts'
 
 export const deleteAttendanceMutationKey = () =>
-  [{ url: '/api/v1/attendances' }] as const
+  [{ url: '/api/v1/attendances/:id' }] as const
 
 export type DeleteAttendanceMutationKey = ReturnType<
   typeof deleteAttendanceMutationKey
@@ -41,26 +41,26 @@ export function deleteAttendanceMutationOptions<TContext = unknown>(
   return mutationOptions<
     DeleteAttendanceMutationResponse,
     ResponseErrorConfig<DeleteAttendance422>,
-    { params: DeleteAttendanceQueryParams },
+    { id: DeleteAttendancePathParams['id'] },
     TContext
   >({
     mutationKey,
-    mutationFn: async ({ params }) => {
-      return deleteAttendance(params, config)
+    mutationFn: async ({ id }) => {
+      return deleteAttendance(id, config)
     },
   })
 }
 
 /**
  * @summary  Delete
- * {@link /api/v1/attendances}
+ * {@link /api/v1/attendances/:id}
  */
 export function useDeleteAttendance<TContext>(
   options: {
     mutation?: UseMutationOptions<
       DeleteAttendanceMutationResponse,
       ResponseErrorConfig<DeleteAttendance422>,
-      { params: DeleteAttendanceQueryParams },
+      { id: DeleteAttendancePathParams['id'] },
       TContext
     > & { client?: QueryClient }
     client?: Partial<RequestConfig> & { client?: Client }
@@ -76,14 +76,14 @@ export function useDeleteAttendance<TContext>(
   ) as UseMutationOptions<
     DeleteAttendanceMutationResponse,
     ResponseErrorConfig<DeleteAttendance422>,
-    { params: DeleteAttendanceQueryParams },
+    { id: DeleteAttendancePathParams['id'] },
     TContext
   >
 
   return useMutation<
     DeleteAttendanceMutationResponse,
     ResponseErrorConfig<DeleteAttendance422>,
-    { params: DeleteAttendanceQueryParams },
+    { id: DeleteAttendancePathParams['id'] },
     TContext
   >(
     {
@@ -95,7 +95,7 @@ export function useDeleteAttendance<TContext>(
   ) as UseMutationResult<
     DeleteAttendanceMutationResponse,
     ResponseErrorConfig<DeleteAttendance422>,
-    { params: DeleteAttendanceQueryParams },
+    { id: DeleteAttendancePathParams['id'] },
     TContext
   >
 }

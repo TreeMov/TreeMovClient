@@ -10,7 +10,7 @@
  */
 
 import type { HTTPValidationError } from '../httpvalidation-error.ts'
-import type { StudentGroupModelRead } from '../student-group-model-read.ts'
+import type { StudentGroupModelReadFull } from '../student-group-model-read-full.ts'
 import type { StudentGroupModelUpdate } from '../student-group-model-update.ts'
 
 export type UpdateStudentGroupPathParams = {
@@ -21,10 +21,10 @@ export type UpdateStudentGroupPathParams = {
 }
 
 /**
- * StudentGroupModelRead
+ * StudentGroupModelReadFull
  * @description Successful Response
  */
-export type UpdateStudentGroup200 = StudentGroupModelRead
+export type UpdateStudentGroup200 = StudentGroupModelReadFull
 
 /**
  * HTTPValidationError

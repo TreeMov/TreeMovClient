@@ -17,7 +17,6 @@ import type {
 } from '@/api/clients/core-client'
 import type {
   ListInvitesQueryResponse,
-  ListInvitesQueryParams,
   ListInvites422,
 } from '../../../types/invite-controller/list-invites.ts'
 
@@ -31,7 +30,6 @@ function getListInvitesUrl() {
  * {@link /api/v1/invites}
  */
 export async function listInvites(
-  params?: ListInvitesQueryParams,
   config: Partial<RequestConfig> & { client?: Client } = {}
 ) {
   const { client: request = fetch, ...requestConfig } = config
@@ -43,7 +41,6 @@ export async function listInvites(
   >({
     method: 'GET',
     url: getListInvitesUrl().url.toString(),
-    params,
     ...requestConfig,
   })
   return res.data

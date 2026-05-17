@@ -35,7 +35,7 @@ export const ScheduleEventResizer: React.FC<
         onChangePeriodHandler(
           currentEvent.id,
           currentEvent.period_lesson_id!,
-          initialEvent
+          { dto: currentEvent, prevData: initialEvent }
         )
         break
       case PeriodAlertEnum.CURRENT:

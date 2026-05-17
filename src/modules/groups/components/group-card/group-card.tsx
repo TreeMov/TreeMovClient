@@ -1,4 +1,4 @@
-import type { StudentGroupModelRead } from '@/api/generated/core'
+import type { StudentGroupModelReadLite } from '@/api/generated/core'
 
 import React from 'react'
 
@@ -7,7 +7,7 @@ import { Icon } from '@/components/ui/icon'
 import { Typography } from '@/components/ui/typography'
 import { cn } from '@/utils/helpers/shadcn'
 
-export const GroupCard: React.FC<StudentGroupModelRead> = ({
+export const GroupCard: React.FC<StudentGroupModelReadLite> = ({
   id,
   title,
 }) => {

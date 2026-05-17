@@ -22,29 +22,22 @@ import type {
 } from '@tanstack/react-query'
 import type {
   ListPeriodLessonsQueryResponse,
-  ListPeriodLessonsQueryParams,
   ListPeriodLessons422,
 } from '../../types/lesson-controller/list-period-lessons.ts'
 import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
 import { listPeriodLessons } from '../../clients/axios/lesson-service/list-period-lessons.ts'
 
-export const listPeriodLessonsSuspenseQueryKey = (
-  params: ListPeriodLessonsQueryParams = {}
-) =>
-  [
-    { url: '/api/v1/lessons/period' },
-    ...(params ? [params] : []),
-  ] as const
+export const listPeriodLessonsSuspenseQueryKey = () =>
+  [{ url: '/api/v1/lessons/period' }] as const
 
 export type ListPeriodLessonsSuspenseQueryKey = ReturnType<
   typeof listPeriodLessonsSuspenseQueryKey
 >
 
 export function listPeriodLessonsSuspenseQueryOptions(
-  params?: ListPeriodLessonsQueryParams,
   config: Partial<RequestConfig> & { client?: Client } = {}
 ) {
-  const queryKey = listPeriodLessonsSuspenseQueryKey(params)
+  const queryKey = listPeriodLessonsSuspenseQueryKey()
   return queryOptions<
     ListPeriodLessonsQueryResponse,
     ResponseErrorConfig<ListPeriodLessons422>,
@@ -53,7 +46,7 @@ export function listPeriodLessonsSuspenseQueryOptions(
   >({
     queryKey,
     queryFn: async ({ signal }) => {
-      return listPeriodLessons(params, {
+      return listPeriodLessons({
         ...config,
         signal: config.signal ?? signal,
       })
@@ -69,7 +62,6 @@ export function useListPeriodLessonsSuspense<
   TData = ListPeriodLessonsQueryResponse,
   TQueryKey extends QueryKey = ListPeriodLessonsSuspenseQueryKey,
 >(
-  params?: ListPeriodLessonsQueryParams,
   options: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -86,12 +78,11 @@ export function useListPeriodLessonsSuspense<
     options ?? {}
   const { client: queryClient, ...queryOptions } = queryConfig
   const queryKey =
-    queryOptions?.queryKey ??
-    listPeriodLessonsSuspenseQueryKey(params)
+    queryOptions?.queryKey ?? listPeriodLessonsSuspenseQueryKey()
 
   const query = useSuspenseQuery(
     {
-      ...listPeriodLessonsSuspenseQueryOptions(params, config),
+      ...listPeriodLessonsSuspenseQueryOptions(config),
       queryKey,
       ...queryOptions,
     } as unknown as UseSuspenseQueryOptions,

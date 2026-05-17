@@ -23,7 +23,6 @@ import type {
 } from '@tanstack/react-query'
 import type {
   ListPeriodLessonsQueryResponse,
-  ListPeriodLessonsQueryParams,
   ListPeriodLessons422,
 } from '../../types/lesson-controller/list-period-lessons.ts'
 import {
@@ -32,38 +31,27 @@ import {
 } from '@tanstack/react-query'
 import { listPeriodLessons } from '../../clients/axios/lesson-service/list-period-lessons.ts'
 
-export const listPeriodLessonsSuspenseInfiniteQueryKey = (
-  params: ListPeriodLessonsQueryParams = {}
-) =>
-  [
-    { url: '/api/v1/lessons/period' },
-    ...(params ? [params] : []),
-  ] as const
+export const listPeriodLessonsSuspenseInfiniteQueryKey = () =>
+  [{ url: '/api/v1/lessons/period' }] as const
 
 export type ListPeriodLessonsSuspenseInfiniteQueryKey = ReturnType<
   typeof listPeriodLessonsSuspenseInfiniteQueryKey
 >
 
 export function listPeriodLessonsSuspenseInfiniteQueryOptions(
-  params?: ListPeriodLessonsQueryParams,
   config: Partial<RequestConfig> & { client?: Client } = {}
 ) {
-  const queryKey = listPeriodLessonsSuspenseInfiniteQueryKey(params)
+  const queryKey = listPeriodLessonsSuspenseInfiniteQueryKey()
   return infiniteQueryOptions<
     ListPeriodLessonsQueryResponse,
     ResponseErrorConfig<ListPeriodLessons422>,
     InfiniteData<ListPeriodLessonsQueryResponse>,
     typeof queryKey,
-    NonNullable<ListPeriodLessonsQueryParams['page']>
+    number
   >({
     queryKey,
-    queryFn: async ({ signal, pageParam }) => {
-      params = {
-        ...(params ?? {}),
-        ['page']:
-          pageParam as unknown as ListPeriodLessonsQueryParams['page'],
-      } as ListPeriodLessonsQueryParams
-      return listPeriodLessons(params, {
+    queryFn: async ({ signal }) => {
+      return listPeriodLessons({
         ...config,
         signal: config.signal ?? signal,
       })
@@ -84,9 +72,8 @@ export function useListPeriodLessonsSuspenseInfinite<
   TData = InfiniteData<TQueryFnData>,
   TQueryKey extends QueryKey =
     ListPeriodLessonsSuspenseInfiniteQueryKey,
-  TPageParam = NonNullable<ListPeriodLessonsQueryParams['page']>,
+  TPageParam = number,
 >(
-  params?: ListPeriodLessonsQueryParams,
   options: {
     query?: Partial<
       UseSuspenseInfiniteQueryOptions<
@@ -105,14 +92,11 @@ export function useListPeriodLessonsSuspenseInfinite<
   const { client: queryClient, ...queryOptions } = queryConfig
   const queryKey =
     queryOptions?.queryKey ??
-    listPeriodLessonsSuspenseInfiniteQueryKey(params)
+    listPeriodLessonsSuspenseInfiniteQueryKey()
 
   const query = useSuspenseInfiniteQuery(
     {
-      ...listPeriodLessonsSuspenseInfiniteQueryOptions(
-        params,
-        config
-      ),
+      ...listPeriodLessonsSuspenseInfiniteQueryOptions(config),
       queryKey,
       ...queryOptions,
     } as unknown as UseSuspenseInfiniteQueryOptions<

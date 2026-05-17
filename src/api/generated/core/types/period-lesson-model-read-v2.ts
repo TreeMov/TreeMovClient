@@ -10,8 +10,7 @@
  */
 
 import type { ClassroomModelRead } from './classroom-model-read.ts'
-import type { LessonModelRead } from './lesson-model-read.ts'
-import type { StudentGroupModelRead } from './student-group-model-read.ts'
+import type { StudentGroupModelReadLite } from './student-group-model-read-lite.ts'
 import type { SubjectModelRead } from './subject-model-read.ts'
 import type { TeacherModelRead } from './teacher-model-read.ts'
 
@@ -28,7 +27,7 @@ export type PeriodLessonModelReadV2 = {
   end_time?: (string | null) | undefined
   teacher?: (TeacherModelRead | null) | undefined
   classroom?: (ClassroomModelRead | null) | undefined
-  student_group?: (StudentGroupModelRead | null) | undefined
+  student_group?: (StudentGroupModelReadLite | null) | undefined
   subject?: (SubjectModelRead | null) | undefined
   period: number | null
   /**
@@ -40,5 +39,4 @@ export type PeriodLessonModelReadV2 = {
    */
   start_date: string
   weekdays?: (number[] | null) | undefined
-  lessons?: (LessonModelRead[] | null) | undefined
 }

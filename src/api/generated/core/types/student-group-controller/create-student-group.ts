@@ -11,13 +11,13 @@
 
 import type { HTTPValidationError } from '../httpvalidation-error.ts'
 import type { StudentGroupModelCreate } from '../student-group-model-create.ts'
-import type { StudentGroupModelRead } from '../student-group-model-read.ts'
+import type { StudentGroupModelReadFull } from '../student-group-model-read-full.ts'
 
 /**
- * StudentGroupModelRead
+ * StudentGroupModelReadFull
  * @description Successful Response
  */
-export type CreateStudentGroup201 = StudentGroupModelRead
+export type CreateStudentGroup201 = StudentGroupModelReadFull
 
 /**
  * HTTPValidationError

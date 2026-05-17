@@ -22,26 +22,22 @@ import type {
 } from '@tanstack/react-query'
 import type {
   ListAccrualsQueryResponse,
-  ListAccrualsQueryParams,
   ListAccruals422,
 } from '../../types/accrual-controller/list-accruals.ts'
 import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
 import { listAccruals } from '../../clients/axios/accrual-service/list-accruals.ts'
 
-export const listAccrualsSuspenseQueryKey = (
-  params: ListAccrualsQueryParams = {}
-) =>
-  [{ url: '/api/v1/accruals' }, ...(params ? [params] : [])] as const
+export const listAccrualsSuspenseQueryKey = () =>
+  [{ url: '/api/v1/accruals' }] as const
 
 export type ListAccrualsSuspenseQueryKey = ReturnType<
   typeof listAccrualsSuspenseQueryKey
 >
 
 export function listAccrualsSuspenseQueryOptions(
-  params?: ListAccrualsQueryParams,
   config: Partial<RequestConfig> & { client?: Client } = {}
 ) {
-  const queryKey = listAccrualsSuspenseQueryKey(params)
+  const queryKey = listAccrualsSuspenseQueryKey()
   return queryOptions<
     ListAccrualsQueryResponse,
     ResponseErrorConfig<ListAccruals422>,
@@ -50,7 +46,7 @@ export function listAccrualsSuspenseQueryOptions(
   >({
     queryKey,
     queryFn: async ({ signal }) => {
-      return listAccruals(params, {
+      return listAccruals({
         ...config,
         signal: config.signal ?? signal,
       })
@@ -66,7 +62,6 @@ export function useListAccrualsSuspense<
   TData = ListAccrualsQueryResponse,
   TQueryKey extends QueryKey = ListAccrualsSuspenseQueryKey,
 >(
-  params?: ListAccrualsQueryParams,
   options: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -83,11 +78,11 @@ export function useListAccrualsSuspense<
     options ?? {}
   const { client: queryClient, ...queryOptions } = queryConfig
   const queryKey =
-    queryOptions?.queryKey ?? listAccrualsSuspenseQueryKey(params)
+    queryOptions?.queryKey ?? listAccrualsSuspenseQueryKey()
 
   const query = useSuspenseQuery(
     {
-      ...listAccrualsSuspenseQueryOptions(params, config),
+      ...listAccrualsSuspenseQueryOptions(config),
       queryKey,
       ...queryOptions,
     } as unknown as UseSuspenseQueryOptions,

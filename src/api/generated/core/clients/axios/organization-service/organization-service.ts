@@ -10,15 +10,9 @@
  */
 
 import { organizationInit } from './organization-init.ts'
-import { organizationMeV2 } from './organization-me-v2.ts'
 import { organizationMe } from './organization-me.ts'
 import { organizationMembers } from './organization-members.ts'
 
 export function organizationService() {
-  return {
-    organizationInit,
-    organizationMembers,
-    organizationMe,
-    organizationMeV2,
-  }
+  return { organizationInit, organizationMembers, organizationMe }
 }

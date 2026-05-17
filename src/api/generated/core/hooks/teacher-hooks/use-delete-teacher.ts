@@ -21,14 +21,14 @@ import type {
 } from '@tanstack/react-query'
 import type {
   DeleteTeacherMutationResponse,
-  DeleteTeacherQueryParams,
+  DeleteTeacherPathParams,
   DeleteTeacher422,
 } from '../../types/teacher-controller/delete-teacher.ts'
 import { mutationOptions, useMutation } from '@tanstack/react-query'
 import { deleteTeacher } from '../../clients/axios/teacher-service/delete-teacher.ts'
 
 export const deleteTeacherMutationKey = () =>
-  [{ url: '/api/v1/teachers' }] as const
+  [{ url: '/api/v1/teachers/:id' }] as const
 
 export type DeleteTeacherMutationKey = ReturnType<
   typeof deleteTeacherMutationKey
@@ -41,26 +41,26 @@ export function deleteTeacherMutationOptions<TContext = unknown>(
   return mutationOptions<
     DeleteTeacherMutationResponse,
     ResponseErrorConfig<DeleteTeacher422>,
-    { params: DeleteTeacherQueryParams },
+    { id: DeleteTeacherPathParams['id'] },
     TContext
   >({
     mutationKey,
-    mutationFn: async ({ params }) => {
-      return deleteTeacher(params, config)
+    mutationFn: async ({ id }) => {
+      return deleteTeacher(id, config)
     },
   })
 }
 
 /**
  * @summary  Delete
- * {@link /api/v1/teachers}
+ * {@link /api/v1/teachers/:id}
  */
 export function useDeleteTeacher<TContext>(
   options: {
     mutation?: UseMutationOptions<
       DeleteTeacherMutationResponse,
       ResponseErrorConfig<DeleteTeacher422>,
-      { params: DeleteTeacherQueryParams },
+      { id: DeleteTeacherPathParams['id'] },
       TContext
     > & { client?: QueryClient }
     client?: Partial<RequestConfig> & { client?: Client }
@@ -76,14 +76,14 @@ export function useDeleteTeacher<TContext>(
   ) as UseMutationOptions<
     DeleteTeacherMutationResponse,
     ResponseErrorConfig<DeleteTeacher422>,
-    { params: DeleteTeacherQueryParams },
+    { id: DeleteTeacherPathParams['id'] },
     TContext
   >
 
   return useMutation<
     DeleteTeacherMutationResponse,
     ResponseErrorConfig<DeleteTeacher422>,
-    { params: DeleteTeacherQueryParams },
+    { id: DeleteTeacherPathParams['id'] },
     TContext
   >(
     {
@@ -95,7 +95,7 @@ export function useDeleteTeacher<TContext>(
   ) as UseMutationResult<
     DeleteTeacherMutationResponse,
     ResponseErrorConfig<DeleteTeacher422>,
-    { params: DeleteTeacherQueryParams },
+    { id: DeleteTeacherPathParams['id'] },
     TContext
   >
 }

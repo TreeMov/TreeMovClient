@@ -1,10 +1,10 @@
 import type { PeriodEnum } from './components/ui/form'
 import type {
   OnChangeHandlerParams,
+  OnChangePeriodHandlerParams,
   PeriodRange,
   ScheduleActionsContextType,
   ScheduleCalendarContextType,
-  ScheduleEvent,
   ScheduleEventRead,
   ScheduleEventsContextType,
   ScheduleEventType,
@@ -160,11 +160,11 @@ export const ScheduleProvider: React.FC<
     async (
       eventId: number,
       periodId: number,
-      prevData: ScheduleEvent
+      { dto, prevData }: OnChangePeriodHandlerParams
     ) => {
       try {
         const successToastId = toast('Сохранение...')
-        await onChangePeriod(periodId)
+        await onChangePeriod(periodId, deserializeEvent(dto))
         toast.dismiss(successToastId)
         toast('Мероприятие сохранено')
       } catch {

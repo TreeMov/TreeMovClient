@@ -23,7 +23,6 @@ import type {
 } from '@tanstack/react-query'
 import type {
   ListAccrualsQueryResponse,
-  ListAccrualsQueryParams,
   ListAccruals422,
 } from '../../types/accrual-controller/list-accruals.ts'
 import {
@@ -32,35 +31,27 @@ import {
 } from '@tanstack/react-query'
 import { listAccruals } from '../../clients/axios/accrual-service/list-accruals.ts'
 
-export const listAccrualsSuspenseInfiniteQueryKey = (
-  params: ListAccrualsQueryParams = {}
-) =>
-  [{ url: '/api/v1/accruals' }, ...(params ? [params] : [])] as const
+export const listAccrualsSuspenseInfiniteQueryKey = () =>
+  [{ url: '/api/v1/accruals' }] as const
 
 export type ListAccrualsSuspenseInfiniteQueryKey = ReturnType<
   typeof listAccrualsSuspenseInfiniteQueryKey
 >
 
 export function listAccrualsSuspenseInfiniteQueryOptions(
-  params?: ListAccrualsQueryParams,
   config: Partial<RequestConfig> & { client?: Client } = {}
 ) {
-  const queryKey = listAccrualsSuspenseInfiniteQueryKey(params)
+  const queryKey = listAccrualsSuspenseInfiniteQueryKey()
   return infiniteQueryOptions<
     ListAccrualsQueryResponse,
     ResponseErrorConfig<ListAccruals422>,
     InfiniteData<ListAccrualsQueryResponse>,
     typeof queryKey,
-    NonNullable<ListAccrualsQueryParams['page']>
+    number
   >({
     queryKey,
-    queryFn: async ({ signal, pageParam }) => {
-      params = {
-        ...(params ?? {}),
-        ['page']:
-          pageParam as unknown as ListAccrualsQueryParams['page'],
-      } as ListAccrualsQueryParams
-      return listAccruals(params, {
+    queryFn: async ({ signal }) => {
+      return listAccruals({
         ...config,
         signal: config.signal ?? signal,
       })
@@ -80,9 +71,8 @@ export function useListAccrualsSuspenseInfinite<
   TError = ResponseErrorConfig<ListAccruals422>,
   TData = InfiniteData<TQueryFnData>,
   TQueryKey extends QueryKey = ListAccrualsSuspenseInfiniteQueryKey,
-  TPageParam = NonNullable<ListAccrualsQueryParams['page']>,
+  TPageParam = number,
 >(
-  params?: ListAccrualsQueryParams,
   options: {
     query?: Partial<
       UseSuspenseInfiniteQueryOptions<
@@ -100,12 +90,11 @@ export function useListAccrualsSuspenseInfinite<
     options ?? {}
   const { client: queryClient, ...queryOptions } = queryConfig
   const queryKey =
-    queryOptions?.queryKey ??
-    listAccrualsSuspenseInfiniteQueryKey(params)
+    queryOptions?.queryKey ?? listAccrualsSuspenseInfiniteQueryKey()
 
   const query = useSuspenseInfiniteQuery(
     {
-      ...listAccrualsSuspenseInfiniteQueryOptions(params, config),
+      ...listAccrualsSuspenseInfiniteQueryOptions(config),
       queryKey,
       ...queryOptions,
     } as unknown as UseSuspenseInfiniteQueryOptions<

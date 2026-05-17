@@ -9,7 +9,7 @@
  * Do not edit manually.
  */
 
-import type { StudentGroupModelRead } from './student-group-model-read.ts'
+import type { StudentGroupModelReadLite } from './student-group-model-read-lite.ts'
 import type { StudentModelRead } from './student-model-read.ts'
 
 /**
@@ -24,8 +24,5 @@ export type StudentGroupMemberModelRead = {
    * @type object
    */
   student: StudentModelRead
-  /**
-   * @type object
-   */
-  student_group: StudentGroupModelRead
+  student_group?: (StudentGroupModelReadLite | null) | undefined
 }

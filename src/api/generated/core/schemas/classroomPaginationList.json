@@ -1,0 +1,60 @@
+{
+  "properties": {
+    "items": {
+      "items": {
+        "properties": {
+          "id": { "type": "integer", "title": "Id" },
+          "title": { "type": "string", "title": "Title" },
+          "floor": { "type": "integer", "title": "Floor" },
+          "building": { "type": "string", "title": "Building" }
+        },
+        "type": "object",
+        "required": ["id", "title", "floor", "building"],
+        "title": "ClassroomModelRead",
+        "x-readme-ref-name": "ClassroomModelRead"
+      },
+      "type": "array",
+      "title": "Items"
+    },
+    "pagination_meta": {
+      "properties": {
+        "current_page": {
+          "type": "integer",
+          "title": "Current Page"
+        },
+        "per_page": { "type": "integer", "title": "Per Page" },
+        "total_items": { "type": "integer", "title": "Total Items" },
+        "total_pages": {
+          "type": "integer",
+          "title": "Total Pages",
+          "readOnly": true
+        },
+        "has_next": {
+          "type": "boolean",
+          "title": "Has Next",
+          "readOnly": true
+        },
+        "has_prev": {
+          "type": "boolean",
+          "title": "Has Prev",
+          "readOnly": true
+        }
+      },
+      "type": "object",
+      "required": [
+        "current_page",
+        "per_page",
+        "total_items",
+        "total_pages",
+        "has_next",
+        "has_prev"
+      ],
+      "title": "PaginationMeta",
+      "x-readme-ref-name": "PaginationMeta"
+    }
+  },
+  "type": "object",
+  "required": ["items", "pagination_meta"],
+  "title": "ClassroomPaginationList",
+  "x-readme-ref-name": "ClassroomPaginationList"
+}

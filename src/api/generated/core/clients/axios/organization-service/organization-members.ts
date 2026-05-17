@@ -34,7 +34,7 @@ function getOrganizationMembersUrl() {
  * {@link /api/v1/organizations/members}
  */
 export async function organizationMembers(
-  params: OrganizationMembersQueryParams,
+  params?: OrganizationMembersQueryParams,
   config: Partial<RequestConfig> & { client?: Client } = {}
 ) {
   const { client: request = fetch, ...requestConfig } = config

@@ -23,7 +23,6 @@ import type {
 } from '@tanstack/react-query'
 import type {
   ListInvitesQueryResponse,
-  ListInvitesQueryParams,
   ListInvites422,
 } from '../../types/invite-controller/list-invites.ts'
 import {
@@ -32,35 +31,27 @@ import {
 } from '@tanstack/react-query'
 import { listInvites } from '../../clients/axios/invite-service/list-invites.ts'
 
-export const listInvitesSuspenseInfiniteQueryKey = (
-  params: ListInvitesQueryParams = {}
-) =>
-  [{ url: '/api/v1/invites' }, ...(params ? [params] : [])] as const
+export const listInvitesSuspenseInfiniteQueryKey = () =>
+  [{ url: '/api/v1/invites' }] as const
 
 export type ListInvitesSuspenseInfiniteQueryKey = ReturnType<
   typeof listInvitesSuspenseInfiniteQueryKey
 >
 
 export function listInvitesSuspenseInfiniteQueryOptions(
-  params?: ListInvitesQueryParams,
   config: Partial<RequestConfig> & { client?: Client } = {}
 ) {
-  const queryKey = listInvitesSuspenseInfiniteQueryKey(params)
+  const queryKey = listInvitesSuspenseInfiniteQueryKey()
   return infiniteQueryOptions<
     ListInvitesQueryResponse,
     ResponseErrorConfig<ListInvites422>,
     InfiniteData<ListInvitesQueryResponse>,
     typeof queryKey,
-    NonNullable<ListInvitesQueryParams['page']>
+    number
   >({
     queryKey,
-    queryFn: async ({ signal, pageParam }) => {
-      params = {
-        ...(params ?? {}),
-        ['page']:
-          pageParam as unknown as ListInvitesQueryParams['page'],
-      } as ListInvitesQueryParams
-      return listInvites(params, {
+    queryFn: async ({ signal }) => {
+      return listInvites({
         ...config,
         signal: config.signal ?? signal,
       })
@@ -80,9 +71,8 @@ export function useListInvitesSuspenseInfinite<
   TError = ResponseErrorConfig<ListInvites422>,
   TData = InfiniteData<TQueryFnData>,
   TQueryKey extends QueryKey = ListInvitesSuspenseInfiniteQueryKey,
-  TPageParam = NonNullable<ListInvitesQueryParams['page']>,
+  TPageParam = number,
 >(
-  params?: ListInvitesQueryParams,
   options: {
     query?: Partial<
       UseSuspenseInfiniteQueryOptions<
@@ -100,12 +90,11 @@ export function useListInvitesSuspenseInfinite<
     options ?? {}
   const { client: queryClient, ...queryOptions } = queryConfig
   const queryKey =
-    queryOptions?.queryKey ??
-    listInvitesSuspenseInfiniteQueryKey(params)
+    queryOptions?.queryKey ?? listInvitesSuspenseInfiniteQueryKey()
 
   const query = useSuspenseInfiniteQuery(
     {
-      ...listInvitesSuspenseInfiniteQueryOptions(params, config),
+      ...listInvitesSuspenseInfiniteQueryOptions(config),
       queryKey,
       ...queryOptions,
     } as unknown as UseSuspenseInfiniteQueryOptions<

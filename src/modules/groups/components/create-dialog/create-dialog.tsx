@@ -8,7 +8,6 @@ import React, { useState } from 'react'
 import {
   listStudentGroupsQueryOptions,
   useCreateStudentGroup,
-  useCreateStudentGroupMember,
 } from '@/api/generated/core'
 import { Button } from '@/components/ui/button'
 import {
@@ -25,9 +24,6 @@ export const CreateDialog: React.FC = () => {
 
   const [open, setOpen] = useState(false)
 
-  const { mutateAsync: addStudentToGroup } =
-    useCreateStudentGroupMember()
-
   const { mutateAsync: create } = useCreateStudentGroup({
     mutation: {
       onSuccess: () =>
@@ -41,14 +37,9 @@ export const CreateDialog: React.FC = () => {
     selectedStudentsIds,
     ...data
   }) => {
-    const { id } = await create({ data })
-    await Promise.all(
-      selectedStudentsIds.map((studentId) =>
-        addStudentToGroup({
-          data: { student_group_id: id, student_id: +studentId },
-        })
-      )
-    )
+    await create({
+      data: { ...data, student_ids: selectedStudentsIds.map(Number) },
+    })
     setOpen(false)
   }
 

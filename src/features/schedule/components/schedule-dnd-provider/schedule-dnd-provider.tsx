@@ -54,7 +54,7 @@ export const ScheduleDndProvider: React.FC<
         onChangePeriodHandler(
           eventRef.current.id,
           eventRef.current.period_lesson_id!,
-          initialEventRef.current
+          { dto: eventRef.current, prevData: initialEventRef.current }
         )
         break
       case PeriodAlertEnum.CURRENT:

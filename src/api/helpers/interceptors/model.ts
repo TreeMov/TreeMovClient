@@ -51,15 +51,15 @@ export class Interceptors {
   }
 
   async interceptRequest(config: InternalAxiosRequestConfig) {
-    const { access_token, X_ORG_MEMBER_ID } =
-      session.getSessionTokens()
+    const tokens = session.getSessionTokens()
 
-    if (access_token) {
-      config.headers.Authorization = `Bearer ${access_token}`
+    if (tokens.access_token) {
+      config.headers.Authorization = `Bearer ${tokens.access_token}`
     }
 
-    if (X_ORG_MEMBER_ID) {
-      config.headers[sessionKeys.X_ORG_MEMBER_ID] = X_ORG_MEMBER_ID
+    if (tokens['X-ORG-MEMBER-ID']) {
+      config.headers[sessionKeys.X_ORG_MEMBER_ID] =
+        tokens['X-ORG-MEMBER-ID']
     }
 
     return config

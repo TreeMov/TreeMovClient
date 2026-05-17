@@ -23,7 +23,6 @@ import type {
 } from '@tanstack/react-query'
 import type {
   GetApiV1TeacherNotesGetQueryResponse,
-  GetApiV1TeacherNotesGetQueryParams,
   GetApiV1TeacherNotesGet422,
 } from '../../types/teacher-notes-controller/get-api-v1-teacher-notes-get.ts'
 import {
@@ -32,38 +31,26 @@ import {
 } from '@tanstack/react-query'
 import { getApiV1TeacherNotesGet } from '../../clients/axios/teacher-notes-service/get-api-v1-teacher-notes-get.ts'
 
-export const getApiV1TeacherNotesGetSuspenseInfiniteQueryKey = (
-  params: GetApiV1TeacherNotesGetQueryParams = {}
-) =>
-  [
-    { url: '/api/v1/teacher-notes' },
-    ...(params ? [params] : []),
-  ] as const
+export const getApiV1TeacherNotesGetSuspenseInfiniteQueryKey = () =>
+  [{ url: '/api/v1/teacher-notes' }] as const
 
 export type GetApiV1TeacherNotesGetSuspenseInfiniteQueryKey =
   ReturnType<typeof getApiV1TeacherNotesGetSuspenseInfiniteQueryKey>
 
 export function getApiV1TeacherNotesGetSuspenseInfiniteQueryOptions(
-  params?: GetApiV1TeacherNotesGetQueryParams,
   config: Partial<RequestConfig> & { client?: Client } = {}
 ) {
-  const queryKey =
-    getApiV1TeacherNotesGetSuspenseInfiniteQueryKey(params)
+  const queryKey = getApiV1TeacherNotesGetSuspenseInfiniteQueryKey()
   return infiniteQueryOptions<
     GetApiV1TeacherNotesGetQueryResponse,
     ResponseErrorConfig<GetApiV1TeacherNotesGet422>,
     InfiniteData<GetApiV1TeacherNotesGetQueryResponse>,
     typeof queryKey,
-    NonNullable<GetApiV1TeacherNotesGetQueryParams['page']>
+    number
   >({
     queryKey,
-    queryFn: async ({ signal, pageParam }) => {
-      params = {
-        ...(params ?? {}),
-        ['page']:
-          pageParam as unknown as GetApiV1TeacherNotesGetQueryParams['page'],
-      } as GetApiV1TeacherNotesGetQueryParams
-      return getApiV1TeacherNotesGet(params, {
+    queryFn: async ({ signal }) => {
+      return getApiV1TeacherNotesGet({
         ...config,
         signal: config.signal ?? signal,
       })
@@ -84,11 +71,8 @@ export function useGetApiV1TeacherNotesGetSuspenseInfinite<
   TData = InfiniteData<TQueryFnData>,
   TQueryKey extends QueryKey =
     GetApiV1TeacherNotesGetSuspenseInfiniteQueryKey,
-  TPageParam = NonNullable<
-    GetApiV1TeacherNotesGetQueryParams['page']
-  >,
+  TPageParam = number,
 >(
-  params?: GetApiV1TeacherNotesGetQueryParams,
   options: {
     query?: Partial<
       UseSuspenseInfiniteQueryOptions<
@@ -107,14 +91,11 @@ export function useGetApiV1TeacherNotesGetSuspenseInfinite<
   const { client: queryClient, ...queryOptions } = queryConfig
   const queryKey =
     queryOptions?.queryKey ??
-    getApiV1TeacherNotesGetSuspenseInfiniteQueryKey(params)
+    getApiV1TeacherNotesGetSuspenseInfiniteQueryKey()
 
   const query = useSuspenseInfiniteQuery(
     {
-      ...getApiV1TeacherNotesGetSuspenseInfiniteQueryOptions(
-        params,
-        config
-      ),
+      ...getApiV1TeacherNotesGetSuspenseInfiniteQueryOptions(config),
       queryKey,
       ...queryOptions,
     } as unknown as UseSuspenseInfiniteQueryOptions<

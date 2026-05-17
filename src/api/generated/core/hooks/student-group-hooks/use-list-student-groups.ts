@@ -22,29 +22,22 @@ import type {
 } from '@tanstack/react-query'
 import type {
   ListStudentGroupsQueryResponse,
-  ListStudentGroupsQueryParams,
   ListStudentGroups422,
 } from '../../types/student-group-controller/list-student-groups.ts'
 import { queryOptions, useQuery } from '@tanstack/react-query'
 import { listStudentGroups } from '../../clients/axios/student-group-service/list-student-groups.ts'
 
-export const listStudentGroupsQueryKey = (
-  params: ListStudentGroupsQueryParams = {}
-) =>
-  [
-    { url: '/api/v1/student-groups' },
-    ...(params ? [params] : []),
-  ] as const
+export const listStudentGroupsQueryKey = () =>
+  [{ url: '/api/v1/student-groups' }] as const
 
 export type ListStudentGroupsQueryKey = ReturnType<
   typeof listStudentGroupsQueryKey
 >
 
 export function listStudentGroupsQueryOptions(
-  params?: ListStudentGroupsQueryParams,
   config: Partial<RequestConfig> & { client?: Client } = {}
 ) {
-  const queryKey = listStudentGroupsQueryKey(params)
+  const queryKey = listStudentGroupsQueryKey()
   return queryOptions<
     ListStudentGroupsQueryResponse,
     ResponseErrorConfig<ListStudentGroups422>,
@@ -53,7 +46,7 @@ export function listStudentGroupsQueryOptions(
   >({
     queryKey,
     queryFn: async ({ signal }) => {
-      return listStudentGroups(params, {
+      return listStudentGroups({
         ...config,
         signal: config.signal ?? signal,
       })
@@ -70,7 +63,6 @@ export function useListStudentGroups<
   TQueryData = ListStudentGroupsQueryResponse,
   TQueryKey extends QueryKey = ListStudentGroupsQueryKey,
 >(
-  params?: ListStudentGroupsQueryParams,
   options: {
     query?: Partial<
       QueryObserverOptions<
@@ -88,11 +80,11 @@ export function useListStudentGroups<
     options ?? {}
   const { client: queryClient, ...queryOptions } = queryConfig
   const queryKey =
-    queryOptions?.queryKey ?? listStudentGroupsQueryKey(params)
+    queryOptions?.queryKey ?? listStudentGroupsQueryKey()
 
   const query = useQuery(
     {
-      ...listStudentGroupsQueryOptions(params, config),
+      ...listStudentGroupsQueryOptions(config),
       queryKey,
       ...queryOptions,
     } as unknown as QueryObserverOptions,

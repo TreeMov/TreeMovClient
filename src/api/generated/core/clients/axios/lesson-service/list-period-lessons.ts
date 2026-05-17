@@ -17,7 +17,6 @@ import type {
 } from '@/api/clients/core-client'
 import type {
   ListPeriodLessonsQueryResponse,
-  ListPeriodLessonsQueryParams,
   ListPeriodLessons422,
 } from '../../../types/lesson-controller/list-period-lessons.ts'
 
@@ -34,7 +33,6 @@ function getListPeriodLessonsUrl() {
  * {@link /api/v1/lessons/period}
  */
 export async function listPeriodLessons(
-  params?: ListPeriodLessonsQueryParams,
   config: Partial<RequestConfig> & { client?: Client } = {}
 ) {
   const { client: request = fetch, ...requestConfig } = config
@@ -46,7 +44,6 @@ export async function listPeriodLessons(
   >({
     method: 'GET',
     url: getListPeriodLessonsUrl().url.toString(),
-    params,
     ...requestConfig,
   })
   return res.data

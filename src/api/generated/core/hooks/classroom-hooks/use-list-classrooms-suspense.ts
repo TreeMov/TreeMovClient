@@ -22,29 +22,22 @@ import type {
 } from '@tanstack/react-query'
 import type {
   ListClassroomsQueryResponse,
-  ListClassroomsQueryParams,
   ListClassrooms422,
 } from '../../types/classroom-controller/list-classrooms.ts'
 import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
 import { listClassrooms } from '../../clients/axios/classroom-service/list-classrooms.ts'
 
-export const listClassroomsSuspenseQueryKey = (
-  params: ListClassroomsQueryParams = {}
-) =>
-  [
-    { url: '/api/v1/classrooms' },
-    ...(params ? [params] : []),
-  ] as const
+export const listClassroomsSuspenseQueryKey = () =>
+  [{ url: '/api/v1/classrooms' }] as const
 
 export type ListClassroomsSuspenseQueryKey = ReturnType<
   typeof listClassroomsSuspenseQueryKey
 >
 
 export function listClassroomsSuspenseQueryOptions(
-  params?: ListClassroomsQueryParams,
   config: Partial<RequestConfig> & { client?: Client } = {}
 ) {
-  const queryKey = listClassroomsSuspenseQueryKey(params)
+  const queryKey = listClassroomsSuspenseQueryKey()
   return queryOptions<
     ListClassroomsQueryResponse,
     ResponseErrorConfig<ListClassrooms422>,
@@ -53,7 +46,7 @@ export function listClassroomsSuspenseQueryOptions(
   >({
     queryKey,
     queryFn: async ({ signal }) => {
-      return listClassrooms(params, {
+      return listClassrooms({
         ...config,
         signal: config.signal ?? signal,
       })
@@ -69,7 +62,6 @@ export function useListClassroomsSuspense<
   TData = ListClassroomsQueryResponse,
   TQueryKey extends QueryKey = ListClassroomsSuspenseQueryKey,
 >(
-  params?: ListClassroomsQueryParams,
   options: {
     query?: Partial<
       UseSuspenseQueryOptions<
@@ -86,11 +78,11 @@ export function useListClassroomsSuspense<
     options ?? {}
   const { client: queryClient, ...queryOptions } = queryConfig
   const queryKey =
-    queryOptions?.queryKey ?? listClassroomsSuspenseQueryKey(params)
+    queryOptions?.queryKey ?? listClassroomsSuspenseQueryKey()
 
   const query = useSuspenseQuery(
     {
-      ...listClassroomsSuspenseQueryOptions(params, config),
+      ...listClassroomsSuspenseQueryOptions(config),
       queryKey,
       ...queryOptions,
     } as unknown as UseSuspenseQueryOptions,

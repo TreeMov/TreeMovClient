@@ -1,7 +1,7 @@
 import { cva } from 'class-variance-authority'
 
 const inputVariants = cva(
-  'flex w-full cursor-text items-start shadow-xs transition-[color,background,border,box-shadow] outline-none data-[disabled=true]:pointer-events-none data-[disabled=true]:cursor-not-allowed',
+  'flex w-full cursor-text items-center shadow-xs transition-[color,background,border,box-shadow] outline-none data-[disabled=true]:pointer-events-none data-[disabled=true]:cursor-not-allowed',
   {
     variants: {
       variant: {

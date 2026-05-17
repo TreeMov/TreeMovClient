@@ -16,7 +16,7 @@ export const Subjects: React.FC = () => {
   return (
     <PageLayoutList
       actions={<Header />}
-      deleteHandler={(id) => deleteSubject({ params: { id } })}
+      deleteHandler={(id) => deleteSubject({ id })}
       onDeleteSuccess={() =>
         queryClient.invalidateQueries(listSubjectsQueryOptions())
       }

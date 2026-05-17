@@ -13,14 +13,6 @@ import type { HTTPValidationError } from '../httpvalidation-error.ts'
 import type { TeacherModelRead } from '../teacher-model-read.ts'
 
 export type ListTeacherQueryParams = {
-  /**
-   * @default 0
-   */
-  offset?: (number | null) | undefined
-  /**
-   * @default 1000
-   */
-  limit?: (number | null) | undefined
   employee__org_member_id?: (number | null) | undefined
 }
 

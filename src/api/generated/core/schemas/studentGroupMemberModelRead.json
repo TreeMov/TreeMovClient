@@ -124,18 +124,23 @@
       "x-readme-ref-name": "StudentModelRead"
     },
     "student_group": {
-      "properties": {
-        "id": { "type": "integer", "title": "Id" },
-        "title": { "type": "string", "title": "Title" }
-      },
-      "type": "object",
-      "required": ["id", "title"],
-      "title": "StudentGroupModelRead",
-      "x-readme-ref-name": "StudentGroupModelRead"
+      "anyOf": [
+        {
+          "properties": {
+            "id": { "type": "integer", "title": "Id" },
+            "title": { "type": "string", "title": "Title" }
+          },
+          "type": "object",
+          "required": ["id", "title"],
+          "title": "StudentGroupModelReadLite",
+          "x-readme-ref-name": "StudentGroupModelReadLite"
+        },
+        { "type": "null" }
+      ]
     }
   },
   "type": "object",
-  "required": ["id", "student", "student_group"],
+  "required": ["id", "student"],
   "title": "StudentGroupMemberModelRead",
   "x-readme-ref-name": "StudentGroupMemberModelRead"
 }

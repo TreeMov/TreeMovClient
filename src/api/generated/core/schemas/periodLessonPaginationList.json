@@ -1,0 +1,317 @@
+{
+  "properties": {
+    "items": {
+      "items": {
+        "properties": {
+          "id": { "type": "integer", "title": "Id" },
+          "title": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Title"
+          },
+          "start_time": {
+            "anyOf": [
+              { "type": "string", "format": "time" },
+              { "type": "null" }
+            ],
+            "title": "Start Time"
+          },
+          "end_time": {
+            "anyOf": [
+              { "type": "string", "format": "time" },
+              { "type": "null" }
+            ],
+            "title": "End Time"
+          },
+          "teacher": {
+            "anyOf": [
+              {
+                "properties": {
+                  "id": { "type": "integer", "title": "Id" },
+                  "employee": {
+                    "properties": {
+                      "id": { "type": "integer", "title": "Id" },
+                      "name": {
+                        "anyOf": [
+                          { "type": "string" },
+                          { "type": "null" }
+                        ],
+                        "title": "Name"
+                      },
+                      "surname": {
+                        "anyOf": [
+                          { "type": "string" },
+                          { "type": "null" }
+                        ],
+                        "title": "Surname"
+                      },
+                      "patronymic": {
+                        "anyOf": [
+                          { "type": "string" },
+                          { "type": "null" }
+                        ],
+                        "title": "Patronymic"
+                      },
+                      "email": {
+                        "anyOf": [
+                          { "type": "string", "format": "email" },
+                          { "type": "null" }
+                        ],
+                        "title": "Email"
+                      },
+                      "org_member": {
+                        "anyOf": [
+                          {
+                            "properties": {
+                              "id": {
+                                "type": "integer",
+                                "title": "Id"
+                              },
+                              "profile": {
+                                "properties": {
+                                  "id": {
+                                    "type": "integer",
+                                    "title": "Id"
+                                  },
+                                  "user_id": {
+                                    "anyOf": [
+                                      { "type": "integer" },
+                                      { "type": "null" }
+                                    ],
+                                    "title": "User Id"
+                                  },
+                                  "email": {
+                                    "anyOf": [
+                                      {
+                                        "type": "string",
+                                        "format": "email"
+                                      },
+                                      { "type": "null" }
+                                    ],
+                                    "title": "Email"
+                                  },
+                                  "name": {
+                                    "anyOf": [
+                                      { "type": "string" },
+                                      { "type": "null" }
+                                    ],
+                                    "title": "Name"
+                                  },
+                                  "surname": {
+                                    "anyOf": [
+                                      { "type": "string" },
+                                      { "type": "null" }
+                                    ],
+                                    "title": "Surname"
+                                  },
+                                  "pathronamic": {
+                                    "anyOf": [
+                                      { "type": "string" },
+                                      { "type": "null" }
+                                    ],
+                                    "title": "Pathronamic"
+                                  }
+                                },
+                                "type": "object",
+                                "required": ["id"],
+                                "title": "ProfileRead",
+                                "x-readme-ref-name": "ProfileRead"
+                              },
+                              "role": {
+                                "properties": {
+                                  "id": {
+                                    "type": "integer",
+                                    "title": "Id"
+                                  },
+                                  "title": {
+                                    "type": "string",
+                                    "title": "Title"
+                                  },
+                                  "code": {
+                                    "type": "string",
+                                    "title": "Code"
+                                  }
+                                },
+                                "type": "object",
+                                "required": ["id", "title", "code"],
+                                "title": "ProfileRoleRead",
+                                "x-readme-ref-name": "ProfileRoleRead"
+                              },
+                              "org": {
+                                "properties": {
+                                  "id": {
+                                    "type": "integer",
+                                    "title": "Id"
+                                  },
+                                  "title": {
+                                    "type": "string",
+                                    "title": "Title",
+                                    "read_only": true
+                                  }
+                                },
+                                "type": "object",
+                                "required": ["id", "title"],
+                                "title": "OrganizationRead",
+                                "x-readme-ref-name": "OrganizationRead"
+                              }
+                            },
+                            "type": "object",
+                            "required": [
+                              "id",
+                              "profile",
+                              "role",
+                              "org"
+                            ],
+                            "title": "OrganizationMemberRead",
+                            "x-readme-ref-name": "OrganizationMemberRead"
+                          },
+                          { "type": "null" }
+                        ]
+                      }
+                    },
+                    "type": "object",
+                    "required": ["id", "org_member"],
+                    "title": "EmployeeModelRead",
+                    "x-readme-ref-name": "EmployeeModelRead"
+                  }
+                },
+                "type": "object",
+                "required": ["id", "employee"],
+                "title": "TeacherModelRead",
+                "x-readme-ref-name": "TeacherModelRead"
+              },
+              { "type": "null" }
+            ]
+          },
+          "classroom": {
+            "anyOf": [
+              {
+                "properties": {
+                  "id": { "type": "integer", "title": "Id" },
+                  "title": { "type": "string", "title": "Title" },
+                  "floor": { "type": "integer", "title": "Floor" },
+                  "building": {
+                    "type": "string",
+                    "title": "Building"
+                  }
+                },
+                "type": "object",
+                "required": ["id", "title", "floor", "building"],
+                "title": "ClassroomModelRead",
+                "x-readme-ref-name": "ClassroomModelRead"
+              },
+              { "type": "null" }
+            ]
+          },
+          "student_group": {
+            "anyOf": [
+              {
+                "properties": {
+                  "id": { "type": "integer", "title": "Id" },
+                  "title": { "type": "string", "title": "Title" }
+                },
+                "type": "object",
+                "required": ["id", "title"],
+                "title": "StudentGroupModelReadLite",
+                "x-readme-ref-name": "StudentGroupModelReadLite"
+              },
+              { "type": "null" }
+            ]
+          },
+          "subject": {
+            "anyOf": [
+              {
+                "properties": {
+                  "id": { "type": "integer", "title": "Id" },
+                  "title": { "type": "string", "title": "Title" },
+                  "color": {
+                    "type": "string",
+                    "maxLength": 7,
+                    "minLength": 7,
+                    "title": "Color"
+                  }
+                },
+                "type": "object",
+                "required": ["id", "title", "color"],
+                "title": "SubjectModelRead",
+                "x-readme-ref-name": "SubjectModelRead"
+              },
+              { "type": "null" }
+            ]
+          },
+          "period": {
+            "anyOf": [{ "type": "integer" }, { "type": "null" }],
+            "title": "Period"
+          },
+          "repeat_lessons_until_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Repeat Lessons Until Date"
+          },
+          "start_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Start Date"
+          },
+          "weekdays": {
+            "anyOf": [
+              { "items": { "type": "integer" }, "type": "array" },
+              { "type": "null" }
+            ],
+            "title": "Weekdays"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "period",
+          "repeat_lessons_until_date",
+          "start_date"
+        ],
+        "title": "PeriodLessonModelRead_V2",
+        "x-readme-ref-name": "PeriodLessonModelRead_V2"
+      },
+      "type": "array",
+      "title": "Items"
+    },
+    "pagination_meta": {
+      "properties": {
+        "current_page": {
+          "type": "integer",
+          "title": "Current Page"
+        },
+        "per_page": { "type": "integer", "title": "Per Page" },
+        "total_items": { "type": "integer", "title": "Total Items" },
+        "total_pages": {
+          "type": "integer",
+          "title": "Total Pages",
+          "readOnly": true
+        },
+        "has_next": {
+          "type": "boolean",
+          "title": "Has Next",
+          "readOnly": true
+        },
+        "has_prev": {
+          "type": "boolean",
+          "title": "Has Prev",
+          "readOnly": true
+        }
+      },
+      "type": "object",
+      "required": [
+        "current_page",
+        "per_page",
+        "total_items",
+        "total_pages",
+        "has_next",
+        "has_prev"
+      ],
+      "title": "PaginationMeta",
+      "x-readme-ref-name": "PaginationMeta"
+    }
+  },
+  "type": "object",
+  "required": ["items", "pagination_meta"],
+  "title": "PeriodLessonPaginationList",
+  "x-readme-ref-name": "PeriodLessonPaginationList"
+}

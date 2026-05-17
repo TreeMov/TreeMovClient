@@ -1,5 +1,14 @@
 {
-  "properties": { "title": { "type": "string", "title": "Title" } },
+  "properties": {
+    "title": { "type": "string", "title": "Title" },
+    "student_ids": {
+      "anyOf": [
+        { "items": { "type": "integer" }, "type": "array" },
+        { "type": "null" }
+      ],
+      "title": "Student Ids"
+    }
+  },
   "type": "object",
   "required": ["title"],
   "title": "StudentGroupModelCreate",

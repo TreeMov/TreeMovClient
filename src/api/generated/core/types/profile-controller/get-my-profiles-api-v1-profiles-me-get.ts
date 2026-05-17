@@ -12,10 +12,10 @@
 import type { ProfileRead } from '../profile-read.ts'
 
 /**
- * Response Get My Profiles Api V1 Profiles Me Get
+ * ProfileRead
  * @description Successful Response
  */
-export type GetMyProfilesApiV1ProfilesMeGet200 = ProfileRead[]
+export type GetMyProfilesApiV1ProfilesMeGet200 = ProfileRead
 
 export type GetMyProfilesApiV1ProfilesMeGetQueryResponse =
   GetMyProfilesApiV1ProfilesMeGet200

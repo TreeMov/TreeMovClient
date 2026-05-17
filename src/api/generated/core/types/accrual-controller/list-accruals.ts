@@ -12,17 +12,6 @@
 import type { AccrualModelRead } from '../accrual-model-read.ts'
 import type { HTTPValidationError } from '../httpvalidation-error.ts'
 
-export type ListAccrualsQueryParams = {
-  /**
-   * @default 0
-   */
-  offset?: (number | null) | undefined
-  /**
-   * @default 1000
-   */
-  limit?: (number | null) | undefined
-}
-
 /**
  * Response List Accruals
  * @description Successful Response
@@ -39,6 +28,5 @@ export type ListAccrualsQueryResponse = ListAccruals200
 
 export type ListAccrualsQuery = {
   Response: ListAccruals200
-  QueryParams: ListAccrualsQueryParams
   Errors: ListAccruals422
 }

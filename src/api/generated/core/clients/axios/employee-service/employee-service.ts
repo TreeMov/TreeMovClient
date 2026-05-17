@@ -19,8 +19,8 @@ export function employeeService() {
   return {
     listEmployees,
     createEmployee,
-    deleteEmployee,
     getEmployee,
     updateEmployee,
+    deleteEmployee,
   }
 }

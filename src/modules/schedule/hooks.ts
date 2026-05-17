@@ -12,8 +12,10 @@ import {
   useCreateLesson,
   useCreatePeriodLessonsV2,
   useDeleteLesson,
+  useDeletePeriodLesson,
   useListLessons,
   useUpadateLesson,
+  useUpadatePeriodLesson,
 } from '@/api/generated/core'
 import { dateFormat, type ScheduleView } from '@/features/schedule'
 import { PeriodEnum } from '@/features/schedule/components/ui/form'
@@ -39,6 +41,8 @@ export const useScheduleActions = ({
   const { mutateAsync: deleteEvent } = useDeleteLesson()
   const { mutateAsync: updateEvent } = useUpadateLesson()
   const { mutateAsync: createEvent } = useCreateLesson()
+  const { mutateAsync: deletePeriodLesson } = useDeletePeriodLesson()
+  const { mutateAsync: updatePeriodLesson } = useUpadatePeriodLesson()
   const { mutateAsync: createPeriod } = useCreatePeriodLessonsV2()
 
   const onChange = async (id: number, data: LessonModelUpdate) => {
@@ -50,7 +54,7 @@ export const useScheduleActions = ({
   }
 
   const onDelete = async (id: number) => {
-    await deleteEvent({ params: { id } })
+    await deleteEvent({ id })
     await refetch()
   }
 
@@ -70,15 +74,16 @@ export const useScheduleActions = ({
   }
 
   const onDeletePeriod = async (periodId: number) => {
-    // todo доделать
-    // eslint-disable-next-line no-console
-    console.log({ periodId })
+    await deletePeriodLesson({ id: periodId })
+    await refetch()
   }
 
-  const onChangePeriod = async (periodId: number) => {
-    // todo доделать
-    // eslint-disable-next-line no-console
-    console.log({ periodId })
+  const onChangePeriod = async (
+    periodId: number,
+    dto: LessonModelUpdate
+  ) => {
+    await updatePeriodLesson({ id: periodId, data: dto })
+    await refetch()
   }
 
   return {

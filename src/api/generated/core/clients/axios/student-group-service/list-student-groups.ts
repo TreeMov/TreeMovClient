@@ -17,7 +17,6 @@ import type {
 } from '@/api/clients/core-client'
 import type {
   ListStudentGroupsQueryResponse,
-  ListStudentGroupsQueryParams,
   ListStudentGroups422,
 } from '../../../types/student-group-controller/list-student-groups.ts'
 
@@ -34,7 +33,6 @@ function getListStudentGroupsUrl() {
  * {@link /api/v1/student-groups}
  */
 export async function listStudentGroups(
-  params?: ListStudentGroupsQueryParams,
   config: Partial<RequestConfig> & { client?: Client } = {}
 ) {
   const { client: request = fetch, ...requestConfig } = config
@@ -46,7 +44,6 @@ export async function listStudentGroups(
   >({
     method: 'GET',
     url: getListStudentGroupsUrl().url.toString(),
-    params,
     ...requestConfig,
   })
   return res.data

@@ -23,7 +23,6 @@ import type {
 } from '@tanstack/react-query'
 import type {
   ListSubjectsQueryResponse,
-  ListSubjectsQueryParams,
   ListSubjects422,
 } from '../../types/subject-controller/list-subjects.ts'
 import {
@@ -32,35 +31,27 @@ import {
 } from '@tanstack/react-query'
 import { listSubjects } from '../../clients/axios/subject-service/list-subjects.ts'
 
-export const listSubjectsSuspenseInfiniteQueryKey = (
-  params: ListSubjectsQueryParams = {}
-) =>
-  [{ url: '/api/v1/subjects' }, ...(params ? [params] : [])] as const
+export const listSubjectsSuspenseInfiniteQueryKey = () =>
+  [{ url: '/api/v1/subjects' }] as const
 
 export type ListSubjectsSuspenseInfiniteQueryKey = ReturnType<
   typeof listSubjectsSuspenseInfiniteQueryKey
 >
 
 export function listSubjectsSuspenseInfiniteQueryOptions(
-  params?: ListSubjectsQueryParams,
   config: Partial<RequestConfig> & { client?: Client } = {}
 ) {
-  const queryKey = listSubjectsSuspenseInfiniteQueryKey(params)
+  const queryKey = listSubjectsSuspenseInfiniteQueryKey()
   return infiniteQueryOptions<
     ListSubjectsQueryResponse,
     ResponseErrorConfig<ListSubjects422>,
     InfiniteData<ListSubjectsQueryResponse>,
     typeof queryKey,
-    NonNullable<ListSubjectsQueryParams['page']>
+    number
   >({
     queryKey,
-    queryFn: async ({ signal, pageParam }) => {
-      params = {
-        ...(params ?? {}),
-        ['page']:
-          pageParam as unknown as ListSubjectsQueryParams['page'],
-      } as ListSubjectsQueryParams
-      return listSubjects(params, {
+    queryFn: async ({ signal }) => {
+      return listSubjects({
         ...config,
         signal: config.signal ?? signal,
       })
@@ -80,9 +71,8 @@ export function useListSubjectsSuspenseInfinite<
   TError = ResponseErrorConfig<ListSubjects422>,
   TData = InfiniteData<TQueryFnData>,
   TQueryKey extends QueryKey = ListSubjectsSuspenseInfiniteQueryKey,
-  TPageParam = NonNullable<ListSubjectsQueryParams['page']>,
+  TPageParam = number,
 >(
-  params?: ListSubjectsQueryParams,
   options: {
     query?: Partial<
       UseSuspenseInfiniteQueryOptions<
@@ -100,12 +90,11 @@ export function useListSubjectsSuspenseInfinite<
     options ?? {}
   const { client: queryClient, ...queryOptions } = queryConfig
   const queryKey =
-    queryOptions?.queryKey ??
-    listSubjectsSuspenseInfiniteQueryKey(params)
+    queryOptions?.queryKey ?? listSubjectsSuspenseInfiniteQueryKey()
 
   const query = useSuspenseInfiniteQuery(
     {
-      ...listSubjectsSuspenseInfiniteQueryOptions(params, config),
+      ...listSubjectsSuspenseInfiniteQueryOptions(config),
       queryKey,
       ...queryOptions,
     } as unknown as UseSuspenseInfiniteQueryOptions<

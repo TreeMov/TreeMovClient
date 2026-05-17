@@ -10,7 +10,7 @@
  */
 
 import { createApiV1TeacherNotesPost } from './create-api-v1-teacher-notes-post.ts'
-import { deleteApiV1TeacherNotesDelete } from './delete-api-v1-teacher-notes-delete.ts'
+import { deleteApiV1TeacherNotesIdDelete } from './delete-api-v1-teacher-notes-id-delete.ts'
 import { getApiV1TeacherNotesGet } from './get-api-v1-teacher-notes-get.ts'
 import { getByIdApiV1TeacherNotesIdGet } from './get-by-id-api-v1-teacher-notes-id-get.ts'
 import { updateApiV1TeacherNotesIdPatch } from './update-api-v1-teacher-notes-id-patch.ts'
@@ -19,8 +19,8 @@ export function teacherNotesService() {
   return {
     getApiV1TeacherNotesGet,
     createApiV1TeacherNotesPost,
-    deleteApiV1TeacherNotesDelete,
     getByIdApiV1TeacherNotesIdGet,
     updateApiV1TeacherNotesIdPatch,
+    deleteApiV1TeacherNotesIdDelete,
   }
 }

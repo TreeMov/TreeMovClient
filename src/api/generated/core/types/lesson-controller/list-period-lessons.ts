@@ -12,17 +12,6 @@
 import type { HTTPValidationError } from '../httpvalidation-error.ts'
 import type { PeriodLessonModelRead } from '../period-lesson-model-read.ts'
 
-export type ListPeriodLessonsQueryParams = {
-  /**
-   * @default 0
-   */
-  offset?: (number | null) | undefined
-  /**
-   * @default 1000
-   */
-  limit?: (number | null) | undefined
-}
-
 /**
  * Response List Period Lessons
  * @description Successful Response
@@ -39,6 +28,5 @@ export type ListPeriodLessonsQueryResponse = ListPeriodLessons200
 
 export type ListPeriodLessonsQuery = {
   Response: ListPeriodLessons200
-  QueryParams: ListPeriodLessonsQueryParams
   Errors: ListPeriodLessons422
 }

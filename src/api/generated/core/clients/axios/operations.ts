@@ -14,10 +14,6 @@ export const operations = {
     path: '/api/v1/profiles/me',
     method: 'get',
   },
-  get_profiles_api_v1_profiles_get: {
-    path: '/api/v1/profiles',
-    method: 'get',
-  },
   update_profile_api_v1_profiles_patch: {
     path: '/api/v1/profiles',
     method: 'patch',
@@ -42,10 +38,6 @@ export const operations = {
     path: '/api/v1/employees',
     method: 'post',
   },
-  delete_employee: {
-    path: '/api/v1/employees',
-    method: 'delete',
-  },
   get_employee: {
     path: '/api/v1/employees/:id',
     method: 'get',
@@ -53,6 +45,10 @@ export const operations = {
   update_employee: {
     path: '/api/v1/employees/:id',
     method: 'patch',
+  },
+  delete_employee: {
+    path: '/api/v1/employees/:id',
+    method: 'delete',
   },
   list_students: {
     path: '/api/v1/students',
@@ -62,17 +58,17 @@ export const operations = {
     path: '/api/v1/students',
     method: 'post',
   },
-  delete_student: {
-    path: '/api/v1/students',
-    method: 'delete',
-  },
-  get_api_v1_students_id: {
+  get_student: {
     path: '/api/v1/students/:id',
     method: 'get',
   },
-  patch_api_v1_students_id: {
+  update_student: {
     path: '/api/v1/students/:id',
     method: 'patch',
+  },
+  delete_student: {
+    path: '/api/v1/students/:id',
+    method: 'delete',
   },
   add_org_memeber_to_student: {
     path: '/api/v1/students/add_org_member',
@@ -86,10 +82,6 @@ export const operations = {
     path: '/api/v1/teachers',
     method: 'post',
   },
-  delete_teacher: {
-    path: '/api/v1/teachers',
-    method: 'delete',
-  },
   get_teacher: {
     path: '/api/v1/teachers/:id',
     method: 'get',
@@ -97,6 +89,10 @@ export const operations = {
   update_teacher: {
     path: '/api/v1/teachers/:id',
     method: 'patch',
+  },
+  delete_teacher: {
+    path: '/api/v1/teachers/:id',
+    method: 'delete',
   },
   add_org_memeber_to_teacher: {
     path: '/api/v1/teachers/add_org_member',
@@ -130,10 +126,6 @@ export const operations = {
     path: '/api/v1/classrooms',
     method: 'post',
   },
-  delete_classroom: {
-    path: '/api/v1/classrooms',
-    method: 'delete',
-  },
   get_classroom: {
     path: '/api/v1/classrooms/:id',
     method: 'get',
@@ -141,6 +133,10 @@ export const operations = {
   update_classroom: {
     path: '/api/v1/classrooms/:id',
     method: 'patch',
+  },
+  delete_classroom: {
+    path: '/api/v1/classrooms/:id',
+    method: 'delete',
   },
   list_subjects: {
     path: '/api/v1/subjects',
@@ -150,10 +146,6 @@ export const operations = {
     path: '/api/v1/subjects',
     method: 'post',
   },
-  delete_subject: {
-    path: '/api/v1/subjects',
-    method: 'delete',
-  },
   get_subject: {
     path: '/api/v1/subjects/:id',
     method: 'get',
@@ -162,6 +154,10 @@ export const operations = {
     path: '/api/v1/subjects/:id',
     method: 'patch',
   },
+  delete_subject: {
+    path: '/api/v1/subjects/:id',
+    method: 'delete',
+  },
   list_lessons: {
     path: '/api/v1/lessons',
     method: 'get',
@@ -169,10 +165,6 @@ export const operations = {
   create_lesson: {
     path: '/api/v1/lessons',
     method: 'post',
-  },
-  delete_lesson: {
-    path: '/api/v1/lessons',
-    method: 'delete',
   },
   list_period_lessons: {
     path: '/api/v1/lessons/period',
@@ -194,9 +186,21 @@ export const operations = {
     path: '/api/v1/lessons/:id',
     method: 'patch',
   },
+  delete_lesson: {
+    path: '/api/v1/lessons/:id',
+    method: 'delete',
+  },
   get_period_lessons: {
     path: '/api/v1/lessons/period/:id',
     method: 'get',
+  },
+  upadate_period_lesson: {
+    path: '/api/v1/lessons/period/:id',
+    method: 'patch',
+  },
+  delete_period_lesson: {
+    path: '/api/v1/lessons/period/:id',
+    method: 'delete',
   },
   list_student_groups: {
     path: '/api/v1/student-groups',
@@ -206,10 +210,6 @@ export const operations = {
     path: '/api/v1/student-groups',
     method: 'post',
   },
-  delete_student_group: {
-    path: '/api/v1/student-groups',
-    method: 'delete',
-  },
   get_student_group: {
     path: '/api/v1/student-groups/:id',
     method: 'get',
@@ -217,6 +217,14 @@ export const operations = {
   update_student_group: {
     path: '/api/v1/student-groups/:id',
     method: 'patch',
+  },
+  delete_student_group: {
+    path: '/api/v1/student-groups/:id',
+    method: 'delete',
+  },
+  get_group_list_api_v1_student_groups__id__students_get: {
+    path: '/api/v1/student-groups/:id/students',
+    method: 'get',
   },
   list_student_group_members: {
     path: '/api/v1/student-group-members',
@@ -226,10 +234,6 @@ export const operations = {
     path: '/api/v1/student-group-members',
     method: 'post',
   },
-  delete_student_group_member: {
-    path: '/api/v1/student-group-members',
-    method: 'delete',
-  },
   get_student_group_member: {
     path: '/api/v1/student-group-members/:id',
     method: 'get',
@@ -237,6 +241,10 @@ export const operations = {
   update_student_group_member: {
     path: '/api/v1/student-group-members/:id',
     method: 'patch',
+  },
+  delete_student_group_member: {
+    path: '/api/v1/student-group-members/:id',
+    method: 'delete',
   },
   list_attendances: {
     path: '/api/v1/attendances',
@@ -246,9 +254,13 @@ export const operations = {
     path: '/api/v1/attendances',
     method: 'post',
   },
-  delete_attendance: {
-    path: '/api/v1/attendances',
-    method: 'delete',
+  get_my_attendance: {
+    path: '/api/v1/attendances/me',
+    method: 'get',
+  },
+  create_attendances: {
+    path: '/api/v1/attendances/batch',
+    method: 'post',
   },
   get_attendance: {
     path: '/api/v1/attendances/:id',
@@ -258,9 +270,9 @@ export const operations = {
     path: '/api/v1/attendances/:id',
     method: 'patch',
   },
-  create_attendances: {
-    path: '/api/v1/attendances/batch',
-    method: 'post',
+  delete_attendance: {
+    path: '/api/v1/attendances/:id',
+    method: 'delete',
   },
   list_accruals: {
     path: '/api/v1/accruals',
@@ -270,10 +282,6 @@ export const operations = {
     path: '/api/v1/accruals',
     method: 'post',
   },
-  delete_accrual: {
-    path: '/api/v1/accruals',
-    method: 'delete',
-  },
   get_accrual: {
     path: '/api/v1/accruals/:id',
     method: 'get',
@@ -281,6 +289,10 @@ export const operations = {
   update_accrual: {
     path: '/api/v1/accruals/:id',
     method: 'patch',
+  },
+  delete_accrual: {
+    path: '/api/v1/accruals/:id',
+    method: 'delete',
   },
   _get_api_v1_teacher_notes_get: {
     path: '/api/v1/teacher-notes',
@@ -290,10 +302,6 @@ export const operations = {
     path: '/api/v1/teacher-notes',
     method: 'post',
   },
-  _delete_api_v1_teacher_notes_delete: {
-    path: '/api/v1/teacher-notes',
-    method: 'delete',
-  },
   _get_by_id_api_v1_teacher_notes__id__get: {
     path: '/api/v1/teacher-notes/:id',
     method: 'get',
@@ -302,8 +310,80 @@ export const operations = {
     path: '/api/v1/teacher-notes/:id',
     method: 'patch',
   },
+  _delete_api_v1_teacher_notes__id__delete: {
+    path: '/api/v1/teacher-notes/:id',
+    method: 'delete',
+  },
+  public_key_api_v1_public_key_get: {
+    path: '/api/v1/public_key',
+    method: 'get',
+  },
+  create_teacher_v2: {
+    path: '/api/v2/teachers',
+    method: 'post',
+  },
+  list_teacher_v2: {
+    path: '/api/v2/teachers',
+    method: 'get',
+  },
+  soft_delete_teacher: {
+    path: '/api/v2/teachers/:id',
+    method: 'delete',
+  },
+  list_employee_v2: {
+    path: '/api/v2/employees',
+    method: 'get',
+  },
+  soft_delete_employee: {
+    path: '/api/v2/employees/:id',
+    method: 'delete',
+  },
+  list_attendances_v2: {
+    path: '/api/v2/attendances',
+    method: 'get',
+  },
+  list_classroom_v2: {
+    path: '/api/v2/classroom',
+    method: 'get',
+  },
+  soft_delete_classroom: {
+    path: '/api/v2/classroom/:id',
+    method: 'delete',
+  },
+  _create_student_group_v2_api_v2_student_groups_post: {
+    path: '/api/v2/student-groups',
+    method: 'post',
+  },
+  _list_student_group_v2_api_v2_student_groups_get: {
+    path: '/api/v2/student-groups',
+    method: 'get',
+  },
+  soft_delete_student_group: {
+    path: '/api/v2/student-groups/:id',
+    method: 'delete',
+  },
   organization_me_v2: {
     path: '/api/v2/organizations/me',
+    method: 'get',
+  },
+  list_lessons_v2: {
+    path: '/api/v2/lessons',
+    method: 'get',
+  },
+  create_lesson_v2: {
+    path: '/api/v2/lessons',
+    method: 'post',
+  },
+  get_lesson_v2: {
+    path: '/api/v2/lessons/:id',
+    method: 'post',
+  },
+  soft_delete_lesson: {
+    path: '/api/v2/lessons/:id',
+    method: 'delete',
+  },
+  list_period_lessons_v2: {
+    path: '/api/v2/lessons/period',
     method: 'get',
   },
   create_period_lessons_v2: {
@@ -313,5 +393,21 @@ export const operations = {
   get_period_lessons_v2: {
     path: '/api/v2/lessons/period/:id',
     method: 'post',
+  },
+  update_period_lessons_v2: {
+    path: '/api/v2/lessons/period/:id',
+    method: 'patch',
+  },
+  _create_student_group_v2_api_v2_students_post: {
+    path: '/api/v2/students',
+    method: 'post',
+  },
+  _list_student_group_v2_api_v2_students_get: {
+    path: '/api/v2/students',
+    method: 'get',
+  },
+  update_student_2: {
+    path: '/api/v2/students/:id',
+    method: 'patch',
   },
 }

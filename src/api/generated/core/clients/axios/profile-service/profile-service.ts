@@ -10,13 +10,11 @@
  */
 
 import { getMyProfilesApiV1ProfilesMeGet } from './get-my-profiles-api-v1-profiles-me-get.ts'
-import { getProfilesApiV1ProfilesGet } from './get-profiles-api-v1-profiles-get.ts'
 import { updateProfileApiV1ProfilesPatch } from './update-profile-api-v1-profiles-patch.ts'
 
 export function profileService() {
   return {
     getMyProfilesApiV1ProfilesMeGet,
-    getProfilesApiV1ProfilesGet,
     updateProfileApiV1ProfilesPatch,
   }
 }

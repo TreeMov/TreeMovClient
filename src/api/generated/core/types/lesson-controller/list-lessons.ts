@@ -13,14 +13,6 @@ import type { HTTPValidationError } from '../httpvalidation-error.ts'
 import type { LessonModelRead } from '../lesson-model-read.ts'
 
 export type ListLessonsQueryParams = {
-  /**
-   * @default 0
-   */
-  offset?: (number | null) | undefined
-  /**
-   * @default 1000
-   */
-  limit?: (number | null) | undefined
   period_lesson_id?: (number | null) | undefined
   /**
    * @type string, date

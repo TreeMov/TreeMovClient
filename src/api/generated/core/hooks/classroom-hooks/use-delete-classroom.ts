@@ -21,14 +21,14 @@ import type {
 } from '@tanstack/react-query'
 import type {
   DeleteClassroomMutationResponse,
-  DeleteClassroomQueryParams,
+  DeleteClassroomPathParams,
   DeleteClassroom422,
 } from '../../types/classroom-controller/delete-classroom.ts'
 import { mutationOptions, useMutation } from '@tanstack/react-query'
 import { deleteClassroom } from '../../clients/axios/classroom-service/delete-classroom.ts'
 
 export const deleteClassroomMutationKey = () =>
-  [{ url: '/api/v1/classrooms' }] as const
+  [{ url: '/api/v1/classrooms/:id' }] as const
 
 export type DeleteClassroomMutationKey = ReturnType<
   typeof deleteClassroomMutationKey
@@ -41,26 +41,26 @@ export function deleteClassroomMutationOptions<TContext = unknown>(
   return mutationOptions<
     DeleteClassroomMutationResponse,
     ResponseErrorConfig<DeleteClassroom422>,
-    { params: DeleteClassroomQueryParams },
+    { id: DeleteClassroomPathParams['id'] },
     TContext
   >({
     mutationKey,
-    mutationFn: async ({ params }) => {
-      return deleteClassroom(params, config)
+    mutationFn: async ({ id }) => {
+      return deleteClassroom(id, config)
     },
   })
 }
 
 /**
  * @summary  Delete
- * {@link /api/v1/classrooms}
+ * {@link /api/v1/classrooms/:id}
  */
 export function useDeleteClassroom<TContext>(
   options: {
     mutation?: UseMutationOptions<
       DeleteClassroomMutationResponse,
       ResponseErrorConfig<DeleteClassroom422>,
-      { params: DeleteClassroomQueryParams },
+      { id: DeleteClassroomPathParams['id'] },
       TContext
     > & { client?: QueryClient }
     client?: Partial<RequestConfig> & { client?: Client }
@@ -76,14 +76,14 @@ export function useDeleteClassroom<TContext>(
   ) as UseMutationOptions<
     DeleteClassroomMutationResponse,
     ResponseErrorConfig<DeleteClassroom422>,
-    { params: DeleteClassroomQueryParams },
+    { id: DeleteClassroomPathParams['id'] },
     TContext
   >
 
   return useMutation<
     DeleteClassroomMutationResponse,
     ResponseErrorConfig<DeleteClassroom422>,
-    { params: DeleteClassroomQueryParams },
+    { id: DeleteClassroomPathParams['id'] },
     TContext
   >(
     {
@@ -95,7 +95,7 @@ export function useDeleteClassroom<TContext>(
   ) as UseMutationResult<
     DeleteClassroomMutationResponse,
     ResponseErrorConfig<DeleteClassroom422>,
-    { params: DeleteClassroomQueryParams },
+    { id: DeleteClassroomPathParams['id'] },
     TContext
   >
 }

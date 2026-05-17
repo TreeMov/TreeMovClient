@@ -21,14 +21,14 @@ import type {
 } from '@tanstack/react-query'
 import type {
   DeleteLessonMutationResponse,
-  DeleteLessonQueryParams,
+  DeleteLessonPathParams,
   DeleteLesson422,
 } from '../../types/lesson-controller/delete-lesson.ts'
 import { mutationOptions, useMutation } from '@tanstack/react-query'
 import { deleteLesson } from '../../clients/axios/lesson-service/delete-lesson.ts'
 
 export const deleteLessonMutationKey = () =>
-  [{ url: '/api/v1/lessons' }] as const
+  [{ url: '/api/v1/lessons/:id' }] as const
 
 export type DeleteLessonMutationKey = ReturnType<
   typeof deleteLessonMutationKey
@@ -41,26 +41,26 @@ export function deleteLessonMutationOptions<TContext = unknown>(
   return mutationOptions<
     DeleteLessonMutationResponse,
     ResponseErrorConfig<DeleteLesson422>,
-    { params: DeleteLessonQueryParams },
+    { id: DeleteLessonPathParams['id'] },
     TContext
   >({
     mutationKey,
-    mutationFn: async ({ params }) => {
-      return deleteLesson(params, config)
+    mutationFn: async ({ id }) => {
+      return deleteLesson(id, config)
     },
   })
 }
 
 /**
  * @summary  Delete
- * {@link /api/v1/lessons}
+ * {@link /api/v1/lessons/:id}
  */
 export function useDeleteLesson<TContext>(
   options: {
     mutation?: UseMutationOptions<
       DeleteLessonMutationResponse,
       ResponseErrorConfig<DeleteLesson422>,
-      { params: DeleteLessonQueryParams },
+      { id: DeleteLessonPathParams['id'] },
       TContext
     > & { client?: QueryClient }
     client?: Partial<RequestConfig> & { client?: Client }
@@ -76,14 +76,14 @@ export function useDeleteLesson<TContext>(
   ) as UseMutationOptions<
     DeleteLessonMutationResponse,
     ResponseErrorConfig<DeleteLesson422>,
-    { params: DeleteLessonQueryParams },
+    { id: DeleteLessonPathParams['id'] },
     TContext
   >
 
   return useMutation<
     DeleteLessonMutationResponse,
     ResponseErrorConfig<DeleteLesson422>,
-    { params: DeleteLessonQueryParams },
+    { id: DeleteLessonPathParams['id'] },
     TContext
   >(
     {
@@ -95,7 +95,7 @@ export function useDeleteLesson<TContext>(
   ) as UseMutationResult<
     DeleteLessonMutationResponse,
     ResponseErrorConfig<DeleteLesson422>,
-    { params: DeleteLessonQueryParams },
+    { id: DeleteLessonPathParams['id'] },
     TContext
   >
 }

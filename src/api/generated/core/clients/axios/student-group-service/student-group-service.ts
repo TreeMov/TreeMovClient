@@ -11,6 +11,7 @@
 
 import { createStudentGroup } from './create-student-group.ts'
 import { deleteStudentGroup } from './delete-student-group.ts'
+import { getGroupListApiV1StudentGroupsIdStudentsGet } from './get-group-list-api-v1-student-groups-id-students-get.ts'
 import { getStudentGroup } from './get-student-group.ts'
 import { listStudentGroups } from './list-student-groups.ts'
 import { updateStudentGroup } from './update-student-group.ts'
@@ -19,8 +20,9 @@ export function studentGroupService() {
   return {
     listStudentGroups,
     createStudentGroup,
-    deleteStudentGroup,
     getStudentGroup,
     updateStudentGroup,
+    deleteStudentGroup,
+    getGroupListApiV1StudentGroupsIdStudentsGet,
   }
 }

@@ -21,14 +21,14 @@ import type {
 } from '@tanstack/react-query'
 import type {
   DeleteStudentGroupMutationResponse,
-  DeleteStudentGroupQueryParams,
+  DeleteStudentGroupPathParams,
   DeleteStudentGroup422,
 } from '../../types/student-group-controller/delete-student-group.ts'
 import { mutationOptions, useMutation } from '@tanstack/react-query'
 import { deleteStudentGroup } from '../../clients/axios/student-group-service/delete-student-group.ts'
 
 export const deleteStudentGroupMutationKey = () =>
-  [{ url: '/api/v1/student-groups' }] as const
+  [{ url: '/api/v1/student-groups/:id' }] as const
 
 export type DeleteStudentGroupMutationKey = ReturnType<
   typeof deleteStudentGroupMutationKey
@@ -41,26 +41,26 @@ export function deleteStudentGroupMutationOptions<TContext = unknown>(
   return mutationOptions<
     DeleteStudentGroupMutationResponse,
     ResponseErrorConfig<DeleteStudentGroup422>,
-    { params: DeleteStudentGroupQueryParams },
+    { id: DeleteStudentGroupPathParams['id'] },
     TContext
   >({
     mutationKey,
-    mutationFn: async ({ params }) => {
-      return deleteStudentGroup(params, config)
+    mutationFn: async ({ id }) => {
+      return deleteStudentGroup(id, config)
     },
   })
 }
 
 /**
  * @summary  Delete
- * {@link /api/v1/student-groups}
+ * {@link /api/v1/student-groups/:id}
  */
 export function useDeleteStudentGroup<TContext>(
   options: {
     mutation?: UseMutationOptions<
       DeleteStudentGroupMutationResponse,
       ResponseErrorConfig<DeleteStudentGroup422>,
-      { params: DeleteStudentGroupQueryParams },
+      { id: DeleteStudentGroupPathParams['id'] },
       TContext
     > & { client?: QueryClient }
     client?: Partial<RequestConfig> & { client?: Client }
@@ -76,14 +76,14 @@ export function useDeleteStudentGroup<TContext>(
   ) as UseMutationOptions<
     DeleteStudentGroupMutationResponse,
     ResponseErrorConfig<DeleteStudentGroup422>,
-    { params: DeleteStudentGroupQueryParams },
+    { id: DeleteStudentGroupPathParams['id'] },
     TContext
   >
 
   return useMutation<
     DeleteStudentGroupMutationResponse,
     ResponseErrorConfig<DeleteStudentGroup422>,
-    { params: DeleteStudentGroupQueryParams },
+    { id: DeleteStudentGroupPathParams['id'] },
     TContext
   >(
     {
@@ -95,7 +95,7 @@ export function useDeleteStudentGroup<TContext>(
   ) as UseMutationResult<
     DeleteStudentGroupMutationResponse,
     ResponseErrorConfig<DeleteStudentGroup422>,
-    { params: DeleteStudentGroupQueryParams },
+    { id: DeleteStudentGroupPathParams['id'] },
     TContext
   >
 }

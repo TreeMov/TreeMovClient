@@ -19,8 +19,8 @@ export function accrualService() {
   return {
     listAccruals,
     createAccrual,
-    deleteAccrual,
     getAccrual,
     updateAccrual,
+    deleteAccrual,
   }
 }

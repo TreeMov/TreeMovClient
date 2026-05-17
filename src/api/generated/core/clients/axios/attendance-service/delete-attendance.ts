@@ -17,24 +17,26 @@ import type {
 } from '@/api/clients/core-client'
 import type {
   DeleteAttendanceMutationResponse,
-  DeleteAttendanceQueryParams,
+  DeleteAttendancePathParams,
   DeleteAttendance422,
 } from '../../../types/attendance-controller/delete-attendance.ts'
 
-function getDeleteAttendanceUrl() {
+function getDeleteAttendanceUrl(
+  id: DeleteAttendancePathParams['id']
+) {
   const res = {
     method: 'DELETE',
-    url: `/api/v1/attendances` as const,
+    url: `/api/v1/attendances/${id}` as const,
   }
   return res
 }
 
 /**
  * @summary  Delete
- * {@link /api/v1/attendances}
+ * {@link /api/v1/attendances/:id}
  */
 export async function deleteAttendance(
-  params: DeleteAttendanceQueryParams,
+  id: DeleteAttendancePathParams['id'],
   config: Partial<RequestConfig> & { client?: Client } = {}
 ) {
   const { client: request = fetch, ...requestConfig } = config
@@ -45,8 +47,7 @@ export async function deleteAttendance(
     unknown
   >({
     method: 'DELETE',
-    url: getDeleteAttendanceUrl().url.toString(),
-    params,
+    url: getDeleteAttendanceUrl(id).url.toString(),
     ...requestConfig,
   })
   return res.data
